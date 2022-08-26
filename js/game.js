@@ -1,6 +1,7 @@
 var game = {
 	points: 0,
 	pointBest: 0,
+	clicks: 0,
 	tab: "main",
 	unlocks: [],
 	upgrades: [],
@@ -54,12 +55,14 @@ function update() {
 			append.addEventListener("click", () => {
 				game.points += pointButtonGain();
 				if (game.points > game.pointBest) game.pointBest = game.points;
+				game.clicks++;
 			});
 			document.getElementById("main").appendChild(append);
 		};
 		if (game.unlocks.includes("varDisplay") && !document.getElementById("varDisplay")) {
 			let append = document.createElement("div");
 			append.id = "varDisplay";
+			append.style = "margin-top: 20px";
 			if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
 			else document.getElementById("main").appendChild(append);
 		};
@@ -72,8 +75,8 @@ function update() {
 		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
-			let text = "<br>Your &#945 is " + format(get_a());
-			if (game.upgrades[2] > 0) text = "<br>Your point gain is (1 + &#945) * (1 + &#946)<br>" + text + "<br>Your &#946 is " + format(get_b());
+			let text = "Your &#945 is " + format(get_a());
+			if (game.upgrades[2] > 0) text = "Your point gain is (1 + &#945) * (1 + &#946)<br><br>" + text + "<br>Your &#946 is " + format(get_b());
 			document.getElementById("varDisplay").innerHTML = text;
 		};
 		if (document.getElementById("upgrades")) {
