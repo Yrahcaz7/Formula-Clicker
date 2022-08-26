@@ -33,4 +33,5 @@ body {
 button {
 	font-size: inherit;
 	font-family: inherit;
+	margin: 20px auto 0px auto;
 }

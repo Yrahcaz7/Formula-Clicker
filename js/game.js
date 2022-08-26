@@ -1,12 +1,15 @@
 var game = {
 	points: 0,
+	pointBest: 0,
 	tab: "main",
 	unlocks: [],
+	upgrades: [],
 };
 
 function pointButtonGain() {
-	let gain = 1;
-	return gain;
+	let a = 0;
+	a += upgrades[0].effect();
+	return 1 + a;
 };
 
 const loop = setInterval(() => {
@@ -24,10 +27,38 @@ const loop = setInterval(() => {
 			append.type = "button";
 			append.addEventListener("click", () => {
 				game.points += pointButtonGain();
+				if (game.points > game.pointBest) game.pointBest = game.points;
 			});
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have " + game.points + " points<br><br>";
+		if (!document.getElementById("upgrades")) {
+			let append = document.createElement("div");
+			append.id = "upgrades";
+			append.style = "display: flex";
+			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
+		};
+		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have " + game.points + " points";
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + pointButtonGain() + " points";
+		if (document.getElementById("upgrades")) {
+			for (let index = 0; index < upgrades.length; index++) {
+				if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
+				const element = upgrades[index];
+				if (!element.unlocked()) {
+					if (document.getElementById("upgrade_" + index)) document.getElementById("upgrade_" + index).remove();
+					continue;
+				};
+				if (!document.getElementById("upgrade_" + index)) {
+					let append = document.createElement("button");
+					append.id = "upgrade_" + index;
+					append.type = "button";
+					append.addEventListener("click", () => {
+						// nothing here yet
+					});
+					if (document.getElementById("upgrade_" + (index + 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index + 1)));
+					else document.getElementById("upgrades").appendChild(append);
+				};
+				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc;
+			};
+		};
 	};
 }, 30);
