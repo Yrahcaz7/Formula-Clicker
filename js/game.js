@@ -1,6 +1,7 @@
 var game = {
 	points: 0,
 	pointBest: 0,
+	pointTotal: 0,
 	clicks: 0,
 	tab: "main",
 	unlocks: [],
@@ -56,6 +57,7 @@ function update() {
 			append.type = "button";
 			append.addEventListener("click", () => {
 				game.points += pointButtonGain();
+				game.pointTotal += pointButtonGain();
 				if (game.points > game.pointBest) game.pointBest = game.points;
 				game.clicks++;
 			});
@@ -99,7 +101,14 @@ function update() {
 					if (document.getElementById("upgrade_" + (index + 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index + 1)));
 					else document.getElementById("upgrades").appendChild(append);
 				};
-				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc + "<br><br>Cost: " + format(upgrades[index].cost());
+				if (document.getElementById("upgrade_" + index)) {
+					let max = Infinity;
+					if (element.max) max = element.max;
+					if (game.upgrades[index] >= max) document.getElementById("upgrade_" + index).className = "upgrade maxed";
+					else if (game.points >= element.cost()) document.getElementById("upgrade_" + index).className = "upgrade";
+					else document.getElementById("upgrade_" + index).className = "upgrade fade";
+					document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc + "<br><br>Cost: " + format(upgrades[index].cost());
+				};
 			};
 		};
 	};

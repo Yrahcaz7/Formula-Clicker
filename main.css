@@ -34,4 +34,26 @@ button {
 	font-size: inherit;
 	font-family: inherit;
 	margin: 20px auto 0px auto;
+	background-color: #eee;
+	border: 1px solid #888;
+	border-radius: 5px;
+	transition-duration: 1s;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #ccc;
+	border: 1px solid #444;
+}
+
+button.upgrade.fade {
+	background-color: #999;
+	border: 1px solid #222;
+	cursor: default;
+}
+
+button.upgrade.maxed {
+	background-color: #0e0;
+	border: 1px solid #080;
+	cursor: default;
 }

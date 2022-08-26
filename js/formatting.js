@@ -12,6 +12,7 @@ function cutoff(string, seperator, ...indexes) {
 };
 
 function format(number = NaN) {
+	if (number === 0) return "0.00";
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
