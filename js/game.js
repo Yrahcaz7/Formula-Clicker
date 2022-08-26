@@ -12,6 +12,17 @@ function pointButtonGain() {
 	return 1 + a;
 };
 
+function buy(type, index) {
+	if (type == "upgrade") {
+		let max = Infinity;
+		if (upgrades[index].max) max = upgrades[index];
+		if (game.points >= upgrades[index].cost() && game.upgrades[index] < max) {
+			game.points -= upgrades[index].cost();
+			game.upgrades[index]++;
+		};
+	};
+};
+
 const loop = setInterval(() => {
 	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
 	if (game.tab == "main") {
@@ -52,12 +63,12 @@ const loop = setInterval(() => {
 					append.id = "upgrade_" + index;
 					append.type = "button";
 					append.addEventListener("click", () => {
-						// nothing here yet
+						buy("upgrade", index);
 					});
 					if (document.getElementById("upgrade_" + (index + 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index + 1)));
 					else document.getElementById("upgrades").appendChild(append);
 				};
-				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc;
+				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc + "<br><br>Cost: " + upgrades[index].cost();
 			};
 		};
 	};
