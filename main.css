@@ -57,13 +57,13 @@ button:hover {
 	border: 1px solid #444;
 }
 
-button.upgrade.fade {
+button.upgrade.fade, button.improvement.fade, .tab.on {
 	background-color: #999;
 	border: 1px solid #222;
 	cursor: default;
 }
 
-button.upgrade.maxed {
+button.upgrade.maxed, button.improvement.maxed {
 	background-color: #0e0;
 	border: 1px solid #080;
 	cursor: default;
