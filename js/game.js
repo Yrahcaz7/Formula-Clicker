@@ -16,6 +16,7 @@ function get_a() {
 function get_b() {
 	let b = 0;
 	b += upgrades[2].effect();
+	b += upgrades[3].effect();
 	return b;
 };
 
@@ -72,7 +73,7 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
 			let text = "<br>Your &#945 is " + format(get_a());
-			if (game.upgrades[2] > 0) text = "<br>You point gain is (1 + &#945) * (1 + &#946)<br>" + text + "<br>Your &#946 is " + format(get_b());
+			if (game.upgrades[2] > 0) text = "<br>Your point gain is (1 + &#945) * (1 + &#946)<br>" + text + "<br>Your &#946 is " + format(get_b());
 			document.getElementById("varDisplay").innerHTML = text;
 		};
 		if (document.getElementById("upgrades")) {

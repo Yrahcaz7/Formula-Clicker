@@ -20,7 +20,7 @@ const upgrades = [{
 		return (1.5 ** game.upgrades[1]) * 150;
 	},
 	unlocked() {
-		return game.pointBest >= 150;
+		return game.pointBest >= 150 && game.upgrades[0] > 0;
 	},
 }, {
 	title: "SECONDARY",
@@ -32,6 +32,18 @@ const upgrades = [{
 		return (1.25 ** game.upgrades[2]) * 500;
 	},
 	unlocked() {
-		return game.pointBest >= 500;
+		return game.pointBest >= 500 && game.upgrades[1] > 0;
+	},
+}, {
+	title: "MASS MULT",
+	desc: "increases &#946 by 0.50",
+	effect() {
+		return game.upgrades[3] * 0.5;
+	},
+	cost() {
+		return (1.5 ** game.upgrades[3]) * 3000;
+	},
+	unlocked() {
+		return game.pointBest >= 3000 && game.upgrades[2] > 0;
 	},
 }];
