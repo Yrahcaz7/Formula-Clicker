@@ -1,11 +1,33 @@
 var game = {
 	points: 0,
 	tab: "main",
+	unlocks: [],
+};
+
+function pointButtonGain() {
+	let gain = 1;
+	return gain;
 };
 
 const loop = setInterval(() => {
-	let main = document.getElementById("main");
+	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
 	if (game.tab == "main") {
-		main.innerHTML = "test<h2>TEST</h2>test<br>test<br><br>test<h1>TEST</h1>test<h5>TEST</h5>test";
+		if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
+			let append = document.createElement("div");
+			append.id = "pointDisplay";
+			if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
+			else document.getElementById("main").appendChild(append);
+		};
+		if (!document.getElementById("pointButton")) {
+			let append = document.createElement("button");
+			append.id = "pointButton";
+			append.type = "button";
+			append.addEventListener("click", () => {
+				game.points += pointButtonGain();
+			});
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have " + game.points + " points<br><br>";
+		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + pointButtonGain() + " points";
 	};
 }, 30);

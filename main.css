@@ -1,11 +1,14 @@
 :root {
 	--background-color: #ccc;
 	--text-color: #000;
+	--text-size: 18px;
 }
 
 html {
 	background-color: var(--background-color);
 	color: var(--text-color);
+	font-size: var(--text-size);
+	font-family: 'Andale Mono', Courier, 'Courier New', monospace;
 }
 
 body {
@@ -25,4 +28,9 @@ body {
 .inner {
 	display: table-cell;
 	vertical-align: middle;
+}
+
+button {
+	font-size: inherit;
+	font-family: inherit;
 }
