@@ -9,6 +9,7 @@ var game = {
 function pointButtonGain() {
 	let a = 0;
 	a += upgrades[0].effect();
+	a += upgrades[1].effect();
 	return 1 + a;
 };
 
@@ -45,7 +46,7 @@ const loop = setInterval(() => {
 		if (!document.getElementById("upgrades")) {
 			let append = document.createElement("div");
 			append.id = "upgrades";
-			append.style = "display: flex";
+			append.style = "display: flex; flex-wrap: wrap";
 			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
 		};
 		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have " + format(game.points) + " points";
