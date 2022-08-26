@@ -38,3 +38,5 @@ function formatWhole(number = NaN) {
 	if (number >= 1000 || number <= -1000) return format(number);
 	return number.toFixed(0);
 };
+
+const alpha = "<b>&#945</b>", beta = "<b>&#946</b>";

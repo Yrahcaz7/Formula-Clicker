@@ -23,8 +23,7 @@ function exportSave(elementId) {
 	if (document.getElementById(elementId)) {
 		document.getElementById(elementId).innerHTML = btoa(JSON.stringify(game));
 		return true;
-	};
-	return false;
+	} else return false;
 };
 
 function importSave(save) {

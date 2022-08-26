@@ -1,6 +1,6 @@
 const upgrades = [{
 	title: "ELEMENTARY",
-	desc: "increases &#945 by 0.10",
+	desc: "increases " + alpha + " by 0.10",
 	effect() {
 		return game.upgrades[0] * 0.1;
 	},
@@ -12,7 +12,7 @@ const upgrades = [{
 	},
 }, {
 	title: "LARGER INCREMENTS",
-	desc: "increases &#945 by 0.50",
+	desc: "increases " + alpha + " by 0.50",
 	effect() {
 		return game.upgrades[1] * 0.5;
 	},
@@ -24,7 +24,7 @@ const upgrades = [{
 	},
 }, {
 	title: "SECONDARY",
-	desc: "increases &#946 by 0.10",
+	desc: "increases " + beta + " by 0.10",
 	effect() {
 		return game.upgrades[2] * 0.1;
 	},
@@ -36,7 +36,7 @@ const upgrades = [{
 	},
 }, {
 	title: "MASS MULT",
-	desc: "increases &#946 by 0.50",
+	desc: "increases " + beta + " by 0.50",
 	effect() {
 		return game.upgrades[3] * 0.5;
 	},

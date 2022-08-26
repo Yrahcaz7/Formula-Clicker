@@ -7,14 +7,14 @@ var game = {
 	upgrades: [],
 };
 
-function get_a() {
+function get_alpha() {
 	let a = 0;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
 	return a;
 };
 
-function get_b() {
+function get_beta() {
 	let b = 0;
 	b += upgrades[2].effect();
 	b += upgrades[3].effect();
@@ -22,8 +22,8 @@ function get_b() {
 };
 
 function pointButtonGain() {
-	let a = get_a();
-	let b = get_b();
+	let a = get_alpha();
+	let b = get_beta();
 	return (1 + a) * (1 + b);
 };
 
@@ -34,8 +34,10 @@ function buy(type, index) {
 		if (game.points >= upgrades[index].cost() && game.upgrades[index] < max) {
 			game.points -= upgrades[index].cost();
 			game.upgrades[index]++;
-		};
+			return true;
+		} else return false;
 	};
+	return false;
 };
 
 function update() {
@@ -75,8 +77,8 @@ function update() {
 		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
-			let text = "Your &#945 is " + format(get_a());
-			if (game.upgrades[2] > 0) text = "Your point gain is (1 + &#945) * (1 + &#946)<br><br>" + text + "<br>Your &#946 is " + format(get_b());
+			let text = "Your " + alpha + " is " + format(get_alpha());
+			if (game.upgrades[2] > 0) text = "Your point gain is (1 + "+alpha+") * (1 + "+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
 			document.getElementById("varDisplay").innerHTML = text;
 		};
 		if (document.getElementById("upgrades")) {
