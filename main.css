@@ -1,0 +1,13 @@
+:root {
+	--background-color: #ccc;
+	--text-color: #000;
+}
+
+html {
+	background-color: var(--background-color);
+	color: var(--text-color);
+}
+
+body {
+	text-align: center;
+}
