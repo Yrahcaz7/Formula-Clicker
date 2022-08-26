@@ -1,3 +1,3 @@
 var game = {
-    points: 1,
+	points: 1,
 };
