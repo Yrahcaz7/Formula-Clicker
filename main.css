@@ -69,3 +69,8 @@ button.upgrade.maxed, button.improvement.maxed {
 	border: 1px solid #080;
 	cursor: default;
 }
+
+button.improvement {
+	border-radius: 10px;
+	flex-basis: 100%;
+}

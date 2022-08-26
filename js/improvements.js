@@ -17,7 +17,7 @@ const improvements = [{
 	},
 }, {
 	title: "SIMPLIFICATION",
-	desc: "simplifies the point gain formula (which decreases gain), but multiplies the " + alpha + beta + " constant by 1.5",
+	desc: "simplifies the point gain formula (may decrease gain), and multiplies the " + alpha + beta + " constant by 1.5",
 	effect() {
 		if (game.improvements[1] > 0) return 1.5;
 		return 1;
