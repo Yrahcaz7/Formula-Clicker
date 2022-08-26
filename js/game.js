@@ -24,7 +24,7 @@ function buy(type, index) {
 	};
 };
 
-const loop = setInterval(() => {
+function update() {
 	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
 	if (game.tab == "main") {
 		if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
@@ -73,4 +73,8 @@ const loop = setInterval(() => {
 			};
 		};
 	};
+};
+
+const loop = setInterval(() => {
+	update();
 }, 30);
