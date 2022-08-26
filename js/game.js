@@ -25,7 +25,8 @@ function get_beta() {
 function pointButtonGain() {
 	let a = get_alpha();
 	let b = get_beta();
-	return (1 + a) * (1 + b);
+	if (!a && !b) return 1;
+	return ((1 + a) * (1 + b)) + (2 * a * b);
 };
 
 function buy(type, index) {
@@ -80,7 +81,7 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
 			let text = "Your " + alpha + " is " + format(get_alpha());
-			if (game.upgrades[2] > 0) text = "Your point gain is (1 + "+alpha+") * (1 + "+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
+			if (game.upgrades[2] > 0) text = "Your point gain is ((1 + "+alpha+") * (1 + "+beta+")) + (2"+alpha+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
 			document.getElementById("varDisplay").innerHTML = text;
 		};
 		if (document.getElementById("upgrades")) {
