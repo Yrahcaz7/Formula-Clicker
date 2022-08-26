@@ -48,8 +48,8 @@ const loop = setInterval(() => {
 			append.style = "display: flex";
 			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
 		};
-		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have " + game.points + " points";
-		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + pointButtonGain() + " points";
+		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have " + format(game.points) + " points";
+		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("upgrades")) {
 			for (let index = 0; index < upgrades.length; index++) {
 				if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
@@ -68,7 +68,7 @@ const loop = setInterval(() => {
 					if (document.getElementById("upgrade_" + (index + 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index + 1)));
 					else document.getElementById("upgrades").appendChild(append);
 				};
-				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc + "<br><br>Cost: " + upgrades[index].cost();
+				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc + "<br><br>Cost: " + format(upgrades[index].cost());
 			};
 		};
 	};
