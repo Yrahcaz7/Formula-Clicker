@@ -45,6 +45,29 @@ function buy(type, index) {
 function update() {
 	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("varDisplay")) game.unlocks.push("varDisplay");
+	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
+	if (game.unlocks.includes("tabs") && !document.getElementById("tab-main")) {
+		let append = document.createElement("button");
+		append.id = "tab-main";
+		append.type = "button";
+		append.className = "tab";
+		append.addEventListener("click", () => {
+			game.tab = "main";
+		});
+		append.innerHTML = "Main";
+		document.getElementById("tabs").appendChild(append);
+	};
+	if (game.unlocks.includes("tabs") && !document.getElementById("tab-improvements")) {
+		let append = document.createElement("button");
+		append.id = "tab-improvements";
+		append.type = "button";
+		append.className = "tab";
+		append.addEventListener("click", () => {
+			game.tab = "improvements";
+		});
+		append.innerHTML = "Improvements";
+		document.getElementById("tabs").appendChild(append);
+	};
 	if (game.tab == "main") {
 		if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
 			let append = document.createElement("div");
@@ -112,6 +135,19 @@ function update() {
 				};
 			};
 		};
+	} else {
+		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").remove();
+		if (document.getElementById("pointButton")) document.getElementById("pointButton").remove();
+		if (document.getElementById("varDisplay")) document.getElementById("varDisplay").remove();
+		if (document.getElementById("upgrades")) document.getElementById("upgrades").remove();
+	};
+	if (game.tab == "improvements") {
+		if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
+			let append = document.createElement("div");
+			append.id = "pointDisplay";
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
 	};
 };
 

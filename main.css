@@ -30,6 +30,17 @@ body {
 	vertical-align: middle;
 }
 
+#tabs {
+	display: flex;
+	flex-flow: row wrap;
+	margin-top: 0px;
+}
+
+.tab {
+	font-size: calc(var(--text-size) * 2);
+	z-index: 1;
+}
+
 button {
 	font-size: inherit;
 	font-family: inherit;
