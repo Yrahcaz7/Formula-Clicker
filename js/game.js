@@ -26,6 +26,7 @@ function get_beta() {
 function get_constant() {
 	let c = 2;
 	c += improvements[0].effect();
+	c *= improvements[1].effect();
 	return c;
 };
 
@@ -34,6 +35,7 @@ function pointButtonGain() {
 	let b = get_beta();
 	let c = get_constant();
 	if (!a && !b && !c) return 1;
+	if (game.improvements[1] > 0) return (10 * a) + (c * a * b);
 	return ((1 + a) * (1 + b)) + (c * a * b);
 };
 
@@ -122,7 +124,8 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
 			let text = "Your " + alpha + " is " + format(get_alpha());
-			if (game.upgrades[2] > 0) text = "Your point gain is ((1 + "+alpha+") * (1 + "+beta+")) + ("+format(get_constant())+alpha+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
+			if (game.improvements[1] > 0) text = "Your point gain is 10.00"+alpha+" + ("+format(get_constant())+alpha+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
+			else if (game.upgrades[2] > 0) text = "Your point gain is ((1.00 + "+alpha+") * (1.00 + "+beta+")) + ("+format(get_constant())+alpha+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
 			document.getElementById("varDisplay").innerHTML = text;
 		};
 	} else {
