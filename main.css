@@ -31,9 +31,10 @@ body {
 }
 
 #tabs {
+	overflow: hidden;
 	display: flex;
 	flex-flow: row wrap;
-	margin-top: 0px;
+	margin: 0px -8px 0px -8px;
 }
 
 .tab {
