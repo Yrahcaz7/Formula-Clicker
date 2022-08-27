@@ -82,4 +82,16 @@ const upgrades = [{
 	unlocked() {
 		return game.pointTotal >= 1.5e11 && game.upgrades[5] > 0;
 	},
+}, {
+	title: "EXPONENTIAL",
+	desc: "increases " + delta + " by 0.50",
+	effect() {
+		return game.upgrades[7] * 0.5;
+	},
+	cost() {
+		return (2 ** game.upgrades[7]) * 6e11;
+	},
+	unlocked() {
+		return game.pointTotal >= 9e11 && game.upgrades[6] > 0;
+	},
 }];

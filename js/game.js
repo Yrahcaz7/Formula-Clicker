@@ -33,6 +33,7 @@ function get_gamma() {
 function get_delta() {
 	let d = 0;
 	d += upgrades[6].effect();
+	d += upgrades[7].effect();
 	return d;
 };
 
