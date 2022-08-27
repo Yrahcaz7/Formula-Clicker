@@ -31,21 +31,28 @@ function get_gamma() {
 };
 
 function get_constant() {
-	let c = 2;
-	c += improvements[0].effect();
-	c *= improvements[1].effect();
-	return c;
+	let co = 2;
+	co += improvements[0].effect();
+	co *= improvements[1].effect();
+	return co;
+};
+
+function get_exponent() {
+	let ex = 2;
+	ex += improvements[2].effect();
+	return ex;
 };
 
 function pointButtonGain() {
 	let a = get_alpha();
 	let b = get_beta();
 	let g = get_gamma();
-	let c = get_constant();
-	if (!a && !b && !g && !c) return 1;
-	if (game.upgrades[4] > 0) return ((10 * a) + (c * a * b)) * ((g + 1) ** 2);
-	if (game.improvements[1] > 0) return (10 * a) + (c * a * b);
-	return ((1 + a) * (1 + b)) + (c * a * b);
+	let co = get_constant();
+	let ex = get_exponent();
+	if (!a && !b && !g && !co) return 1;
+	if (game.upgrades[4] > 0) return ((10 * a) + (co * a * b)) * ((g + 1) ** ex);
+	if (game.improvements[1] > 0) return (10 * a) + (co * a * b);
+	return ((1 + a) * (1 + b)) + (co * a * b);
 };
 
 function buy(type, index) {
@@ -133,7 +140,7 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
 			let text = "Your " + alpha + " is " + format(get_alpha());
-			if (game.upgrades[4] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ 2.00)<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma());
+			if (game.upgrades[4] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ "+format(get_exponent())+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma());
 			else if (game.improvements[1] > 0) text = "Your point gain is 10.00"+alpha+" + ("+format(get_constant())+alpha+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
 			else if (game.upgrades[2] > 0) text = "Your point gain is ((1.00 + "+alpha+")(1.00 + "+beta+")) + ("+format(get_constant())+alpha+beta+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
 			document.getElementById("varDisplay").innerHTML = text;

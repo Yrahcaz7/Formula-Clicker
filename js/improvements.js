@@ -17,7 +17,7 @@ const improvements = [{
 	},
 }, {
 	title: "SIMPLIFICATION",
-	desc: "simplifies the point gain formula (may decrease gain), and multiplies the " + alpha + beta + " constant by 1.5",
+	desc: "simplifies the point gain formula (may decrease gain), and multiplies the " + alpha + beta + " constant by 1.50",
 	effect() {
 		if (game.improvements[1] > 0) return 1.5;
 		return 1;
@@ -28,5 +28,18 @@ const improvements = [{
 	max: 1,
 	unlocked() {
 		return game.pointBest >= 250000 && game.upgrades[2] > 0 && game.improvements[0] > 0;
+	},
+}, {
+	title: "ADVANCEMENT",
+	desc: "increases the " + gamma + " exponent by 0.50",
+	effect() {
+		return game.improvements[2] * 0.5;
+	},
+	cost() {
+		return (10 ** game.improvements[2]) * 50000000;
+	},
+	max: 2,
+	unlocked() {
+		return game.pointBest >= 50000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
 	},
 }];
