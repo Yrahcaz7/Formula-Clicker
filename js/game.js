@@ -163,6 +163,7 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
+		if (game.improvements[3] > 0 && (game.points * 0.05) >= element.cost()) buy("upgrade", index);
 		if (game.tab != "main" || !element.unlocked()) {
 			if (document.getElementById("upgrade_" + index)) document.getElementById("upgrade_" + index).remove();
 			continue;

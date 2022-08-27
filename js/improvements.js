@@ -1,7 +1,7 @@
 const improvements = [{
 	title: "EFFECIENCY",
 	desc() {
-		return "increases the " + alpha + beta + " constant based on your times clicked (" + format(this.baseEff()) + ")"
+		return "increases the " + alpha + beta + " constant based on your times clicked (" + format(this.baseEff()) + ")";
 	},
 	baseEff() {
 		return ((game.clicks + 1) ** 0.5) / 25;
@@ -13,7 +13,7 @@ const improvements = [{
 		return (2 ** game.improvements[0]) * 1000;
 	},
 	unlocked() {
-		return game.pointBest >= 1000;
+		return true;
 	},
 }, {
 	title: "SIMPLIFICATION",
@@ -27,7 +27,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.pointBest >= 250000 && game.upgrades[2] > 0 && game.improvements[0] > 0;
+		return game.pointTotal >= 500000 && game.upgrades[2] > 0 && game.improvements[0] > 0;
 	},
 }, {
 	title: "ADVANCEMENT",
@@ -40,6 +40,16 @@ const improvements = [{
 	},
 	max: 2,
 	unlocked() {
-		return game.pointBest >= 50000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
+		return game.pointTotal >= 100000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
+	},
+}, {
+	title: "AUTOMATION",
+	desc: "automatically buys an upgrade when it is 5% or less of your points",
+	cost() {
+		return 5e10;
+	},
+	max: 1,
+	unlocked() {
+		return game.pointTotal >= 1e11 && game.improvements[2] > 0;
 	},
 }];
