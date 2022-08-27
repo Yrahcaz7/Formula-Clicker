@@ -14,7 +14,7 @@ function save() {
 function load() {
 	let get = localStorage.getItem(ID);
 	if (get) {
-		get = JSON.parse(atob(get));
+		get = JSON.parse(atob(get).replace(/null/g, "1.7976931348623157e308"));
 		Object.assign(game, get);
 	};
 };

@@ -91,6 +91,7 @@ const upgrades = [{
 	cost() {
 		return (2 ** game.upgrades[7]) * 6e11;
 	},
+	max: 20,
 	unlocked() {
 		return game.pointTotal >= 9e11 && game.upgrades[6] > 0;
 	},

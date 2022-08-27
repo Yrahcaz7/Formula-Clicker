@@ -36,10 +36,10 @@ const improvements = [{
 		return game.improvements[2] * 0.5;
 	},
 	cost() {
-		if (game.improvements[2] >= 2) return (100 ** game.improvements[2]) * 10000000;
+		if (game.improvements[2] >= 2) return (1000 ** game.improvements[2]) * 100000;
 		return (10 ** game.improvements[2]) * 50000000;
 	},
-	max: 3,
+	max: 4,
 	unlocked() {
 		return game.pointTotal >= 100000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
 	},

@@ -12,12 +12,14 @@ function cutoff(string, seperator, ...indexes) {
 };
 
 function format(number = NaN) {
-	if (number === 0) return "0.00";
+	if (number !== number) return "NaN";
+	if (!number) return "0.00";
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
 		pre = "-";
 	};
+	if (number === Infinity) return pre + "Infinity";
 	if (number >= 1e9) return pre + number.toExponential(3).replace("+", "");
 	if (number >= 1000000) {
 		let string = number.toFixed(0);
