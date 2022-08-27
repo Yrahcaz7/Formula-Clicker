@@ -46,4 +46,16 @@ const upgrades = [{
 	unlocked() {
 		return game.pointTotal >= 4500 && game.upgrades[2] > 0;
 	},
+}, {
+	title: "TERTIARY",
+	desc: "increases " + gamma + " by 0.10",
+	effect() {
+		return game.upgrades[4] * 0.1;
+	},
+	cost() {
+		return (1.25 ** game.upgrades[4]) * 1000000;
+	},
+	unlocked() {
+		return game.pointTotal >= 1500000 && game.improvements[1] > 0 && game.upgrades[3] > 0;
+	},
 }];

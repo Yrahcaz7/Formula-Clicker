@@ -40,4 +40,4 @@ function formatWhole(number = NaN) {
 	return number.toFixed(0);
 };
 
-const alpha = "<b>&#945</b>", beta = "<b>&#946</b>";
+const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>";
