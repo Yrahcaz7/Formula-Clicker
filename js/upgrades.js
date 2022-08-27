@@ -70,4 +70,16 @@ const upgrades = [{
 	unlocked() {
 		return game.pointTotal >= 9000000 && game.upgrades[4] > 0;
 	},
+}, {
+	title: "QUATERNARY",
+	desc: "increases " + delta + " by 0.10",
+	effect() {
+		return game.upgrades[6] * 0.1;
+	},
+	cost() {
+		return (1.25 ** game.upgrades[6]) * 1e11;
+	},
+	unlocked() {
+		return game.pointTotal >= 1.5e11 && game.upgrades[5] > 0;
+	},
 }];
