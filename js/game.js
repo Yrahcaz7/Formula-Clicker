@@ -26,6 +26,7 @@ function get_beta() {
 function get_gamma() {
 	let g = 0;
 	g += upgrades[4].effect();
+	g += upgrades[5].effect();
 	return g;
 };
 
