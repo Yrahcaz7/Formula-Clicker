@@ -48,13 +48,13 @@ body {
 }
 
 button {
+	background-color: #eee;
+	color: #000;
 	font-size: inherit;
 	font-family: inherit;
-	margin: calc(var(--text-size) * 1.1111111111111111) auto 0px auto;
-	background-color: #eee;
 	border: 1px solid #888;
 	border-radius: 5px;
-	color: #000;
+	margin: calc(var(--text-size) * 10 / 9) auto 0px auto;
 	transition-duration: 1s;
 	cursor: pointer;
 }
