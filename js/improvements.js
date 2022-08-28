@@ -53,4 +53,17 @@ const improvements = [{
 	unlocked() {
 		return game.pointTotal >= 1e11 && game.improvements[2] > 0;
 	},
+}, {
+	title: "OPTIONS GALORE",
+	desc() {
+		if (game.improvements[4] > 0) return "unlocks another option";
+		return "unlocks the options tab";
+	},
+	cost() {
+		return (10 ** game.improvements[4]) * 1e18;
+	},
+	max: 2,
+	unlocked() {
+		return game.pointTotal >= 2e18 && game.improvements[3] > 0;
+	},
 }];

@@ -7,6 +7,7 @@ var game = {
 	unlocks: [],
 	upgrades: [],
 	improvements: [],
+	options: {},
 };
 
 function get_alpha() {
@@ -88,7 +89,8 @@ function update() {
 	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("varDisplay")) game.unlocks.push("varDisplay");
 	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
-	if (game.unlocks.includes("tabs") && !document.getElementById("tab-main")) {
+	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
+	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tab-main")) {
 		let append = document.createElement("button");
 		append.id = "tab-main";
 		append.type = "button";
@@ -110,6 +112,17 @@ function update() {
 		append.innerHTML = "Improvements";
 		document.getElementById("tabs").appendChild(append);
 	};
+	if (game.unlocks.includes("options") && !document.getElementById("tab-options")) {
+		let append = document.createElement("button");
+		append.id = "tab-options";
+		append.type = "button";
+		append.className = "tab";
+		append.addEventListener("click", () => {
+			game.tab = "options";
+		});
+		append.innerHTML = "Options";
+		document.getElementById("tabs").appendChild(append);
+	};
 	if (document.getElementById("tab-main")) {
 		if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
 		else document.getElementById("tab-main").className = "tab";
@@ -117,6 +130,10 @@ function update() {
 	if (document.getElementById("tab-improvements")) {
 		if (game.tab == "improvements") document.getElementById("tab-improvements").className = "tab on";
 		else document.getElementById("tab-improvements").className = "tab";
+	};
+	if (document.getElementById("tab-options")) {
+		if (game.tab == "options") document.getElementById("tab-options").className = "tab on";
+		else document.getElementById("tab-options").className = "tab";
 	};
 	if (game.tab == "main" || game.tab == "improvements") {
 		if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
@@ -231,6 +248,37 @@ function update() {
 			else if (game.points >= element.cost()) document.getElementById("improvement_" + index).className = "improvement";
 			else document.getElementById("improvement_" + index).className = "improvement fade";
 			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost());
+		};
+	};
+	if (game.tab == "options") {
+		if (!document.getElementById("options")) {
+			let append = document.createElement("div");
+			append.id = "options";
+			document.getElementById("main").appendChild(append);
+		};
+	} else {
+		if (document.getElementById("options")) document.getElementById("options").remove();
+	};
+	for (let index = 0; index < options.length && index < game.improvements[4]; index++) {
+		const element = options[index];
+		if (game.options[element.id] === undefined) game.options[element.id] = element.default();
+		if (!document.getElementById("option_" + index) && game.tab == "options") {
+			let append = document.createElement("span");
+			append.id = "option_" + index;
+			append.style = "margin-left: auto";
+			append.innerHTML = (index!==0?"<br><br>":"") + element.title + ": ";
+			document.getElementById("options").appendChild(append);
+		};
+		if (element.type == "color") {
+			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
+				let append = document.createElement("input");
+				append.id = "option_" + index + "_type";
+				append.type = "color";
+				append.value = game.options[element.id];
+				document.getElementById("options").appendChild(append);
+			};
+			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").value;
+			element.set(game.options[element.id]);
 		};
 	};
 };
