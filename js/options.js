@@ -30,4 +30,14 @@ const options = [{
 	set(value) {
 		document.querySelector(':root').style.setProperty("--text-size", value);
 	},
+}, {
+	title: "Show Maxed Improvements",
+	id: "show_max_imp",
+	type: "checkbox",
+	min: 8,
+	max: 32,
+	default() {
+		if (game.options[this.id]) return !!game.options[this.id];
+		return true;
+	},
 }];

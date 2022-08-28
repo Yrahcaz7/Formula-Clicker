@@ -65,7 +65,7 @@ const improvements = [{
 	cost() {
 		return (10 ** game.improvements[4]) * 1e17;
 	},
-	max: 3,
+	max: 4,
 	unlocked() {
 		return game.pointTotal >= 2e17 && game.improvements[3] > 0;
 	},

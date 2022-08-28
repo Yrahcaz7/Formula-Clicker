@@ -231,7 +231,7 @@ function update() {
 		let max = Infinity;
 		if (element.max) max = element.max;
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
-		if (game.tab != "improvements" || !element.unlocked()) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.improvements[index] >= max && !game.options["show_max_imp"])) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -298,6 +298,15 @@ function update() {
 				game.options[element.id] = val + "px";
 			};
 			element.set(game.options[element.id]);
+		} else if (element.type == "checkbox") {
+			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
+				let append = document.createElement("input");
+				append.id = "option_" + index + "_type";
+				append.type = "checkbox";
+				append.checked = game.options[element.id];
+				document.getElementById("options").appendChild(append);
+			};
+			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").checked;
 		};
 	};
 };
