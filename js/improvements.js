@@ -84,4 +84,17 @@ const improvements = [{
 	unlocked() {
 		return game.pointTotal >= 4e20 && game.upgrades[6] > 0 && game.improvements[4] > 0;
 	},
+}, {
+	title: "REDUCE REDUCTION",
+	desc: "increases the " + delta + " exponent by 0.02",
+	effect() {
+		return game.improvements[6] * 0.02;
+	},
+	cost() {
+		return (100 ** game.improvements[6]) * 1e28;
+	},
+	max: 5,
+	unlocked() {
+		return game.pointTotal >= 2e28 && game.improvements[5] > 0;
+	},
 }];
