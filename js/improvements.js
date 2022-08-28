@@ -69,4 +69,16 @@ const improvements = [{
 	unlocked() {
 		return game.pointTotal >= 2e17 && game.improvements[3] > 0;
 	},
+}, {
+	title: "SUPER COMBO",
+	desc() {
+		return "improves the point gain formula";
+	},
+	cost() {
+		return (100 ** game.improvements[5]) * 2e20;
+	},
+	max: 2,
+	unlocked() {
+		return game.pointTotal >= 4e20 && game.upgrades[6] > 0 && game.improvements[4] > 0;
+	},
 }];
