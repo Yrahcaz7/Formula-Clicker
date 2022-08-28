@@ -61,7 +61,7 @@ function pointButtonGain() {
 	let co = get_constant();
 	let ex = get_exponent();
 	if (!a && !b && !g && !co) return 1;
-	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.1 * g) ** (ex + (d ** 0.5)));
+	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.25 * g) ** (ex + (d ** 0.5)));
 	if (game.improvements[5] > 1) return (co * a * b * g * d) * ((g + 1) ** (ex + (d ** 0.5)));
 	if (game.improvements[5] > 0) return (co * a * b * g) * ((g + 1) ** (ex + (d ** 0.5)));
 	if (game.upgrades[4] > 0) return ((10 * a) + (co * a * b)) * ((g + 1) ** (ex + (d ** 0.5)));
@@ -170,7 +170,7 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
 			let text = "Your " + alpha + " is " + format(get_alpha());
-			if (game.improvements[5] > 2) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+delta+"(1.10"+gamma+" ^ ("+format(get_exponent())+" + ("+delta+" ^ 0.50)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
+			if (game.improvements[5] > 2) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+delta+"(1.25"+gamma+" ^ ("+format(get_exponent())+" + ("+delta+" ^ 0.50)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
 			else if (game.improvements[5] > 1) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+delta+"(("+gamma+" + 1.00) ^ ("+format(get_exponent())+" + ("+delta+" ^ 0.50)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
 			else if (game.improvements[5] > 0) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+"(("+gamma+" + 1.00) ^ ("+format(get_exponent())+" + ("+delta+" ^ 0.50)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
 			else if (game.upgrades[6] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ ("+format(get_exponent())+" + ("+delta+" ^ 0.50)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
