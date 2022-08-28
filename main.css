@@ -50,7 +50,7 @@ body {
 button {
 	font-size: inherit;
 	font-family: inherit;
-	margin: 20px auto 0px auto;
+	margin: calc(var(--text-size) * 1.1111111111111111) auto 0px auto;
 	background-color: #eee;
 	border: 1px solid #888;
 	border-radius: 5px;

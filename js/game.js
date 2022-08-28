@@ -279,6 +279,23 @@ function update() {
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").value;
 			element.set(game.options[element.id]);
+		} else if (element.type == "number") {
+			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
+				let append = document.createElement("input");
+				append.id = "option_" + index + "_type";
+				append.type = "number";
+				append.min = element.min;
+				append.max = element.max;
+				append.value = ("" + game.options[element.id]).replace("px", "");
+				document.getElementById("options").appendChild(append);
+			};
+			if (document.getElementById("option_" + index + "_type")) {
+				let val = document.getElementById("option_" + index + "_type").value;
+				if (val < element.min) val = element.min;
+				if (val > element.max) val = element.max;
+				game.options[element.id] = val + "px";
+			};
+			element.set(game.options[element.id]);
 		};
 	};
 };

@@ -60,10 +60,10 @@ const improvements = [{
 		return "unlocks the options tab";
 	},
 	cost() {
-		return (10 ** game.improvements[4]) * 1e18;
+		return (10 ** game.improvements[4]) * 1e17;
 	},
-	max: 2,
+	max: 3,
 	unlocked() {
-		return game.pointTotal >= 2e18 && game.improvements[3] > 0;
+		return game.pointTotal >= 2e17 && game.improvements[3] > 0;
 	},
 }];

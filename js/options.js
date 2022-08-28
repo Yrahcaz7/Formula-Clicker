@@ -18,4 +18,16 @@ const options = [{
 	set(value) {
 		document.querySelector(':root').style.setProperty("--text-color", value);
 	},
+}, {
+	title: "Text Size",
+	id: "txt_px",
+	type: "number",
+	min: 8,
+	max: 32,
+	default() {
+		return getComputedStyle(document.querySelector(':root')).getPropertyValue("--text-size").trim();
+	},
+	set(value) {
+		document.querySelector(':root').style.setProperty("--text-size", value);
+	},
 }];
