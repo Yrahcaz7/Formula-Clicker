@@ -14,6 +14,7 @@ function get_alpha() {
 	let a = 0;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
+	a *= improvements[4].effect();
 	return a;
 };
 
@@ -21,6 +22,7 @@ function get_beta() {
 	let b = 0;
 	b += upgrades[2].effect();
 	b += upgrades[3].effect();
+	b *= improvements[4].effect();
 	return b;
 };
 
