@@ -58,7 +58,7 @@ function pointButtonGain() {
 	let co = get_constant();
 	let ex = get_exponent();
 	if (!a && !b && !g && !co) return 1;
-	if (game.upgrades[4] > 0) return ((10 * a) + (co * a * b)) * ((g + 1) ** (ex + (d / 5)));
+	if (game.upgrades[4] > 0) return ((10 * a) + (co * a * b)) * ((g + 1) ** (ex + (d ** 0.5)));
 	if (game.improvements[1] > 0) return (10 * a) + (co * a * b);
 	return ((1 + a) * (1 + b)) + (co * a * b);
 };
@@ -148,7 +148,7 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
 			let text = "Your " + alpha + " is " + format(get_alpha());
-			if (game.upgrades[6] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ ("+format(get_exponent())+" + ("+delta+" / 5.00)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
+			if (game.upgrades[6] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ ("+format(get_exponent())+" + ("+delta+" ^ 0.50)))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
 			else if (game.upgrades[4] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ "+format(get_exponent())+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma());
 			else if (game.improvements[1] > 0) text = "Your point gain is 10.00"+alpha+" + "+format(get_constant())+alpha+beta+"<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
 			else if (game.upgrades[2] > 0) text = "Your point gain is ("+alpha+" + 1.00)("+beta+" + 1.00) + "+format(get_constant())+alpha+beta+"<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
@@ -172,7 +172,7 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
-		if (game.improvements[3] > 0 && (game.points * 0.05) >= element.cost()) buy("upgrade", index);
+		if (game.improvements[3] > 0 && element.unlocked() && (game.points * 0.05) >= element.cost()) buy("upgrade", index);
 		if (game.tab != "main" || !element.unlocked()) {
 			if (document.getElementById("upgrade_" + index)) document.getElementById("upgrade_" + index).remove();
 			continue;
@@ -209,6 +209,9 @@ function update() {
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
+		let max = Infinity;
+		if (element.max) max = element.max;
+		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 		if (game.tab != "improvements" || !element.unlocked()) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
@@ -224,8 +227,6 @@ function update() {
 			else document.getElementById("improvements").appendChild(append);
 		};
 		if (document.getElementById("improvement_" + index)) {
-			let max = Infinity;
-			if (element.max) max = element.max;
 			if (game.improvements[index] >= max) document.getElementById("improvement_" + index).className = "improvement maxed";
 			else if (game.points >= element.cost()) document.getElementById("improvement_" + index).className = "improvement";
 			else document.getElementById("improvement_" + index).className = "improvement fade";

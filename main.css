@@ -42,6 +42,11 @@ body {
 	z-index: 1;
 }
 
+.tab.notif {
+	background-color: #ee0;
+	border: 1px solid #880;
+}
+
 button {
 	font-size: inherit;
 	font-family: inherit;
@@ -49,6 +54,7 @@ button {
 	background-color: #eee;
 	border: 1px solid #888;
 	border-radius: 5px;
+	color: #000;
 	transition-duration: 1s;
 	cursor: pointer;
 }

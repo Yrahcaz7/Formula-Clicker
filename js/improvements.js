@@ -12,6 +12,7 @@ const improvements = [{
 	cost() {
 		return (2 ** game.improvements[0]) * 1000;
 	},
+	max: 100,
 	unlocked() {
 		return true;
 	},
@@ -31,17 +32,16 @@ const improvements = [{
 	},
 }, {
 	title: "ADVANCEMENT",
-	desc: "increases the " + gamma + " exponent by 0.50",
+	desc: "increases the " + gamma + " exponent by 0.25",
 	effect() {
-		return game.improvements[2] * 0.5;
+		return game.improvements[2] * 0.25;
 	},
 	cost() {
-		if (game.improvements[2] >= 2) return (1000 ** game.improvements[2]) * 100000;
-		return (10 ** game.improvements[2]) * 50000000;
+		return (10 ** game.improvements[2]) * 25000000;
 	},
 	max: 4,
 	unlocked() {
-		return game.pointTotal >= 100000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
+		return game.pointTotal >= 50000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
 	},
 }, {
 	title: "AUTOMATION",

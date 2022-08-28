@@ -77,6 +77,7 @@ const upgrades = [{
 		return game.upgrades[6] * 0.1;
 	},
 	cost() {
+		if (game.upgrades[6] > 25) return ((1.5 ** 25) * 1e11) * (2.5 ** (game.upgrades[6] - 25));
 		return (1.5 ** game.upgrades[6]) * 1e11;
 	},
 	unlocked() {
@@ -89,6 +90,7 @@ const upgrades = [{
 		return game.upgrades[7] * 0.5;
 	},
 	cost() {
+		if (game.upgrades[7] > 15) return ((2 ** 15) * 6e11) * (5 ** (game.upgrades[7] - 15));
 		return (2 ** game.upgrades[7]) * 6e11;
 	},
 	max: 20,
