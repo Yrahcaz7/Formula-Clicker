@@ -1,7 +1,7 @@
 const improvements = [{
 	title: "EFFECIENCY",
 	desc() {
-		return "increases the " + alpha + beta + " constant based on your times clicked (+" + format(this.baseEff()) + ")";
+		return "increases the " + constant() + " based on your times clicked (+" + format(this.baseEff()) + ")";
 	},
 	baseEff() {
 		return ((game.clicks + 1) ** 0.5) / 25;
@@ -18,7 +18,9 @@ const improvements = [{
 	},
 }, {
 	title: "SIMPLIFICATION",
-	desc: "simplifies the point gain formula (may decrease gain), and multiplies the " + alpha + beta + " constant by 1.50",
+	desc() {
+		return "simplifies the point gain formula (may decrease gain), and multiplies the " + constant() + " by 1.50";
+	},
 	effect() {
 		if (game.improvements[1] > 0) return 1.5;
 		return 1;

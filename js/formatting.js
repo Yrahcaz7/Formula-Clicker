@@ -43,3 +43,9 @@ function formatWhole(number = NaN) {
 };
 
 const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>";
+
+const constant = () => {
+	if (game.improvements[5] > 1) return alpha + beta + gamma + delta + " constant";
+	if (game.improvements[5] > 0) return alpha + beta + gamma + " constant";
+	return alpha + beta + " constant";
+};
