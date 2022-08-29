@@ -176,15 +176,19 @@ function update() {
 		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
 		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
 		if (document.getElementById("varDisplay")) {
-			let text = "Your " + alpha + " is " + format(get_alpha());
-			if (game.improvements[5] > 2) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+delta+"(1.45"+gamma+" ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
-			else if (game.improvements[5] > 1) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+delta+"(("+gamma+" + 1.00) ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
-			else if (game.improvements[5] > 0) text = "Your point gain is "+format(get_constant())+alpha+beta+gamma+"(("+gamma+" + 1.00) ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
-			else if (game.upgrades[6] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma())+"<br>Your "+delta+" is "+format(get_delta());
-			else if (game.upgrades[4] > 0) text = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+alpha+beta+")(("+gamma+" + 1.00) ^ "+format(get_g_exponent())+")<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta())+"<br>Your "+gamma+" is "+format(get_gamma());
-			else if (game.improvements[1] > 0) text = "Your point gain is 10.00"+alpha+" + "+format(get_constant())+alpha+beta+"<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
-			else if (game.upgrades[2] > 0) text = "Your point gain is ("+alpha+" + 1.00)("+beta+" + 1.00) + "+format(get_constant())+alpha+beta+"<br><br>"+text+"<br>Your "+beta+" is "+format(get_beta());
-			document.getElementById("varDisplay").innerHTML = text;
+			let text = "";
+			if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
+			if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
+			if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(get_gamma());
+			if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(get_delta());
+			let formula = "";
+			if (game.improvements[5] > 2) formula = "Your point gain is "+format(get_constant())+constant()+"(1.45"+gamma+" ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>";
+			else if (game.improvements[5] > 0) formula = "Your point gain is "+format(get_constant())+constant()+"(("+gamma+" + 1.00) ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>";
+			else if (game.upgrades[6] > 0) formula = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+constant()+")(("+gamma+" + 1.00) ^ ("+format(get_g_exponent())+" + ("+delta+" ^ "+format(get_d_exponent())+")))<br><br>";
+			else if (game.upgrades[4] > 0) formula = "Your point gain is (10.00"+alpha+" + "+format(get_constant())+constant()+")(("+gamma+" + 1.00) ^ "+format(get_g_exponent())+")<br><br>";
+			else if (game.improvements[1] > 0) formula = "Your point gain is 10.00"+alpha+" + "+format(get_constant())+constant()+"<br><br>";
+			else if (game.upgrades[2] > 0) formula = "Your point gain is ("+alpha+" + 1.00)("+beta+" + 1.00) + "+format(get_constant())+constant()+"<br><br>";
+			document.getElementById("varDisplay").innerHTML = formula + text;
 		};
 	} else {
 		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").remove();
