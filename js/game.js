@@ -315,6 +315,7 @@ function update() {
 				let append = document.createElement("input");
 				append.id = "option_" + index + "_type";
 				append.type = "color";
+				append.className = "color";
 				append.value = game.options[element.id];
 				document.getElementById("options").appendChild(append);
 			};

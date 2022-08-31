@@ -23,7 +23,7 @@ body {
 	display: table;
 	top: 0;
 	left: 0;
-	height: calc(100% - (calc(var(--text-size) * 3.6 + 2px)));
+	height: calc(100% - (calc(var(--text-size) * 10 / 3 + 5px)));
 	width: 100%;
 }
 
@@ -79,4 +79,13 @@ button.upgrade.maxed, button.improvement.maxed {
 button.improvement {
 	border-radius: 10px;
 	flex-basis: 100%;
+}
+
+input {
+	font-size: inherit;
+	font-family: inherit;
+}
+
+input.color {
+	max-height: calc(var(--text-size) + 8px);
 }
