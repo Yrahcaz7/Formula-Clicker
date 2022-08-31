@@ -136,4 +136,16 @@ const improvements = [{
 	unlocked() {
 		return game.pointTotal >= 2e45 && game.improvements[8] > 0;
 	},
+}, {
+	title: "GREATER HEIGHTS",
+	desc() {
+		return "improves the point gain formula";
+	},
+	cost() {
+		return 1e47;
+	},
+	max: 1,
+	unlocked() {
+		return game.pointTotal >= 2e47 && game.upgrades[8] > 0 && game.improvements[9] > 0;
+	},
 }];
