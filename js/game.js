@@ -54,6 +54,7 @@ function get_constant() {
 	let co = 2.5;
 	co += improvements[0].effect();
 	co *= improvements[1].effect();
+	co *= improvements[11].effect();
 	return co;
 };
 

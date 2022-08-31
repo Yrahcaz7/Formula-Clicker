@@ -18,7 +18,7 @@ const improvements = [{
 }, {
 	title: "SIMPLIFICATION",
 	desc() {
-		return "simplifies the point gain formula (may decrease gain), and multiplies the " + constant() + " constant by 1.50";
+		return "simplifies the point gain formula (may decrease gain); also multiplies the " + constant() + " constant by 1.50";
 	},
 	effect() {
 		if (game.improvements[1] > 0) return 1.5;
@@ -57,8 +57,8 @@ const improvements = [{
 }, {
 	title: "OPTIONS GALORE",
 	desc() {
-		if (game.improvements[4] > 0) return "unlocks another option, and multiplies " + alpha + " and " + beta + " by 1.1";
-		return "unlocks the options tab, and multiplies " + alpha + " and " + beta + " by 1.1";
+		if (game.improvements[4] > 0) return "unlocks another option; also multiplies " + alpha + " and " + beta + " by 1.1";
+		return "unlocks the options tab; also multiplies " + alpha + " and " + beta + " by 1.1";
 	},
 	effect() {
 		return 1.1 ** game.improvements[4];
@@ -151,7 +151,11 @@ const improvements = [{
 }, {
 	title: "FINALLY!",
 	desc() {
-		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points";
+		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.effect()) + "x)";
+	},
+	effect() {
+		if (game.improvements[11] > 0) return game.improvements[0] ** 0.25;
+		return 1;
 	},
 	cost() {
 		return 1e50;
