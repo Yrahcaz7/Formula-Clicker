@@ -80,8 +80,7 @@ function pointButtonGain() {
 	let d_ex = get_d_exponent();
 	if (!a && !b && !g && !co) return 1;
 	if (game.improvements[10] > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** 1.5);
-	if (game.upgrades[8] > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
-	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)));
+	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
 	if (game.improvements[5] > 1) return (co * a * b * g * d) * ((g + 1) ** (g_ex + (d ** d_ex)));
 	if (game.improvements[5] > 0) return (co * a * b * g) * ((g + 1) ** (g_ex + (d ** d_ex)));
 	if (game.upgrades[4] > 0) return ((10 * a) + (co * a * b)) * ((g + 1) ** (g_ex + (d ** d_ex)));
@@ -89,20 +88,22 @@ function pointButtonGain() {
 	return ((1 + a) * (1 + b)) + (co * a * b);
 };
 
-function buy(type, index) {
+function buy(type, index, free = false) {
 	if (type == "upgrade") {
+		if (!upgrades[index].unlocked()) return false;
 		let max = Infinity;
 		if (upgrades[index].max) max = upgrades[index].max;
 		if (game.points >= upgrades[index].cost() && game.upgrades[index] < max) {
-			game.points -= upgrades[index].cost();
+			if (!free) game.points -= upgrades[index].cost();
 			game.upgrades[index]++;
 			return true;
 		} else return false;
 	} else if (type == "improvement") {
+		if (!improvements[index].unlocked()) return false;
 		let max = Infinity;
 		if (improvements[index].max) max = improvements[index].max;
 		if (game.points >= improvements[index].cost() && game.improvements[index] < max) {
-			game.points -= improvements[index].cost();
+			if (!free) game.points -= improvements[index].cost();
 			game.improvements[index]++;
 			return true;
 		} else return false;
@@ -267,6 +268,7 @@ function update() {
 		const element = improvements[index];
 		let max = Infinity;
 		if (element.max) max = element.max;
+		if (index == 0 && game.improvements[11]) buy("improvement", index, true);
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 		if (game.tab != "improvements" || !element.unlocked() || (game.improvements[index] >= max && !game.options["show_max_imp"])) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();

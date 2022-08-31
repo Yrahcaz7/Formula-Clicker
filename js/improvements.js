@@ -148,4 +148,16 @@ const improvements = [{
 	unlocked() {
 		return game.pointTotal >= 2e47 && game.upgrades[8] > 0 && game.improvements[9] > 0;
 	},
+}, {
+	title: "FINALLY!",
+	desc() {
+		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points";
+	},
+	cost() {
+		return 1e50;
+	},
+	max: 1,
+	unlocked() {
+		return game.pointTotal >= 2e50 && game.improvements[0] >= 100 && game.improvements[10] > 0;
+	},
 }];
