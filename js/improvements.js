@@ -97,4 +97,43 @@ const improvements = [{
 	unlocked() {
 		return game.pointTotal >= 2e28 && game.improvements[5] > 0;
 	},
+}, {
+	title: "GREATER SCALING",
+	desc: "multiplies " + gamma + " by 1.1",
+	effect() {
+		return 1.1 ** game.improvements[7];
+	},
+	cost() {
+		return (1e3 ** game.improvements[7]) * 1e36;
+	},
+	max: 4,
+	unlocked() {
+		return game.pointTotal >= 2e36 && game.improvements[6] > 0;
+	},
+}, {
+	title: "LARGER EXPONENT",
+	desc: "multiplies " + delta + " by 1.03886",
+	effect() {
+		return 1.03886 ** game.improvements[8];
+	},
+	cost() {
+		return (1e4 ** game.improvements[8]) * 1e40;
+	},
+	max: 10,
+	unlocked() {
+		return game.pointTotal >= 2e40 && game.improvements[7] > 0;
+	},
+}, {
+	title: "MORE MULTIPLIERS",
+	desc: "multiplies " + epsilon + " by 1.1",
+	effect() {
+		return 1.1 ** game.improvements[9];
+	},
+	cost() {
+		return (1e5 ** game.improvements[9]) * 1e45;
+	},
+	max: 4,
+	unlocked() {
+		return game.pointTotal >= 2e45 && game.improvements[8] > 0;
+	},
 }];

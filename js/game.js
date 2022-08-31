@@ -30,6 +30,7 @@ function get_gamma() {
 	let g = 0;
 	g += upgrades[4].effect();
 	g += upgrades[5].effect();
+	g *= improvements[7].effect();
 	return g;
 };
 
@@ -37,6 +38,7 @@ function get_delta() {
 	let d = 0;
 	d += upgrades[6].effect();
 	d += upgrades[7].effect();
+	d *= improvements[8].effect();
 	return d;
 };
 
@@ -44,6 +46,7 @@ function get_epsilon() {
 	let e = 0;
 	e += upgrades[8].effect();
 	e += upgrades[9].effect();
+	e *= improvements[9].effect();
 	return e;
 };
 
