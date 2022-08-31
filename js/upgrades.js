@@ -96,4 +96,28 @@ const upgrades = [{
 	unlocked() {
 		return game.pointTotal >= 9e11 && game.upgrades[6] > 0;
 	},
+}, {
+	title: "QUINARY",
+	desc: "increases " + epsilon + " by 0.10",
+	effect() {
+		return game.upgrades[8] * 0.1;
+	},
+	cost() {
+		return (1.5 ** game.upgrades[8]) * 1e29;
+	},
+	unlocked() {
+		return game.pointTotal >= 1.5e29 && game.improvements[5] > 2 && game.upgrades[7] > 0;
+	},
+}, {
+	title: "EXTENDED COMBO",
+	desc: "increases " + epsilon + " by 0.50",
+	effect() {
+		return game.upgrades[9] * 0.5;
+	},
+	cost() {
+		return (2 ** game.upgrades[9]) * 1e30;
+	},
+	unlocked() {
+		return game.pointTotal >= 1.5e30 && game.upgrades[8] > 0;
+	},
 }];
