@@ -5,6 +5,7 @@
 }
 
 html {
+	height: 100%;
 	background-color: var(--background-color);
 	color: var(--text-color);
 	font-size: var(--text-size);
@@ -12,16 +13,17 @@ html {
 }
 
 body {
+	height: 100%;
 	text-align: center;
+	margin: 0px;
 	overscroll-behavior: none;
 }
 
 .outer {
 	display: table;
-	position: absolute;
 	top: 0;
 	left: 0;
-	height: 100%;
+	height: calc(100% - (calc(var(--text-size) * 3.6 + 2px)));
 	width: 100%;
 }
 
@@ -31,15 +33,13 @@ body {
 }
 
 #tabs {
-	overflow: hidden;
+	overflow: scroll;
 	display: flex;
-	flex-flow: row wrap;
-	margin: 0px -8px 0px -8px;
+	flex-flow: row nowrap;
 }
 
 .tab {
 	font-size: calc(var(--text-size) * 2);
-	z-index: 1;
 }
 
 .tab.notif {
