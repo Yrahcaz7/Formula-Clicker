@@ -125,14 +125,14 @@ const improvements = [{
 	},
 }, {
 	title: "MORE MULTIPLIERS",
-	desc: "multiplies " + epsilon + " by 1.1",
+	desc: "multiplies " + epsilon + " by 1.13551",
 	effect() {
-		return 1.1 ** game.improvements[9];
+		return 1.13551 ** game.improvements[9];
 	},
 	cost() {
 		return (1e5 ** game.improvements[9]) * 1e45;
 	},
-	max: 4,
+	max: 3,
 	unlocked() {
 		return game.pointTotal >= 2e45 && game.improvements[8] > 0;
 	},
@@ -154,7 +154,7 @@ const improvements = [{
 		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		if (game.improvements[11] > 0) return game.improvements[0] ** 0.25;
+		if (game.improvements[11] > 0) return game.improvements[0] ** 0.3333333333333333;
 		return 1;
 	},
 	cost() {
@@ -163,5 +163,18 @@ const improvements = [{
 	max: 1,
 	unlocked() {
 		return game.pointTotal >= 2e50 && game.improvements[0] >= 100 && game.improvements[10] > 0;
+	},
+}, {
+	title: "REPETITION",
+	desc: "increases the " + epsilon + " exponent by 0.25",
+	effect() {
+		return game.improvements[12] * 0.25;
+	},
+	cost() {
+		return (1e3 ** game.improvements[12]) * 1e53;
+	},
+	max: 10,
+	unlocked() {
+		return game.pointTotal >= 2e53 && game.improvements[11] > 0;
 	},
 }];
