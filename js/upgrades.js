@@ -120,4 +120,28 @@ const upgrades = [{
 	unlocked() {
 		return game.pointTotal >= 1.5e30 && game.upgrades[8] > 0;
 	},
+}, {
+	title: "SENARY",
+	desc: "increases " + zeta + " by 0.10",
+	effect() {
+		return game.upgrades[10] * 0.1;
+	},
+	cost() {
+		return (5 ** game.upgrades[10]) * 1e55;
+	},
+	unlocked() {
+		return game.pointTotal >= 1.5e55 && game.improvements[10] > 0 && game.upgrades[9] > 0;
+	},
+}, {
+	title: "NEVER-ENDING",
+	desc: "increases " + zeta + " by 0.50",
+	effect() {
+		return game.upgrades[11] * 0.5;
+	},
+	cost() {
+		return (10 ** game.upgrades[11]) * 1e56;
+	},
+	unlocked() {
+		return game.pointTotal >= 1.5e56 && game.upgrades[10] > 0;
+	},
 }];
