@@ -42,7 +42,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.upgrades[4] > 0 && game.improvements[1] > 0;
+		return game.upgrades[5] > 0 && game.improvements[1] > 0;
 	},
 }, {
 	title: "AUTOMATION",
@@ -68,7 +68,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.improvements[3] > 0;
+		return game.upgrades[7] > 0 && game.improvements[3] > 0;
 	},
 }, {
 	title: "SUPER COMBO",
@@ -82,7 +82,7 @@ const improvements = [{
 	},
 	max: 3,
 	unlocked() {
-		return game.upgrades[6] > 0 && game.improvements[4] > 0;
+		return game.improvements[4] > 0;
 	},
 }, {
 	title: "REDUCE REDUCTION",
@@ -108,7 +108,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.improvements[6] > 0;
+		return game.upgrades[9] > 0 && game.improvements[6] > 0;
 	},
 }, {
 	title: "LARGER EXPONENT",
@@ -146,7 +146,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.upgrades[8] > 0 && game.improvements[9] > 0;
+		return game.improvements[9] > 0;
 	},
 }, {
 	title: "FINALLY!",
