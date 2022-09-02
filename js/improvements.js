@@ -29,7 +29,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.pointTotal >= 500000 && game.upgrades[2] > 0 && game.improvements[0] > 0;
+		return game.upgrades[2] > 0 && game.improvements[0] > 0;
 	},
 }, {
 	title: "ADVANCEMENT",
@@ -42,7 +42,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.pointTotal >= 50000000 && game.upgrades[4] > 0 && game.improvements[1] > 0;
+		return game.upgrades[4] > 0 && game.improvements[1] > 0;
 	},
 }, {
 	title: "AUTOMATION",
@@ -52,7 +52,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.pointTotal >= 1e11 && game.improvements[2] > 0;
+		return game.improvements[2] > 0;
 	},
 }, {
 	title: "OPTIONS GALORE",
@@ -68,7 +68,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.pointTotal >= 2e17 && game.improvements[3] > 0;
+		return game.improvements[3] > 0;
 	},
 }, {
 	title: "SUPER COMBO",
@@ -82,7 +82,7 @@ const improvements = [{
 	},
 	max: 3,
 	unlocked() {
-		return game.pointTotal >= 4e20 && game.upgrades[6] > 0 && game.improvements[4] > 0;
+		return game.upgrades[6] > 0 && game.improvements[4] > 0;
 	},
 }, {
 	title: "REDUCE REDUCTION",
@@ -95,7 +95,7 @@ const improvements = [{
 	},
 	max: 5,
 	unlocked() {
-		return game.pointTotal >= 2e28 && game.improvements[5] > 0;
+		return game.improvements[5] > 0;
 	},
 }, {
 	title: "GREATER SCALING",
@@ -108,7 +108,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.pointTotal >= 2e36 && game.improvements[6] > 0;
+		return game.improvements[6] > 0;
 	},
 }, {
 	title: "LARGER EXPONENT",
@@ -121,7 +121,7 @@ const improvements = [{
 	},
 	max: 10,
 	unlocked() {
-		return game.pointTotal >= 2e40 && game.improvements[7] > 0;
+		return game.improvements[7] > 0;
 	},
 }, {
 	title: "MORE MULTIPLIERS",
@@ -134,7 +134,7 @@ const improvements = [{
 	},
 	max: 3,
 	unlocked() {
-		return game.pointTotal >= 2e45 && game.improvements[8] > 0;
+		return game.improvements[8] > 0;
 	},
 }, {
 	title: "GREATER HEIGHTS",
@@ -146,7 +146,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.pointTotal >= 2e47 && game.upgrades[8] > 0 && game.improvements[9] > 0;
+		return game.upgrades[8] > 0 && game.improvements[9] > 0;
 	},
 }, {
 	title: "FINALLY!",
@@ -162,7 +162,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.pointTotal >= 2e50 && game.improvements[0] >= 100 && game.improvements[10] > 0;
+		return game.improvements[0] >= 100 && game.improvements[10] > 0;
 	},
 }, {
 	title: "REPETITION",
@@ -175,6 +175,6 @@ const improvements = [{
 	},
 	max: 10,
 	unlocked() {
-		return game.pointTotal >= 2e53 && game.improvements[11] > 0;
+		return game.improvements[11] > 0;
 	},
 }];
