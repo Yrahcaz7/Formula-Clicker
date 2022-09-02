@@ -43,8 +43,8 @@ body {
 }
 
 .tab.notif {
-	background-color: #ee0;
-	border: 1px solid #880;
+	background-color: #ee3;
+	border: 1px solid #881;
 }
 
 button {
@@ -71,8 +71,8 @@ button.upgrade.fade, button.improvement.fade, .tab.on {
 }
 
 button.upgrade.maxed, button.improvement.maxed {
-	background-color: #0e0;
-	border: 1px solid #080;
+	background-color: #3e3;
+	border: 1px solid #181;
 	cursor: default;
 }
 
