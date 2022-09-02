@@ -23,7 +23,7 @@ body {
 	display: table;
 	top: 0;
 	left: 0;
-	height: calc(100% - (calc(var(--text-size) * 10 / 3 + 5px)));
+	height: 100%;
 	width: 100%;
 }
 
@@ -33,13 +33,16 @@ body {
 }
 
 #tabs {
-	overflow: scroll;
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	margin-top: calc(var(--text-size) * 10 / 9);
 }
 
 .tab {
 	font-size: calc(var(--text-size) * 2);
+	margin-top: 0px;
 }
 
 .tab.notif {

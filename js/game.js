@@ -11,7 +11,7 @@ var game = {
 };
 
 function get_alpha() {
-	let a = 0;
+	let a = 1;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
 	a *= improvements[4].effect();
@@ -19,7 +19,7 @@ function get_alpha() {
 };
 
 function get_beta() {
-	let b = 0;
+	let b = 1;
 	b += upgrades[2].effect();
 	b += upgrades[3].effect();
 	b *= improvements[4].effect();
@@ -99,9 +99,9 @@ function pointButtonGain() {
 	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
 	if (game.improvements[5] > 1) return (co * a * b * g * d) * ((g + 1) ** (g_ex + (d ** d_ex)));
 	if (game.improvements[5] > 0) return (co * a * b * g) * ((g + 1) ** (g_ex + (d ** d_ex)));
-	if (game.upgrades[4] > 0) return ((10 * a) + (co * a * b)) * ((g + 1) ** (g_ex + (d ** d_ex)));
-	if (game.improvements[1] > 0) return (10 * a) + (co * a * b);
-	return ((1 + a) * (1 + b)) + (co * a * b);
+	if (game.upgrades[4] > 0) return (co * a * b) * ((g + 1) ** (g_ex + (d ** d_ex)));
+	if (game.upgrades[2] > 0) return (co * a * b);
+	return a;
 };
 
 function buy(type, index, free = false) {
@@ -128,113 +128,119 @@ function buy(type, index, free = false) {
 };
 
 function update() {
+	// unlocks
 	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("varDisplay")) game.unlocks.push("varDisplay");
 	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
-	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tab-main")) {
-		let append = document.createElement("button");
-		append.id = "tab-main";
-		append.type = "button";
-		append.className = "tab";
-		append.addEventListener("click", () => {
-			game.tab = "main";
-		});
-		append.innerHTML = "Main";
-		document.getElementById("tabs").appendChild(append);
+	// tabs
+	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
+		let append = document.createElement("span");
+		append.id = "tabs";
+		if (document.getElementById("varDisplay")) document.getElementById("main").insertBefore(append, document.getElementById("varDisplay").nextSibling);
+		else if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton").nextSibling);
 	};
-	if (game.unlocks.includes("tabs") && !document.getElementById("tab-improvements")) {
-		let append = document.createElement("button");
-		append.id = "tab-improvements";
-		append.type = "button";
-		append.className = "tab";
-		append.addEventListener("click", () => {
-			game.tab = "improvements";
-		});
-		append.innerHTML = "Improvements";
-		document.getElementById("tabs").appendChild(append);
-	};
-	if (game.unlocks.includes("options") && !document.getElementById("tab-options")) {
-		let append = document.createElement("button");
-		append.id = "tab-options";
-		append.type = "button";
-		append.className = "tab";
-		append.addEventListener("click", () => {
-			game.tab = "options";
-		});
-		append.innerHTML = "Options";
-		document.getElementById("tabs").appendChild(append);
-	};
-	if (document.getElementById("tab-main")) {
-		if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
-		else document.getElementById("tab-main").className = "tab";
-	};
-	if (document.getElementById("tab-improvements")) {
-		if (game.tab == "improvements") document.getElementById("tab-improvements").className = "tab on";
-		else document.getElementById("tab-improvements").className = "tab";
-	};
-	if (document.getElementById("tab-options")) {
-		if (game.tab == "options") document.getElementById("tab-options").className = "tab on";
-		else document.getElementById("tab-options").className = "tab";
-	};
-	if (game.tab == "main" || game.tab == "improvements") {
-		if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
-			let append = document.createElement("div");
-			append.id = "pointDisplay";
-			if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
-			else document.getElementById("main").appendChild(append);
-		};
-		if (!document.getElementById("pointButton")) {
+	if (document.getElementById("tabs")) {
+		if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tab-main")) {
 			let append = document.createElement("button");
-			append.id = "pointButton";
+			append.id = "tab-main";
 			append.type = "button";
+			append.className = "tab";
 			append.addEventListener("click", () => {
-				game.points += pointButtonGain();
-				game.pointTotal += pointButtonGain();
-				if (game.points > game.pointBest) game.pointBest = game.points;
-				game.clicks++;
+				game.tab = "main";
 			});
-			document.getElementById("main").appendChild(append);
+			append.innerHTML = "Main";
+			document.getElementById("tabs").appendChild(append);
 		};
-		if (game.unlocks.includes("varDisplay") && !document.getElementById("varDisplay")) {
-			let append = document.createElement("div");
-			append.id = "varDisplay";
-			append.style = "margin-top: 20px";
-			if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
-			else document.getElementById("main").appendChild(append);
+		if (game.unlocks.includes("tabs") && !document.getElementById("tab-improvements")) {
+			let append = document.createElement("button");
+			append.id = "tab-improvements";
+			append.type = "button";
+			append.className = "tab";
+			append.addEventListener("click", () => {
+				game.tab = "improvements";
+			});
+			append.innerHTML = "Improvements";
+			document.getElementById("tabs").appendChild(append);
 		};
-		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
-		if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
-		if (document.getElementById("varDisplay")) {
-			const _constant = format(get_constant()) + constant(),
-			_delta = "(" + format(get_g_exponent()) + " + (" + delta + " ^ " + format(get_d_exponent()) + "))",
-			_epsilon = "(" + epsilon + " ^ " + format(get_e_exponent()) + ")",
-			one_plus = (input) => {return "(" + input + " + " + format(1) + ")"};
-			let text = "";
-			if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
-			if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
-			if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(get_gamma());
-			if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(get_delta());
-			if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(get_epsilon());
-			if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(get_zeta());
-			let formula = "";
-			if (game.upgrades[10] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + _epsilon + "(5.00 ^ " + zeta + ")";
-			else if (game.improvements[10] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + _epsilon;
-			else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + one_plus(epsilon);
-			else if (game.improvements[5] > 2) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")";
-			else if (game.improvements[5] > 0) formula = _constant + "(" + one_plus(gamma) + " ^ " + _delta + ")";
-			else if (game.upgrades[6] > 0) formula = "(10.00" + alpha + " + " + _constant + ")(" + one_plus(gamma) + " ^ " + _delta + ")";
-			else if (game.upgrades[4] > 0) formula = "(10.00" + alpha + " + " + _constant + ")(" + one_plus(gamma) + " ^ " + format(get_g_exponent()) + ")";
-			else if (game.improvements[1] > 0) formula = "10.00" + alpha + " + " + _constant;
-			else if (game.upgrades[2] > 0) formula = one_plus(alpha) + one_plus(beta) + " + " + _constant;
-			if (formula) formula = "Your point gain is " + formula + "<br><br>";
-			document.getElementById("varDisplay").innerHTML = formula + text;
+		if (game.unlocks.includes("options") && !document.getElementById("tab-options")) {
+			let append = document.createElement("button");
+			append.id = "tab-options";
+			append.type = "button";
+			append.className = "tab";
+			append.addEventListener("click", () => {
+				game.tab = "options";
+			});
+			append.innerHTML = "Options";
+			document.getElementById("tabs").appendChild(append);
 		};
-	} else {
-		if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").remove();
-		if (document.getElementById("pointButton")) document.getElementById("pointButton").remove();
-		if (document.getElementById("varDisplay")) document.getElementById("varDisplay").remove();
+		if (document.getElementById("tab-main")) {
+			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
+			else document.getElementById("tab-main").className = "tab";
+		};
+		if (document.getElementById("tab-improvements")) {
+			if (game.tab == "improvements") document.getElementById("tab-improvements").className = "tab on";
+			else document.getElementById("tab-improvements").className = "tab";
+		};
+		if (document.getElementById("tab-options")) {
+			if (game.tab == "options") document.getElementById("tab-options").className = "tab on";
+			else document.getElementById("tab-options").className = "tab";
+		};
 	};
+	// main display
+	if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
+		let append = document.createElement("div");
+		append.id = "pointDisplay";
+		if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
+		else document.getElementById("main").appendChild(append);
+	};
+	if (!document.getElementById("pointButton")) {
+		let append = document.createElement("button");
+		append.id = "pointButton";
+		append.type = "button";
+		append.addEventListener("click", () => {
+			game.points += pointButtonGain();
+			game.pointTotal += pointButtonGain();
+			if (game.points > game.pointBest) game.pointBest = game.points;
+			game.clicks++;
+		});
+		document.getElementById("main").appendChild(append);
+	};
+	if (game.unlocks.includes("varDisplay") && !document.getElementById("varDisplay")) {
+		let append = document.createElement("div");
+		append.id = "varDisplay";
+		append.style = "margin-top: 20px";
+		if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
+		else if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
+		else document.getElementById("main").appendChild(append);
+	};
+	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
+	if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
+	if (document.getElementById("varDisplay")) {
+		const _constant = format(get_constant()) + constant(),
+		_delta = "(" + format(get_g_exponent()) + " + (" + delta + " ^ " + format(get_d_exponent()) + "))",
+		_epsilon = "(" + epsilon + " ^ " + format(get_e_exponent()) + ")",
+		one_plus = (input) => {return "(" + input + " + " + format(1) + ")"};
+		let text = "";
+		if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
+		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
+		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(get_gamma());
+		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(get_delta());
+		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(get_epsilon());
+		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(get_zeta());
+		let formula = "";
+		if (game.upgrades[10] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + _epsilon + "(5.00 ^ " + zeta + ")";
+		else if (game.improvements[10] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + _epsilon;
+		else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + one_plus(epsilon);
+		else if (game.improvements[5] > 2) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")";
+		else if (game.improvements[5] > 0) formula = _constant + "(" + one_plus(gamma) + " ^ " + _delta + ")";
+		else if (game.upgrades[6] > 0) formula = "(" + _constant + ")(" + one_plus(gamma) + " ^ " + _delta + ")";
+		else if (game.upgrades[4] > 0) formula = "(" + _constant + ")(" + one_plus(gamma) + " ^ " + format(get_g_exponent()) + ")";
+		else if (game.upgrades[2] > 0) formula = _constant;
+		if (formula) formula = "Your point gain is " + formula + "<br><br>";
+		document.getElementById("varDisplay").innerHTML = formula + text;
+	};
+	// tab displays
 	if (game.tab == "main") {
 		if (!document.getElementById("upgrades")) {
 			let append = document.createElement("div");

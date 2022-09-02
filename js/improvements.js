@@ -16,9 +16,9 @@ const improvements = [{
 		return true;
 	},
 }, {
-	title: "SIMPLIFICATION",
+	title: "FLAT MULTIPLIER",
 	desc() {
-		return "simplifies the point gain formula (may decrease gain); also multiplies the " + constant() + " constant by 1.50";
+		return "multiplies the " + constant() + " constant by 1.50";
 	},
 	effect() {
 		if (game.improvements[1] > 0) return 1.5;
@@ -29,7 +29,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.upgrades[2] > 0 && game.improvements[0] > 0;
+		return game.upgrades[3] > 0 && game.improvements[0] > 0;
 	},
 }, {
 	title: "ADVANCEMENT",
