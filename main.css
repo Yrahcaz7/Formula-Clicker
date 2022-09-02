@@ -50,6 +50,10 @@ body {
 	border: 1px solid #881;
 }
 
+button, .margin {
+	margin: calc(var(--text-size) * 10 / 9) auto 0px auto;
+}
+
 button {
 	background-color: #eee;
 	color: #000;
@@ -57,7 +61,6 @@ button {
 	font-family: inherit;
 	border: 1px solid #888;
 	border-radius: 5px;
-	margin: calc(var(--text-size) * 10 / 9) auto 0px auto;
 	transition-duration: 1s;
 	cursor: pointer;
 }

@@ -209,7 +209,7 @@ function update() {
 	if (game.unlocks.includes("varDisplay") && !document.getElementById("varDisplay")) {
 		let append = document.createElement("div");
 		append.id = "varDisplay";
-		append.style = "margin-top: 20px";
+		append.className = "margin";
 		if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
 		else if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
 		else document.getElementById("main").appendChild(append);
