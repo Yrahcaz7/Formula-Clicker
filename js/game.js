@@ -326,7 +326,7 @@ function update() {
 	};
 	for (let index = 0; index < options.length && index < game.improvements[4]; index++) {
 		const element = options[index];
-		if (game.options[element.id] === undefined) game.options[element.id] = element.default();
+		if (game.options[element.id] === undefined) game.options[element.id] = element.value();
 		if (!document.getElementById("option_" + index) && game.tab == "options") {
 			let append = document.createElement("span");
 			append.id = "option_" + index;
