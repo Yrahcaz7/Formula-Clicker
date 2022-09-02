@@ -27,7 +27,7 @@ function get_beta() {
 };
 
 function get_gamma() {
-	let g = 0;
+	let g = 1;
 	g += upgrades[4].effect();
 	g += upgrades[5].effect();
 	g *= improvements[7].effect();
@@ -97,9 +97,9 @@ function pointButtonGain() {
 	if (!a && !b && !g && !co) return 1;
 	if (game.improvements[10] > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * (5 ** z);
 	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
-	if (game.improvements[5] > 1) return (co * a * b * g * d) * ((g + 1) ** (g_ex + (d ** d_ex)));
-	if (game.improvements[5] > 0) return (co * a * b * g) * ((g + 1) ** (g_ex + (d ** d_ex)));
-	if (game.upgrades[4] > 0) return (co * a * b) * ((g + 1) ** (g_ex + (d ** d_ex)));
+	if (game.improvements[5] > 1) return (co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)));
+	if (game.improvements[5] > 0) return (co * a * b * g) * (g ** (g_ex + (d ** d_ex)));
+	if (game.upgrades[4] > 0) return (co * a * b) * (g ** (g_ex + (d ** d_ex)));
 	if (game.upgrades[2] > 0) return (co * a * b);
 	return a;
 };
@@ -219,8 +219,7 @@ function update() {
 	if (document.getElementById("varDisplay")) {
 		const _constant = format(get_constant()) + constant(),
 		_delta = "(" + format(get_g_exponent()) + " + (" + delta + " ^ " + format(get_d_exponent()) + "))",
-		_epsilon = "(" + epsilon + " ^ " + format(get_e_exponent()) + ")",
-		one_plus = (input) => {return "(" + input + " + " + format(1) + ")"};
+		_epsilon = "(" + epsilon + " ^ " + format(get_e_exponent()) + ")";
 		let text = "";
 		if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
 		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
@@ -231,11 +230,10 @@ function update() {
 		let formula = "";
 		if (game.upgrades[10] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + _epsilon + "(5.00 ^ " + zeta + ")";
 		else if (game.improvements[10] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + _epsilon;
-		else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")" + one_plus(epsilon);
+		else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")(" + epsilon + " + 1.00)";
 		else if (game.improvements[5] > 2) formula = _constant + "(1.45" + gamma + " ^ " + _delta + ")";
-		else if (game.improvements[5] > 0) formula = _constant + "(" + one_plus(gamma) + " ^ " + _delta + ")";
-		else if (game.upgrades[6] > 0) formula = "(" + _constant + ")(" + one_plus(gamma) + " ^ " + _delta + ")";
-		else if (game.upgrades[4] > 0) formula = "(" + _constant + ")(" + one_plus(gamma) + " ^ " + format(get_g_exponent()) + ")";
+		else if (game.upgrades[6] > 0) formula = _constant + "(" + gamma + " ^ " + _delta + ")";
+		else if (game.upgrades[4] > 0) formula = _constant + "(" + gamma + " ^ " + format(get_g_exponent()) + ")";
 		else if (game.upgrades[2] > 0) formula = _constant;
 		if (formula) formula = "Your point gain is " + formula + "<br><br>";
 		document.getElementById("varDisplay").innerHTML = formula + text;
