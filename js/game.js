@@ -219,7 +219,7 @@ function update() {
 	if (document.getElementById("varDisplay")) {
 		const superscript = (string) => {return "<sup>" + string + "</sup>"};
 		const _constant = format(get_constant()) + constant();
-		const _delta = superscript(format(get_g_exponent()) + " + " + delta + superscript(format(get_d_exponent())));
+		const _delta = superscript("(" + format(get_g_exponent()) + " + " + delta + superscript(format(get_d_exponent())) + ")");
 		const _epsilon = epsilon + superscript(format(get_e_exponent()));
 		let text = "";
 		if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
