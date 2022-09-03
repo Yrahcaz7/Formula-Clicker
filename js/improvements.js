@@ -52,7 +52,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.improvements[2] > 0;
+		return game.improvements[2] > 2;
 	},
 }, {
 	title: "OPTIONS GALORE",
@@ -82,7 +82,7 @@ const improvements = [{
 	},
 	max: 3,
 	unlocked() {
-		return game.improvements[4] > 0;
+		return game.improvements[4] > 2;
 	},
 }, {
 	title: "REDUCE REDUCTION",
@@ -95,7 +95,7 @@ const improvements = [{
 	},
 	max: 5,
 	unlocked() {
-		return game.improvements[5] > 0;
+		return game.improvements[5] > 2;
 	},
 }, {
 	title: "GREATER SCALING",
@@ -108,7 +108,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.upgrades[9] > 0 && game.improvements[6] > 0;
+		return game.upgrades[9] > 0 && game.improvements[6] > 3;
 	},
 }, {
 	title: "LARGER EXPONENT",
