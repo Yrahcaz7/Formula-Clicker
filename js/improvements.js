@@ -46,7 +46,7 @@ const improvements = [{
 	},
 }, {
 	title: "AUTOMATION",
-	desc: "automatically buys an upgrade when it is 5% or less of your points",
+	desc: "automatically buys an upgrade when it is 2.5% or less of your points",
 	cost() {
 		return 5e10;
 	},
