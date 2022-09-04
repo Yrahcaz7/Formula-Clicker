@@ -1,3 +1,18 @@
+function multiBuy(scale = 1.1, number = 0, base = 1, points = game.points) {
+	if (scale < 0 || number < 0) return [NaN, NaN];
+	if (scale == 0 || base <= 0) return [0, Infinity];
+	let result = (scale ** number) * base;
+	if (points < result) return [result, 0];
+	if (scale == 1) return [Math.floor(points / base) * base, Math.floor(points / base)];
+	let mult = 1, count = 1;
+	while (true) {
+		if (result * (mult + (scale ** count)) > points) break;
+		mult += scale ** count;
+		count++;
+	};
+	return [result * mult, count];
+};
+
 var game = {
 	points: 0,
 	pointBest: 0,
