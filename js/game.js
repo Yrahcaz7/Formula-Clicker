@@ -251,6 +251,7 @@ function update() {
 		else if (game.improvements[10] > 0) formula = _constant + "(1.45" + gamma + _delta + ")" + _epsilon;
 		else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + _delta + ")(" + epsilon + " + 1.00)";
 		else if (game.improvements[5] > 2) formula = _constant + "(1.45" + gamma + _delta + ")";
+		else if (game.improvements[5] > 0) formula = _constant + "(" + gamma + _delta + ")";
 		else if (game.upgrades[6] > 0) formula = _constant + gamma + _delta;
 		else if (game.upgrades[4] > 0) formula = _constant + gamma + superscript(format(get_g_exponent()));
 		else if (game.upgrades[2] > 0) formula = _constant;
