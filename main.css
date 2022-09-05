@@ -50,7 +50,7 @@ body {
 	border: 1px solid #881;
 }
 
-button, .margin {
+button, .margin, #options {
 	margin: calc(var(--text-size) * 10 / 9) auto 0px auto;
 }
 
