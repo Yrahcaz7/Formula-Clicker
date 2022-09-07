@@ -442,7 +442,6 @@ function update() {
 		};
 		if (document.getElementById("wave graph") && sinwaves.length) {
 			let points = "";
-			if (game.wave.waveframe > 312) game.wave.waveframe = 0;
 			for (let iteration = 0; iteration <= 302; iteration++) {
 				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.waveframe] + " ";
 			};
@@ -459,11 +458,11 @@ function update() {
 		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
 		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").remove();
 	};
-	if (game.unlocks.includes("waves")) game.wave.waveframe++;
 };
 
 const loop = setInterval(() => {
 	if (game.unlocks.includes("waves")) {
+		if (game.wave.waveframe > 312) game.wave.waveframe = 0;
 		let gen = Math.abs((sinwaves[game.wave.waveframe+151] / 100) - 1);
 		game.wave.pointGen = gen;
 		gen *= 0.03;
@@ -473,4 +472,5 @@ const loop = setInterval(() => {
 		if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 	};
 	update();
+	if (game.unlocks.includes("waves")) game.wave.waveframe++;
 }, 30);
