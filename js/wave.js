@@ -4,8 +4,6 @@ function sinwave(bottom, top, diff = 0) {
 
 var sinwaves = [];
 
-var waveframe = 0;
-
 for (let iteration = 0; iteration <= 615; iteration++) {
     sinwaves.push(Math.round(((50 * Math.sin((iteration * 50) / 2500)) + 50) * 100) / 100);
 };

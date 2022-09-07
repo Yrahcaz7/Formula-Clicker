@@ -25,6 +25,14 @@ var game = {
 	unlocks: [],
 	upgrades: [],
 	improvements: [],
+	wave: {
+		points: 0,
+		pointBest: 0,
+		pointTotal: 0,
+		pointMax: 100,
+		pointGen: 0,
+		waveframe: 0,
+	},
 	options: {},
 };
 
@@ -431,18 +439,34 @@ function update() {
 		};
 		if (document.getElementById("wave graph") && sinwaves.length) {
 			let points = "";
+			if (game.wave.waveframe > 312) game.wave.waveframe = 0;
 			for (let iteration = 0; iteration <= 302; iteration++) {
-				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + waveframe] + " ";
+				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.waveframe] + " ";
 			};
-			if (waveframe > 312) waveframe = 0;
-			else waveframe++;
-			document.getElementById("wave graph").innerHTML = "<polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[waveframe+150]+" r='5' stroke=#000 fill=#eee />";
+			document.getElementById("wave graph").innerHTML = "<polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[game.wave.waveframe+151]+" r='5' stroke=#000 fill=#eee />";
 		};
+		if (!document.getElementById("wavePointDisplay")) {
+			let append = document.createElement("div");
+			append.id = "wavePointDisplay";
+			if (document.getElementById("wave graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave graph"));
+			else document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>You are gaining "+format(game.wave.pointGen)+" wave points per second";
 	} else {
 		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
 	};
+	if (game.unlocks.includes("waves")) game.wave.waveframe++;
 };
 
 const loop = setInterval(() => {
+	if (game.unlocks.includes("waves")) {
+		let gen = Math.abs((sinwaves[game.wave.waveframe+151] / 100) - 1);
+		game.wave.pointGen = gen;
+		gen *= 0.03;
+		if (gen > game.wave.pointMax - game.wave.points) gen = game.wave.pointMax - game.wave.points;
+		game.wave.points += gen;
+		game.wave.pointTotal += gen;
+		if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+	};
 	update();
 }, 30);
