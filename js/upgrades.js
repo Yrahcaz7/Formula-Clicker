@@ -139,9 +139,9 @@ const upgrades = [{
 		return game.upgrades[11] * 0.5;
 	},
 	cost() {
-		return (10 ** game.upgrades[11]) * 1e56;
+		return (10 ** game.upgrades[11]) * 1e57;
 	},
 	unlocked() {
-		return game.pointTotal >= 1.5e56 && game.upgrades[10] > 0;
+		return game.pointTotal >= 1.5e57 && game.upgrades[10] > 0;
 	},
 }];

@@ -304,7 +304,10 @@ function update() {
 			else if (game.points >= element.cost()) document.getElementById("upgrade_" + index).className = "upgrade";
 			else document.getElementById("upgrade_" + index).className = "upgrade fade";
 			if (game.upgrades[index] > 0) document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc + "<br><br>Cost: " + format(upgrades[index].cost());
-			else document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(upgrades[index].cost());
+			else {
+				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(upgrades[index].cost());
+				document.getElementById("upgrade_" + index).className += " small";
+			};
 		};
 	};
 	if (game.tab == "improvements") {
