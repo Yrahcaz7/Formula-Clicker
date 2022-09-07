@@ -181,8 +181,8 @@ const improvements = [{
 		return game.improvements[9] > 1 && game.improvements[11] > 0;
 	},
 }, {
-	title: "NEW AND COOL",
-	desc: "unlocks <span style='background-color:#000'>sinusoidal</span> <span style='background-color:#000'>waves</span> (in development)",
+	title: "HERE COMES TRIGONOMETRY",
+	desc: "unlocks sinusoidal waves",
 	cost() {
 		return 1e90;
 	},

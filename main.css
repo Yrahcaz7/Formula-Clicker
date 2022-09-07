@@ -101,3 +101,7 @@ input {
 input.color {
 	max-height: calc(var(--text-size) + 8px);
 }
+
+.graph {
+	border-bottom: 1px solid #000;
+}

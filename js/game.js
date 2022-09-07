@@ -26,7 +26,7 @@ var game = {
 	upgrades: [],
 	improvements: [],
 	options: {},
-}; // function sinwave(bottom, top){return (Math.abs((top - bottom) / 2) * Math.sin(Date.now() / 2500)) + ((top + bottom) / 2)};
+};
 
 function get_alpha() {
 	let a = 1;
@@ -154,6 +154,7 @@ function update() {
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("varDisplay")) game.unlocks.push("varDisplay");
 	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
+	if (game.improvements[13] > 0 && !game.unlocks.includes("waves")) game.unlocks.push("waves");
 	// tabs
 	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
@@ -161,8 +162,8 @@ function update() {
 		if (document.getElementById("varDisplay")) document.getElementById("main").insertBefore(append, document.getElementById("varDisplay").nextSibling);
 		else if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton").nextSibling);
 	};
-	if (document.getElementById("tabs")) {
-		if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tab-main")) {
+	if (document.getElementById("tabs") && game.unlocks.includes("tabs")) {
+		if (!document.getElementById("tab-main")) {
 			let append = document.createElement("button");
 			append.id = "tab-main";
 			append.type = "button";
@@ -173,7 +174,7 @@ function update() {
 			append.innerHTML = "Main";
 			document.getElementById("tabs").appendChild(append);
 		};
-		if (game.unlocks.includes("tabs") && !document.getElementById("tab-improvements")) {
+		if (!document.getElementById("tab-improvements")) {
 			let append = document.createElement("button");
 			append.id = "tab-improvements";
 			append.type = "button";
@@ -195,6 +196,18 @@ function update() {
 			append.innerHTML = "Options";
 			document.getElementById("tabs").appendChild(append);
 		};
+		if (game.unlocks.includes("waves") && !document.getElementById("tab-waves")) {
+			let append = document.createElement("button");
+			append.id = "tab-waves";
+			append.type = "button";
+			append.className = "tab";
+			append.addEventListener("click", () => {
+				game.tab = "waves";
+			});
+			append.innerHTML = "Waves";
+			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			else document.getElementById("tabs").appendChild(append);
+		};
 		if (document.getElementById("tab-main")) {
 			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
 			else document.getElementById("tab-main").className = "tab";
@@ -206,6 +219,10 @@ function update() {
 		if (document.getElementById("tab-options")) {
 			if (game.tab == "options") document.getElementById("tab-options").className = "tab on";
 			else document.getElementById("tab-options").className = "tab";
+		};
+		if (document.getElementById("tab-waves")) {
+			if (game.tab == "waves") document.getElementById("tab-waves").className = "tab on";
+			else document.getElementById("tab-waves").className = "tab";
 		};
 	};
 	// main display
@@ -407,6 +424,22 @@ function update() {
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").checked;
 		};
+	};
+	if (game.tab == "waves") {
+		if (!document.getElementById("wave graph")) {
+			document.getElementById("main").innerHTML += "<svg id='wave graph' viewBox='0 0 600 100' class=graph></svg>";
+		};
+		if (document.getElementById("wave graph") && sinwaves.length) {
+			let points = "";
+			for (let iteration = 0; iteration <= 302; iteration++) {
+				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + waveframe] + " ";
+			};
+			if (waveframe > 312) waveframe = 0;
+			else waveframe++;
+			document.getElementById("wave graph").innerHTML = "<polyline points='" + points + "' fill=none stroke='#000'/>";
+		};
+	} else {
+		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
 	};
 };
 
