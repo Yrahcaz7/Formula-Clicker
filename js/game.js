@@ -209,9 +209,11 @@ function update() {
 			append.id = "tab-waves";
 			append.type = "button";
 			append.className = "tab";
-			append.addEventListener("click", () => {
+			append.onclick = () => {
+				let tab = "" + game.tab;
 				game.tab = "waves";
-			});
+				if (tab != "waves") location.reload();
+			};
 			append.innerHTML = "Waves";
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
@@ -454,6 +456,7 @@ function update() {
 		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>You are gaining "+format(game.wave.pointGen,false)+" wave points per second";
 	} else {
 		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
+		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").remove();
 	};
 	if (game.unlocks.includes("waves")) game.wave.waveframe++;
 };
