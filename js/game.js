@@ -332,7 +332,9 @@ function update() {
 			if (game.improvements[index] >= max) document.getElementById("improvement_" + index).className = "improvement maxed";
 			else if (game.points >= element.cost()) document.getElementById("improvement_" + index).className = "improvement";
 			else document.getElementById("improvement_" + index).className = "improvement fade";
-			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost());
+			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost())+" Bought: "+formatWhole(game.improvements[index])+"/"+(element.max?formatWhole(max):"&#8734");
+			let rows = document.getElementById("improvement_" + index).innerHTML.split("<br>");
+			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "                              ".slice(rows[rows.length - 1].length) + "Bought:");
 		};
 	};
 	if (game.tab == "options") {
