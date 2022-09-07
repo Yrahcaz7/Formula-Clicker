@@ -102,6 +102,7 @@ function get_e_exponent() {
 };
 
 function pointButtonGain() {
+	let imp = game.improvements[5] + game.improvements[10];
 	let a = get_alpha();
 	let b = get_beta();
 	let g = get_gamma();
@@ -112,13 +113,15 @@ function pointButtonGain() {
 	let g_ex = get_g_exponent();
 	let d_ex = get_d_exponent();
 	let e_ex = get_e_exponent();
-	if (!a && !b && !g && !co) return 1;
-	if (game.improvements[10] > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * (5 ** z);
-	if (game.improvements[5] > 2) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
-	if (game.improvements[5] > 1) return (co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)));
-	if (game.improvements[5] > 0) return (co * a * b * g) * (g ** (g_ex + (d ** d_ex)));
-	if (game.upgrades[4] > 0) return (co * a * b) * (g ** (g_ex + (d ** d_ex)));
-	if (game.upgrades[2] > 0) return (co * a * b);
+	if (z > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * (5 ** z);
+	if (imp >= 4) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex);
+	if (e > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
+	if (imp >= 3) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)));
+	if (imp >= 2) return (co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)));
+	if (imp >= 1) return (co * a * b * g) * (g ** (g_ex + (d ** d_ex)));
+	if (d > 0) return (co * a * b) * (g ** (g_ex + (d ** d_ex)));
+	if (g > 0) return (co * a * b) * (g ** g_ex);
+	if (b > 0) return (co * a * b);
 	return a;
 };
 
@@ -221,6 +224,9 @@ function update() {
 			game.pointTotal += pointButtonGain();
 			if (game.points > game.pointBest) game.pointBest = game.points;
 			game.clicks++;
+			if (game.points === Infinity) game.points = 1.7976931348623157e308;
+			if (game.pointTotal === Infinity) game.pointTotal = 1.7976931348623157e308;
+			if (game.pointBest === Infinity) game.pointBest = 1.7976931348623157e308;
 		});
 		document.getElementById("main").appendChild(append);
 	};
@@ -233,7 +239,11 @@ function update() {
 		else document.getElementById("main").appendChild(append);
 	};
 	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
-	if (document.getElementById("pointButton")) document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
+	if (document.getElementById("pointButton")) {
+		let gain = pointButtonGain();
+		if (gain === Infinity) gain = 1.7976931348623157e308;
+		document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
+	};
 	if (document.getElementById("varDisplay")) {
 		const superscript = (string) => {return "<sup>" + string + "</sup>"};
 		const _constant = format(get_constant()) + constant();
@@ -334,7 +344,7 @@ function update() {
 			else document.getElementById("improvement_" + index).className = "improvement fade";
 			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost())+" Bought: "+(max==1?!!game.improvements[index]:formatWhole(game.improvements[index])+"/"+(element.max?formatWhole(max):"&#8734"));
 			let rows = document.getElementById("improvement_" + index).innerHTML.split("<br>");
-			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "                              ".slice(rows[rows.length - 1].length) + "Bought:");
+			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "        ".slice(rows[rows.length - 1].length - 22) + "Bought:");
 		};
 	};
 	if (game.tab == "options") {
