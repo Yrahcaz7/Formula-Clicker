@@ -436,7 +436,7 @@ function update() {
 			};
 			if (waveframe > 312) waveframe = 0;
 			else waveframe++;
-			document.getElementById("wave graph").innerHTML = "<polyline points='" + points + "' fill=none stroke='#000'/>";
+			document.getElementById("wave graph").innerHTML = "<polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[waveframe+150]+" r='5' stroke=#000 fill=#eee />";
 		};
 	} else {
 		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
