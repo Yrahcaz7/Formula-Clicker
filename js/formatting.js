@@ -84,7 +84,7 @@ function formatIllions(number = NaN, short = false) {
 	return (pre + remain + (!short&&post?" ":"") + post).replace("undefined", "");
 };
 
-function format(number = NaN) {
+function format(number = NaN, smallAllowed = true) {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
 	let pre = "";
@@ -102,6 +102,7 @@ function format(number = NaN) {
 		let string = number.toFixed(0);
 		return pre + cutoff(string, ",", string.length - 3);
 	};
+	if (!smallAllowed) return pre + number.toFixed(2);
 	if (number < 0.00001) return pre + number.toExponential(3);
 	if (number < 0.0001) return pre + number.toFixed(6);
 	if (number < 0.001) return pre + number.toFixed(5);

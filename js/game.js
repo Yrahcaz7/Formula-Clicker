@@ -451,7 +451,7 @@ function update() {
 			if (document.getElementById("wave graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave graph"));
 			else document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>You are gaining "+format(game.wave.pointGen)+" wave points per second";
+		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>You are gaining "+format(game.wave.pointGen,false)+" wave points per second";
 	} else {
 		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
 	};
