@@ -26,7 +26,7 @@ var game = {
 	upgrades: [],
 	improvements: [],
 	options: {},
-};
+}; // function sinwave(bottom, top){return (Math.abs((top - bottom) / 2) * Math.sin(Date.now() / 2500)) + ((top + bottom) / 2)};
 
 function get_alpha() {
 	let a = 1;
@@ -113,7 +113,7 @@ function pointButtonGain() {
 	let g_ex = get_g_exponent();
 	let d_ex = get_d_exponent();
 	let e_ex = get_e_exponent();
-	if (z > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * ((2 ** z) + (2 * z));
+	if (z > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * ((2 ** z) + (5 * z));
 	if (imp >= 4) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex);
 	if (e > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
 	if (imp >= 3) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)));
@@ -257,7 +257,7 @@ function update() {
 		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(get_epsilon());
 		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(get_zeta());
 		let formula = "";
-		if (game.upgrades[10] > 0) formula = _constant + "(1.45" + gamma + _delta + ")" + _epsilon + "(2.00" + superscript(zeta) + " + 2.00" + zeta + ")";
+		if (game.upgrades[10] > 0) formula = _constant + "(1.45" + gamma + _delta + ")" + _epsilon + "(2.00" + superscript(zeta) + " + 5.00" + zeta + ")";
 		else if (game.improvements[10] > 0) formula = _constant + "(1.45" + gamma + _delta + ")" + _epsilon;
 		else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + _delta + ")(" + epsilon + " + 1.00)";
 		else if (game.improvements[5] > 2) formula = _constant + "(1.45" + gamma + _delta + ")";
