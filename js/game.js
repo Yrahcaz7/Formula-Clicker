@@ -176,9 +176,9 @@ function update() {
 			append.id = "tab-main";
 			append.type = "button";
 			append.className = "tab";
-			append.addEventListener("click", () => {
+			append.onclick = () => {
 				game.tab = "main";
-			});
+			};
 			append.innerHTML = "Main";
 			document.getElementById("tabs").appendChild(append);
 		};
@@ -187,9 +187,9 @@ function update() {
 			append.id = "tab-improvements";
 			append.type = "button";
 			append.className = "tab";
-			append.addEventListener("click", () => {
+			append.onclick = () => {
 				game.tab = "improvements";
-			});
+			};
 			append.innerHTML = "Improvements";
 			document.getElementById("tabs").appendChild(append);
 		};
@@ -198,9 +198,9 @@ function update() {
 			append.id = "tab-options";
 			append.type = "button";
 			append.className = "tab";
-			append.addEventListener("click", () => {
+			append.onclick = () => {
 				game.tab = "options";
-			});
+			};
 			append.innerHTML = "Options";
 			document.getElementById("tabs").appendChild(append);
 		};
@@ -246,7 +246,8 @@ function update() {
 		let append = document.createElement("button");
 		append.id = "pointButton";
 		append.type = "button";
-		append.addEventListener("click", () => {
+		append.onclick = () => {
+			console.log(pointButtonGain());
 			game.points += pointButtonGain();
 			game.pointTotal += pointButtonGain();
 			if (game.points > game.pointBest) game.pointBest = game.points;
@@ -254,7 +255,7 @@ function update() {
 			if (game.points === Infinity) game.points = 1.7976931348623157e308;
 			if (game.pointTotal === Infinity) game.pointTotal = 1.7976931348623157e308;
 			if (game.pointBest === Infinity) game.pointBest = 1.7976931348623157e308;
-		});
+		};
 		document.getElementById("main").appendChild(append);
 	};
 	if (game.unlocks.includes("varDisplay") && !document.getElementById("varDisplay")) {
@@ -318,9 +319,9 @@ function update() {
 			let append = document.createElement("button");
 			append.id = "upgrade_" + index;
 			append.type = "button";
-			append.addEventListener("click", () => {
+			append.onclick = () => {
 				buy("upgrade", index);
-			});
+			};
 			if (document.getElementById("upgrade_" + (index + 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index + 1)));
 			else document.getElementById("upgrades").appendChild(append);
 		};
@@ -362,9 +363,9 @@ function update() {
 			let append = document.createElement("button");
 			append.id = "improvement_" + index;
 			append.type = "button";
-			append.addEventListener("click", () => {
+			append.onclick = () => {
 				buy("improvement", index);
-			});
+			};
 			if (document.getElementById("improvement_" + (index + 1))) document.getElementById("improvements").insertBefore(append, document.getElementById("improvement_" + (index + 1)));
 			else document.getElementById("improvements").appendChild(append);
 		};
