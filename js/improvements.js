@@ -151,10 +151,13 @@ const improvements = [{
 }, {
 	title: "FINALLY!",
 	desc() {
-		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.effect()) + "x)";
+		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.baseEff()) + "x)";
+	},
+	baseEff() {
+		return game.improvements[0] ** 0.3333333333333333;
 	},
 	effect() {
-		if (game.improvements[11] > 0) return game.improvements[0] ** 0.3333333333333333;
+		if (game.improvements[11] > 0) return this.baseEff();
 		return 1;
 	},
 	cost() {
@@ -175,6 +178,6 @@ const improvements = [{
 	},
 	max: 10,
 	unlocked() {
-		return game.improvements[11] > 0;
+		return game.improvements[9] > 1 && game.improvements[11] > 0;
 	},
 }];
