@@ -121,7 +121,7 @@ const improvements = [{
 	},
 	max: 10,
 	unlocked() {
-		return game.improvements[7] > 0;
+		return game.improvements[7] > 1;
 	},
 }, {
 	title: "MORE MULTIPLIERS",
@@ -134,7 +134,7 @@ const improvements = [{
 	},
 	max: 3,
 	unlocked() {
-		return game.improvements[8] > 0;
+		return game.improvements[8] > 1;
 	},
 }, {
 	title: "GREATER HEIGHTS",
