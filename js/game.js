@@ -524,6 +524,7 @@ const loop = setInterval(() => {
 		pointMax *= wave_upgrades[2].effect();
 		game.wave.pointMax = pointMax;
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
+		gen *= waveMult();
 		game.wave.pointGen = gen;
 		if (game.wave.points < game.wave.pointMax) {
 			gen *= 0.03;
