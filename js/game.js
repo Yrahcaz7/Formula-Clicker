@@ -210,9 +210,7 @@ function update() {
 			append.type = "button";
 			append.className = "tab";
 			append.onclick = () => {
-				let tab = "" + game.tab;
 				game.tab = "waves";
-				if (tab != "waves") location.reload();
 			};
 			append.innerHTML = "Waves";
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
@@ -438,14 +436,17 @@ function update() {
 	};
 	if (game.tab == "waves") {
 		if (!document.getElementById("wave graph")) {
-			document.getElementById("main").innerHTML += "<svg id='wave graph' viewBox='0 0 600 100' class=graph></svg>";
+			let append = document.createElement("div");
+			append.id = "wave graph";
+			append.innerHTML = "<svg viewBox='0 0 600 100' class=graph></svg>"
+			document.getElementById("main").appendChild(append);
 		};
 		if (document.getElementById("wave graph") && sinwaves.length) {
 			let points = "";
 			for (let iteration = 0; iteration <= 302; iteration++) {
 				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.waveframe] + " ";
 			};
-			document.getElementById("wave graph").innerHTML = "<polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[game.wave.waveframe+151]+" r='5' stroke=#000 fill=#eee />";
+			document.getElementById("wave graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[game.wave.waveframe+151]+" r='5' stroke=#000 fill=#eee /></svg>";
 		};
 		if (!document.getElementById("wavePointDisplay")) {
 			let append = document.createElement("div");
