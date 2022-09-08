@@ -46,6 +46,7 @@ const wave_upgrades = [{
 	cost() {
 		let div = 1;
 		div *= wave_upgrades[5].effect();
+		if (game.wave.upgrades[7] > 0) return (1.4 ** game.wave.upgrades[1]) * 25 / div;
 		return (1.5 ** game.wave.upgrades[1]) * 25 / div;
 	},
 	unlocked() {
@@ -58,6 +59,7 @@ const wave_upgrades = [{
 		return 2 ** game.wave.upgrades[2];
 	},
 	cost() {
+		if (game.wave.upgrades[7] > 0) return (2 ** game.wave.upgrades[2]) * 50;
 		return (2 ** game.wave.upgrades[2]) * 100;
 	},
 	unlocked() {
@@ -84,12 +86,12 @@ const wave_upgrades = [{
 }, {
 	title: "RECURSION",
 	desc() {
-		if (this.baseEff() == 4) return "multiplies the value of your wave by 4 (maxed)";
+		if (this.baseEff() == 3.33) return "multiplies the value of your wave by 3.33x (maxed)";
 		return "multiplies the value of your wave based on your wave points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
 		let eff = (game.wave.points + 1) ** 0.1;
-		if (eff > 4) return 4;
+		if (eff > 3.33) return 3.33;
 		return eff;
 	},
 	effect() {
@@ -126,5 +128,17 @@ const wave_upgrades = [{
 	max: 1,
 	unlocked() {
 		return game.wave.upgrades[5] > 0;
+	},
+}, {
+	title: "SMOOTH SCALE",
+	desc() {
+		return "improves the cost formulas of COOLHEADED and LOOSEN CHAINS";
+	},
+	cost() {
+		return 25000;
+	},
+	max: 1,
+	unlocked() {
+		return game.wave.upgrades[6] > 0;
 	},
 }];
