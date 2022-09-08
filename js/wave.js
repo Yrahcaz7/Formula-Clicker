@@ -69,6 +69,7 @@ const wave_upgrades = [{
 		return "multiplies the " + constant() + " constant based on your best wave points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
+		if (game.wave.upgrades[6] > 0) return (game.wave.pointBest + 1) ** 0.25;
 		return (game.wave.pointBest + 1) ** 0.2;
 	},
 	effect() {
@@ -113,5 +114,17 @@ const wave_upgrades = [{
 	},
 	unlocked() {
 		return game.wave.upgrades[4] > 0;
+	},
+}, {
+	title: "MATHMATICAL",
+	desc() {
+		return "improves the effect formula of CALCULATIONS";
+	},
+	cost() {
+		return 7500;
+	},
+	max: 1,
+	unlocked() {
+		return game.wave.upgrades[5] > 0;
 	},
 }];

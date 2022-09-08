@@ -512,7 +512,7 @@ function update() {
 			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
 			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
 			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
-			if (game.wave.upgrades[index] > 0) document.getElementById("wave_upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(wave_upgrades[index].cost());
+			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(wave_upgrades[index].cost())+(max!==Infinity?"<br>Bought: "+formatWhole(game.wave.upgrades[index])+"/"+formatWhole(max):"");
 			else {
 				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(wave_upgrades[index].cost());
 				document.getElementById("wave_upgrade_" + index).className += " small";
