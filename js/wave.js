@@ -25,37 +25,35 @@ function waveMult() {
 
 const wave_upgrades = [{
 	title: "LARGER NUMBERS",
-	desc() {
-		return "increases the maximum value of your wave by 0.25";
-	},
+	desc: "increases the maximum value of your wave by 0.25",
 	effect() {
 		return game.wave.upgrades[0] * 0.25;
 	},
 	cost() {
-		return (1.5 ** game.wave.upgrades[0]) * 10;
+		let div = 1;
+		div *= wave_upgrades[5].effect();
+		return (1.5 ** game.wave.upgrades[0]) * 10 / div;
 	},
 	unlocked() {
 		return true;
 	},
 }, {
 	title: "COOLHEADED",
-	desc() {
-		return "increases the minimum value of your wave by 0.25";
-	},
+	desc: "increases the minimum value of your wave by 0.25",
 	effect() {
 		return game.wave.upgrades[1] * 0.25;
 	},
 	cost() {
-		return (1.5 ** game.wave.upgrades[1]) * 25;
+		let div = 1;
+		div *= wave_upgrades[5].effect();
+		return (1.5 ** game.wave.upgrades[1]) * 25 / div;
 	},
 	unlocked() {
 		return game.wave.upgrades[0] > 0;
 	},
 }, {
 	title: "LOOSEN CHAINS",
-	desc() {
-		return "multiplies your maximum wave points by 2";
-	},
+	desc: "multiplies your maximum wave points by 2",
 	effect() {
 		return 2 ** game.wave.upgrades[2];
 	},
@@ -101,5 +99,19 @@ const wave_upgrades = [{
 	},
 	unlocked() {
 		return game.wave.upgrades[3] > 0;
+	},
+}, {
+	title: "CHEAPER",
+	desc() {
+		return "divides the cost of LARGER NUMBERS and COOLHEADED by 2";
+	},
+	effect() {
+		return 2 ** game.wave.upgrades[5];
+	},
+	cost() {
+		return (5 ** game.wave.upgrades[5]) * 500;
+	},
+	unlocked() {
+		return game.wave.upgrades[4] > 0;
 	},
 }];
