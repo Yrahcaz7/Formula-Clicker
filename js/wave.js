@@ -1,4 +1,5 @@
 function waveFormula(min = game.wave.min, max = game.wave.max) {
+	if (min > max) min = max;
 	return "(" + format(Math.abs((max - min) / 2)) + " * sin(t)) + " + format((max + min) / 2);
 };
 
@@ -28,5 +29,19 @@ const wave_upgrades = [{
 	},
 	unlocked() {
 		return true;
+	},
+}, {
+	title: "COOLHEADED",
+	desc() {
+		return "increases the minimum value of your wave by 0.2";
+	},
+	effect() {
+		return game.wave.upgrades[1] * 0.2;
+	},
+	cost() {
+		return (2 ** game.wave.upgrades[1]) * 25;
+	},
+	unlocked() {
+		return game.wave.upgrades[0] > 0;
 	},
 }];

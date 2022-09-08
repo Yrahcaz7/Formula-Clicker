@@ -501,7 +501,7 @@ function update() {
 			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
 			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
 			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
-			if (game.wave.upgrades[index] > 0) document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc() + "<br><br>Cost: " + format(wave_upgrades[index].cost()) + " wave points";
+			if (game.wave.upgrades[index] > 0) document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc() + "<br><br>Cost: " + format(wave_upgrades[index].cost());
 			else {
 				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(wave_upgrades[index].cost());
 				document.getElementById("wave_upgrade_" + index).className += " small";
@@ -514,6 +514,7 @@ const loop = setInterval(() => {
 	if (game.unlocks.includes("waves")) {
 		if (game.wave.frame > 312) game.wave.frame = 0;
 		let min = 0;
+		min += wave_upgrades[1].effect()
 		game.wave.min = min;
 		let max = 1;
 		max += wave_upgrades[0].effect()
