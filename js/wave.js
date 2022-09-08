@@ -44,4 +44,18 @@ const wave_upgrades = [{
 	unlocked() {
 		return game.wave.upgrades[0] > 0;
 	},
+}, {
+	title: "LOOSEN CHAINS",
+	desc() {
+		return "multiplies your maximum wave points by 2";
+	},
+	effect() {
+		return 2 ** game.wave.upgrades[2];
+	},
+	cost() {
+		return (2 ** game.wave.upgrades[2]) * 100;
+	},
+	unlocked() {
+		return game.wave.upgrades[1] > 0;
+	},
 }];
