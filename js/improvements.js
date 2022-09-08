@@ -242,4 +242,33 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[16] > 0;
 	},
+}, {
+	title: "INFLUENCE",
+	desc() {
+		return "multiplies the maximum value of your wave based on your points (" + format(this.baseEff()) + "x)";
+	},
+	baseEff() {
+		return (game.points + 1) ** 0.0025;
+	},
+	effect() {
+		if (game.improvements[18] > 0) return this.baseEff();
+		return 1;
+	},
+	cost() {
+		return 1e175;
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[17] > 4;
+	},
+}, {
+	title: "SELF STABILIZER",
+	desc: "increase the minimum value of your wave by 40% of the maximum value of your wave (after all other minimum value increases)",
+	cost() {
+		return 1e188;
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[18] > 0;
+	},
 }];

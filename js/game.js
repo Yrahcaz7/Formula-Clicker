@@ -535,17 +535,24 @@ function update() {
 const loop = setInterval(() => {
 	if (game.unlocks.includes("waves")) {
 		if (game.wave.frame > 312) game.wave.frame = 0;
+		// calculate wave min
 		let min = 0;
 		min += wave_upgrades[1].effect();
 		min *= improvements[17].effect();
-		game.wave.min = min;
+		min += game.wave.max * 0.4;
+		// calculate wave max
 		let max = 1;
 		max += wave_upgrades[0].effect();
 		max *= improvements[14].effect();
-		game.wave.max = max;
+		max *= improvements[18].effect();
+		// calculate point max
 		let pointMax = 100;
 		pointMax *= wave_upgrades[2].effect();
+		// set values
+		game.wave.min = min;
+		game.wave.max = max;
 		game.wave.pointMax = pointMax;
+		// wave point gain
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
 		gen *= waveMult();
 		game.wave.pointGen = gen;
