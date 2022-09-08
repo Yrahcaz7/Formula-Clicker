@@ -263,12 +263,41 @@ const improvements = [{
 	},
 }, {
 	title: "SELF STABILIZER",
-	desc: "increase the minimum value of your wave by 40% of the maximum value of your wave (after all other minimum value increases)",
+	desc: "increase the minimum value of your wave by 45% of the maximum value of your wave (after all other minimum value increases)",
 	cost() {
 		return 1e188;
 	},
 	max: 1,
 	unlocked() {
 		return game.improvements[18] > 0;
+	},
+}, {
+	title: "SELF STABILIZER",
+	desc: "increase the cap on RECURSION's effect",
+	cost() {
+		return 1e215;
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[19] > 0;
+	},
+}, {
+	title: "WAVE MULT",
+	desc() {
+		return "multiplies the value of your wave based on your points (" + format(this.baseEff()) + "x)";
+	},
+	baseEff() {
+		return (game.points + 1) ** 0.0015;
+	},
+	effect() {
+		if (game.improvements[21] > 0) return this.baseEff();
+		return 1;
+	},
+	cost() {
+		return 1e250;
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[20] > 0;
 	},
 }];

@@ -539,7 +539,7 @@ const loop = setInterval(() => {
 		let min = 0;
 		min += wave_upgrades[1].effect();
 		min *= improvements[17].effect();
-		min += game.wave.max * 0.4;
+		min += game.wave.max * 0.45;
 		// calculate wave max
 		let max = 1;
 		max += wave_upgrades[0].effect();

@@ -22,6 +22,7 @@ for (let iteration = 0; iteration <= 615; iteration++) {
 function waveMult() {
 	let mult = 1;
 	mult *= wave_upgrades[4].effect();
+	mult *= improvements[21].effect();
 	return mult;
 };
 
@@ -82,18 +83,23 @@ const wave_upgrades = [{
 	cost() {
 		return (10 ** game.wave.upgrades[3]) * 200;
 	},
-	max: 20,
+	max: 18,
 	unlocked() {
 		return game.wave.upgrades[2] > 0;
 	},
 }, {
 	title: "RECURSION",
 	desc() {
-		if (this.baseEff() == 3.333333333333333) return "multiplies the value of your wave by 3.33x (maxed)";
+		if (this.baseEff() == 3.6 && game.improvements[20]) return "multiplies the value of your wave by 3.6x (maxed)";
+		if (this.baseEff() == 3.333333333333333 && !game.improvements[20]) return "multiplies the value of your wave by 3.33x (maxed)";
 		return "multiplies the value of your wave based on your wave points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
 		let eff = (game.wave.points + 1) ** 0.1;
+		if (game.improvements[20]) {
+			if (eff > 3.6) return 3.6;
+			return eff;
+		};
 		if (eff > 3.333333333333333) return 3.333333333333333;
 		return eff;
 	},
