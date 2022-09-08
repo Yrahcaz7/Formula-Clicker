@@ -1,7 +1,9 @@
 function waveFormula(min = game.wave.min, max = game.wave.max) {
 	if (min > max) min = max;
-	if (waveMult() !== 1) return format(waveMult()) + "((" + format(Math.abs((max - min) / 2)) + " * sin(t)) + " + format((max + min) / 2) + ")";
-	return "(" + format(Math.abs((max - min) / 2)) + " * sin(t)) + " + format((max + min) / 2);
+	let result = "";
+	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(t)) + " + format((max + min) / 2);
+	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
+	return result;
 };
 
 function findNumber(percentage, min, max) {

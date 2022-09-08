@@ -219,4 +219,27 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[14] > 0;
 	},
+}, {
+	title: "SUPER AUTO",
+	desc: "changes the upgrade autobuyer to activate at 10% or less of your points, and it will no longer need to use any points",
+	cost() {
+		return 1e136;
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[14] > 4;
+	},
+}, {
+	title: "STABILIZE WAVES",
+	desc: "multiplies the minimum value of your wave by 1.45",
+	effect() {
+		return 1.45 ** game.improvements[17];
+	},
+	cost() {
+		return (1e5 ** game.improvements[17]) * 1e140;
+	},
+	max: 5,
+	unlocked() {
+		return game.improvements[16] > 0;
+	},
 }];

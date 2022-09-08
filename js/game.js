@@ -330,7 +330,8 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
-		if (game.improvements[3] > 0 && element.unlocked() && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
+		if (game.improvements[16] > 0 && element.unlocked() && (game.points * 0.1) >= element.cost()) buy("upgrade", index, true);
+		else if (game.improvements[3] > 0 && element.unlocked() && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
 		if (game.tab != "main" || !element.unlocked()) {
 			if (document.getElementById("upgrade_" + index)) document.getElementById("upgrade_" + index).remove();
 			continue;
@@ -466,10 +467,14 @@ function update() {
 		};
 		if (document.getElementById("wave_graph") && sinwaves.length) {
 			let points = "";
-			for (let iteration = 0; iteration <= 302; iteration++) {
-				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.frame] + " ";
+			if (game.wave.min < game.wave.max) {
+				for (let iteration = 0; iteration <= 302; iteration++) {
+					points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.frame] + " ";
+				};
+			} else {
+				points = "0,50 600,50";
 			};
-			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[game.wave.frame+151]+" r='5' stroke=#000 fill=#eee /></svg>";
+			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+(game.wave.min<game.wave.max?sinwaves[game.wave.frame+151]:"50")+" r='5' stroke=#000 fill=#eee /></svg>";
 		};
 		if (!document.getElementById("wavePointDisplay")) {
 			let append = document.createElement("div");
@@ -526,6 +531,7 @@ const loop = setInterval(() => {
 		if (game.wave.frame > 312) game.wave.frame = 0;
 		let min = 0;
 		min += wave_upgrades[1].effect();
+		min *= improvements[17].effect();
 		game.wave.min = min;
 		let max = 1;
 		max += wave_upgrades[0].effect();
