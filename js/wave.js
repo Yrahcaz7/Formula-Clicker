@@ -82,7 +82,7 @@ const wave_upgrades = [{
 	cost() {
 		return (10 ** game.wave.upgrades[3]) * 200;
 	},
-	max: 10,
+	max: 20,
 	unlocked() {
 		return game.wave.upgrades[2] > 0;
 	},

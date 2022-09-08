@@ -290,7 +290,13 @@ function update() {
 	if (document.getElementById("pointButton")) {
 		let gain = pointButtonGain();
 		if (gain === Infinity) gain = 1.7976931348623157e308;
-		document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points";
+		let extra = "";
+		if (game.improvements[15] > 0) {
+			let gen = game.wave.pointGen * improvements[15].effect();
+			if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
+			extra += "<br>+" + format(gen) + " wave points";
+		};
+		document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points" + extra;
 	};
 	if (document.getElementById("varDisplay")) {
 		const superscript = (string) => {return "<sup>" + string + "</sup>"};
