@@ -229,7 +229,7 @@ function update() {
 			append.innerHTML = "Waves";
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
-		};/*
+		};
 		if (game.unlocks.includes("infinity") && !document.getElementById("tab-infinity")) {
 			let append = document.createElement("button");
 			append.id = "tab-infinity";
@@ -241,7 +241,7 @@ function update() {
 			append.innerHTML = "Infinity";
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
-		};*/
+		};
 		if (document.getElementById("tab-main")) {
 			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
 			else document.getElementById("tab-main").className = "tab";
@@ -257,6 +257,10 @@ function update() {
 		if (document.getElementById("tab-waves")) {
 			if (game.tab == "waves") document.getElementById("tab-waves").className = "tab on";
 			else document.getElementById("tab-waves").className = "tab";
+		};
+		if (document.getElementById("tab-infinity")) {
+			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
+			else document.getElementById("tab-infinity").className = "tab";
 		};
 	};
 	// main display
@@ -516,6 +520,9 @@ function update() {
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
 		const element = wave_upgrades[index];
+		let max = Infinity;
+		if (element.max) max = element.max;
+		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
 		if (game.tab != "waves" || !element.unlocked()) {
 			if (document.getElementById("wave_upgrade_" + index)) document.getElementById("wave_upgrade_" + index).remove();
 			continue;
@@ -531,8 +538,6 @@ function update() {
 			else document.getElementById("wave_upgrades").appendChild(append);
 		};
 		if (document.getElementById("wave_upgrade_" + index)) {
-			let max = Infinity;
-			if (element.max) max = element.max;
 			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
 			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
 			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
@@ -542,6 +547,16 @@ function update() {
 				document.getElementById("wave_upgrade_" + index).className += " small";
 			};
 		};
+	};
+	if (game.tab == "infinity") {
+		if (!document.getElementById("infinityPointDisplay")) {
+			let append = document.createElement("div");
+			append.id = "infinityPointDisplay";
+			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
+		};
+		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").innerHTML = "Congratulations! You have completed the game! More content is coming soon!";
+	} else {
+		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").remove();
 	};
 };
 
