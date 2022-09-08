@@ -1,5 +1,5 @@
-function sinwave(bottom, top, time = Date.now()) {
-	return (Math.abs((top - bottom) / 2) * Math.sin(time / 2500)) + ((top + bottom) / 2);
+function waveFormula(min = game.wave.min, max = game.wave.max) {
+	return format(Math.abs((max - min) / 2)) + " * sine(time) + " + format((max + min) / 2);
 };
 
 function findNumber(percentage, min, max) {
