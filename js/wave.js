@@ -25,7 +25,7 @@ const wave_upgrades = [{
 		return game.wave.upgrades[0] * 0.2;
 	},
 	cost() {
-		return (2 ** game.wave.upgrades[0]) * 10;
+		return (1.5 ** game.wave.upgrades[0]) * 10;
 	},
 	unlocked() {
 		return true;
@@ -39,7 +39,7 @@ const wave_upgrades = [{
 		return game.wave.upgrades[1] * 0.2;
 	},
 	cost() {
-		return (2 ** game.wave.upgrades[1]) * 25;
+		return (1.5 ** game.wave.upgrades[1]) * 25;
 	},
 	unlocked() {
 		return game.wave.upgrades[0] > 0;
@@ -57,5 +57,22 @@ const wave_upgrades = [{
 	},
 	unlocked() {
 		return game.wave.upgrades[1] > 0;
+	},
+}, {
+	title: "CALCULATIONS",
+	desc() {
+		return "multiplies the " + constant() + " constant based on your best wave points (" + format(this.baseEff()) + "x)";
+	},
+	baseEff() {
+		return (game.wave.pointBest + 1) ** 0.2;
+	},
+	effect() {
+		return this.baseEff() ** game.wave.upgrades[3];
+	},
+	cost() {
+		return (10 ** game.wave.upgrades[3]) * 200;
+	},
+	unlocked() {
+		return game.wave.upgrades[2] > 0;
 	},
 }];

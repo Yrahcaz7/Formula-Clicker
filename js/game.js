@@ -91,6 +91,7 @@ function get_constant() {
 	co += improvements[0].effect();
 	co *= improvements[1].effect();
 	co *= improvements[11].effect();
+	co *= wave_upgrades[3].effect();
 	return co;
 };
 
@@ -473,7 +474,7 @@ function update() {
 			append.style = "display: flex; flex-wrap: wrap";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
+		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best ever wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
 	} else {
 		if (document.getElementById("wave_graph")) document.getElementById("wave_graph").remove();
 		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").remove();
