@@ -72,6 +72,10 @@ button:hover {
 	border: 1px solid #444;
 }
 
+button.upgrade {
+	max-width: 300px;
+}
+
 button.upgrade.small {
 	height: fit-content;
 }

@@ -34,6 +34,7 @@ var game = {
 		frame: 0,
 		min: 0,
 		max: 1,
+		upgrades: [],
 	},
 	options: {},
 };
@@ -152,6 +153,15 @@ function buy(type, index, free = false) {
 		if (game.points >= improvements[index].cost() && game.improvements[index] < max) {
 			if (!free) game.points -= improvements[index].cost();
 			game.improvements[index]++;
+			return true;
+		} else return false;
+	} else if (type == "wave_upgrade") {
+		if (!wave_upgrades[index].unlocked()) return false;
+		let max = Infinity;
+		if (wave_upgrades[index].max) max = wave_upgrades[index].max;
+		if (game.wave.points >= wave_upgrades[index].cost() && game.wave.upgrades[index] < max) {
+			if (!free) game.wave.points -= wave_upgrades[index].cost();
+			game.wave.upgrades[index]++;
 			return true;
 		} else return false;
 	};
@@ -436,29 +446,67 @@ function update() {
 		};
 	};
 	if (game.tab == "waves") {
-		if (!document.getElementById("wave graph")) {
+		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
-			append.id = "wave graph";
+			append.id = "wave_graph";
 			append.innerHTML = "<svg viewBox='0 0 600 100' class=graph></svg>"
-			document.getElementById("main").appendChild(append);
+			if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
+			else document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave graph") && sinwaves.length) {
+		if (document.getElementById("wave_graph") && sinwaves.length) {
 			let points = "";
 			for (let iteration = 0; iteration <= 302; iteration++) {
 				points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.frame] + " ";
 			};
-			document.getElementById("wave graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[game.wave.frame+151]+" r='5' stroke=#000 fill=#eee /></svg>";
+			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+sinwaves[game.wave.frame+151]+" r='5' stroke=#000 fill=#eee /></svg>";
 		};
 		if (!document.getElementById("wavePointDisplay")) {
 			let append = document.createElement("div");
 			append.id = "wavePointDisplay";
-			if (document.getElementById("wave graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave graph"));
+			if (document.getElementById("wave_graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave_graph"));
+			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
+		};
+		if (!document.getElementById("wave_upgrades")) {
+			let append = document.createElement("div");
+			append.id = "wave_upgrades";
+			append.style = "display: flex; flex-wrap: wrap";
+			document.getElementById("main").appendChild(append);
 		};
 		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
 	} else {
-		if (document.getElementById("wave graph")) document.getElementById("wave graph").remove();
+		if (document.getElementById("wave_graph")) document.getElementById("wave_graph").remove();
 		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").remove();
+	};
+	for (let index = 0; index < wave_upgrades.length; index++) {
+		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
+		const element = wave_upgrades[index];
+		if (game.tab != "waves" || !element.unlocked()) {
+			if (document.getElementById("wave_upgrade_" + index)) document.getElementById("wave_upgrade_" + index).remove();
+			continue;
+		};
+		if (!document.getElementById("wave_upgrade_" + index)) {
+			let append = document.createElement("button");
+			append.id = "wave_upgrade_" + index;
+			append.type = "button";
+			append.onclick = () => {
+				buy("wave_upgrade", index);
+			};
+			if (document.getElementById("wave_upgrade_" + (index + 1))) document.getElementById("wave_upgrades").insertBefore(append, document.getElementById("wave_upgrade_" + (index + 1)));
+			else document.getElementById("wave_upgrades").appendChild(append);
+		};
+		if (document.getElementById("wave_upgrade_" + index)) {
+			let max = Infinity;
+			if (element.max) max = element.max;
+			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
+			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
+			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
+			if (game.wave.upgrades[index] > 0) document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>" + element.desc() + "<br><br>Cost: " + format(wave_upgrades[index].cost()) + " wave points";
+			else {
+				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(wave_upgrades[index].cost());
+				document.getElementById("wave_upgrade_" + index).className += " small";
+			};
+		};
 	};
 };
 
@@ -468,6 +516,7 @@ const loop = setInterval(() => {
 		let min = 0;
 		game.wave.min = min;
 		let max = 1;
+		max += wave_upgrades[0].effect()
 		game.wave.max = max;
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
 		game.wave.pointGen = gen;
