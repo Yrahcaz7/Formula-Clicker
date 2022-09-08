@@ -258,13 +258,23 @@ function update() {
 		append.id = "pointButton";
 		append.type = "button";
 		append.onclick = () => {
+			// points
 			game.points += pointButtonGain();
 			game.pointTotal += pointButtonGain();
 			if (game.points > game.pointBest) game.pointBest = game.points;
-			game.clicks++;
 			if (game.points === Infinity) game.points = 1.7976931348623157e308;
 			if (game.pointTotal === Infinity) game.pointTotal = 1.7976931348623157e308;
 			if (game.pointBest === Infinity) game.pointBest = 1.7976931348623157e308;
+			// clicks
+			game.clicks++;
+			// wave points
+			if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
+				let gen = game.wave.pointGen * improvements[15].effect();
+				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
+				game.wave.points += gen;
+				game.wave.pointTotal += gen;
+				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+			};
 		};
 		document.getElementById("main").appendChild(append);
 	};
@@ -519,6 +529,7 @@ const loop = setInterval(() => {
 		game.wave.min = min;
 		let max = 1;
 		max += wave_upgrades[0].effect();
+		max *= improvements[14].effect();
 		game.wave.max = max;
 		let pointMax = 100;
 		pointMax *= wave_upgrades[2].effect();

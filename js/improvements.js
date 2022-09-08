@@ -190,4 +190,33 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[12] > 9;
 	},
+}, {
+	title: "TALLER WAVES",
+	desc: "multiplies the maximum value of your wave by 1.5",
+	effect() {
+		return 1.5 ** game.improvements[14];
+	},
+	cost() {
+		return (1e5 ** game.improvements[14]) * 1e95;
+	},
+	max: 5,
+	unlocked() {
+		return game.improvements[13] > 0;
+	},
+}, {
+	title: "BACK TO THE GRIND",
+	desc() {
+		if (game.improvements[15] > 0) return "increases wave point gain from the point button by 5% of your wave points per second";
+		return "unlocks getting wave point gain from the point button (5% of your wave points per second)";
+	},
+	effect() {
+		return game.improvements[15] * 0.05;
+	},
+	cost() {
+		return (10 ** game.improvements[15]) * 1e90;
+	},
+	max: 20,
+	unlocked() {
+		return game.improvements[14] > 0;
+	},
 }];
