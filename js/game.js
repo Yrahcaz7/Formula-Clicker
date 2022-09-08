@@ -132,8 +132,8 @@ function pointButtonGain() {
 	if (imp >= 2) return (co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)));
 	if (imp >= 1) return (co * a * b * g) * (g ** (g_ex + (d ** d_ex)));
 	if (d > 0) return (co * a * b) * (g ** (g_ex + (d ** d_ex)));
-	if (g > 0) return (co * a * b) * (g ** g_ex);
-	if (b > 0) return (co * a * b);
+	if (g > 1) return (co * a * b) * (g ** g_ex);
+	if (b > 1) return (co * a * b);
 	return a;
 };
 
