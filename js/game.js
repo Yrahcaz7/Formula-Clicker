@@ -176,6 +176,7 @@ function update() {
 	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
 	if (game.improvements[13] > 0 && !game.unlocks.includes("waves")) game.unlocks.push("waves");
+	if (game.points >= 1.7976931348623157e308 && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
 	// tabs
 	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
@@ -228,7 +229,19 @@ function update() {
 			append.innerHTML = "Waves";
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
-		};
+		};/*
+		if (game.unlocks.includes("infinity") && !document.getElementById("tab-infinity")) {
+			let append = document.createElement("button");
+			append.id = "tab-infinity";
+			append.type = "button";
+			append.className = "tab";
+			append.onclick = () => {
+				game.tab = "infinity";
+			};
+			append.innerHTML = "Infinity";
+			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			else document.getElementById("tabs").appendChild(append);
+		};*/
 		if (document.getElementById("tab-main")) {
 			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
 			else document.getElementById("tab-main").className = "tab";
@@ -286,7 +299,7 @@ function update() {
 		else if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
 		else document.getElementById("main").appendChild(append);
 	};
-	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points) + "</b> points";
+	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + (game.points==1.7976931348623157e308?Infinity:format(game.points)) + "</b> points";
 	if (document.getElementById("pointButton")) {
 		let gain = pointButtonGain();
 		if (gain === Infinity) gain = 1.7976931348623157e308;
