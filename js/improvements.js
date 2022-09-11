@@ -68,7 +68,7 @@ const improvements = [{
 	cost() {
 		return (10 ** game.improvements[4]) * 1e17;
 	},
-	max: 5,
+	max: 7,
 	unlocked() {
 		return game.upgrades[7] > 0 && game.improvements[3] > 0;
 	},

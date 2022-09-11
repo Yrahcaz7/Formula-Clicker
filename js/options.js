@@ -61,4 +61,19 @@ const options = [{
 		if (val !== undefined) return val;
 		return this.default;
 	},
+}, {
+	title: "Export Save",
+	id: "ex_save",
+	type: "export",
+	value() {
+		return getProxy();
+	},
+}, {
+	title: "Import Save",
+	id: "im_save",
+	type: "import",
+	set(value) {
+		if (!value) return;
+		if (confirm("Are you sure?")) importSave(value);
+	},
 }];

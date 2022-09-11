@@ -433,12 +433,12 @@ function update() {
 	};
 	for (let index = 0; index < options.length && index < game.improvements[4]; index++) {
 		const element = options[index];
-		if (game.options[element.id] === undefined) game.options[element.id] = element.value();
+		if (game.options[element.id] === undefined && element.type != "export" && element.type != "import") game.options[element.id] = element.value();
 		if (!document.getElementById("option_" + index) && game.tab == "options") {
 			let append = document.createElement("span");
 			append.id = "option_" + index;
 			append.style = "margin-left: auto";
-			append.innerHTML = (index!==0?"<br><br>":"") + element.title + ": ";
+			append.innerHTML = (index !== 0 ? "<br><br>" : "") + (element.type != "export" ? element.title + ": " : "");
 			document.getElementById("options").appendChild(append);
 		};
 		if (element.type == "color") {
@@ -491,6 +491,42 @@ function update() {
 				};
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = element.intList[document.getElementById("option_" + index + "_type").selectedIndex];
+		} else if (element.type == "export") {
+			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
+				let append = document.createElement("button");
+				append.id = "option_" + index + "_type";
+				append.style = "margin-top: 0px";
+				append.innerHTML = element.title;
+				append.onclick = () => {
+					if (copy(element.value())) alert(element.title + " Successful!");
+					else alert(element.title + " Failure: try a different browser");
+				};
+				document.getElementById("options").appendChild(append);
+			};
+		} else if (element.type == "import") {
+			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
+				let append = document.createElement("input");
+				append.id = "option_" + index + "_type";
+				append.type = "text";
+				document.getElementById("options").appendChild(append);
+			};
+			if (!document.getElementById("option_" + index + "_space") && game.tab == "options") {
+				let append = document.createElement("span");
+				append.id = "option_" + index + "_space";
+				append.innerHTML = " ";
+				document.getElementById("options").appendChild(append);
+			};
+			if (!document.getElementById("option_" + index + "_confirm") && game.tab == "options") {
+				let append = document.createElement("button");
+				append.id = "option_" + index + "_confirm";
+				append.style = "margin-top: 0px";
+				append.innerHTML = "Confirm";
+				append.onclick = () => {
+					if (!document.getElementById("option_" + index + "_type")) return;
+					element.set(document.getElementById("option_" + index + "_type").value);
+				};
+				document.getElementById("options").appendChild(append);
+			};
 		};
 	};
 	if (game.tab == "waves") {
