@@ -45,7 +45,19 @@ const options = [{
 	type: "checkbox",
 	default: true,
 	value() {
-		let val = !!game.options[this.id];
+		let val = game.options[this.id];
+		if (val !== undefined) return val;
+		return this.default;
+	},
+}, {
+	title: "Number Notation",
+	id: "num_note",
+	type: "dropdown",
+	default: "scientific",
+	list: ["scientific", "mixed scientific", "short"],
+	intList: ["sci", "mixsci", "sho"],
+	value() {
+		let val = game.options[this.id];
 		if (val !== undefined) return val;
 		return this.default;
 	},

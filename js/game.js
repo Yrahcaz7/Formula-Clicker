@@ -303,7 +303,7 @@ function update() {
 		else if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
 		else document.getElementById("main").appendChild(append);
 	};
-	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>" + (game.points==1.7976931348623157e308?Infinity:format(game.points)) + "</b> points";
+	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+(game.points==1.7976931348623157e308?Infinity:format(game.points, true, true))+"</b> points";
 	if (document.getElementById("pointButton")) {
 		let gain = pointButtonGain();
 		if (gain === Infinity) gain = 1.7976931348623157e308;
@@ -478,6 +478,19 @@ function update() {
 				document.getElementById("options").appendChild(append);
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").checked;
+		} else if (element.type == "dropdown") {
+			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
+				let append = document.createElement("select");
+				append.id = "option_" + index + "_type";
+				append.value = game.options[element.id];
+				if (append.value === undefined) append.value = element.default;
+				document.getElementById("options").appendChild(append);
+				for (let num = 0; num < element.list.length; num++) {
+					const item = element.list[num];
+					document.getElementById("option_" + index + "_type").innerHTML += "<option value='"+item+"' "+(element.intList[num]==game.options[element.id]?"selected":"")+">"+item+"</option>";
+				};
+			};
+			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = element.intList[document.getElementById("option_" + index + "_type").selectedIndex];
 		};
 	};
 	if (game.tab == "waves") {
