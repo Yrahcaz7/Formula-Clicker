@@ -19,7 +19,7 @@ function getProxy() {
 };
 
 function normalizeSave(save = localStorage.getItem(ID)) {
-	if (save === null) return null;
+	if (!save) return null;
 	save = atob(save);
 	save = save.replace(/\^9/g, "000000000").replace(/\^8/g, "00000000").replace(/\^7/g, "0000000").replace(/\^6/g, "000000").replace(/\^5/g, "00000").replace(/\^4/g, "0000").replace(/\^3/g, "000"); // zero chains
 	save = save.replace(/¡/g, ",0").replace(/¢/g, ",1").replace(/£/g, ",2").replace(/¤/g, ",3").replace(/¥/g, ",4").replace(/¦/g, ",5").replace(/§/g, ",6").replace(/¨/g, ",7").replace(/©/g, ",8").replace(/ª/g, ",9"); // item numbers
@@ -32,10 +32,8 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 };
 
 function load() {
-	let get = localStorage.getItem(ID);
-	if (get) {
-		Object.assign(game, normalizeSave(get));
-	};
+	if (!localStorage.getItem(ID)) return;
+	Object.assign(game, normalizeSave());
 };
 
 function importSave(save) {
