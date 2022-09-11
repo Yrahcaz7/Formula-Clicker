@@ -31,11 +31,6 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	return JSON.parse(save);
 };
 
-function save() {
-	let proxy = getProxy();
-	localStorage.setItem(ID, proxy);
-};
-
 function load() {
 	let get = localStorage.getItem(ID);
 	if (get) {
@@ -43,24 +38,13 @@ function load() {
 	};
 };
 
-function exportSave(elementId) {
-	if (elementId == "console") {
-		console.log(getProxy());
-		return true;
-	} else if (document.getElementById(elementId)) {
-		document.getElementById(elementId).innerHTML = getProxy();
-		return true;
-	} else return false;
-};
-
 function importSave(save) {
-	let get = "" + save;
-	if (get) {
-		Object.assign(game, normalizeSave(get));
-		location.reload();
-	};
+	if (!save) return;
+	Object.assign(game, normalizeSave(save));
+	location.reload();
 };
 
 window.onbeforeunload = () => {
-	save();
+	let proxy = getProxy();
+	if (proxy) localStorage.setItem(ID, proxy);
 };

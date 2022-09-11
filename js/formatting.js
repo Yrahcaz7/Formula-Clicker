@@ -124,19 +124,3 @@ const constant = () => {
 	if (game.improvements[5] > 0) return alpha + beta + gamma;
 	return alpha + beta;
 };
-
-function copy(text) {
-	const fallback = () => {
-		var textArea = document.createElement("textarea");
-		textArea.value = text;
-		document.body.appendChild(textArea);
-		textArea.focus();
-		textArea.select();
-		var successful = document.execCommand("copy");
-		document.body.removeChild(textArea);
-		return successful;
-	};
-	if (!navigator.clipboard) return fallback();
-	navigator.clipboard.writeText(text).then(() => {return true}).catch(() => {return false});
-	return fallback();
-};

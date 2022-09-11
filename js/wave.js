@@ -6,13 +6,6 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	return result;
 };
 
-function findNumber(percentage, min, max) {
-	if (percentage > 1) percentage = 1;
-	if (percentage < 0) percentage = 0;
-	if (min > max) min = max;
-	return (percentage * (max - min)) + min;
-};
-
 var sinwaves = [];
 
 for (let iteration = 0; iteration <= 615; iteration++) {
