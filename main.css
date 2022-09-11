@@ -95,6 +95,10 @@ button.improvement {
 	flex-basis: 100%;
 }
 
+button.prestigeButton {
+	padding: calc(var(--text-size));
+}
+
 button, input, select, option {
 	font-size: inherit;
 	font-family: inherit;

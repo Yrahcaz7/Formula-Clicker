@@ -1,21 +1,3 @@
-function multiBuy(scale, number, base, points = game.points, divCost = 1) {
-	scale = +scale;
-	number = +number;
-	base = +base;
-	if (scale < 0 || number < 0) return [NaN, NaN];
-	if (scale == 0 || base <= 0) return [0, Infinity];
-	let result = (scale ** number) * base / divCost;
-	if (points < result) return [result, 0];
-	if (scale == 1) return [Math.floor(points / base * divCost) * base / divCost, Math.floor(points / base * divCost)];
-	let mult = 1, count = 1;
-	while (true) {
-		if (result * (mult + (scale ** count)) > points) break;
-		mult += scale ** count;
-		count++;
-	};
-	return [result * mult, count];
-};
-
 var game = {
 	points: 0,
 	pointBest: 0,
@@ -25,6 +7,7 @@ var game = {
 	unlocks: [],
 	upgrades: [],
 	improvements: [],
+	options: {},
 	wave: {
 		points: 0,
 		pointBest: 0,
@@ -36,7 +19,12 @@ var game = {
 		max: 1,
 		upgrades: [],
 	},
-	options: {},
+	infinity: {
+		points: 0,
+		pointBest: 0,
+		pointTotal: 0,
+		milestones: [],
+	},
 };
 
 function get_alpha() {
@@ -113,6 +101,12 @@ function get_e_exponent() {
 	return e_ex;
 };
 
+function get_multiplier() {
+	let mul = 1;
+	if (game.infinity.points >= 1) mul *= game.infinity.points * 2;
+	return mul;
+};
+
 function pointButtonGain() {
 	let imp = game.improvements[5] + game.improvements[10];
 	let a = get_alpha();
@@ -125,16 +119,17 @@ function pointButtonGain() {
 	let g_ex = get_g_exponent();
 	let d_ex = get_d_exponent();
 	let e_ex = get_e_exponent();
-	if (z > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * ((2 ** z) + (5 * z));
-	if (imp >= 4) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex);
-	if (e > 0) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1);
-	if (imp >= 3) return (co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)));
-	if (imp >= 2) return (co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)));
-	if (imp >= 1) return (co * a * b * g) * (g ** (g_ex + (d ** d_ex)));
-	if (d > 0) return (co * a * b) * (g ** (g_ex + (d ** d_ex)));
-	if (g > 1) return (co * a * b) * (g ** g_ex);
-	if (b > 1) return (co * a * b);
-	return a;
+	let mul = get_multiplier();
+	if (z > 0) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * ((2 ** z) + (5 * z))) * mul;
+	if (imp >= 4) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex)) * mul;
+	if (e > 0) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1)) * mul;
+	if (imp >= 3) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)))) * mul;
+	if (imp >= 2) return ((co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)))) * mul;
+	if (imp >= 1) return ((co * a * b * g) * (g ** (g_ex + (d ** d_ex)))) * mul;
+	if (d > 0) return ((co * a * b) * (g ** (g_ex + (d ** d_ex)))) * mul;
+	if (g > 1) return ((co * a * b) * (g ** g_ex)) * mul;
+	if (b > 1) return ((co * a * b)) * mul;
+	return a * mul;
 };
 
 function buy(type, index, free = false) {
@@ -336,7 +331,13 @@ function update() {
 		else if (game.upgrades[6] > 0) formula = _constant + gamma + _delta;
 		else if (game.upgrades[4] > 0) formula = _constant + gamma + superscript(format(get_g_exponent()));
 		else if (game.upgrades[2] > 0) formula = _constant;
-		if (formula) formula = "Your point gain is " + formula + "<br><br>";
+		if (formula) {
+			if (game.infinity.points >= 1) {
+				if (formula.endsWith(")")) formula += "(2" + infinity + ")";
+				else formula += " * 2" + infinity;
+			};
+			formula = "Your point gain is " + formula + "<br><br>";
+		};
 		document.getElementById("varDisplay").innerHTML = formula + text;
 	};
 	// tab displays
@@ -601,11 +602,52 @@ function update() {
 		if (!document.getElementById("infinityPointDisplay")) {
 			let append = document.createElement("div");
 			append.id = "infinityPointDisplay";
-			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
+			append.style = "font-size: calc(var(--text-size) * 2)";
+			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").innerHTML = "Congratulations! You have completed the game! More content is coming soon!";
+		if (!document.getElementById("infinityPrestigeButton")) {
+			let append = document.createElement("button");
+			append.id = "infinityPrestigeButton";
+			append.className = "prestigeButton";
+			append.onclick = () => {
+				if (game.points < 1.7976931348623157e308) return;
+				game.infinity.points++;
+				game.infinity.pointTotal++;
+				if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
+				game.points = 0;
+				game.pointBest = 0;
+				game.pointTotal = 0;
+				game.clicks = 0;
+				game.tab = "main";
+				game.unlocks = [];
+				game.upgrades = [];
+				game.improvements = [];
+				game.wave.points = 0;
+				game.wave.pointBest = 0;
+				game.wave.pointTotal = 0;
+				game.wave.pointMax = 100;
+				game.wave.pointGen = 0;
+				game.wave.frame = 0;
+				game.wave.min = 0;
+				game.wave.max = 0;
+				game.wave.upgrades = [];
+				location.reload();
+			};
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").innerHTML = "You have " + game.infinity.points + " " + infinity;
+		if (document.getElementById("infinityPrestigeButton")) {
+			if (game.points >= 1.7976931348623157e308) {
+				document.getElementById("infinityPrestigeButton").className = "prestigeButton";
+				document.getElementById("infinityPrestigeButton").innerHTML = "Reset everything for +1 " + infinity + "<br>Next " + infinity + " at NaN points";
+			} else {
+				document.getElementById("infinityPrestigeButton").className = "prestigeButton fade";
+				document.getElementById("infinityPrestigeButton").innerHTML = "Reset everything for +0 " + infinity + "<br>Next " + infinity + " at Infinity points";
+			};
+		};
 	} else {
 		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").remove();
+		if (document.getElementById("infinityPrestigeButton")) document.getElementById("infinityPrestigeButton").remove();
 	};
 };
 
