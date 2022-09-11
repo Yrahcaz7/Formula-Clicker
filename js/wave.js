@@ -1,7 +1,7 @@
 function waveFormula(min = game.wave.min, max = game.wave.max) {
 	if (min > max) min = max;
 	let result = "";
-	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(t)) + " + format((max + min) / 2);
+	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
 	return result;
 };

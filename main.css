@@ -58,8 +58,6 @@ button, .margin, #options {
 button {
 	background-color: #eee;
 	color: #000;
-	font-size: inherit;
-	font-family: inherit;
 	white-space: pre-wrap;
 	border: 1px solid #888;
 	border-radius: 5px;
@@ -97,7 +95,7 @@ button.improvement {
 	flex-basis: 100%;
 }
 
-input {
+button, input, select, option {
 	font-size: inherit;
 	font-family: inherit;
 }
