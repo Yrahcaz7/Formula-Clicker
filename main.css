@@ -78,10 +78,10 @@ button.upgrade.small {
 	height: fit-content;
 }
 
-button.upgrade.fade, button.improvement.fade, .tab.on {
-	background-color: #999;
-	border: 1px solid #222;
-	cursor: default;
+.fade, .tab.on {
+	background-color: #999 !important;
+	border: 1px solid #222 !important;
+	cursor: default !important;
 }
 
 button.upgrade.maxed, button.improvement.maxed {

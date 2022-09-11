@@ -171,7 +171,7 @@ function update() {
 	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
 	if (game.improvements[13] > 0 && !game.unlocks.includes("waves")) game.unlocks.push("waves");
-	if (game.points >= 1.7976931348623157e308 && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
+	if ((game.points >= 1.7976931348623157e308 || (game.unlocks.includes("tabs") && game.infinity.points >= 1)) && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
 	// tabs
 	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
