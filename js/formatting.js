@@ -33,10 +33,10 @@ const shortIllions = [
 	["c"],
 ];
 
-function formatIllions(number = NaN, short = false) {
+function formatIllions(number = NaN, smallAllowed = true, short = false, callback = "illions") {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
-	if (number < 1e3 && number > -1e3) return format(number);
+	if (number < 1e3 && number > -1e3) return format(number, smallAllowed, !short, callback);
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
@@ -87,10 +87,10 @@ function formatIllions(number = NaN, short = false) {
 	return (pre + remain + (!short&&post?" ":"") + post).replace("undefined", "");
 };
 
-function formatEngineering(number = NaN, smallAllowed = true) {
+function formatEngineering(number = NaN, smallAllowed = true, callback = "engineering") {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
-	if (number < 1e3 && number > -1e3 && (number > 0.1 || number < -0.1 || !smallAllowed)) return format(number, smallAllowed);
+	if (number < 1e3 && number > -1e3 && (number > 0.1 || number < -0.1 || !smallAllowed)) return format(number, smallAllowed, false, callback);
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
@@ -103,12 +103,20 @@ function formatEngineering(number = NaN, smallAllowed = true) {
 	return pre + remain + "e" + places;
 };
 
-function format(number = NaN, smallAllowed = true, expand = false) {
+function formatStrange(number = NaN, smallAllowed = true, type = "letters-sci") {
+	if (type == "letters-sci") return format(number, smallAllowed, false, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "letters-eng") return formatEngineering(number, smallAllowed, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	return format(number, smallAllowed, false, type);
+};
+
+function format(number = NaN, smallAllowed = true, expand = false, callback = "") {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
 	number = +number.toPrecision(15);
-	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3)) return formatIllions(number, !expand);
-	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3)) return formatEngineering(number, !expand);
+	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "illions") return formatIllions(number, smallAllowed, !expand);
+	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "engineering") return formatEngineering(number, smallAllowed);
+	if (game.options["num_note"] == "letsci" && callback != "letters-sci") return formatStrange(number, smallAllowed, "letters-sci");
+	if (game.options["num_note"] == "leteng" && callback != "letters-eng") return formatStrange(number, smallAllowed, "letters-eng");
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
