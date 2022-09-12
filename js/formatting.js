@@ -87,11 +87,28 @@ function formatIllions(number = NaN, short = false) {
 	return (pre + remain + (!short&&post?" ":"") + post).replace("undefined", "");
 };
 
+function formatEngineering(number = NaN, smallAllowed = true) {
+	if (number !== number) return "NaN";
+	if (!number) return "0.00";
+	if (number < 1e3 && number > -1e3 && (number > 0.1 || number < -0.1 || !smallAllowed)) return format(number, smallAllowed);
+	let pre = "";
+	if (number < 0) {
+		number = 0 - number;
+		pre = "-";
+	};
+	if (number === Infinity) return pre + "Infinity";
+	const places = Math.floor(Math.log10(number) / 3) * 3;
+	let remain = (number / (10 ** places)).toFixed(2);
+	if (remain == "Infinity") return "0.00";
+	return pre + remain + "e" + places;
+};
+
 function format(number = NaN, smallAllowed = true, expand = false) {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
 	number = +number.toPrecision(15);
-	if ((game.options["num_note"] == "sho" || (game.options["num_note"] == "mixsci" && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3)) return formatIllions(number, !expand);
+	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3)) return formatIllions(number, !expand);
+	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3)) return formatEngineering(number, !expand);
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
