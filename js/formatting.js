@@ -87,6 +87,7 @@ function formatIllions(number = NaN, short = false) {
 function format(number = NaN, smallAllowed = true, expand = false) {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
+	number = +number.toPrecision(15);
 	if ((game.options["num_note"] == "sho" || (game.options["num_note"] == "mixsci" && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3)) return formatIllions(number, !expand);
 	let pre = "";
 	if (number < 0) {
