@@ -32,6 +32,7 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 };
 
 function load() {
+	document.body.innerHTML = "<div class=outer><div class=inner><div id=main>";
 	if (!localStorage.getItem(ID)) return;
 	Object.assign(game, normalizeSave());
 };
