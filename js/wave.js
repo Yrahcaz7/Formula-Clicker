@@ -3,6 +3,10 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	let result = "";
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
+	if (game.infinity.milestones[1]) {
+		if (formula.endsWith(")")) result += "(" + infinity + " + 1.00)";
+		else result += " * (" + infinity + " + 1.00)";
+	};
 	return result;
 };
 
@@ -16,6 +20,7 @@ function waveMult() {
 	let mult = 1;
 	mult *= wave_upgrades[4].effect();
 	mult *= improvements[21].effect();
+	if (game.infinity.milestones[1]) mult *= game.infinity.points + 1;
 	return mult;
 };
 

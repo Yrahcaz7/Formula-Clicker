@@ -99,6 +99,17 @@ button.prestigeButton {
 	padding: calc(var(--text-size));
 }
 
+div.milestone {
+	width: 100%;
+	background-color: #ccc;
+	border-bottom: 1px solid #000;
+	margin: auto;
+}
+
+div.milestone.done {
+	background-color: #999;
+}
+
 button, input, select, option {
 	font-size: inherit;
 	font-family: inherit;

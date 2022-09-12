@@ -103,7 +103,7 @@ function get_e_exponent() {
 
 function get_multiplier() {
 	let mul = 1;
-	if (game.infinity.points >= 1) mul *= game.infinity.points * 2;
+	if (game.infinity.milestones[0]) mul *= game.infinity.points * 2;
 	return mul;
 };
 
@@ -332,9 +332,9 @@ function update() {
 		else if (game.upgrades[4] > 0) formula = _constant + gamma + superscript(format(get_g_exponent()));
 		else if (game.upgrades[2] > 0) formula = _constant;
 		if (formula) {
-			if (game.infinity.points >= 1) {
+			if (game.infinity.milestones[0]) {
 				if (formula.endsWith(")")) formula += "(2" + infinity + ")";
-				else formula += " * 2" + infinity;
+				else formula += " * 2.00" + infinity;
 			};
 			formula = "Your point gain is " + formula + "<br><br>";
 		};
@@ -346,7 +346,7 @@ function update() {
 			let append = document.createElement("div");
 			append.id = "upgrades";
 			append.style = "display: flex; flex-wrap: wrap";
-			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
+			document.getElementById("main").appendChild(append);
 		};
 	} else {
 		if (document.getElementById("upgrades")) document.getElementById("upgrades").remove();
@@ -388,7 +388,7 @@ function update() {
 			let append = document.createElement("div");
 			append.id = "improvements";
 			append.style = "display: flex; flex-wrap: wrap";
-			document.getElementById("main").insertBefore(append, document.getElementById("main").lastChild.nextSibling);
+			document.getElementById("main").appendChild(append);
 		};
 	} else {
 		if (document.getElementById("improvements")) document.getElementById("improvements").remove();
@@ -549,9 +549,9 @@ function update() {
 			};
 			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+(game.wave.min<game.wave.max?sinwaves[game.wave.frame+151]:"50")+" r='5' stroke=#000 fill=#eee /></svg>";
 		};
-		if (!document.getElementById("wavePointDisplay")) {
+		if (!document.getElementById("wave_point_display")) {
 			let append = document.createElement("div");
-			append.id = "wavePointDisplay";
+			append.id = "wave_point_display";
 			if (document.getElementById("wave_graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave_graph"));
 			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
@@ -562,10 +562,10 @@ function update() {
 			append.style = "display: flex; flex-wrap: wrap";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best ever wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best ever wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
 	} else {
 		if (document.getElementById("wave_graph")) document.getElementById("wave_graph").remove();
-		if (document.getElementById("wavePointDisplay")) document.getElementById("wavePointDisplay").remove();
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").remove();
 	};
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
@@ -599,55 +599,62 @@ function update() {
 		};
 	};
 	if (game.tab == "infinity") {
-		if (!document.getElementById("infinityPointDisplay")) {
+		if (!document.getElementById("infinity_point_display")) {
 			let append = document.createElement("div");
-			append.id = "infinityPointDisplay";
+			append.id = "infinity_point_display";
 			append.style = "font-size: calc(var(--text-size) * 2)";
 			document.getElementById("main").appendChild(append);
 		};
-		if (!document.getElementById("infinityPrestigeButton")) {
+		if (!document.getElementById("infinity_prestige_button")) {
 			let append = document.createElement("button");
-			append.id = "infinityPrestigeButton";
+			append.id = "infinity_prestige_button";
 			append.className = "prestigeButton";
 			append.onclick = () => {
-				if (game.points < 1.7976931348623157e308) return;
-				game.infinity.points++;
-				game.infinity.pointTotal++;
-				if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
-				game.points = 0;
-				game.pointBest = 0;
-				game.pointTotal = 0;
-				game.clicks = 0;
-				game.tab = "main";
-				game.unlocks = [];
-				game.upgrades = [];
-				game.improvements = [];
-				game.wave.points = 0;
-				game.wave.pointBest = 0;
-				game.wave.pointTotal = 0;
-				game.wave.pointMax = 100;
-				game.wave.pointGen = 0;
-				game.wave.frame = 0;
-				game.wave.min = 0;
-				game.wave.max = 0;
-				game.wave.upgrades = [];
-				location.reload();
+				if (game.points >= 1.7976931348623157e308) prestige();
 			};
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").innerHTML = "You have " + game.infinity.points + " " + infinity;
-		if (document.getElementById("infinityPrestigeButton")) {
+		if (!document.getElementById("infinity_milestones")) {
+			let append = document.createElement("div");
+			append.id = "infinity_milestones";
+			append.style = "border-top: 1px solid #000";
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have " + game.infinity.points + " " + infinity;
+		if (document.getElementById("infinity_prestige_button")) {
 			if (game.points >= 1.7976931348623157e308) {
-				document.getElementById("infinityPrestigeButton").className = "prestigeButton";
-				document.getElementById("infinityPrestigeButton").innerHTML = "Reset everything for +1 " + infinity + "<br>Next " + infinity + " at NaN points";
+				document.getElementById("infinity_prestige_button").className = "prestigeButton";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +1 " + infinity + "<br>Next " + infinity + " at NaN points";
 			} else {
-				document.getElementById("infinityPrestigeButton").className = "prestigeButton fade";
-				document.getElementById("infinityPrestigeButton").innerHTML = "Reset everything for +0 " + infinity + "<br>Next " + infinity + " at Infinity points";
+				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +0 " + infinity + "<br>Next " + infinity + " at Infinity points";
 			};
 		};
 	} else {
-		if (document.getElementById("infinityPointDisplay")) document.getElementById("infinityPointDisplay").remove();
-		if (document.getElementById("infinityPrestigeButton")) document.getElementById("infinityPrestigeButton").remove();
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").remove();
+		if (document.getElementById("infinity_prestige_button")) document.getElementById("infinity_prestige_button").remove();
+		if (document.getElementById("infinity_milestones")) document.getElementById("infinity_milestones").remove();
+	};
+	for (let index = 0; index < infinity_milestones.length; index++) {
+		if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
+		const element = infinity_milestones[index];
+		if (!game.infinity.milestones[index] && element.req()) game.infinity.milestones[index] = true;
+		if (game.tab != "infinity" && (game.infinity.milestones[index - 1] === undefined || game.infinity.milestones[index - 1] === true)) {
+			if (document.getElementById("infinity_milestone_" + index)) document.getElementById("infinity_milestone_" + index).remove();
+			continue;
+		};
+		if (!document.getElementById("infinity_milestone_" + index)) {
+			let append = document.createElement("div");
+			append.id = "infinity_milestone_" + index;
+			append.className = "milestone";
+			if (document.getElementById("infinity_milestone_" + (index + 1))) document.getElementById("infinity_milestones").insertBefore(append, document.getElementById("infinity_milestone_" + (index + 1)));
+			else document.getElementById("infinity_milestones").appendChild(append);
+		};
+		if (document.getElementById("infinity_milestone_" + index)) {
+			document.getElementById("infinity_milestone_" + index).innerHTML = element.title + "<br><br>" + element.desc;
+			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
+			else document.getElementById("infinity_milestone_" + index).className = "milestone";
+		};
 	};
 };
 
