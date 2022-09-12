@@ -167,7 +167,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.improvements[0] >= 100 && game.improvements[10] > 0;
+		return game.improvements[8] > 2 && game.improvements[10] > 0;
 	},
 }, {
 	title: "REPETITION",
@@ -180,7 +180,7 @@ const improvements = [{
 	},
 	max: 10,
 	unlocked() {
-		return game.improvements[9] > 1 && game.improvements[11] > 0;
+		return game.improvements[8] > 3 && game.improvements[9] > 1 && game.improvements[11] > 0;
 	},
 }, {
 	title: "HERE COMES TRIGONOMETRY",

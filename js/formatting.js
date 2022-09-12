@@ -65,6 +65,8 @@ function formatIllions(number = NaN, short = false) {
 					if (short) post += shortIllions[2][loc];
 					else post += illions[2][loc];
 				};
+				if (short && post.length < 2) post += "~";
+				if (short && post.length < 3) post += "~";
 				if (val % 100 <= 9) return (pre + remain + (!short&&post?" ":"") + post).replace("undefined", "");
 			};
 			if (val >= 9) {
@@ -75,6 +77,7 @@ function formatIllions(number = NaN, short = false) {
 				const loc = Math.floor((val + 1) / 10) % 10 - 1;
 				if (short) post += shortIllions[1][loc];
 				else post += illions[1][loc];
+				if (short && post.length < 2) post += "~";
 			} else {
 				if (short) post += shortIllions[0][val % 10];
 				else post += illions[0][val % 10];

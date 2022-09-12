@@ -341,7 +341,7 @@ function update() {
 		else if (game.upgrades[2] > 0) formula = _constant;
 		if (formula) {
 			if (game.infinity.milestones[0]) {
-				formula += "(2.50" + infinity + " + 1.10" + superscript(infinity) + ")";
+				formula += "(1.10" + superscript(infinity) + " + 2.50" + infinity + ")";
 			};
 			formula = "Your point gain is " + formula + "<br><br>";
 		};
@@ -672,7 +672,7 @@ const loop = setInterval(() => {
 		let min = 0;
 		min += wave_upgrades[1].effect();
 		min *= improvements[17].effect();
-		min += game.wave.max * 0.45;
+		if (game.improvements[19]) min += game.wave.max * 0.45;
 		// calculate wave max
 		let max = 1;
 		max += wave_upgrades[0].effect();

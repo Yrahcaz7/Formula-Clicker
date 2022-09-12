@@ -5,7 +5,7 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
 	if (game.infinity.milestones[1]) {
 		if (formula.endsWith(")")) result += "(" + infinity + " + 1.00)";
-		else result += " * (" + infinity + " + 1.00)";
+		else result = "(" + result + ")(" + infinity + " + 1.00)";
 	};
 	return result;
 };
