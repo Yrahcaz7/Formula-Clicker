@@ -189,7 +189,11 @@ function update() {
 				game.tab = "main";
 			};
 			append.innerHTML = "Main";
-			document.getElementById("tabs").appendChild(append);
+			if (document.getElementById("tab-improvements")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-improvements"));
+			else if (document.getElementById("tab-waves")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-waves"));
+			else if (document.getElementById("tab-infinity")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-infinity"));
+			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			else document.getElementById("tabs").appendChild(append);
 		};
 		if (!document.getElementById("tab-improvements")) {
 			let append = document.createElement("button");
@@ -200,7 +204,10 @@ function update() {
 				game.tab = "improvements";
 			};
 			append.innerHTML = "Improvements";
-			document.getElementById("tabs").appendChild(append);
+			if (document.getElementById("tab-waves")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-waves"));
+			else if (document.getElementById("tab-infinity")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-infinity"));
+			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			else document.getElementById("tabs").appendChild(append);
 		};
 		if (game.unlocks.includes("options") && !document.getElementById("tab-options")) {
 			let append = document.createElement("button");
@@ -222,7 +229,8 @@ function update() {
 				game.tab = "waves";
 			};
 			append.innerHTML = "Waves";
-			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			if (document.getElementById("tab-infinity")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-infinity"));
+			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
 		if (game.unlocks.includes("infinity") && !document.getElementById("tab-infinity")) {

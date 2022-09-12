@@ -52,7 +52,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.improvements[2] > 2;
+		return game.improvements[2] > 3;
 	},
 }, {
 	title: "OPTIONS GALORE",
@@ -84,7 +84,7 @@ const improvements = [{
 	},
 	max: 3,
 	unlocked() {
-		return game.improvements[4] > 2;
+		return game.improvements[4] > 3;
 	},
 }, {
 	title: "REDUCE REDUCTION",
