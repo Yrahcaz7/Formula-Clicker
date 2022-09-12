@@ -51,7 +51,7 @@ body {
 	border: 1px solid #881;
 }
 
-button, .margin, #options {
+button, .margin, #options, #infinity_milestones {
 	margin: calc(var(--text-size) * 10 / 9) auto 0px auto;
 }
 
@@ -96,7 +96,7 @@ button.improvement {
 }
 
 button.prestigeButton {
-	padding: calc(var(--text-size));
+	padding: var(--text-size);
 }
 
 div.milestone {
