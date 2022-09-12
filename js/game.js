@@ -103,7 +103,7 @@ function get_e_exponent() {
 
 function get_multiplier() {
 	let mul = 1;
-	if (game.infinity.milestones[0]) mul *= ((game.infinity.points * 2) + (1.1 ** game.infinity.points));
+	if (game.infinity.milestones[0]) mul *= ((game.infinity.points * 2.5) + (1.1 ** game.infinity.points));
 	return mul;
 };
 
@@ -333,7 +333,7 @@ function update() {
 		else if (game.upgrades[2] > 0) formula = _constant;
 		if (formula) {
 			if (game.infinity.milestones[0]) {
-				formula += "(2" + infinity + " + 1.10" + superscript(infinity) + ")";
+				formula += "(2.50" + infinity + " + 1.10" + superscript(infinity) + ")";
 			};
 			formula = "Your point gain is " + formula + "<br><br>";
 		};
