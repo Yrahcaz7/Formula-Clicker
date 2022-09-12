@@ -688,6 +688,7 @@ const loop = setInterval(() => {
 		// wave point gain
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
 		gen *= waveMult();
+		if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
 		game.wave.pointGen = gen;
 		if (game.wave.points < game.wave.pointMax) {
 			gen *= 0.03;
