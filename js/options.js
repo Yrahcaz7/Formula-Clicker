@@ -54,8 +54,8 @@ const options = [{
 	id: "num_note",
 	type: "dropdown",
 	default: "scientific",
-	list: ["scientific", "mixed scientific", "engineering", "mixed engineering", "short", "letters: scientific", "letters: engineering", "messy: scientific", "messy: engineering"],
-	intList: ["sci", "mixsci", "eng", "mixeng", "sho", "letsci", "leteng", "messci", "meseng"],
+	list: ["scientific", "mixed scientific", "engineering", "mixed engineering", "short", "logarithm", "letters: scientific", "letters: engineering", "messy: scientific", "messy: engineering"],
+	intList: ["sci", "mixsci", "eng", "mixeng", "sho", "log", "letsci", "leteng", "messci", "meseng"],
 	value() {
 		let val = game.options[this.id];
 		if (val !== undefined) return val;

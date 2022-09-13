@@ -33,7 +33,7 @@ const shortIllions = [
 	["c"],
 ];
 
-function formatIllions(number = NaN, smallAllowed = true, short = false, callback = "illions") {
+function formatIllions(number = NaN, smallAllowed = true, short = false, callback = "sho") {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
 	if (number < 1e3 && number > -1e3) return format(number, smallAllowed, !short, callback);
@@ -87,7 +87,7 @@ function formatIllions(number = NaN, smallAllowed = true, short = false, callbac
 	return (pre + remain + (!short&&post?" ":"") + post).replace("undefined", "");
 };
 
-function formatEngineering(number = NaN, smallAllowed = true, callback = "engineering") {
+function formatEngineering(number = NaN, smallAllowed = true, callback = "eng") {
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
 	if (number < 1e3 && number > -1e3 && (number > 0.1 || number < -0.1 || !smallAllowed)) return format(number, smallAllowed, false, callback);
@@ -103,6 +103,22 @@ function formatEngineering(number = NaN, smallAllowed = true, callback = "engine
 	return pre + remain + "e" + places;
 };
 
+function formatLogarithm(number = NaN, smallAllowed = true, callback = "log") {
+	if (number !== number) return "NaN";
+	if (!number) return "0.00";
+	let pre = "";
+	if (number < 0) {
+		number = 0 - number;
+		pre = "-";
+	};
+	if (number === Infinity) return pre + "Infinity";
+	const log = Math.log10(number);
+	let result = pre + "e" + log.toFixed(2);
+	if (result == "e-0.00") return "e0.00";
+	if (log < 1 && (!smallAllowed || log > -2)) return number.toFixed(2);
+	return result;
+};
+
 function formatStrange(number = NaN, smallAllowed = true, type = "letsci", whole = false) {
 	if (type == "letsci") return (whole?number.toFixed(0):format(number, smallAllowed, false, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "leteng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
@@ -115,8 +131,9 @@ function format(number = NaN, smallAllowed = true, expand = false, callback = ""
 	if (number !== number) return "NaN";
 	if (!number) return "0.00";
 	number = +number.toPrecision(15);
-	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "illions") return formatIllions(number, smallAllowed, !expand);
-	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "engineering") return formatEngineering(number, smallAllowed);
+	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "sho") return formatIllions(number, smallAllowed, !expand);
+	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "eng") return formatEngineering(number, smallAllowed);
+	if (game.options["num_note"] == "log" && callback != "log") return formatLogarithm(number, smallAllowed);
 	if (game.options["num_note"] == "letsci" && callback != "letsci") return formatStrange(number, smallAllowed, "letsci");
 	if (game.options["num_note"] == "leteng" && callback != "leteng") return formatStrange(number, smallAllowed, "leteng");
 	if (game.options["num_note"] == "messci" && callback != "messci") return formatStrange(number, smallAllowed, "messci");
