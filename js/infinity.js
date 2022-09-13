@@ -47,7 +47,7 @@ const infinity_milestones = [{
 	req: {infinity_points: 2},
 }, {
 	desc() {
-		return "keeps " + format(50) + "% of your clicks on reset";
+		return "keeps " + format(50, true, false, true) + "% of your clicks on reset";
 	},
 	req: {infinity_points: 3},
 }];

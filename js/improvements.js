@@ -286,7 +286,7 @@ const improvements = [{
 }, {
 	title: "SELF STABILIZER",
 	desc() {
-		return "increase the minimum value of your wave by " + format(45) + "% of the maximum value of your wave (after all other minimum value increases)";
+		return "increase the minimum value of your wave by " + format(45, true, false, true) + "% of the maximum value of your wave (after all other minimum value increases)";
 	},
 	cost() {
 		return 1e188;
