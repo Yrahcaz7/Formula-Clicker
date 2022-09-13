@@ -1,5 +1,7 @@
+const infNum = 1.7976931348623157e308;
+
 function prestige() {
-	if (game.points >= 1.7976931348623157e308) {
+	if (game.points >= infNum) {
 		game.infinity.points++;
 		game.infinity.pointTotal++;
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
@@ -7,7 +9,8 @@ function prestige() {
 	game.points = 0;
 	game.pointBest = 0;
 	game.pointTotal = 0;
-	game.clicks = 0;
+	if (game.infinity_milestones[2]) game.clicks *= 0.5;
+	else game.clicks = 0;
 	game.tab = "main";
 	game.unlocks = [];
 	game.upgrades = [];
@@ -42,4 +45,9 @@ const infinity_milestones = [{
 }, {
 	desc: "adds the " + infinity + " element to the sinusoidal wave formula",
 	req: {infinity_points: 2},
+}, {
+	desc() {
+		return "keeps " + format(50) + "% of your clicks on reset";
+	},
+	req: {infinity_points: 3},
 }];

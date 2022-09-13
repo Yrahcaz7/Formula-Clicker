@@ -171,7 +171,7 @@ function update() {
 	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
 	if (game.improvements[13] > 0 && !game.unlocks.includes("waves")) game.unlocks.push("waves");
-	if ((game.points >= 1.7976931348623157e308 || (game.unlocks.includes("tabs") && game.infinity.points >= 1)) && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
+	if ((game.points >= infNum || (game.unlocks.includes("tabs") && game.infinity.points >= 1)) && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
 	// tabs
 	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
@@ -282,9 +282,9 @@ function update() {
 			game.points += pointButtonGain();
 			game.pointTotal += pointButtonGain();
 			if (game.points > game.pointBest) game.pointBest = game.points;
-			if (game.points === Infinity) game.points = 1.7976931348623157e308;
-			if (game.pointTotal === Infinity) game.pointTotal = 1.7976931348623157e308;
-			if (game.pointBest === Infinity) game.pointBest = 1.7976931348623157e308;
+			if (game.points === Infinity) game.points = infNum;
+			if (game.pointTotal === Infinity) game.pointTotal = infNum;
+			if (game.pointBest === Infinity) game.pointBest = infNum;
 			// clicks
 			game.clicks++;
 			// wave points
@@ -306,10 +306,10 @@ function update() {
 		else if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
 		else document.getElementById("main").appendChild(append);
 	};
-	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+(game.points==1.7976931348623157e308?Infinity:format(game.points, true, true))+"</b> points";
+	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
 	if (document.getElementById("pointButton")) {
 		let gain = pointButtonGain();
-		if (gain === Infinity) gain = 1.7976931348623157e308;
+		if (gain === Infinity) gain = infNum;
 		let extra = "";
 		if (game.improvements[15] > 0) {
 			let gen = game.wave.pointGen * improvements[15].effect();
@@ -323,6 +323,7 @@ function update() {
 		const _constant = format(get_constant()) + constant();
 		const _delta = superscript("(" + format(get_g_exponent()) + " + " + delta + superscript(format(get_d_exponent())) + ")");
 		const _epsilon = epsilon + superscript(format(get_e_exponent()));
+		const _zeta = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
 		let text = "";
 		if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
 		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
@@ -331,17 +332,17 @@ function update() {
 		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(get_epsilon());
 		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(get_zeta());
 		let formula = "";
-		if (game.upgrades[10] > 0) formula = _constant + "(1.45" + gamma + _delta + ")" + _epsilon + "(2.00" + superscript(zeta) + " + 5.00" + zeta + ")";
-		else if (game.improvements[10] > 0) formula = _constant + "(1.45" + gamma + _delta + ")" + _epsilon;
-		else if (game.upgrades[8] > 0) formula = _constant + "(1.45" + gamma + _delta + ")(" + epsilon + " + 1.00)";
-		else if (game.improvements[5] > 2) formula = _constant + "(1.45" + gamma + _delta + ")";
+		if (game.upgrades[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon + _zeta;
+		else if (game.improvements[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon;
+		else if (game.upgrades[8] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")(" + epsilon + " + " + format(1) + ")";
+		else if (game.improvements[5] > 2) formula = _constant + "(" + format(1.45) + gamma + _delta + ")";
 		else if (game.improvements[5] > 0) formula = _constant + "(" + gamma + _delta + ")";
 		else if (game.upgrades[6] > 0) formula = _constant + gamma + _delta;
 		else if (game.upgrades[4] > 0) formula = _constant + gamma + superscript(format(get_g_exponent()));
 		else if (game.upgrades[2] > 0) formula = _constant;
 		if (formula) {
 			if (game.infinity.milestones[0]) {
-				formula += "(1.10" + superscript(infinity) + " + 2.50" + infinity + ")";
+				formula += "(" + format(1.1) + superscript(infinity) + " + " + format(2.5) + infinity + ")";
 			};
 			formula = "Your point gain is " + formula + "<br><br>";
 		};
@@ -617,7 +618,7 @@ function update() {
 			append.id = "infinity_prestige_button";
 			append.className = "prestigeButton";
 			append.onclick = () => {
-				if (game.points >= 1.7976931348623157e308) prestige();
+				if (game.points >= infNum) prestige();
 			};
 			document.getElementById("main").appendChild(append);
 		};
@@ -629,7 +630,7 @@ function update() {
 		};
 		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have " + formatWhole(game.infinity.points) + " " + infinity;
 		if (document.getElementById("infinity_prestige_button")) {
-			if (game.points >= 1.7976931348623157e308) {
+			if (game.points >= infNum) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton";
 				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(1) + " " + infinity + "<br>Next " + infinity + " at NaN points";
 			} else {
@@ -674,7 +675,7 @@ function update() {
 			else document.getElementById("infinity_milestones").appendChild(append);
 		};
 		if (document.getElementById("infinity_milestone_" + index)) {
-			document.getElementById("infinity_milestone_" + index).innerHTML = title+(element.extraReqText?element.extraReqText:"")+"<br><br>"+element.desc;
+			document.getElementById("infinity_milestone_" + index).innerHTML = title+(element.extraReqText?element.extraReqText:"")+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc);
 			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
 			else document.getElementById("infinity_milestone_" + index).className = "milestone";
 		};
