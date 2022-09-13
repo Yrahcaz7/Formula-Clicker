@@ -122,8 +122,10 @@ function formatLogarithm(number = NaN, smallAllowed = true, callback = "log") {
 function formatStrange(number = NaN, smallAllowed = true, type = "letsci", whole = false) {
 	if (type == "letsci") return (whole?number.toFixed(0):format(number, smallAllowed, false, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "leteng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "letlog") return (whole?number.toFixed(0):formatLogarithm(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "messci") return (whole?number.toFixed(0):format(number, smallAllowed, false, type)).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
 	if (type == "meseng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
+	if (type == "meslog") return (whole?number.toFixed(0):formatLogarithm(number, smallAllowed, type)).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
 	return (whole?number.toFixed(0):format(number, smallAllowed, false, type));
 };
 
@@ -136,8 +138,10 @@ function format(number = NaN, smallAllowed = true, expand = false, callback = ""
 	if (game.options["num_note"] == "log" && callback != "log") return formatLogarithm(number, smallAllowed);
 	if (game.options["num_note"] == "letsci" && callback != "letsci") return formatStrange(number, smallAllowed, "letsci");
 	if (game.options["num_note"] == "leteng" && callback != "leteng") return formatStrange(number, smallAllowed, "leteng");
+	if (game.options["num_note"] == "letlog" && callback != "letlog") return formatStrange(number, smallAllowed, "letlog");
 	if (game.options["num_note"] == "messci" && callback != "messci") return formatStrange(number, smallAllowed, "messci");
 	if (game.options["num_note"] == "meseng" && callback != "meseng") return formatStrange(number, smallAllowed, "meseng");
+	if (game.options["num_note"] == "meslog" && callback != "meslog") return formatStrange(number, smallAllowed, "meslog");
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
