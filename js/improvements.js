@@ -18,7 +18,7 @@ const improvements = [{
 }, {
 	title: "FLAT MULTIPLIER",
 	desc() {
-		return "multiplies the " + constant() + " constant by 1.50";
+		return "multiplies the " + constant() + " constant by " + format(1.5);
 	},
 	effect() {
 		if (game.improvements[1] > 0) return 1.5;
@@ -33,7 +33,9 @@ const improvements = [{
 	},
 }, {
 	title: "ADVANCEMENT",
-	desc: "increases the " + gamma + " exponent by 0.25",
+	desc() {
+		return "increases the " + gamma + " exponent by " + format(0.25);
+	},
 	effect() {
 		return game.improvements[2] * 0.25;
 	},
@@ -46,7 +48,9 @@ const improvements = [{
 	},
 }, {
 	title: "AUTOMATION",
-	desc: "automatically buys an upgrade when it is 2.5% or less of your points",
+	desc() {
+		return "automatically buys an upgrade when it is " + format(2.5) + "% or less of your points"
+	},
 	cost() {
 		return 5e10;
 	},
@@ -58,8 +62,8 @@ const improvements = [{
 	title: "OPTIONS GALORE",
 	desc() {
 		if (game.improvements[4] >= 4) return "unlocks another option; (" + alpha + " and " + beta + " multiplier is maxed)";
-		if (game.improvements[4] > 0) return "unlocks another option; also multiplies " + alpha + " and " + beta + " by 1.1";
-		return "unlocks the options tab; also multiplies " + alpha + " and " + beta + " by 1.1";
+		if (game.improvements[4] > 0) return "unlocks another option; also multiplies " + alpha + " and " + beta + " by " + format(1.1);
+		return "unlocks the options tab; also multiplies " + alpha + " and " + beta + " by " + format(1.1);
 	},
 	effect() {
 		if (game.improvements[4] >= 4) return 1.1 ** 4;
@@ -88,7 +92,9 @@ const improvements = [{
 	},
 }, {
 	title: "REDUCE REDUCTION",
-	desc: "increases the " + delta + " exponent by 0.02",
+	desc() {
+		return "increases the " + delta + " exponent by " + format(0.02);
+	},
 	effect() {
 		return game.improvements[6] * 0.02;
 	},
@@ -101,7 +107,9 @@ const improvements = [{
 	},
 }, {
 	title: "GREATER SCALING",
-	desc: "multiplies " + gamma + " by 1.1",
+	desc() {
+		return "multiplies " + gamma + " by " + format(1.1);
+	},
 	effect() {
 		return 1.1 ** game.improvements[7];
 	},
@@ -114,7 +122,9 @@ const improvements = [{
 	},
 }, {
 	title: "LARGER EXPONENT",
-	desc: "multiplies " + delta + " by 1.03886",
+	desc() {
+		return "multiplies " + delta + " by " + format(1.03886);
+	},
 	effect() {
 		return 1.03886 ** game.improvements[8];
 	},
@@ -127,7 +137,9 @@ const improvements = [{
 	},
 }, {
 	title: "MORE MULTIPLIERS",
-	desc: "multiplies " + epsilon + " by 1.13551",
+	desc() {
+		return "multiplies " + epsilon + " by " + format(1.13551);
+	},
 	effect() {
 		return 1.13551 ** game.improvements[9];
 	},
@@ -171,7 +183,9 @@ const improvements = [{
 	},
 }, {
 	title: "REPETITION",
-	desc: "increases the " + epsilon + " exponent by 0.25",
+	desc() {
+		return "increases the " + epsilon + " exponent by " + format(0.25);
+	},
 	effect() {
 		return game.improvements[12] * 0.25;
 	},
@@ -194,7 +208,9 @@ const improvements = [{
 	},
 }, {
 	title: "TALLER WAVES",
-	desc: "multiplies the maximum value of your wave by 1.5",
+	desc() {
+		return "multiplies the maximum value of your wave by " + format(1.5);
+	},
 	effect() {
 		return 1.5 ** game.improvements[14];
 	},
@@ -208,8 +224,8 @@ const improvements = [{
 }, {
 	title: "BACK TO THE GRIND",
 	desc() {
-		if (game.improvements[15] > 0) return "increases wave point gain from the point button by 5% of your wave points per second";
-		return "unlocks getting wave point gain from the point button (5% of your wave points per second)";
+		if (game.improvements[15] > 0) return "increases wave point gain from the point button by " + format(5) + "% of your wave points per second";
+		return "unlocks getting wave point gain from the point button (" + format(5) + "% of your wave points per second)";
 	},
 	effect() {
 		return game.improvements[15] * 0.05;
@@ -223,7 +239,9 @@ const improvements = [{
 	},
 }, {
 	title: "SUPER AUTO",
-	desc: "changes the upgrade autobuyer to activate at 10% or less of your points, and it will no longer need to use any points",
+	desc() {
+		return "changes the upgrade autobuyer to activate at " + format(10) + "% or less of your points, and it will no longer need to use any points";
+	},
 	cost() {
 		return 1e136;
 	},
@@ -233,7 +251,9 @@ const improvements = [{
 	},
 }, {
 	title: "STABILIZE WAVES",
-	desc: "multiplies the minimum value of your wave by 1.45",
+	desc() {
+		return "multiplies the minimum value of your wave by " + format(1.45);
+	},
 	effect() {
 		return 1.45 ** game.improvements[17];
 	},
@@ -265,7 +285,9 @@ const improvements = [{
 	},
 }, {
 	title: "SELF STABILIZER",
-	desc: "increase the minimum value of your wave by 45% of the maximum value of your wave (after all other minimum value increases)",
+	desc() {
+		return "increase the minimum value of your wave by " + format(45) + "% of the maximum value of your wave (after all other minimum value increases)";
+	},
 	cost() {
 		return 1e188;
 	},
@@ -274,7 +296,7 @@ const improvements = [{
 		return game.improvements[18] > 0;
 	},
 }, {
-	title: "SELF STABILIZER",
+	title: "MULT CAP UP",
 	desc: "increase the cap on RECURSION's effect",
 	cost() {
 		return 1e215;

@@ -4,8 +4,8 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
 	if (game.infinity.milestones[1]) {
-		if (result.endsWith(")")) result += "(" + infinity + " + 1.00)";
-		else result = "(" + result + ")(" + infinity + " + 1.00)";
+		if (result.endsWith(")")) result += "(" + infinity + " + " + format(1) + ")";
+		else result = "(" + result + ")(" + infinity + " + " + format(1) + ")";
 	};
 	return result;
 };
@@ -25,7 +25,9 @@ function waveMult() {
 
 const wave_upgrades = [{
 	title: "LARGER NUMBERS",
-	desc: "increases the maximum value of your wave by 0.25",
+	desc() {
+		return "increases the maximum value of your wave by " + format(0.25);
+	},
 	effect() {
 		return game.wave.upgrades[0] * 0.25;
 	},
@@ -39,7 +41,9 @@ const wave_upgrades = [{
 	},
 }, {
 	title: "COOLHEADED",
-	desc: "increases the minimum value of your wave by 0.25",
+	desc() {
+		return "increases the minimum value of your wave by " + format(0.25)
+	},
 	effect() {
 		return game.wave.upgrades[1] * 0.25;
 	},
@@ -54,7 +58,9 @@ const wave_upgrades = [{
 	},
 }, {
 	title: "LOOSEN CHAINS",
-	desc: "multiplies your maximum wave points by 2",
+	desc() {
+		return "multiplies your maximum wave points by " + format(2);
+	},
 	effect() {
 		return 2 ** game.wave.upgrades[2];
 	},
@@ -87,8 +93,8 @@ const wave_upgrades = [{
 }, {
 	title: "RECURSION",
 	desc() {
-		if (this.baseEff() == 3.6 && game.improvements[20]) return "multiplies the value of your wave by 3.6x (maxed)";
-		if (this.baseEff() == 3.333333333333333 && !game.improvements[20]) return "multiplies the value of your wave by 3.33x (maxed)";
+		if (this.baseEff() == 3.6 && game.improvements[20]) return "multiplies the value of your wave by " + format(3.6) + "x (maxed)";
+		if (this.baseEff() == 3.333333333333333 && !game.improvements[20]) return "multiplies the value of your wave by " + format(3.33) + "x (maxed)";
 		return "multiplies the value of your wave based on your wave points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
@@ -113,7 +119,7 @@ const wave_upgrades = [{
 }, {
 	title: "CHEAPER",
 	desc() {
-		return "divides the cost of LARGER NUMBERS and COOLHEADED by 2";
+		return "divides the cost of LARGER NUMBERS and COOLHEADED by " + format(2);
 	},
 	effect() {
 		return 2 ** game.wave.upgrades[5];
@@ -126,9 +132,7 @@ const wave_upgrades = [{
 	},
 }, {
 	title: "MATHMATICAL",
-	desc() {
-		return "improves the effect formula of CALCULATIONS";
-	},
+	desc: "improves the effect formula of CALCULATIONS",
 	cost() {
 		return 7500;
 	},
@@ -138,9 +142,7 @@ const wave_upgrades = [{
 	},
 }, {
 	title: "SMOOTH SCALE",
-	desc() {
-		return "improves the cost formulas of COOLHEADED and LOOSEN CHAINS";
-	},
+	desc: "improves the cost formulas of COOLHEADED and LOOSEN CHAINS",
 	cost() {
 		return 25000;
 	},

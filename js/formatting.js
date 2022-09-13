@@ -103,12 +103,12 @@ function formatEngineering(number = NaN, smallAllowed = true, callback = "engine
 	return pre + remain + "e" + places;
 };
 
-function formatStrange(number = NaN, smallAllowed = true, type = "letsci") {
-	if (type == "letsci") return format(number, smallAllowed, false, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
-	if (type == "leteng") return formatEngineering(number, smallAllowed, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
-	if (type == "messci") return format(number, smallAllowed, false, type).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "%").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
-	if (type == "meseng") return formatEngineering(number, smallAllowed, type).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "%").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
-	return format(number, smallAllowed, false, type);
+function formatStrange(number = NaN, smallAllowed = true, type = "letsci", whole = false) {
+	if (type == "letsci") return (whole?number.toFixed(0):format(number, smallAllowed, false, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "leteng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "messci") return (whole?number.toFixed(0):format(number, smallAllowed, false, type)).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "%").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
+	if (type == "meseng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "%").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
+	return (whole?number.toFixed(0):format(number, smallAllowed, false, type));
 };
 
 function format(number = NaN, smallAllowed = true, expand = false, callback = "") {
@@ -147,7 +147,7 @@ function format(number = NaN, smallAllowed = true, expand = false, callback = ""
 
 function formatWhole(number = NaN) {
 	if (number >= 1000 || number <= -1000) return format(number);
-	return number.toFixed(0);
+	return formatStrange(number, false, game.options["num_note"], true);
 };
 
 const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>";

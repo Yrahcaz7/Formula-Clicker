@@ -1,6 +1,8 @@
 const upgrades = [{
 	title: "ELEMENTARY",
-	desc: "increases " + alpha + " by 0.10",
+	desc() {
+		return "increases " + alpha + " by " + format(0.1);
+	},
 	effect() {
 		return game.upgrades[0] * 0.1;
 	},
@@ -12,7 +14,9 @@ const upgrades = [{
 	},
 }, {
 	title: "LARGER INCREMENTS",
-	desc: "increases " + alpha + " by 0.50",
+	desc() {
+		return "increases " + alpha + " by " + format(0.5);
+	},
 	effect() {
 		return game.upgrades[1] * 0.5;
 	},
@@ -24,7 +28,9 @@ const upgrades = [{
 	},
 }, {
 	title: "SECONDARY",
-	desc: "increases " + beta + " by 0.10",
+	desc() {
+		return "increases " + beta + " by " + format(0.1);
+	},
 	effect() {
 		return game.upgrades[2] * 0.1;
 	},
@@ -36,7 +42,9 @@ const upgrades = [{
 	},
 }, {
 	title: "MASS MULT",
-	desc: "increases " + beta + " by 0.50",
+	desc() {
+		return "increases " + beta + " by " + format(0.5);
+	},
 	effect() {
 		return game.upgrades[3] * 0.5;
 	},
@@ -48,7 +56,9 @@ const upgrades = [{
 	},
 }, {
 	title: "TERTIARY",
-	desc: "increases " + gamma + " by 0.10",
+	desc() {
+		return "increases " + gamma + " by " + format(0.1);
+	},
 	effect() {
 		return game.upgrades[4] * 0.1;
 	},
@@ -60,7 +70,9 @@ const upgrades = [{
 	},
 }, {
 	title: "FAST SCALING",
-	desc: "increases " + gamma + " by 0.50",
+	desc() {
+		return "increases " + gamma + " by " + format(0.5);
+	},
 	effect() {
 		return game.upgrades[5] * 0.5;
 	},
@@ -72,7 +84,9 @@ const upgrades = [{
 	},
 }, {
 	title: "QUATERNARY",
-	desc: "increases " + delta + " by 0.10",
+	desc() {
+		return "increases " + delta + " by " + format(0.1);
+	},
 	effect() {
 		return game.upgrades[6] * 0.1;
 	},
@@ -85,7 +99,9 @@ const upgrades = [{
 	},
 }, {
 	title: "EXPONENTIAL",
-	desc: "increases " + delta + " by 0.50",
+	desc() {
+		return "increases " + delta + " by " + format(0.5);
+	},
 	effect() {
 		return game.upgrades[7] * 0.5;
 	},
@@ -98,7 +114,9 @@ const upgrades = [{
 	},
 }, {
 	title: "QUINARY",
-	desc: "increases " + epsilon + " by 0.10",
+	desc() {
+		return "increases " + epsilon + " by " + format(0.1);
+	},
 	effect() {
 		return game.upgrades[8] * 0.1;
 	},
@@ -110,7 +128,9 @@ const upgrades = [{
 	},
 }, {
 	title: "EXTENDED COMBO",
-	desc: "increases " + epsilon + " by 0.50",
+	desc() {
+		return "increases " + epsilon + " by " + format(0.5);
+	},
 	effect() {
 		return game.upgrades[9] * 0.5;
 	},
@@ -122,7 +142,9 @@ const upgrades = [{
 	},
 }, {
 	title: "SENARY",
-	desc: "increases " + zeta + " by 0.10",
+	desc() {
+		return "increases " + zeta + " by " + format(0.1);
+	},
 	effect() {
 		return game.upgrades[10] * 0.1;
 	},
@@ -134,7 +156,9 @@ const upgrades = [{
 	},
 }, {
 	title: "NEVER-ENDING",
-	desc: "increases " + zeta + " by 0.50",
+	desc() {
+		return "increases " + zeta + " by " + format(0.5);
+	},
 	effect() {
 		return game.upgrades[11] * 0.5;
 	},
