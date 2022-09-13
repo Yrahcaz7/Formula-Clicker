@@ -655,8 +655,10 @@ function update() {
 				else if (loc.length == 2) ref = game[loc[0]][loc[1]];
 				else if (loc.length == 3) ref = game[loc[0]][loc[1]][loc[2]];
 				if (ref < item) boolean = false;
-				if (title) title += " and ";
-				title += formatWhole(item) + " " + resources[key];
+				if (resources[key]) {
+					if (title) title += " and ";
+					title += formatWhole(item) + " " + resources[key];
+				};
 			};
 		};
 		if (!game.infinity.milestones[index] && element.req && boolean) game.infinity.milestones[index] = true;
@@ -672,7 +674,7 @@ function update() {
 			else document.getElementById("infinity_milestones").appendChild(append);
 		};
 		if (document.getElementById("infinity_milestone_" + index)) {
-			document.getElementById("infinity_milestone_" + index).innerHTML = title + "<br><br>" + element.desc;
+			document.getElementById("infinity_milestone_" + index).innerHTML = title+(element.extraReqText?element.extraReqText:"")+"<br><br>"+element.desc;
 			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
 			else document.getElementById("infinity_milestone_" + index).className = "milestone";
 		};
