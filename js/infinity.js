@@ -24,16 +24,22 @@ function prestige() {
 	location.reload();
 };
 
+const resources = {
+	points: "points",
+	pointBest: "best points",
+	pointTotal: "total points",
+	wave_points: "wave points",
+	wave_pointBest: "best wave points",
+	wave_pointTotal: "total wave points",
+	infinity_points: infinity,
+	infinity_pointBest: "best " + infinity,
+	infinity_pointTotal: "total " + infinity,
+};
+
 const infinity_milestones = [{
-	title: "1 " + infinity,
 	desc: "adds the " + infinity + " element to the point gain formula",
-	req() {
-		return game.infinity.points >= 1;
-	},
+	req: {infinity_points: 1},
 }, {
-	title: "2 " + infinity,
 	desc: "adds the " + infinity + " element to the sinusoidal wave formula",
-	req() {
-		return game.infinity.points >= 2;
-	},
+	req: {infinity_points: 2},
 }];
