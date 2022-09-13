@@ -103,9 +103,11 @@ function formatEngineering(number = NaN, smallAllowed = true, callback = "engine
 	return pre + remain + "e" + places;
 };
 
-function formatStrange(number = NaN, smallAllowed = true, type = "letters-sci") {
-	if (type == "letters-sci") return format(number, smallAllowed, false, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
-	if (type == "letters-eng") return formatEngineering(number, smallAllowed, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+function formatStrange(number = NaN, smallAllowed = true, type = "letsci") {
+	if (type == "letsci") return format(number, smallAllowed, false, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "leteng") return formatEngineering(number, smallAllowed, type).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "messci") return format(number, smallAllowed, false, type).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "%").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
+	if (type == "meseng") return formatEngineering(number, smallAllowed, type).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "%").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
 	return format(number, smallAllowed, false, type);
 };
 
@@ -115,8 +117,10 @@ function format(number = NaN, smallAllowed = true, expand = false, callback = ""
 	number = +number.toPrecision(15);
 	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "illions") return formatIllions(number, smallAllowed, !expand);
 	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "engineering") return formatEngineering(number, smallAllowed);
-	if (game.options["num_note"] == "letsci" && callback != "letters-sci") return formatStrange(number, smallAllowed, "letters-sci");
-	if (game.options["num_note"] == "leteng" && callback != "letters-eng") return formatStrange(number, smallAllowed, "letters-eng");
+	if (game.options["num_note"] == "letsci" && callback != "letsci") return formatStrange(number, smallAllowed, "letsci");
+	if (game.options["num_note"] == "leteng" && callback != "leteng") return formatStrange(number, smallAllowed, "leteng");
+	if (game.options["num_note"] == "messci" && callback != "messci") return formatStrange(number, smallAllowed, "messci");
+	if (game.options["num_note"] == "meseng" && callback != "meseng") return formatStrange(number, smallAllowed, "meseng");
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
