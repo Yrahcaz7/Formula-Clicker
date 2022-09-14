@@ -119,7 +119,7 @@ function formatLogarithm(number = NaN, smallAllowed = true, callback = "log") {
 	return result;
 };
 
-function formatInfinity(number = NaN, expand = false, hasPercent = false) {
+function formatInfinity(number = NaN, smallAllowed = true, expand = false, hasPercent = false) {
 	if (number !== number) return "NaN";
 	if (number <= 0) {
 		if (hasPercent) return "(0.00%" + (expand ? " (of Infinity)" : "") + ")";
@@ -130,13 +130,14 @@ function formatInfinity(number = NaN, expand = false, hasPercent = false) {
 		return "100.00%" + (expand ? " (of Infinity)" : "");
 	};
 	let percentage = Math.log10(number + 1) / Math.log10(infNum) * 100;
-	let result = "";
-	if (percentage < 0.00001) result = percentage.toExponential(3);
-	else if (percentage < 0.0001) result = percentage.toFixed(6);
-	else if (percentage < 0.001) result = percentage.toFixed(5);
-	else if (percentage < 0.01) result = percentage.toFixed(4);
-	else if (percentage < 0.1) result = percentage.toFixed(3);
-	else result = percentage.toFixed(2);
+	let result = percentage.toFixed(2);;
+	if (smallAllowed) {
+		if (percentage < 0.00001) result = percentage.toExponential(3);
+		else if (percentage < 0.0001) result = percentage.toFixed(6);
+		else if (percentage < 0.001) result = percentage.toFixed(5);
+		else if (percentage < 0.01) result = percentage.toFixed(4);
+		else if (percentage < 0.1) result = percentage.toFixed(3);
+	};
 	if (hasPercent) return "(" + result + "%" + (expand ? " (of Infinity)" : "") + ")";
 	return result + "%" + (expand ? " (of Infinity)" : "");
 };
@@ -157,7 +158,7 @@ function format(number = NaN, smallAllowed = true, expand = false, hasPercent = 
 	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "sho") return formatIllions(number, smallAllowed, !expand);
 	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "eng") return formatEngineering(number, smallAllowed);
 	if (game.options["num_note"] == "log" && callback != "log") return formatLogarithm(number, smallAllowed);
-	if (game.options["num_note"] == "inf") return formatInfinity(number, expand, hasPercent);
+	if (game.options["num_note"] == "inf") return formatInfinity(number, smallAllowed, expand, hasPercent);
 	if (game.options["num_note"] == "letsci" && callback != "letsci") return formatStrange(number, smallAllowed, "letsci");
 	if (game.options["num_note"] == "leteng" && callback != "leteng") return formatStrange(number, smallAllowed, "leteng");
 	if (game.options["num_note"] == "letlog" && callback != "letlog") return formatStrange(number, smallAllowed, "letlog");
@@ -191,8 +192,8 @@ function format(number = NaN, smallAllowed = true, expand = false, hasPercent = 
 
 function formatWhole(number = NaN) {
 	if (number !== number) return "NaN";
-	if (game.options["num_note"] == "inf") return formatInfinity(number);
-	if (number >= 1000 || number <= -1000) return format(number);
+	if (game.options["num_note"] == "inf") return formatInfinity(number, false);
+	if (number >= 1000 || number <= -1000) return format(number, false);
 	return formatStrange(number, false, game.options["num_note"], true);
 };
 
