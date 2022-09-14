@@ -49,7 +49,7 @@ const improvements = [{
 }, {
 	title: "AUTOMATION",
 	desc() {
-		return "automatically buys an upgrade when it is " + format(2.5) + "% or less of your points"
+		return "automatically buys an upgrade when it is " + format(2.5, true, false, true) + "% or less of your points"
 	},
 	cost() {
 		return 5e10;
@@ -224,8 +224,8 @@ const improvements = [{
 }, {
 	title: "BACK TO THE GRIND",
 	desc() {
-		if (game.improvements[15] > 0) return "increases wave point gain from the point button by " + format(5) + "% of your wave points per second";
-		return "unlocks getting wave point gain from the point button (" + format(5) + "% of your wave points per second)";
+		if (game.improvements[15] > 0) return "increases wave point gain from the point button by " + format(5, true, false, true) + "% of your wave points per second";
+		return "unlocks getting wave point gain from the point button (" + format(5, true, false, true) + "% of your wave points per second)";
 	},
 	effect() {
 		return game.improvements[15] * 0.05;
@@ -240,7 +240,7 @@ const improvements = [{
 }, {
 	title: "SUPER AUTO",
 	desc() {
-		return "changes the upgrade autobuyer to activate at " + format(10) + "% or less of your points, and it will no longer need to use any points";
+		return "changes the upgrade autobuyer to activate at " + format(10, true, false, true) + "% or less of your points, and it will no longer need to use any points";
 	},
 	cost() {
 		return 1e136;
