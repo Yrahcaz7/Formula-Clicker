@@ -730,7 +730,7 @@ function update() {
 			if (iteration !== 0) text += "<br>";
 		};
 		if (count >= 0) text += "</div><br>All discoveries unlocked!";
-		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points) + " " + infinity;
+		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
 		document.getElementById("???_display").innerHTML = text;
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
