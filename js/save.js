@@ -33,8 +33,12 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	return JSON.parse(save.replace(/Â/g, ""));
 };
 
-function load() {
+function setPage() {
 	document.body.innerHTML = "<div class=outer><div class=inner><div id=main>";
+};
+
+function load() {
+	setPage();
 	if (!localStorage.getItem(ID)) return;
 	Object.assign(game, normalizeSave());
 };

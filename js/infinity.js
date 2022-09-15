@@ -9,7 +9,7 @@ function prestige() {
 	game.points = 0;
 	game.pointBest = 0;
 	game.pointTotal = 0;
-	if (game.infinity.milestones[2]) game.clicks *= 0.5;
+	if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
 	else game.clicks = 0;
 	game.tab = "main";
 	game.unlocks = [];
@@ -24,7 +24,7 @@ function prestige() {
 	game.wave.min = 0;
 	game.wave.max = 0;
 	game.wave.upgrades = [];
-	location.reload();
+	setPage();
 };
 
 const resources = {
