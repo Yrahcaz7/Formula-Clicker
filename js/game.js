@@ -172,6 +172,7 @@ function update() {
 	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
 	if (game.improvements[13] > 0 && !game.unlocks.includes("waves")) game.unlocks.push("waves");
 	if ((game.points >= infNum || (game.unlocks.includes("tabs") && game.infinity.points >= 1)) && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
+	if (game.infinity.points >= 1 && game.unlocks.includes("tabs") && !game.unlocks.includes("?")) game.unlocks.push("?");
 	// tabs
 	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
@@ -242,6 +243,19 @@ function update() {
 				game.tab = "infinity";
 			};
 			append.innerHTML = "Infinity";
+			if (document.getElementById("tab-???")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-???"));
+			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			else document.getElementById("tabs").appendChild(append);
+		};
+		if (game.unlocks.includes("?") && !document.getElementById("tab-???")) {
+			let append = document.createElement("button");
+			append.id = "tab-???";
+			append.type = "button";
+			append.className = "tab";
+			append.onclick = () => {
+				game.tab = "???";
+			};
+			append.innerHTML = "???";
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
@@ -264,6 +278,10 @@ function update() {
 		if (document.getElementById("tab-infinity")) {
 			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
 			else document.getElementById("tab-infinity").className = "tab";
+		};
+		if (document.getElementById("tab-???")) {
+			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
+			else document.getElementById("tab-???").className = "tab";
 		};
 	};
 	// main display
@@ -679,6 +697,43 @@ function update() {
 			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
 			else document.getElementById("infinity_milestone_" + index).className = "milestone";
 		};
+	};
+	if (game.tab == "???") {
+		if (!document.getElementById("???_display")) {
+			let append = document.createElement("div");
+			append.id = "???_display";
+			document.getElementById("main").appendChild(append);
+		};
+		let text = "<div class=v0><span style='font-size:calc(var(--text-size)*2)'>", count = +game.infinity.points+100;
+		for (let iteration = 0; iteration < poem.length; iteration++) {
+			const element = poem[iteration];
+			if (iteration !== 0 && element[0] != poem[iteration - 1][0]) text += "<span class=" + element[0] + ">";
+			for (let index = 0; index < element.length; index++) {
+				if (iteration === 0) {
+					count--;
+					if (count < 0) break;
+					if (count === 0) text += element[index].replace(", ", "");
+					else text += element[index];
+				} else if (index !== 0) {
+					count--;
+					if (count < 0) break;
+					text += element[index] + "<br>";
+				};
+			};
+			if (iteration === 0) text += "</span><br>";
+			else if (iteration == poem.length - 1) text += "</span>";
+			else if (element[0] != poem[iteration + 1][0]) text += "</span>";
+			if (count < 0) {
+				if (text.endsWith("<br>")) text = text.slice(0, text.length - 4);
+				break;
+			};
+			if (iteration !== 0) text += "<br>";
+		};
+		if (count >= 0) text += "</div><br>All discoveries unlocked!";
+		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points) + " " + infinity;
+		document.getElementById("???_display").innerHTML = text;
+	} else {
+		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
 	};
 };
 

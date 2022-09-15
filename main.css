@@ -123,3 +123,33 @@ input.color {
 	border-top: 1px solid #000;
 	border-bottom: 1px solid #000;
 }
+
+div.v0 {
+	background-color: #444;
+	color: #fff;
+	font-family: 'Bradley Hand', 'Comic Sans MS', 'Brush Script MT';
+}
+
+span.v1 {
+	color: #fff6cc;
+}
+
+span.v2 {
+	color: #ccc;
+}
+
+span.v3 {
+	color: #ffe4cc;
+}
+
+span.v4 {
+	color: #f8cccc;
+}
+
+span.v5 {
+	color: #d0e8e6;
+}
+
+span.v6 {
+	color: #cce2f2;
+}
