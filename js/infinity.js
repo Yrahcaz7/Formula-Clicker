@@ -14,7 +14,9 @@ function prestige() {
 	game.tab = "main";
 	game.unlocks = [];
 	game.upgrades = [];
+	let imp = game.improvements;
 	game.improvements = [];
+	if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
 	game.wave.points = 0;
 	game.wave.pointBest = 0;
 	game.wave.pointTotal = 0;
@@ -50,4 +52,7 @@ const infinity_milestones = [{
 		return "keeps " + format(50, true, false, true) + "% of your clicks on reset";
 	},
 	req: {infinity_points: 3},
+}, {
+	desc: "keeps the improvement AUTOMATION on reset",
+	req: {infinity_points: 4},
 }];

@@ -178,7 +178,7 @@ function update() {
 	if ((game.points >= infNum || (game.unlocks.includes("tabs") && game.infinity.points >= 1)) && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
 	if (game.infinity.points >= 1 && game.unlocks.includes("tabs") && !game.unlocks.includes("?")) game.unlocks.push("?");
 	// tabs
-	if ((game.unlocks.includes("tabs") || game.unlocks.includes("options")) && !document.getElementById("tabs")) {
+	if ((game.unlocks.includes("tabs")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
 		append.id = "tabs";
 		if (document.getElementById("varDisplay")) document.getElementById("main").insertBefore(append, document.getElementById("varDisplay").nextSibling);
@@ -326,8 +326,8 @@ function update() {
 		let append = document.createElement("div");
 		append.id = "varDisplay";
 		append.className = "margin";
-		if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
-		else if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
+		if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
+		else if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
 		else document.getElementById("main").appendChild(append);
 	};
 	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
