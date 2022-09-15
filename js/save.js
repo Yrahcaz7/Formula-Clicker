@@ -16,12 +16,14 @@ function getProxy() {
 	get = get.replace(/,0/g, "¡").replace(/,1/g, "¢").replace(/,2/g, "£").replace(/,3/g, "¤").replace(/,4/g, "¥").replace(/,5/g, "¦").replace(/,6/g, "§").replace(/,7/g, "¨").replace(/,8/g, "©").replace(/,9/g, "ª"); // item numbers
 	get = get.replace(/000000000/g, "^9").replace(/00000000/g, "^8").replace(/0000000/g, "^7").replace(/000000/g, "^6").replace(/00000/g, "^5").replace(/0000/g, "^4").replace(/000/g, "^3"); // zero chains
 	get = get.replace(/\)frame\(/g, "¿").replace(/infinity/g, "|").replace(/milestones/g, "~"); // more words
+	get = get.replace(/\)tab=½&unlocks´"/g, "<>"); // constant
 	return btoa(get.replace(/Â/g, ""));
 };
 
 function normalizeSave(save = localStorage.getItem(ID)) {
 	if (!save) return null;
 	save = atob(save).replace(/Â/g, "");
+	save = save.replace(/<>/g, ")tab=½&unlocks´\""); // constant
 	save = save.replace(/¿/g, ")frame(").replace(/\|/g, "infinity").replace(/\~/g, "milestones"); // more words
 	save = save.replace(/\^9/g, "000000000").replace(/\^8/g, "00000000").replace(/\^7/g, "0000000").replace(/\^6/g, "000000").replace(/\^5/g, "00000").replace(/\^4/g, "0000").replace(/\^3/g, "000"); // zero chains
 	save = save.replace(/¡/g, ",0").replace(/¢/g, ",1").replace(/£/g, ",2").replace(/¤/g, ",3").replace(/¥/g, ",4").replace(/¦/g, ",5").replace(/§/g, ",6").replace(/¨/g, ",7").replace(/©/g, ",8").replace(/ª/g, ",9"); // item numbers
