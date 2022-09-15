@@ -399,7 +399,7 @@ function update() {
 			append.onclick = () => {
 				buy("upgrade", index);
 			};
-			if (document.getElementById("upgrade_" + (index + 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index + 1)));
+			if (document.getElementById("upgrade_" + (index - 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index - 1)).nextSibling);
 			else document.getElementById("upgrades").appendChild(append);
 		};
 		if (document.getElementById("upgrade_" + index)) {
@@ -432,7 +432,7 @@ function update() {
 		if (element.max) max = element.max;
 		if (index == 0 && game.improvements[11]) buy("improvement", index, true);
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
-		if (game.tab != "improvements" || !element.unlocked() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointTotal * 10) < element.cost() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -443,7 +443,7 @@ function update() {
 			append.onclick = () => {
 				buy("improvement", index);
 			};
-			if (document.getElementById("improvement_" + (index + 1))) document.getElementById("improvements").insertBefore(append, document.getElementById("improvement_" + (index + 1)));
+			if (document.getElementById("improvement_" + (index - 1))) document.getElementById("improvements").insertBefore(append, document.getElementById("improvement_" + (index - 1)).nextSibling);
 			else document.getElementById("improvements").appendChild(append);
 		};
 		if (document.getElementById("improvement_" + index)) {
@@ -694,7 +694,7 @@ function update() {
 			let append = document.createElement("div");
 			append.id = "infinity_milestone_" + index;
 			append.className = "milestone";
-			if (document.getElementById("infinity_milestone_" + (index + 1))) document.getElementById("infinity_milestones").insertBefore(append, document.getElementById("infinity_milestone_" + (index + 1)));
+			if (document.getElementById("infinity_milestone_" + (index - 1))) document.getElementById("infinity_milestones").insertBefore(append, document.getElementById("infinity_milestone_" + (index - 1)).nextSibling);
 			else document.getElementById("infinity_milestones").appendChild(append);
 		};
 		if (document.getElementById("infinity_milestone_" + index)) {
