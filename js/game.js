@@ -704,7 +704,7 @@ function update() {
 			append.id = "???_display";
 			document.getElementById("main").appendChild(append);
 		};
-		let text = "<div class=v0><span style='font-size:calc(var(--text-size)*2)'>", count = +game.infinity.points+100;
+		let text = "<div class=v0><span style='font-size:calc(var(--text-size)*2)'>", count = +game.infinity.points;
 		for (let iteration = 0; iteration < poem.length; iteration++) {
 			const element = poem[iteration];
 			if (iteration !== 0 && element[0] != poem[iteration - 1][0]) text += "<span class=" + element[0] + ">";
