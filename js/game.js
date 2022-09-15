@@ -686,7 +686,7 @@ function update() {
 			};
 		};
 		if (!game.infinity.milestones[index] && element.req && boolean) game.infinity.milestones[index] = true;
-		if (game.tab != "infinity" && (game.infinity.milestones[index - 1] === undefined || game.infinity.milestones[index - 1] === true)) {
+		if (game.tab != "infinity" || game.infinity.milestones[index - 1] === false) {
 			if (document.getElementById("infinity_milestone_" + index)) document.getElementById("infinity_milestone_" + index).remove();
 			continue;
 		};

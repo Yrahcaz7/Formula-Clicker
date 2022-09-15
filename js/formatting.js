@@ -142,7 +142,7 @@ function formatInfinity(number = NaN, smallAllowed = true, expand = false, hasPe
 	return result + "%" + (expand ? " (of Infinity)" : "");
 };
 
-function formatStrange(number = NaN, smallAllowed = true, type = "letsci", whole = false) {
+function formatStrange(number = NaN, smallAllowed = true, type = "", whole = false) {
 	if (type == "letsci") return (whole?number.toFixed(0):format(number, smallAllowed, false, false, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "leteng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "letlog") return (whole?number.toFixed(0):formatLogarithm(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
