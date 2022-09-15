@@ -616,7 +616,7 @@ function update() {
 			append.onclick = () => {
 				buy("wave_upgrade", index);
 			};
-			if (document.getElementById("wave_upgrade_" + (index + 1))) document.getElementById("wave_upgrades").insertBefore(append, document.getElementById("wave_upgrade_" + (index + 1)));
+			if (document.getElementById("wave_upgrade_" + (index - 1))) document.getElementById("wave_upgrades").insertBefore(append, document.getElementById("wave_upgrade_" + (index - 1)).nextSibling);
 			else document.getElementById("wave_upgrades").appendChild(append);
 		};
 		if (document.getElementById("wave_upgrade_" + index)) {

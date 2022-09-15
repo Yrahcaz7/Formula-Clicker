@@ -77,7 +77,7 @@ function formatIllions(number = NaN, smallAllowed = true, short = false, callbac
 				const loc = Math.floor((val + 1) / 10) % 10 - 1;
 				if (short) post += shortIllions[1][loc];
 				else post += illions[1][loc];
-				if (short && post.length < 2) post += "~";
+				if (short && post.length < 2 && (game.options["num_note"] != "mixsci" && game.options["num_note"] != "mixeng")) post += "~";
 			} else {
 				if (short) post += shortIllions[0][val % 10];
 				else post += illions[0][val % 10];
