@@ -3,7 +3,10 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	let result = "";
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
-	if (game.infinity.milestones[1]) {
+	if (game.infinity.milestones[6]) {
+		if (result.endsWith(")")) result += "(" + format(1.01) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
+		else result = "(" + result + ")(" + format(1.01) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
+	} else if (game.infinity.milestones[1]) {
 		if (result.endsWith(")")) result += "(" + infinity + " + " + format(1) + ")";
 		else result = "(" + result + ")(" + infinity + " + " + format(1) + ")";
 	};

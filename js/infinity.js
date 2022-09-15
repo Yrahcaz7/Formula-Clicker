@@ -63,4 +63,7 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the improvement SUPER AUTO on reset",
 	req: {infinity_points: 6},
+}, {
+	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
+	req: {infinity_points: 7},
 }];

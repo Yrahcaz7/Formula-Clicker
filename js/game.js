@@ -432,7 +432,7 @@ function update() {
 		if (element.max) max = element.max;
 		if (index == 0 && game.improvements[11]) buy("improvement", index, true);
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointTotal * 100) < element.cost() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointTotal * 1e5) < element.cost() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -765,7 +765,8 @@ const loop = setInterval(() => {
 		// wave point gain
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
 		gen *= waveMult();
-		if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
+		if (game.infinity.milestones[6]) gen *= (1.01 ** game.infinity.points) + (game.infinity.points * 2);
+		else if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
 		game.wave.pointGen = gen;
 		if (game.wave.points < game.wave.pointMax) {
 			gen *= 0.03;
