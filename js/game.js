@@ -432,7 +432,7 @@ function update() {
 		if (element.max) max = element.max;
 		if (index == 0 && game.improvements[11]) buy("improvement", index, true);
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointTotal * 10) < element.cost() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointTotal * 100) < element.cost() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
