@@ -23,6 +23,10 @@ var game = {
 		points: 0,
 		pointBest: 0,
 		pointTotal: 0,
+		best: {
+			points: 0,
+			wave_points: 0,
+		},
 		milestones: [],
 	},
 };
@@ -313,6 +317,8 @@ function update() {
 				game.wave.pointTotal += gen;
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 			};
+			// best ever
+			if (game.points > game.infinity.best.points) game.infinity.best.points = game.points;
 		};
 		document.getElementById("main").appendChild(append);
 	};
@@ -588,7 +594,7 @@ function update() {
 			append.style = "display: flex; flex-wrap: wrap";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best ever wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
 	} else {
 		if (document.getElementById("wave_graph")) document.getElementById("wave_graph").remove();
 		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").remove();
@@ -628,7 +634,6 @@ function update() {
 		if (!document.getElementById("infinity_point_display")) {
 			let append = document.createElement("div");
 			append.id = "infinity_point_display";
-			append.style = "font-size: calc(var(--text-size) * 2)";
 			document.getElementById("main").appendChild(append);
 		};
 		if (!document.getElementById("infinity_prestige_button")) {
@@ -646,11 +651,11 @@ function update() {
 			append.style = "border-top: 1px solid #000";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have " + formatWhole(game.infinity.points) + " " + infinity;
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wave_points);
 		if (document.getElementById("infinity_prestige_button")) {
 			if (game.points >= infNum) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(1) + " " + infinity + "<br>Next " + infinity + " at NaN points";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(1) + " " + infinity + "<br>Max " + infinity + " gained on reset";
 			} else {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
 				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(0) + " " + infinity + "<br>Next " + infinity + " at Infinity points";
@@ -769,6 +774,8 @@ const loop = setInterval(() => {
 			game.wave.pointTotal += gen;
 			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 		};
+		// best ever
+		if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
 	};
 	update();
 	if (game.unlocks.includes("waves")) game.wave.frame++;
