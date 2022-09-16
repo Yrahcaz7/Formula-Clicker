@@ -170,21 +170,21 @@ function buy(type, index, free = false) {
 
 function update() {
 	// unlocks
-	if (game.points > 0 && !game.unlocks.includes("pointDisplay")) game.unlocks.push("pointDisplay");
-	if (game.upgrades[0] > 0 && !game.unlocks.includes("varDisplay")) game.unlocks.push("varDisplay");
-	if (game.points >= 1000 && !game.unlocks.includes("tabs")) game.unlocks.push("tabs");
-	if (game.improvements[4] > 0 && !game.unlocks.includes("options")) game.unlocks.push("options");
-	if (game.improvements[13] > 0 && !game.unlocks.includes("waves")) game.unlocks.push("waves");
-	if ((game.points >= infNum || (game.unlocks.includes("tabs") && game.infinity.points >= 1)) && !game.unlocks.includes("infinity")) game.unlocks.push("infinity");
-	if (game.infinity.points >= 1 && game.unlocks.includes("tabs") && !game.unlocks.includes("?")) game.unlocks.push("?");
+	if (game.points > 0 && !game.unlocks.includes("pd")) game.unlocks.push("pd");
+	if (game.upgrades[0] > 0 && !game.unlocks.includes("vd")) game.unlocks.push("vd");
+	if (game.points >= 1000 && !game.unlocks.includes("t")) game.unlocks.push("t");
+	if (game.improvements[4] > 0 && !game.unlocks.includes("o")) game.unlocks.push("o");
+	if (game.improvements[13] > 0 && !game.unlocks.includes("w")) game.unlocks.push("w");
+	if ((game.points >= infNum || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
+	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
 	// tabs
-	if ((game.unlocks.includes("tabs")) && !document.getElementById("tabs")) {
+	if ((game.unlocks.includes("t")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
 		append.id = "tabs";
 		if (document.getElementById("varDisplay")) document.getElementById("main").insertBefore(append, document.getElementById("varDisplay").nextSibling);
 		else if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton").nextSibling);
 	};
-	if (document.getElementById("tabs") && game.unlocks.includes("tabs")) {
+	if (document.getElementById("tabs") && game.unlocks.includes("t")) {
 		if (!document.getElementById("tab-main")) {
 			let append = document.createElement("button");
 			append.id = "tab-main";
@@ -214,7 +214,7 @@ function update() {
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
-		if (game.unlocks.includes("options") && !document.getElementById("tab-options")) {
+		if (game.unlocks.includes("o") && !document.getElementById("tab-options")) {
 			let append = document.createElement("button");
 			append.id = "tab-options";
 			append.type = "button";
@@ -225,7 +225,7 @@ function update() {
 			append.innerHTML = "Options";
 			document.getElementById("tabs").appendChild(append);
 		};
-		if (game.unlocks.includes("waves") && !document.getElementById("tab-waves")) {
+		if (game.unlocks.includes("w") && !document.getElementById("tab-waves")) {
 			let append = document.createElement("button");
 			append.id = "tab-waves";
 			append.type = "button";
@@ -238,7 +238,7 @@ function update() {
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
-		if (game.unlocks.includes("infinity") && !document.getElementById("tab-infinity")) {
+		if (game.unlocks.includes("i") && !document.getElementById("tab-infinity")) {
 			let append = document.createElement("button");
 			append.id = "tab-infinity";
 			append.type = "button";
@@ -289,7 +289,7 @@ function update() {
 		};
 	};
 	// main display
-	if (game.unlocks.includes("pointDisplay") && !document.getElementById("pointDisplay")) {
+	if (game.unlocks.includes("pd") && !document.getElementById("pointDisplay")) {
 		let append = document.createElement("div");
 		append.id = "pointDisplay";
 		if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
@@ -322,7 +322,7 @@ function update() {
 		};
 		document.getElementById("main").appendChild(append);
 	};
-	if (game.unlocks.includes("varDisplay") && !document.getElementById("varDisplay")) {
+	if (game.unlocks.includes("vd") && !document.getElementById("varDisplay")) {
 		let append = document.createElement("div");
 		append.id = "varDisplay";
 		append.className = "margin";
@@ -753,7 +753,7 @@ function update() {
 };
 
 const loop = setInterval(() => {
-	if (game.unlocks.includes("waves")) {
+	if (game.unlocks.includes("w")) {
 		if (game.wave.frame > 312) game.wave.frame = 0;
 		// calculate wave min
 		let min = 0;
@@ -789,5 +789,5 @@ const loop = setInterval(() => {
 		if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
 	};
 	update();
-	if (game.unlocks.includes("waves")) game.wave.frame++;
+	if (game.unlocks.includes("w")) game.wave.frame++;
 }, 30);
