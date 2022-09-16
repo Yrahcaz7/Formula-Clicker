@@ -240,6 +240,7 @@ const improvements = [{
 }, {
 	title: "SUPER AUTO",
 	desc() {
+		if (game.infinity.milestones[10]) return "changes the upgrade autobuyer to always activate, and it will no longer need to use any points";
 		return "changes the upgrade autobuyer to activate at " + format(10, true, false, true) + "% or less of your points, and it will no longer need to use any points";
 	},
 	cost() {

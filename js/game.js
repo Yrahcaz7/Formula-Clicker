@@ -386,7 +386,7 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
-		if (game.improvements[16] > 0 && element.unlocked() && (game.points * 0.1) >= element.cost()) buy("upgrade", index, true);
+		if (game.improvements[16] > 0 && element.unlocked() && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
 		else if (game.improvements[3] > 0 && element.unlocked() && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
 		if (game.tab != "main" || !element.unlocked()) {
 			if (document.getElementById("upgrade_" + index)) document.getElementById("upgrade_" + index).remove();
@@ -671,22 +671,24 @@ function update() {
 		if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
 		const element = infinity_milestones[index];
 		let boolean = true, title = "";
-		for (const key in element.req) {
-			if (Object.hasOwnProperty.call(element.req, key)) {
-				const item = element.req[key];
-				let loc = key.split("_");
-				let ref = NaN;
-				if (loc.length == 1) ref = game[loc[0]];
-				else if (loc.length == 2) ref = game[loc[0]][loc[1]];
-				else if (loc.length == 3) ref = game[loc[0]][loc[1]][loc[2]];
-				if (ref < item) boolean = false;
-				if (resources[key]) {
-					if (title) title += " and ";
-					title += formatWhole(item) + " " + resources[key];
+		if (!game.infinity.milestones[index] && element.req) {
+			for (const key in element.req) {
+				if (Object.hasOwnProperty.call(element.req, key)) {
+					const item = element.req[key];
+					let loc = key.split("_");
+					let ref = NaN;
+					if (loc.length == 1) ref = game[loc[0]];
+					else if (loc.length == 2) ref = game[loc[0]][loc[1]];
+					else if (loc.length == 3) ref = game[loc[0]][loc[1]][loc[2]];
+					if (ref < item) boolean = false;
+					if (resources[key]) {
+						if (title) title += " and ";
+						title += formatWhole(item) + " " + resources[key];
+					};
 				};
 			};
+			if (boolean) game.infinity.milestones[index] = true;
 		};
-		if (!game.infinity.milestones[index] && element.req && boolean) game.infinity.milestones[index] = true;
 		if (game.tab != "infinity" || game.infinity.milestones[index - 1] === false) {
 			if (document.getElementById("infinity_milestone_" + index)) document.getElementById("infinity_milestone_" + index).remove();
 			continue;

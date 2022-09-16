@@ -75,4 +75,7 @@ const infinity_milestones = [{
 }, {
 	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't need to use any wave points",
 	req: {infinity_points: 10},
+}, {
+	desc: "changes SUPER AUTO to always activate",
+	req: {infinity_points: 12},
 }];
