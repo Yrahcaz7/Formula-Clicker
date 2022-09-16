@@ -604,6 +604,7 @@ function update() {
 		const element = wave_upgrades[index];
 		let max = Infinity;
 		if (element.max) max = element.max;
+		if (element.unlocked() && ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) && game.wave.upgrades[index] < max) buy("wave_upgrade", index, true);
 		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
 		if (game.tab != "waves" || !element.unlocked()) {
 			if (document.getElementById("wave_upgrade_" + index)) document.getElementById("wave_upgrade_" + index).remove();
@@ -658,7 +659,7 @@ function update() {
 				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(1) + " " + infinity + "<br>Max " + infinity + " gained on reset";
 			} else {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(0) + " " + infinity + "<br>Next " + infinity + " at Infinity points";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(0) + " " + infinity + "<br>Next " + infinity + " at " + format(1.7976931348623157e308) + " points";
 			};
 		};
 	} else {

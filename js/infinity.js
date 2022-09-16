@@ -66,4 +66,13 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: {infinity_points: 7},
+}, {
+	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't need to use any wave points",
+	req: {infinity_points: 8},
+}, {
+	desc: "unlocks COOLHEADED autobuyer, which doesn't need to use any wave points",
+	req: {infinity_points: 9},
+}, {
+	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't need to use any wave points",
+	req: {infinity_points: 10},
 }];
