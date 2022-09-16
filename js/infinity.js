@@ -17,7 +17,7 @@ function prestige() {
 	let imp = game.improvements;
 	game.improvements = [];
 	if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
-	if (game.infinity.milestones[4] && imp[11]) game.improvements[16] = imp[11];
+	if (game.infinity.milestones[4] && imp[11]) game.improvements[11] = imp[11];
 	if (game.infinity.milestones[5] && imp[16]) game.improvements[16] = imp[16];
 	game.wave.points = 0;
 	game.wave.pointBest = 0;
