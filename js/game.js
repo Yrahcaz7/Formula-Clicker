@@ -432,7 +432,7 @@ function update() {
 		if (element.max) max = element.max;
 		if (index == 0 && game.improvements[11]) buy("improvement", index, true);
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointTotal * 1e5) < element.cost() || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || ((game.pointBest * 1e5) < element.cost() && element.cost() !== Infinity) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -649,7 +649,7 @@ function update() {
 		if (!document.getElementById("infinity_milestones")) {
 			let append = document.createElement("div");
 			append.id = "infinity_milestones";
-			append.style = "border-top: 1px solid #000";
+			append.style = "border-top:1px solid #000;border-bottom:1px solid #000";
 			document.getElementById("main").appendChild(append);
 		};
 		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wave_points);
@@ -671,7 +671,7 @@ function update() {
 		if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
 		const element = infinity_milestones[index];
 		let boolean = true, title = "";
-		if (!game.infinity.milestones[index] && element.req) {
+		if (!game.infinity.milestones[index] && game.infinity.milestones[index - 1] !== false && element.req) {
 			for (const key in element.req) {
 				if (Object.hasOwnProperty.call(element.req, key)) {
 					const item = element.req[key];
@@ -696,12 +696,19 @@ function update() {
 		if (!document.getElementById("infinity_milestone_" + index)) {
 			let append = document.createElement("div");
 			append.id = "infinity_milestone_" + index;
+			if (index === 0) append.style = "border-top:none";
 			append.className = "milestone";
 			if (document.getElementById("infinity_milestone_" + (index - 1))) document.getElementById("infinity_milestones").insertBefore(append, document.getElementById("infinity_milestone_" + (index - 1)).nextSibling);
 			else document.getElementById("infinity_milestones").appendChild(append);
 		};
 		if (document.getElementById("infinity_milestone_" + index)) {
-			document.getElementById("infinity_milestone_" + index).innerHTML = title+(element.extraReqText?element.extraReqText:"")+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc);
+			if (index === 0) {
+				if (game.infinity.milestones[1]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonuses:<br>"+(typeof element.desc=="function"?element.desc():element.desc);
+				else if (game.infinity.milestones[0]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonus:<br>"+(typeof element.desc=="function"?element.desc():element.desc);
+				else document.getElementById("infinity_milestone_" + index).innerHTML = "Next bonus at "+title+(element.extraReqText?element.extraReqText:"")+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc);
+			} else {
+				document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index]?"":"Next bonus at "+title+(element.extraReqText?element.extraReqText:"")+"<br><br>")+(typeof element.desc=="function"?element.desc():element.desc);
+			};
 			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
 			else document.getElementById("infinity_milestone_" + index).className = "milestone";
 		};

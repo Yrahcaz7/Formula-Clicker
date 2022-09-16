@@ -102,12 +102,13 @@ button.prestigeButton {
 div.milestone {
 	width: 100%;
 	background-color: #ccc;
-	border-bottom: 1px solid #000;
+	border-top: 1px solid #000;
 	margin: auto;
 }
 
 div.milestone.done {
 	background-color: #999;
+	border-top: none;
 }
 
 button, input, select, option {
