@@ -604,7 +604,10 @@ function update() {
 		const element = wave_upgrades[index];
 		let max = Infinity;
 		if (element.max) max = element.max;
-		if (element.unlocked() && ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) && game.wave.upgrades[index] < max) buy("wave_upgrade", index, true);
+		if (element.unlocked() && game.wave.upgrades[index] < max) {
+			if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy("wave_upgrade", index, true);
+			else if (game.infinity.milestones[11]) buy("wave_upgrade", index);
+		};
 		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
 		if (game.tab != "waves" || !element.unlocked()) {
 			if (document.getElementById("wave_upgrade_" + index)) document.getElementById("wave_upgrade_" + index).remove();

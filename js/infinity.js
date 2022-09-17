@@ -50,9 +50,7 @@ const infinity_milestones = [{
 	desc: "adds the " + infinity + " element to the sinusoidal wave formula",
 	req: {infinity_points: 2},
 }, {
-	desc() {
-		return "keeps " + format(50, true, false, true) + "% of your clicks on reset";
-	},
+	desc() {return "keeps " + format(50, true, false, true) + "% of your clicks on reset"},
 	req: {infinity_points: 3},
 }, {
 	desc: "keeps the improvement AUTOMATION on reset",
@@ -78,4 +76,7 @@ const infinity_milestones = [{
 }, {
 	desc: "changes SUPER AUTO to always activate",
 	req: {infinity_points: 12},
+}, {
+	desc: "unlocks the wave upgrade autobuyer",
+	req: {infinity_points: 14},
 }];
