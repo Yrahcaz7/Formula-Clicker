@@ -168,7 +168,7 @@ const improvements = [{
 		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
-		return game.improvements[0] ** 0.3333333333333333;
+		return (game.improvements[0] + 1) ** 0.3333333333333333;
 	},
 	effect() {
 		if (game.improvements[11] > 0) return this.baseEff();

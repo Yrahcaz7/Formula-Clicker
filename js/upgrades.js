@@ -66,7 +66,7 @@ const upgrades = [{
 		return (1.25 ** game.upgrades[4]) * 1000000;
 	},
 	unlocked() {
-		return game.pointTotal >= 1500000 && game.improvements[1] > 0 && game.upgrades[3] > 0;
+		return game.pointTotal >= 1500000 && game.upgrades[3] > 0;
 	},
 }, {
 	title: "FAST SCALING",
