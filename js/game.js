@@ -282,10 +282,12 @@ function update() {
 		};
 		if (document.getElementById("tab-infinity")) {
 			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
+			else if (game.points == infNum && game.infinity.points < 45) document.getElementById("tab-infinity").className = "tab notif";
 			else document.getElementById("tab-infinity").className = "tab";
 		};
 		if (document.getElementById("tab-???")) {
 			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
+			else if (game.points == infNum && game.infinity.points == 45) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
 	};
@@ -652,7 +654,7 @@ function update() {
 			append.id = "infinity_prestige_button";
 			append.className = "prestigeButton";
 			append.onclick = () => {
-				if (game.points >= infNum) prestige();
+				if (game.points >= infNum && game.infinity.points < 45) prestige();
 			};
 			document.getElementById("main").appendChild(append);
 		};
@@ -664,7 +666,10 @@ function update() {
 		};
 		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wave_points);
 		if (document.getElementById("infinity_prestige_button")) {
-			if (game.points >= infNum) {
+			if (game.infinity.points >= 45) {
+				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
+				document.getElementById("infinity_prestige_button").innerHTML = "Max " + infinity + " reached<br>Go to the ??? tab";
+			} else if (game.points >= infNum) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton";
 				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(1) + " " + infinity + "<br>Max " + infinity + " gained on reset";
 			} else {
@@ -763,7 +768,7 @@ function update() {
 			};
 			if (iteration !== 0) text += "<br>";
 		};
-		if (count >= 0) text += "</div><br>All discoveries unlocked!";
+		if (count >= 0) text += "</div><br>All discoveries unlocked! Come back later for more content!";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
 		document.getElementById("???_display").innerHTML = text;
 	} else {
