@@ -349,8 +349,7 @@ function update() {
 		const _delta = superscript("(" + format(get_g_exponent()) + " + " + delta + superscript(format(get_d_exponent())) + ")");
 		const _epsilon = epsilon + superscript(format(get_e_exponent()));
 		const _zeta = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
-		let text = "";
-		if (game.upgrades[0] > 0) text += "Your " + alpha + " is " + format(get_alpha());
+		let text = "Your " + alpha + " is " + format(get_alpha());
 		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
 		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(get_gamma());
 		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(get_delta());

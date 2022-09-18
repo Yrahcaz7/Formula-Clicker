@@ -13,16 +13,29 @@ function prestige() {
 		if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
 		else game.clicks = 0;
 	};
-	game.tab = "main";
-	game.unlocks = [];
+	if (game.infinity.milestones[18]) {
+		game.unlocks = ["pd", "vd", "t", "o"];
+	} else if (game.infinity.milestones[17]) {
+		game.tab = "main";
+		game.unlocks = ["pd", "vd"];
+	} else {
+		game.tab = "main";
+		game.unlocks = [];
+	};
 	game.upgrades = [];
 	let imp = game.improvements;
 	game.improvements = [];
-	if (game.infinity.milestones[17]) {
+	if (game.infinity.milestones[18]) {
 		if (imp[0]) game.improvements[0] = imp[0];
 		if (imp[1]) game.improvements[1] = imp[1];
 		if (imp[2]) game.improvements[2] = imp[2];
-		if (imp[3]) game.improvements[2] = imp[3];
+		if (imp[3]) game.improvements[3] = imp[3];
+		if (imp[4]) game.improvements[4] = imp[4];
+	} else if (game.infinity.milestones[17]) {
+		if (imp[0]) game.improvements[0] = imp[0];
+		if (imp[1]) game.improvements[1] = imp[1];
+		if (imp[2]) game.improvements[2] = imp[2];
+		if (imp[3]) game.improvements[3] = imp[3];
 	} else {
 		if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
 	};
@@ -111,4 +124,8 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the first four improvements on reset",
 	req: {infinity_points: 35},
+	merge: [18],
+}, {
+	desc: "keeps the first five improvements on reset",
+	req: {infinity_points: 40},
 }];
