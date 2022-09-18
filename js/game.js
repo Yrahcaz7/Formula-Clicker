@@ -430,7 +430,10 @@ function update() {
 		const element = improvements[index];
 		let max = Infinity;
 		if (element.max) max = element.max;
-		if (index == 0 && game.improvements[11]) buy("improvement", index, true);
+		if (element.unlocked() && game.improvements[index] < max) {
+			if (index == 0 && game.improvements[11]) buy("improvement", index, true);
+			else if (game.infinity.milestones[12]) buy("improvement", index);
+		};
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 		if (game.tab != "improvements" || !element.unlocked() || ((game.pointBest * 1e10) < element.cost() && element.cost() !== Infinity) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();

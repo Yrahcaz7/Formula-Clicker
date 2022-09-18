@@ -79,4 +79,7 @@ const infinity_milestones = [{
 }, {
 	desc: "unlocks the wave upgrade autobuyer",
 	req: {infinity_points: 14},
+}, {
+	desc: "unlocks the improvement autobuyer",
+	req: {infinity_points: 16},
 }];
