@@ -85,4 +85,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the " + infinity + " element in the point gain formula",
 	req: {infinity_points: 18},
+}, {
+	desc: "improves the upgrade autobuyer to work twice as fast",
+	req: {infinity_points: 20},
 }];
