@@ -126,11 +126,11 @@ function pointButtonGain() {
 	let e_ex = get_e_exponent();
 	let mul = get_multiplier();
 	if (z > 0) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * ((2 ** z) + (5 * z))) * mul;
-	if (imp >= 4) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex)) * mul;
+	if (e > 0 && imp >= 4) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex)) * mul;
 	if (e > 0) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1)) * mul;
-	if (imp >= 3) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)))) * mul;
-	if (imp >= 2) return ((co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)))) * mul;
-	if (imp >= 1) return ((co * a * b * g) * (g ** (g_ex + (d ** d_ex)))) * mul;
+	if (d > 0 && imp >= 3) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)))) * mul;
+	if (d > 0 && imp >= 2) return ((co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)))) * mul;
+	if (d > 0 && imp >= 1) return ((co * a * b * g) * (g ** (g_ex + (d ** d_ex)))) * mul;
 	if (d > 0) return ((co * a * b) * (g ** (g_ex + (d ** d_ex)))) * mul;
 	if (g > 1) return ((co * a * b) * (g ** g_ex)) * mul;
 	if (b > 1) return ((co * a * b)) * mul;

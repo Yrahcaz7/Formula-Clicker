@@ -9,14 +9,23 @@ function prestige() {
 	game.points = 0;
 	game.pointBest = 0;
 	game.pointTotal = 0;
-	if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
-	else game.clicks = 0;
+	if (!game.infinity.milestones[16]) {
+		if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
+		else game.clicks = 0;
+	};
 	game.tab = "main";
 	game.unlocks = [];
 	game.upgrades = [];
 	let imp = game.improvements;
 	game.improvements = [];
-	if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
+	if (game.infinity.milestones[17]) {
+		if (imp[0]) game.improvements[0] = imp[0];
+		if (imp[1]) game.improvements[1] = imp[1];
+		if (imp[2]) game.improvements[2] = imp[2];
+		if (imp[3]) game.improvements[2] = imp[3];
+	} else {
+		if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
+	};
 	if (game.infinity.milestones[4] && imp[11]) game.improvements[11] = imp[11];
 	if (game.infinity.milestones[5] && imp[16]) game.improvements[16] = imp[16];
 	game.wave.points = 0;
@@ -52,9 +61,11 @@ const infinity_milestones = [{
 }, {
 	desc() {return "keeps " + format(50, true, false, true) + "% of your clicks on reset"},
 	req: {infinity_points: 3},
+	merge: [16],
 }, {
 	desc: "keeps the improvement AUTOMATION on reset",
 	req: {infinity_points: 4},
+	merge: [17],
 }, {
 	desc: "keeps the improvement FINALLY! on reset",
 	req: {infinity_points: 5},
@@ -94,4 +105,10 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the wave upgrade autobuyer to not need to use any wave points",
 	req: {infinity_points: 25},
+}, {
+	desc: "keeps all of your clicks on reset",
+	req: {infinity_points: 30},
+}, {
+	desc: "keeps the first four improvements on reset",
+	req: {infinity_points: 35},
 }];
