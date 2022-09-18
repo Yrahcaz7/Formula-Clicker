@@ -67,12 +67,15 @@ const infinity_milestones = [{
 }, {
 	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't need to use any wave points",
 	req: {infinity_points: 8},
+	merge: [11, 15],
 }, {
 	desc: "unlocks COOLHEADED autobuyer, which doesn't need to use any wave points",
 	req: {infinity_points: 9},
+	merge: [11, 15],
 }, {
 	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't need to use any wave points",
 	req: {infinity_points: 10},
+	merge: [11, 15],
 }, {
 	desc: "changes SUPER AUTO to always activate",
 	req: {infinity_points: 12},
@@ -88,4 +91,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
 	req: {infinity_points: 20},
+}, {
+	desc: "improves the wave upgrade autobuyer to not need to use any wave points",
+	req: {infinity_points: 25},
 }];

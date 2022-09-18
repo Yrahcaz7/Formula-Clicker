@@ -612,7 +612,8 @@ function update() {
 		let max = Infinity;
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.wave.upgrades[index] < max) {
-			if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy("wave_upgrade", index, true);
+			if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave_upgrade", index, true);
+			else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy("wave_upgrade", index, true);
 			else if (game.infinity.milestones[11]) buy("wave_upgrade", index);
 		};
 		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
@@ -702,6 +703,15 @@ function update() {
 		if (game.tab != "infinity" || game.infinity.milestones[index - 1] === false) {
 			if (document.getElementById("infinity_milestone_" + index)) document.getElementById("infinity_milestone_" + index).remove();
 			continue;
+		} else if (element.merge) {
+			boolean = true;
+			for (let iteration = 0; iteration < element.merge.length; iteration++) {
+				if (!game.infinity.milestones[element.merge[iteration]]) boolean = false;
+			};
+			if (boolean) {
+				if (document.getElementById("infinity_milestone_" + index)) document.getElementById("infinity_milestone_" + index).remove();
+				continue;
+			};
 		};
 		if (!document.getElementById("infinity_milestone_" + index)) {
 			let append = document.createElement("div");
