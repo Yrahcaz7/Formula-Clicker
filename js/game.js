@@ -1,7 +1,7 @@
 var game = {
-	points: 0,
-	pointBest: 0,
-	pointTotal: 0,
+	points: new Decimal(0),
+	pointBest: new Decimal(0),
+	pointTotal: new Decimal(0),
 	clicks: 0,
 	tab: "main",
 	unlocks: [],
@@ -79,11 +79,11 @@ function get_zeta() {
 };
 
 function get_constant() {
-	let co = 2.5;
-	co += improvements[0].effect();
-	co *= improvements[1].effect();
-	co *= improvements[11].effect();
-	co *= wave_upgrades[3].effect();
+	let co = new Decimal(2.5);
+	co = co.add(improvements[0].effect());
+	co = co.mul(improvements[1].effect());
+	co = co.mul(improvements[11].effect());
+	co = co.mul(wave_upgrades[3].effect());
 	return co;
 };
 
@@ -106,9 +106,9 @@ function get_e_exponent() {
 };
 
 function get_multiplier() {
-	let mul = 1;
-	if (game.infinity.milestones[13]) mul *= ((1.25 ** game.infinity.points) + (game.infinity.points * 7.5));
-	else if (game.infinity.milestones[0]) mul *= ((1.2 ** game.infinity.points) + (game.infinity.points * 5));
+	let mul = new Decimal(1);
+	if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
+	else if (game.infinity.milestones[0]) mul = mul.mul(new Decimal(1.2).pow(game.infinity.points).add(game.infinity.points * 5));
 	return mul;
 };
 
@@ -125,16 +125,16 @@ function pointButtonGain() {
 	let d_ex = get_d_exponent();
 	let e_ex = get_e_exponent();
 	let mul = get_multiplier();
-	if (z > 0) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex) * ((2 ** z) + (5 * z))) * mul;
-	if (e > 0 && imp >= 4) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e ** e_ex)) * mul;
-	if (e > 0) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex))) * (e + 1)) * mul;
-	if (d > 0 && imp >= 3) return ((co * a * b * g * d) * ((1.45 * g) ** (g_ex + (d ** d_ex)))) * mul;
-	if (d > 0 && imp >= 2) return ((co * a * b * g * d) * (g ** (g_ex + (d ** d_ex)))) * mul;
-	if (d > 0 && imp >= 1) return ((co * a * b * g) * (g ** (g_ex + (d ** d_ex)))) * mul;
-	if (d > 0) return ((co * a * b) * (g ** (g_ex + (d ** d_ex)))) * mul;
-	if (g > 1) return ((co * a * b) * (g ** g_ex)) * mul;
-	if (b > 1) return ((co * a * b)) * mul;
-	return a * mul;
+	if (z > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
+	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(mul);
+	if (e > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e + 1).mul(mul);
+	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(mul);
+	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(g).pow(g_ex + (d ** d_ex))).mul(mul);
+	if (d > 0 && imp >= 1) return co.mul(a).mul(b).mul(g).mul(new Decimal(g).pow(g_ex + (d ** d_ex))).mul(mul);
+	if (d > 0) return co.mul(a).mul(b).mul(new Decimal(g).pow(g_ex + (d ** d_ex))).mul(mul);
+	if (g > 1) return co.mul(a).mul(b).mul(g ** g_ex).mul(mul);
+	if (b > 1) return co.mul(a).mul(b).mul(mul);
+	return new Decimal(a).mul(mul);
 };
 
 function buy(type, index, free = false) {
@@ -142,8 +142,8 @@ function buy(type, index, free = false) {
 		if (!upgrades[index].unlocked()) return false;
 		let max = Infinity;
 		if (upgrades[index].max) max = upgrades[index].max;
-		if (game.points >= upgrades[index].cost() && game.upgrades[index] < max) {
-			if (!free) game.points -= upgrades[index].cost();
+		if (game.points.gte(upgrades[index].cost()) && game.upgrades[index] < max) {
+			if (!free) game.points = game.points.sub(upgrades[index].cost());
 			game.upgrades[index]++;
 			return true;
 		} else return false;
@@ -151,8 +151,8 @@ function buy(type, index, free = false) {
 		if (!improvements[index].unlocked()) return false;
 		let max = Infinity;
 		if (improvements[index].max) max = improvements[index].max;
-		if (game.points >= improvements[index].cost() && game.improvements[index] < max) {
-			if (!free) game.points -= improvements[index].cost();
+		if (game.points.gte(improvements[index].cost()) && game.improvements[index] < max) {
+			if (!free) game.points = game.points.sub(improvements[index].cost());
 			game.improvements[index]++;
 			return true;
 		} else return false;
@@ -171,12 +171,12 @@ function buy(type, index, free = false) {
 
 function update() {
 	// unlocks
-	if (game.points > 0 && !game.unlocks.includes("pd")) game.unlocks.push("pd");
+	if (game.points.gt(0) && !game.unlocks.includes("pd")) game.unlocks.push("pd");
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("vd")) game.unlocks.push("vd");
-	if (game.points >= 1000 && !game.unlocks.includes("t")) game.unlocks.push("t");
+	if (game.points.gte(1000) && !game.unlocks.includes("t")) game.unlocks.push("t");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("o")) game.unlocks.push("o");
 	if (game.improvements[13] > 0 && !game.unlocks.includes("w")) game.unlocks.push("w");
-	if ((game.points >= infNum || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
+	if ((game.points.gte(infNum) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
 	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
 	// tabs
 	if ((game.unlocks.includes("t")) && !document.getElementById("tabs")) {
@@ -282,12 +282,12 @@ function update() {
 		};
 		if (document.getElementById("tab-infinity")) {
 			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
-			else if (game.points == infNum && game.infinity.points < 45) document.getElementById("tab-infinity").className = "tab notif";
+			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100) document.getElementById("tab-infinity").className = "tab notif";
 			else document.getElementById("tab-infinity").className = "tab";
 		};
 		if (document.getElementById("tab-???")) {
 			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
-			else if (game.points == infNum && game.infinity.points == 45) document.getElementById("tab-???").className = "tab notif";
+			else if (game.infinity.points == 45) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
 	};
@@ -304,12 +304,12 @@ function update() {
 		append.type = "button";
 		append.onclick = () => {
 			// points
-			game.points += pointButtonGain();
-			game.pointTotal += pointButtonGain();
-			if (game.points > game.pointBest) game.pointBest = game.points;
-			if (game.points === Infinity) game.points = infNum;
-			if (game.pointTotal === Infinity) game.pointTotal = infNum;
-			if (game.pointBest === Infinity) game.pointBest = infNum;
+			game.points = game.points.add(pointButtonGain());
+			game.pointTotal = game.pointTotal.add(pointButtonGain());
+			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
+			if (game.points.gt(infNum)) game.points = infNum;
+			if (game.pointTotal.gt(infNum)) game.pointTotal = infNum;
+			if (game.pointBest.gt(infNum)) game.pointBest = infNum;
 			// clicks
 			game.clicks++;
 			// wave points
@@ -321,7 +321,7 @@ function update() {
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 			};
 			// best ever
-			if (game.points > game.infinity.best.points) game.infinity.best.points = game.points;
+			if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
 		};
 		document.getElementById("main").appendChild(append);
 	};
@@ -411,7 +411,7 @@ function update() {
 			let max = Infinity;
 			if (element.max) max = element.max;
 			if (game.upgrades[index] >= max) document.getElementById("upgrade_" + index).className = "upgrade maxed";
-			else if (game.points >= element.cost()) document.getElementById("upgrade_" + index).className = "upgrade";
+			else if (game.points.gte(element.cost())) document.getElementById("upgrade_" + index).className = "upgrade";
 			else document.getElementById("upgrade_" + index).className = "upgrade fade";
 			if (game.upgrades[index] > 0) document.getElementById("upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(upgrades[index].cost());
 			else {
@@ -439,8 +439,8 @@ function update() {
 			if (index == 0 && game.improvements[11]) buy("improvement", index, true);
 			else if (game.infinity.milestones[12]) buy("improvement", index);
 		};
-		if (document.getElementById("tab-improvements") && element.unlocked() && game.points >= element.cost() && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
-		if (game.tab != "improvements" || !element.unlocked() || ((game.pointBest * 1e10) < element.cost() && element.cost() !== Infinity) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
+		if (document.getElementById("tab-improvements") && element.unlocked() && game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && element.cost() !== Infinity) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -456,7 +456,7 @@ function update() {
 		};
 		if (document.getElementById("improvement_" + index)) {
 			if (game.improvements[index] >= max) document.getElementById("improvement_" + index).className = "improvement maxed";
-			else if (game.points >= element.cost()) document.getElementById("improvement_" + index).className = "improvement";
+			else if (game.points.gte(element.cost())) document.getElementById("improvement_" + index).className = "improvement";
 			else document.getElementById("improvement_" + index).className = "improvement fade";
 			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost())+" Bought: "+(max==1?!!game.improvements[index]:formatWhole(game.improvements[index])+(element.max?"/"+formatWhole(max):""));
 			let rows = document.getElementById("improvement_" + index).innerHTML.split("<br>");
@@ -654,7 +654,7 @@ function update() {
 			append.id = "infinity_prestige_button";
 			append.className = "prestigeButton";
 			append.onclick = () => {
-				if (game.points >= infNum && game.infinity.points < 45) prestige();
+				if (game.points.gte(infNum) && game.infinity.points < 45) prestige();
 			};
 			document.getElementById("main").appendChild(append);
 		};
@@ -669,12 +669,12 @@ function update() {
 			if (game.infinity.points >= 45) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
 				document.getElementById("infinity_prestige_button").innerHTML = "Max " + infinity + " reached<br>Go to the ??? tab";
-			} else if (game.points >= infNum) {
+			} else if (getInfGain() > 0) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(1) + " " + infinity + "<br>Max " + infinity + " gained on reset";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>Max " + infinity + " gained on reset";
 			} else {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(0) + " " + infinity + "<br>Next " + infinity + " at " + format(1.7976931348623157e308) + " points";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>Next " + infinity + " at " + format(1.7976931348623157e308) + " points";
 			};
 		};
 	} else {

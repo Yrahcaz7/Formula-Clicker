@@ -154,6 +154,7 @@ function formatStrange(number = NaN, smallAllowed = true, type = "", whole = fal
 
 function format(number = NaN, smallAllowed = true, expand = false, hasPercent = false, callback = "") {
 	if (number !== number) return "NaN";
+	if (typeof number == "object" && callback != "decimal") return formatDecimal(number);
 	number = +number.toPrecision(15);
 	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "sho") return formatIllions(number, smallAllowed, !expand);
 	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "eng") return formatEngineering(number, smallAllowed);
@@ -195,6 +196,51 @@ function formatWhole(number = NaN) {
 	if (game.options["num_note"] == "inf") return formatInfinity(number, false);
 	if (number >= 1000 || number <= -1000) return format(number, false);
 	return formatStrange(number, false, game.options["num_note"], true);
+};
+
+function formatDecimalInternal(number, precision, mantissa = true) {
+	number = new Decimal(number);
+	let e = number.log10().floor();
+	let m = number.div(Decimal.pow(10, e));
+	if (m.toStringWithDecimalPlaces(precision) == 10) {
+		m = new Decimal(1);
+		e = e.add(1);
+	};
+	if (mantissa) {
+		if (number.lt("1e10000")) return m.toStringWithDecimalPlaces(precision) + "e" + e;
+		if (e.toNumber() === Infinity) return m.toStringWithDecimalPlaces(precision) + "e" + formatDecimal(e, false);
+		return m.toStringWithDecimalPlaces(precision) + "e" + format(e.toNumber(), false);
+	};
+	if (e.toNumber() === Infinity) return "e" + formatDecimal(e, false);
+	return "e" + format(e.toNumber(), false);
+};
+
+function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false) {
+	number = new Decimal(number);
+	if (isNaN(number.sign) || isNaN(number.mag) || isNaN(number.layer)) return "NaN";
+	if (number.lt(1e308) && number.gt(-1e308) && (number.gt(1e-308) || number.lt(-1e-308)) || number.eq(0)) return format(number.toNumber(), smallAllowed, expand, hasPercent, "decimal");
+	if (number.sign < 0) return "-" + formatDecimal(number.neg(), smallAllowed, expand, hasPercent);
+	if (number.gte(infNum) || number.mag === Infinity) return "Infinity";
+	if (number.gte("eeee1000")) {
+		var slog = number.slog();
+		if (slog.gte(1e6)) return "F" + format(slog.floor().toNumber(), false, expand, hasPercent);
+		return "eee" + format(number.mag, true, expand, hasPercent) + "F" + format(number.layer, false, expand, hasPercent);
+	};
+	if (number.gte("1e1000000")) return formatDecimalInternal(number, 0, false);
+	if (number.gte("1e10000")) return formatDecimalInternal(number, 0);
+	if (number.gte(1)) return formatDecimalInternal(number, 3);
+	if (number.gte(0.0001) || !smallAllowed) return number.toStringWithDecimalPlaces(smallAllowed&&number.lt(1000)?2:0);
+	// invert
+	let e = number.log10().ceil();
+    let m = number.div(Decimal.pow(10, e));
+	number = new Decimal(10).pow(e.neg()).mul(m);
+	// continue
+	let val = "";
+	if (number.lt("1e1000")) {
+		val = formatDecimalInternal(number, 3);
+		return val.replace(/([^(?:e|F)]*)$/, '-$1');
+	};
+	return formatDecimal(number, true, expand, hasPercent) + "<sup>-1</sup>";
 };
 
 const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>";

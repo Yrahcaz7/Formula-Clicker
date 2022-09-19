@@ -10,7 +10,7 @@ const improvements = [{
 		return game.improvements[0] * this.baseEff();
 	},
 	cost() {
-		return (2 ** game.improvements[0]) * 1000;
+		return new Decimal(2).pow(game.improvements[0]).mul(1000);
 	},
 	unlocked() {
 		return true;
@@ -25,7 +25,7 @@ const improvements = [{
 		return 1;
 	},
 	cost() {
-		return 250000;
+		return new Decimal(250000);
 	},
 	max: 1,
 	unlocked() {
@@ -40,7 +40,7 @@ const improvements = [{
 		return game.improvements[2] * 0.25;
 	},
 	cost() {
-		return (10 ** game.improvements[2]) * 25000000;
+		return new Decimal(10).pow(game.improvements[2]).mul(25000000);
 	},
 	max: 4,
 	unlocked() {
@@ -52,7 +52,7 @@ const improvements = [{
 		return "automatically buys an upgrade when it is " + format(2.5, true, false, true) + "% or less of your points"
 	},
 	cost() {
-		return 5e10;
+		return new Decimal(5e10);
 	},
 	max: 1,
 	unlocked() {
@@ -70,7 +70,7 @@ const improvements = [{
 		return 1.1 ** game.improvements[4];
 	},
 	cost() {
-		return (10 ** game.improvements[4]) * 1e17;
+		return new Decimal(10).pow(game.improvements[4]).mul(1e17);
 	},
 	max: 7,
 	unlocked() {
@@ -83,8 +83,8 @@ const improvements = [{
 		return "improves the point gain formula";
 	},
 	cost() {
-		if (game.improvements[5] >= 2) return (1000 ** game.improvements[5]) * 2e20;
-		return (100 ** game.improvements[5]) * 2e20;
+		if (game.improvements[5] >= 2) return new Decimal(1000).pow(game.improvements[5]).mul(2e20);
+		return new Decimal(100).pow(game.improvements[5]).mul(2e20);
 	},
 	max: 3,
 	unlocked() {
@@ -99,7 +99,7 @@ const improvements = [{
 		return game.improvements[6] * 0.02;
 	},
 	cost() {
-		return (100 ** game.improvements[6]) * 1e28;
+		return new Decimal(100).pow(game.improvements[6]).mul(1e28);
 	},
 	max: 5,
 	unlocked() {
@@ -114,7 +114,7 @@ const improvements = [{
 		return 1.1 ** game.improvements[7];
 	},
 	cost() {
-		return (1e3 ** game.improvements[7]) * 1e36;
+		return new Decimal(1e3).pow(game.improvements[7]).mul(1e36);
 	},
 	max: 4,
 	unlocked() {
@@ -129,7 +129,7 @@ const improvements = [{
 		return 1.03886 ** game.improvements[8];
 	},
 	cost() {
-		return (1e4 ** game.improvements[8]) * 1e40;
+		return new Decimal(1e4).pow(game.improvements[8]).mul(1e40);
 	},
 	max: 10,
 	unlocked() {
@@ -144,7 +144,7 @@ const improvements = [{
 		return 1.13551 ** game.improvements[9];
 	},
 	cost() {
-		return (1e5 ** game.improvements[9]) * 1e45;
+		return new Decimal(1e5).pow(game.improvements[9]).mul(1e45);
 	},
 	max: 3,
 	unlocked() {
@@ -156,7 +156,7 @@ const improvements = [{
 		return "improves the point gain formula";
 	},
 	cost() {
-		return 1e47;
+		return new Decimal(1e47);
 	},
 	max: 1,
 	unlocked() {
@@ -175,7 +175,7 @@ const improvements = [{
 		return 1;
 	},
 	cost() {
-		return 1e50;
+		return new Decimal(1e50);
 	},
 	max: 1,
 	unlocked() {
@@ -190,7 +190,7 @@ const improvements = [{
 		return game.improvements[12] * 0.25;
 	},
 	cost() {
-		return (1e3 ** game.improvements[12]) * 1e53;
+		return new Decimal(1e3).pow(game.improvements[12]).mul(1e53);
 	},
 	max: 10,
 	unlocked() {
@@ -200,7 +200,7 @@ const improvements = [{
 	title: "HERE COMES TRIGONOMETRY",
 	desc: "unlocks sinusoidal waves",
 	cost() {
-		return 1e90;
+		return new Decimal(1e90);
 	},
 	max: 1,
 	unlocked() {
@@ -215,7 +215,7 @@ const improvements = [{
 		return 1.5 ** game.improvements[14];
 	},
 	cost() {
-		return (1e5 ** game.improvements[14]) * 1e95;
+		return new Decimal(1e5).pow(game.improvements[14]).mul(1e95);
 	},
 	max: 5,
 	unlocked() {
@@ -231,7 +231,7 @@ const improvements = [{
 		return game.improvements[15] * 0.05;
 	},
 	cost() {
-		return (10 ** game.improvements[15]) * 1e90;
+		return new Decimal(10).pow(game.improvements[15]).mul(1e90);
 	},
 	max: 20,
 	unlocked() {
@@ -244,7 +244,7 @@ const improvements = [{
 		return "changes the upgrade autobuyer to activate at " + format(10, true, false, true) + "% or less of your points, and it will no longer need to use any points";
 	},
 	cost() {
-		return 1e136;
+		return new Decimal(1e136);
 	},
 	max: 1,
 	unlocked() {
@@ -259,7 +259,7 @@ const improvements = [{
 		return 1.45 ** game.improvements[17];
 	},
 	cost() {
-		return (1e5 ** game.improvements[17]) * 1e140;
+		return new Decimal(1e5).pow(game.improvements[17]).mul(1e140);
 	},
 	max: 5,
 	unlocked() {
@@ -271,14 +271,14 @@ const improvements = [{
 		return "multiplies the maximum value of your wave based on your points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
-		return (game.points + 1) ** 0.0025;
+		return game.points.add(1).pow(0.0025);
 	},
 	effect() {
 		if (game.improvements[18] > 0) return this.baseEff();
 		return 1;
 	},
 	cost() {
-		return 1e175;
+		return new Decimal(1e175);
 	},
 	max: 1,
 	unlocked() {
@@ -290,7 +290,7 @@ const improvements = [{
 		return "increase the minimum value of your wave by " + format(45, true, false, true) + "% of the maximum value of your wave (after all other minimum value increases)";
 	},
 	cost() {
-		return 1e188;
+		return new Decimal(1e188);
 	},
 	max: 1,
 	unlocked() {
@@ -300,7 +300,7 @@ const improvements = [{
 	title: "MULT CAP UP",
 	desc: "increase the cap on RECURSION's effect",
 	cost() {
-		return 1e215;
+		return new Decimal(1e215);
 	},
 	max: 1,
 	unlocked() {
@@ -312,14 +312,14 @@ const improvements = [{
 		return "multiplies the value of your wave based on your points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
-		return (game.points + 1) ** 0.0015;
+		return game.points.add(1).pow(0.0015);
 	},
 	effect() {
 		if (game.improvements[21] > 0) return this.baseEff();
 		return 1;
 	},
 	cost() {
-		return 1e250;
+		return new Decimal(1e250);
 	},
 	max: 1,
 	unlocked() {

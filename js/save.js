@@ -40,7 +40,13 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	save = save.replace(/!F/g, "false").replace(/!T/g, "true"); // booleans
 	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave"); // words
 	save = save.replace(/null/g, "1.7976931348623157e308"); // numbers
-	return JSON.parse(save.replace(/Â/g, ""));
+	let result = JSON.parse(save.replace(/Â/g, ""));
+	for (const key in result) {
+		if (Object.hasOwnProperty.call(result, key)) {
+			if (key == "points" || key == "pointBest" || key == "pointTotal") result[key] = new Decimal(result[key]);
+		};
+	};
+	return result;
 };
 
 function setPage() {

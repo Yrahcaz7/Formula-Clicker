@@ -1,14 +1,14 @@
-const infNum = 1.7976931348623157e308;
+const infNum = new Decimal(1.7976931348620926e308);
 
 function prestige() {
-	if (game.points >= infNum) {
-		game.infinity.points++;
-		game.infinity.pointTotal++;
+	if (getInfGain() > 0) {
+		game.infinity.points += getInfGain();
+		game.infinity.pointTotal += getInfGain();
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
 	};
-	game.points = 0;
-	game.pointBest = 0;
-	game.pointTotal = 0;
+	game.points = new Decimal(0);
+	game.pointBest = new Decimal(0);
+	game.pointTotal = new Decimal(0);
 	if (!game.infinity.milestones[16]) {
 		if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
 		else game.clicks = 0;
@@ -51,6 +51,13 @@ function prestige() {
 	game.wave.max = 0;
 	game.wave.upgrades = [];
 	setPage();
+};
+
+function getInfGain() {
+	if (game.points.lt(1.7976931348620926e308) || game.infinity.points >= 45) return 0;
+	let gain = game.points.log10().div(308.2547155599167).floor().toNumber();
+	if (gain !== gain) return 0;
+	return gain
 };
 
 const resources = {
