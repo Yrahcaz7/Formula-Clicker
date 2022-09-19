@@ -1,4 +1,4 @@
-const infNum = new Decimal(1.7976931348620926e308);
+const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage)};
 
 function prestige() {
 	if (getInfGain() > 0) {
@@ -54,10 +54,16 @@ function prestige() {
 };
 
 function getInfGain() {
-	if (game.points.lt(1.7976931348620926e308) || game.infinity.points >= 45) return 0;
+	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
 	let gain = game.points.log10().div(308.2547155599167).floor().toNumber();
 	if (gain !== gain) return 0;
 	return gain
+};
+
+function getNextInf() {
+	if (getInfGain() == game.infinity.stage) return "Max " + infinity + " gained on reset";
+	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167);
+	return "Next " + infinity + " at " + format(next) + " points";
 };
 
 const resources = {

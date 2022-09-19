@@ -42,7 +42,7 @@ function formatIllions(number = NaN, smallAllowed = true, short = false, callbac
 		number = 0 - number;
 		pre = "-";
 	};
-	if (number === Infinity || number == infNum) return pre + "Infinity";
+	if (number === Infinity || number == infNum()) return pre + "Infinity";
 	const place3s = Math.floor(Math.log10(number) / 3);
 	let remain = (number / (10 ** (place3s * 3))).toFixed(2);
 	let post = "";
@@ -96,7 +96,7 @@ function formatEngineering(number = NaN, smallAllowed = true, callback = "eng") 
 		number = 0 - number;
 		pre = "-";
 	};
-	if (number === Infinity || number == infNum) return pre + "Infinity";
+	if (number === Infinity || number == infNum()) return pre + "Infinity";
 	const places = Math.floor(Math.log10(number) / 3) * 3;
 	let remain = (number / (10 ** places)).toFixed(2);
 	if (remain == "Infinity") return "0.00";
@@ -111,7 +111,7 @@ function formatLogarithm(number = NaN, smallAllowed = true, callback = "log") {
 		number = 0 - number;
 		pre = "-";
 	};
-	if (number === Infinity || number == infNum) return pre + "Infinity";
+	if (number === Infinity || number == infNum()) return pre + "Infinity";
 	const log = Math.log10(number);
 	let result = pre + "e" + log.toFixed(2);
 	if (result == "e-0.00") return "e0.00";
@@ -125,11 +125,11 @@ function formatInfinity(number = NaN, smallAllowed = true, expand = false, hasPe
 		if (hasPercent) return "(0.00%" + (expand ? " (of Infinity)" : "") + ")";
 		return "0.00%" + (expand ? " (of Infinity)" : "");
 	};
-	if (number === Infinity || number == infNum) {
+	if (number === Infinity || number == infNum()) {
 		if (hasPercent) return "(100.00%" + (expand ? " (of Infinity)" : "") + ")";
 		return "100.00%" + (expand ? " (of Infinity)" : "");
 	};
-	let percentage = Math.log10(number + 1) / Math.log10(infNum) * 100;
+	let percentage = Math.log10(number + 1) / Math.log10(infNum()) * 100;
 	let result = percentage.toFixed(2);;
 	if (smallAllowed) {
 		if (percentage < 0.00001) result = percentage.toExponential(3);
@@ -172,7 +172,7 @@ function format(number = NaN, smallAllowed = true, expand = false, hasPercent = 
 		number = 0 - number;
 		pre = "-";
 	};
-	if (number === Infinity || number == infNum) return pre + "Infinity";
+	if (number === Infinity || number == infNum()) return pre + "Infinity";
 	if (number >= 1e9) return pre + number.toExponential(3).replace("+", "");
 	if (number >= 1000000) {
 		let string = number.toFixed(0);
@@ -220,7 +220,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	if (isNaN(number.sign) || isNaN(number.mag) || isNaN(number.layer)) return "NaN";
 	if (number.lt(1e308) && number.gt(-1e308) && (number.gt(1e-308) || number.lt(-1e-308)) || number.eq(0)) return format(number.toNumber(), smallAllowed, expand, hasPercent, "decimal");
 	if (number.sign < 0) return "-" + formatDecimal(number.neg(), smallAllowed, expand, hasPercent);
-	if (number.gte(infNum) || number.mag === Infinity) return "Infinity";
+	if (number.gte(infNum()) || number.mag === Infinity) return "Infinity";
 	if (number.gte("eeee1000")) {
 		var slog = number.slog();
 		if (slog.gte(1e6)) return "F" + format(slog.floor().toNumber(), false, expand, hasPercent);

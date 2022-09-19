@@ -24,10 +24,11 @@ var game = {
 		pointBest: 0,
 		pointTotal: 0,
 		best: {
-			points: 0,
+			points: new Decimal(0),
 			wave_points: 0,
 		},
 		milestones: [],
+		stage: 1,
 	},
 };
 
@@ -176,7 +177,7 @@ function update() {
 	if (game.points.gte(1000) && !game.unlocks.includes("t")) game.unlocks.push("t");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("o")) game.unlocks.push("o");
 	if (game.improvements[13] > 0 && !game.unlocks.includes("w")) game.unlocks.push("w");
-	if ((game.points.gte(infNum) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
+	if ((game.points.gte(infNum()) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
 	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
 	// tabs
 	if ((game.unlocks.includes("t")) && !document.getElementById("tabs")) {
@@ -287,7 +288,7 @@ function update() {
 		};
 		if (document.getElementById("tab-???")) {
 			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
-			else if (game.infinity.points == 45) document.getElementById("tab-???").className = "tab notif";
+			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1)) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
 	};
@@ -307,9 +308,9 @@ function update() {
 			game.points = game.points.add(pointButtonGain());
 			game.pointTotal = game.pointTotal.add(pointButtonGain());
 			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
-			if (game.points.gt(infNum)) game.points = infNum;
-			if (game.pointTotal.gt(infNum)) game.pointTotal = infNum;
-			if (game.pointBest.gt(infNum)) game.pointBest = infNum;
+			if (game.points.gt(infNum())) game.points = infNum();
+			if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
+			if (game.pointBest.gt(infNum())) game.pointBest = infNum();
 			// clicks
 			game.clicks++;
 			// wave points
@@ -336,7 +337,7 @@ function update() {
 	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
 	if (document.getElementById("pointButton")) {
 		let gain = pointButtonGain();
-		if (gain === Infinity) gain = infNum;
+		if (gain === Infinity) gain = infNum();
 		let extra = "";
 		if (game.improvements[15] > 0) {
 			let gen = game.wave.pointGen * improvements[15].effect();
@@ -654,7 +655,7 @@ function update() {
 			append.id = "infinity_prestige_button";
 			append.className = "prestigeButton";
 			append.onclick = () => {
-				if (game.points.gte(infNum) && game.infinity.points < 45) prestige();
+				if (getInfGain() > 0 && (game.infinity.points < 45 || game.infinity.stage > 1)) prestige();
 			};
 			document.getElementById("main").appendChild(append);
 		};
@@ -666,15 +667,15 @@ function update() {
 		};
 		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wave_points);
 		if (document.getElementById("infinity_prestige_button")) {
-			if (game.infinity.points >= 45) {
+			if (game.infinity.points >= 45 && game.infinity.stage == 1) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
 				document.getElementById("infinity_prestige_button").innerHTML = "Max " + infinity + " reached<br>Go to the ??? tab";
 			} else if (getInfGain() > 0) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>Max " + infinity + " gained on reset";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
 			} else {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>Next " + infinity + " at " + format(1.7976931348623157e308) + " points";
+				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
 			};
 		};
 	} else {
@@ -768,11 +769,33 @@ function update() {
 			};
 			if (iteration !== 0) text += "<br>";
 		};
-		if (count >= 0) text += "</div><br>All discoveries unlocked! Come back later for more content!";
+		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
 		document.getElementById("???_display").innerHTML = text;
+		if (count >= 0) {
+			if (!document.getElementById("break_infinity")) {
+				let append = document.createElement("button");
+				append.id = "break_infinity";
+				append.type = "button";
+				append.onclick = () => {
+					if (game.points.gte(infNum())) {
+						game.points = game.points.sub(infNum());
+						game.infinity.stage++;
+					};
+				};
+				document.getElementById("main").appendChild(append);
+			};
+		} else {
+			if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
+		};
+		if (document.getElementById("break_infinity")) {
+			if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
+			else document.getElementById("break_infinity").className = "upgrade fade";
+			document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum());
+		};
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
+		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 	};
 };
 
