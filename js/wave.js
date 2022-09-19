@@ -3,12 +3,15 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	let result = "";
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
-	if (game.infinity.milestones[19]) {
-		if (result.endsWith(")")) result += "(" + format(1.02) + "<sup>" + infinity + "</sup> + " + format(2.5) + infinity + ")";
-		else result = "(" + result + ")(" + format(1.02) + "<sup>" + infinity + "</sup> + " + format(2.5) + infinity + ")";
+	if (game.infinity.milestones[25]) {
+		if (result.endsWith(")")) result += "(" + format(1.1) + "<sup>" + infinity + "</sup> + " + format(5) + infinity + ")";
+		else result = "(" + result + ")(" + format(1.1) + "<sup>" + infinity + "</sup> + " + format(5) + infinity + ")";
+	} else if (game.infinity.milestones[19]) {
+		if (result.endsWith(")")) result += "(" + format(1.05) + "<sup>" + infinity + "</sup> + " + format(2.5) + infinity + ")";
+		else result = "(" + result + ")(" + format(1.05) + "<sup>" + infinity + "</sup> + " + format(2.5) + infinity + ")";
 	} else if (game.infinity.milestones[6]) {
-		if (result.endsWith(")")) result += "(" + format(1.01) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
-		else result = "(" + result + ")(" + format(1.01) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
+		if (result.endsWith(")")) result += "(" + format(1.02) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
+		else result = "(" + result + ")(" + format(1.02) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
 	} else if (game.infinity.milestones[1]) {
 		if (result.endsWith(")")) result += "(" + infinity + " + " + format(1) + ")";
 		else result = "(" + result + ")(" + infinity + " + " + format(1) + ")";
@@ -88,7 +91,7 @@ const wave_upgrades = [{
 		return (game.wave.pointBest + 1) ** 0.2;
 	},
 	effect() {
-		return this.baseEff() ** game.wave.upgrades[3];
+		return new Decimal(this.baseEff()).pow(game.wave.upgrades[3]);
 	},
 	cost() {
 		return (10 ** game.wave.upgrades[3]) * 200;

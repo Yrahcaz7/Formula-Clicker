@@ -25,23 +25,33 @@ function prestige() {
 	game.upgrades = [];
 	let imp = game.improvements;
 	game.improvements = [];
-	if (game.infinity.milestones[21]) {
-		for (let index = 0; index < imp.length && index < 10; index++) {
-			if (imp[index]) game.improvements[index] = imp[index];
-		};
-	} else if (game.infinity.milestones[18]) {
-		for (let index = 0; index < imp.length && index < 5; index++) {
-			if (imp[index]) game.improvements[index] = imp[index];
-		};
-	} else if (game.infinity.milestones[17]) {
-		for (let index = 0; index < imp.length && index < 4; index++) {
+	if (game.infinity.milestones[23]) {
+		for (let index = 0; index < imp.length && index < 22; index++) {
 			if (imp[index]) game.improvements[index] = imp[index];
 		};
 	} else {
-		if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
+		if (game.infinity.milestones[22]) {
+			for (let index = 0; index < imp.length && index < 14; index++) {
+				if (imp[index]) game.improvements[index] = imp[index];
+			};
+		} else {
+			if (game.infinity.milestones[21]) {
+				for (let index = 0; index < imp.length && index < 10; index++) {
+					if (imp[index]) game.improvements[index] = imp[index];
+				};
+			} else if (game.infinity.milestones[18]) {
+				for (let index = 0; index < imp.length && index < 5; index++) {
+					if (imp[index]) game.improvements[index] = imp[index];
+				};
+			} else if (game.infinity.milestones[17]) {
+				for (let index = 0; index < imp.length && index < 4; index++) {
+					if (imp[index]) game.improvements[index] = imp[index];
+				};
+			} else if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
+			if (game.infinity.milestones[4] && imp[11]) game.improvements[11] = imp[11];
+		};
+		if (game.infinity.milestones[5] && imp[16]) game.improvements[16] = imp[16];
 	};
-	if (game.infinity.milestones[4] && imp[11]) game.improvements[11] = imp[11];
-	if (game.infinity.milestones[5] && imp[16]) game.improvements[16] = imp[16];
 	game.wave.points = 0;
 	game.wave.pointBest = 0;
 	game.wave.pointTotal = 0;
@@ -96,9 +106,11 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the improvement FINALLY! on reset",
 	req: {infinity_points: 5},
+	merge: [22],
 }, {
 	desc: "keeps the improvement SUPER AUTO on reset",
 	req: {infinity_points: 6},
+	merge: [23],
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: {infinity_points: 7},
@@ -127,6 +139,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the " + infinity + " element in the point gain formula",
 	req: {infinity_points: 18},
+	merge: [24],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
 	req: {infinity_points: 20},
@@ -147,10 +160,30 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: {infinity_points: 45},
+	merge: [25],
 }, {
 	desc: "removes the maximum bought on RECURSION, a wave upgrade",
 	req: {infinity_points: 50},
 }, {
 	desc: "keeps the first ten improvements on reset",
 	req: {infinity_points: 55},
+	merge: [22],
+}, {
+	desc: "keeps the first fourteen improvements on reset",
+	req: {infinity_points: 60},
+	merge: [23],
+}, {
+	desc: "keeps the first twenty-two improvements on reset",
+	req: {infinity_points: 66},
+}, {
+	desc: "improves the " + infinity + " element in the point gain formula",
+	req: {infinity_points: 75},
+}, {
+	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
+	req: {infinity_points: 86},
+}, {
+	desc() {
+		return "gains " + format(1e-10, true, false, true) + "% of your point gain per second";
+	},
+	req: {infinity_points: 100},
 }];

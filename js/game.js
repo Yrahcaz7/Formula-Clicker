@@ -109,7 +109,8 @@ function get_e_exponent() {
 
 function get_multiplier() {
 	let mul = new Decimal(1);
-	if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
+	if (game.infinity.milestones[24]) mul = mul.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
+	else if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
 	else if (game.infinity.milestones[0]) mul = mul.mul(new Decimal(1.2).pow(game.infinity.points).add(game.infinity.points * 5));
 	return mul;
 };
@@ -339,8 +340,6 @@ function update() {
 	};
 	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
 	if (document.getElementById("pointButton")) {
-		let gain = pointButtonGain();
-		if (gain === Infinity) gain = infNum();
 		let extra = "";
 		if (game.improvements[15] > 0) {
 			let gen = game.wave.pointGen * improvements[15].effect();
@@ -372,7 +371,8 @@ function update() {
 		else if (game.upgrades[4] > 0) formula = _constant + gamma + superscript(format(get_g_exponent()));
 		else if (game.upgrades[2] > 0) formula = _constant;
 		if (formula) {
-			if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
+			if (game.infinity.milestones[24]) formula += "(" + format(1.45) + superscript(infinity) + " + " + format(2.5e9) + infinity + ")";
+			else if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
 			else if (game.infinity.milestones[0]) formula += "(" + format(1.2) + superscript(infinity) + " + " + format(5) + infinity + ")";
 			formula = "Your point gain is " + formula + "<br><br>";
 		};
@@ -828,8 +828,9 @@ const loop = setInterval(() => {
 		// wave point gain
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
 		gen *= waveMult();
-		if (game.infinity.milestones[6]) gen *= (1.02 ** game.infinity.points) + (game.infinity.points * 2.5);
-		else if (game.infinity.milestones[6]) gen *= (1.01 ** game.infinity.points) + (game.infinity.points * 2);
+		if (game.infinity.milestones[25]) gen *= (1.1 ** game.infinity.points) + (game.infinity.points * 5);
+		else if (game.infinity.milestones[19]) gen *= (1.05 ** game.infinity.points) + (game.infinity.points * 2.5);
+		else if (game.infinity.milestones[6]) gen *= (1.02 ** game.infinity.points) + (game.infinity.points * 2);
 		else if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
 		game.wave.pointGen = gen;
 		if (game.wave.points < game.wave.pointMax) {
@@ -841,6 +842,14 @@ const loop = setInterval(() => {
 		};
 		// best ever
 		if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
+	};
+	if (game.infinity.milestones[26]) {
+		let gen = new Decimal(1e-10);
+		if (gen.gt(0) && pointButtonGain().gt(0)) {
+			gen *= 0.0003;
+			game.points = game.points.add(pointButtonGain().mul(gen));
+			game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
+		};
 	};
 	update();
 	if (game.unlocks.includes("w")) game.wave.frame++;
