@@ -25,17 +25,18 @@ function prestige() {
 	game.upgrades = [];
 	let imp = game.improvements;
 	game.improvements = [];
-	if (game.infinity.milestones[18]) {
-		if (imp[0]) game.improvements[0] = imp[0];
-		if (imp[1]) game.improvements[1] = imp[1];
-		if (imp[2]) game.improvements[2] = imp[2];
-		if (imp[3]) game.improvements[3] = imp[3];
-		if (imp[4]) game.improvements[4] = imp[4];
+	if (game.infinity.milestones[21]) {
+		for (let index = 0; index < imp.length && index < 10; index++) {
+			if (imp[index]) game.improvements[index] = imp[index];
+		};
+	} else if (game.infinity.milestones[18]) {
+		for (let index = 0; index < imp.length && index < 5; index++) {
+			if (imp[index]) game.improvements[index] = imp[index];
+		};
 	} else if (game.infinity.milestones[17]) {
-		if (imp[0]) game.improvements[0] = imp[0];
-		if (imp[1]) game.improvements[1] = imp[1];
-		if (imp[2]) game.improvements[2] = imp[2];
-		if (imp[3]) game.improvements[3] = imp[3];
+		for (let index = 0; index < imp.length && index < 4; index++) {
+			if (imp[index]) game.improvements[index] = imp[index];
+		};
 	} else {
 		if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
 	};
@@ -142,10 +143,14 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the first five improvements on reset",
 	req: {infinity_points: 40},
+	merge: [21],
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: {infinity_points: 45},
 }, {
 	desc: "removes the maximum bought on RECURSION, a wave upgrade",
 	req: {infinity_points: 50},
+}, {
+	desc: "keeps the first ten improvements on reset",
+	req: {infinity_points: 55},
 }];

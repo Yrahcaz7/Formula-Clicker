@@ -337,4 +337,19 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[21] > 0 && game.infinity.stage > 1;
 	},
+}, {
+	title: "EVEN MORE",
+	desc() {
+		return "multiplies " + zeta + " by " + format(1.03886);
+	},
+	effect() {
+		return 1.03886 ** game.improvements[23];
+	},
+	cost() {
+		return new Decimal(1e10).pow(game.improvements[23]).mul("1e400");
+	},
+	max: 10,
+	unlocked() {
+		return game.improvements[22] > 0;
+	},
 }];

@@ -76,6 +76,7 @@ function get_zeta() {
 	let z = 0;
 	z += upgrades[10].effect();
 	z += upgrades[11].effect();
+	z *= improvements[23].effect();
 	return z;
 };
 

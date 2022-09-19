@@ -125,11 +125,11 @@ function formatInfinity(number = NaN, smallAllowed = true, expand = false, hasPe
 		if (hasPercent) return "(0.00%" + (expand ? " (of Infinity)" : "") + ")";
 		return "0.00%" + (expand ? " (of Infinity)" : "");
 	};
-	if (number === Infinity || number == infNum()) {
+	if (number === Infinity || number == 1.7976931348620926e308) {
 		if (hasPercent) return "(100.00%" + (expand ? " (of Infinity)" : "") + ")";
 		return "100.00%" + (expand ? " (of Infinity)" : "");
 	};
-	let percentage = Math.log10(number + 1) / Math.log10(infNum()) * 100;
+	let percentage = Math.log10(number + 1) / Math.log10(1.7976931348620926e308) * 100;
 	let result = percentage.toFixed(2);;
 	if (smallAllowed) {
 		if (percentage < 0.00001) result = percentage.toExponential(3);
