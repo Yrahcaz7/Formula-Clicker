@@ -115,7 +115,7 @@ function get_multiplier() {
 };
 
 function pointButtonGain() {
-	let imp = game.improvements[5] + game.improvements[10];
+	let imp = game.improvements[5] + game.improvements[10] + game.improvements[24];
 	let a = get_alpha();
 	let b = get_beta();
 	let g = get_gamma();
@@ -127,6 +127,7 @@ function pointButtonGain() {
 	let d_ex = get_d_exponent();
 	let e_ex = get_e_exponent();
 	let mul = get_multiplier();
+	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2.22).pow(z)).mul(mul);
 	if (z > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
 	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(mul);
 	if (e > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e + 1).mul(mul);
@@ -361,7 +362,8 @@ function update() {
 		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(get_epsilon());
 		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(get_zeta());
 		let formula = "";
-		if (game.upgrades[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon + _zeta;
+		if (game.improvements[24]) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon + format(2.22) + superscript(zeta);
+		else if (game.upgrades[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon + _zeta;
 		else if (game.improvements[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon;
 		else if (game.upgrades[8] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")(" + epsilon + " + " + format(1) + ")";
 		else if (game.improvements[5] > 2) formula = _constant + "(" + format(1.45) + gamma + _delta + ")";

@@ -352,4 +352,16 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[22] > 0;
 	},
+}, {
+	title: "INSANE SCALING",
+	desc() {
+		return "improves the point gain formula";
+	},
+	cost() {
+		return new Decimal("1e545");
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[23] > 9;
+	},
 }];
