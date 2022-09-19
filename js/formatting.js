@@ -154,7 +154,11 @@ function formatStrange(number = NaN, smallAllowed = true, type = "", whole = fal
 
 function format(number = NaN, smallAllowed = true, expand = false, hasPercent = false, callback = "") {
 	if (number !== number) return "NaN";
-	if (typeof number == "object" && callback != "decimal") return formatDecimal(number);
+	if (typeof number == "object" && callback != "decimal") {
+		if (("" + game.options["num_note"]).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
+		if (("" + game.options["num_note"]).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
+		return formatDecimal(number);
+	};
 	number = +number.toPrecision(15);
 	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "sho") return formatIllions(number, smallAllowed, !expand);
 	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "eng") return formatEngineering(number, smallAllowed);
@@ -220,6 +224,12 @@ function formatDecimalInternal(number, precision, mantissa = true) {
 	};
 	if (e.toNumber() === Infinity) return "e" + formatDecimal(e, false);
 	return "e" + format(e.toNumber(), false);
+};
+
+function formatDecimalStrange(number = NaN, smallAllowed = true, hasPercent = false, type = "") {
+	if (type == "let") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "sym") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
+	return formatDecimal(number, smallAllowed, false, false);
 };
 
 function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false) {
