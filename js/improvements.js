@@ -364,4 +364,22 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[23] > 9;
 	},
+}, {
+	title: "CLICKITY CLICKITY",
+	desc() {
+		return "multiplies the value of your wave based on your clicks (" + format(this.baseEff()) + "x)";
+	},
+	baseEff() {
+		return (game.clicks + 1) ** 0.025;
+	},
+	effect() {
+		return this.baseEff() ** game.improvements[25];
+	},
+	cost() {
+		return new Decimal(1e30).pow(game.improvements[25]).mul("1e600");
+	},
+	max: 10,
+	unlocked() {
+		return game.improvements[24] > 0;
+	},
 }];

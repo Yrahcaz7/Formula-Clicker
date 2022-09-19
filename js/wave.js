@@ -26,6 +26,7 @@ function waveMult() {
 	let mult = 1;
 	mult *= wave_upgrades[4].effect();
 	mult *= improvements[21].effect();
+	mult *= improvements[25].effect();
 	return mult;
 };
 
