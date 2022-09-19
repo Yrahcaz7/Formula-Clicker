@@ -101,6 +101,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: {infinity_points: 7},
+	merge: [19],
 }, {
 	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't need to use any wave points",
 	req: {infinity_points: 8},
@@ -141,4 +142,7 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the first five improvements on reset",
 	req: {infinity_points: 40},
+}, {
+	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
+	req: {infinity_points: 45},
 }];
