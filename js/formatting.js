@@ -206,6 +206,13 @@ function formatDecimalInternal(number, precision, mantissa = true) {
 		m = new Decimal(1);
 		e = e.add(1);
 	};
+	// mod engineering
+	if (("" + game.options["num_note"]).includes("eng")) {
+		let er = e.div(3).floor().mul(3);
+		m = m.mul(new Decimal(10).pow(e.sub(er)));
+		e = er;
+	};
+	// return
 	if (mantissa) {
 		if (number.lt("1e10000")) return m.toStringWithDecimalPlaces(precision) + "e" + e;
 		if (e.toNumber() === Infinity) return m.toStringWithDecimalPlaces(precision) + "e" + formatDecimal(e, false);
@@ -221,6 +228,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	if (number.lt(1e308) && number.gt(-1e308) && (number.gt(1e-308) || number.lt(-1e-308)) || number.eq(0)) return format(number.toNumber(), smallAllowed, expand, hasPercent, "decimal");
 	if (number.sign < 0) return "-" + formatDecimal(number.neg(), smallAllowed, expand, hasPercent);
 	if (number.gte(infNum()) || number.mag === Infinity) return "Infinity";
+	// format
 	if (number.gte("eeee1000")) {
 		var slog = number.slog();
 		if (slog.gte(1e6)) return "F" + format(slog.floor().toNumber(), false, expand, hasPercent);
@@ -228,7 +236,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	};
 	if (number.gte("1e1000000")) return formatDecimalInternal(number, 0, false);
 	if (number.gte("1e10000")) return formatDecimalInternal(number, 0);
-	if (number.gte(1)) return formatDecimalInternal(number, 3);
+	if (number.gte(1)) return formatDecimalInternal(number, (""+game.options["num_note"]).includes("eng")?2:3);
 	if (number.gte(0.0001) || !smallAllowed) return number.toStringWithDecimalPlaces(smallAllowed&&number.lt(1000)?2:0);
 	// invert
 	let e = number.log10().ceil();
@@ -237,7 +245,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	// continue
 	let val = "";
 	if (number.lt("1e1000")) {
-		val = formatDecimalInternal(number, 3);
+		val = formatDecimalInternal(number, (""+game.options["num_note"]).includes("eng")?2:3);
 		return val.replace(/([^(?:e|F)]*)$/, '-$1');
 	};
 	return formatDecimal(number, true, expand, hasPercent) + "<sup>-1</sup>";
