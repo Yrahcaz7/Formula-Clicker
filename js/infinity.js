@@ -145,4 +145,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: {infinity_points: 45},
+}, {
+	desc: "removes the maximum bought on RECURSION, a wave upgrade",
+	req: {infinity_points: 50},
 }];

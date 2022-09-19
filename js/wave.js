@@ -118,7 +118,10 @@ const wave_upgrades = [{
 	cost() {
 		return (5 ** game.wave.upgrades[4]) * 250;
 	},
-	max: 26,
+	max() {
+		if (game.infinity.milestones[20]) return Infinity;
+		return 26;
+	},
 	unlocked() {
 		return game.wave.upgrades[3] > 0;
 	},
