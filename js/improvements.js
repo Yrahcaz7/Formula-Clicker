@@ -330,10 +330,14 @@ const improvements = [{
 	desc() {
 		return "improves the upgrade autobuyer to work twice as fast";
 	},
-	cost() {
-		return new Decimal("1e360");
+	effect() {
+		return 2 ** game.improvements[22];
 	},
-	max: 1,
+	cost() {
+		if (game.improvements[22] === 0) return new Decimal("1e360");
+		return new Decimal("1e750");
+	},
+	max: 2,
 	unlocked() {
 		return game.improvements[21] > 0 && game.infinity.stage > 1;
 	},

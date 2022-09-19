@@ -186,4 +186,10 @@ const infinity_milestones = [{
 		return "gains " + format(1e-10, true, false, true) + "% of your point gain per second";
 	},
 	req: {infinity_points: 100},
+	merge: [27],
+}, {
+	desc() {
+		return "gains " + format(0.01, true, false, true) + "% of your point gain per second";
+	},
+	req: {infinity_points: 115},
 }];

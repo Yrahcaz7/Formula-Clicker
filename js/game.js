@@ -393,7 +393,7 @@ function update() {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
 		let work = 1;
-		if (game.improvements[22] > 0) work *= 2;
+		work *= improvements[22].effect();
 		if (game.infinity.milestones[14]) work *= 2;
 		for (let iteration = 0; iteration < work; iteration++) {
 			if (game.improvements[16] > 0 && element.unlocked() && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
@@ -845,6 +845,7 @@ const loop = setInterval(() => {
 	};
 	if (game.infinity.milestones[26]) {
 		let gen = new Decimal(1e-10);
+		if (game.infinity.milestones[27]) gen = new Decimal(0.01);
 		if (gen.gt(0) && pointButtonGain().gt(0)) {
 			gen *= 0.0003;
 			game.points = game.points.add(pointButtonGain().mul(gen));
