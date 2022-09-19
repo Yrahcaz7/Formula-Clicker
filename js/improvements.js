@@ -325,4 +325,16 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[20] > 0;
 	},
+}, {
+	title: "FASTER, FASTER!",
+	desc() {
+		return "improves the upgrade autobuyer to work twice as fast";
+	},
+	cost() {
+		return new Decimal("1e360");
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[21] > 0 && game.infinity.stage > 1;
+	},
 }];
