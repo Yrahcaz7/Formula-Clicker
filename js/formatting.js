@@ -183,8 +183,12 @@ function formatWhole(number = NaN) {
 
 function formatDecimalInternal(number, precision, mantissa = true) {
 	number = new Decimal(number);
+	// mod logarithm
+	if (("" + game.options["num_note"]).includes("log")) {
+		return "e" + (number.sign==-1?"-":"") + format(number.mag);
+	};
 	let e = number.log10().floor();
-	let m = number.div(Decimal.pow(10, e));
+	let m = number.div(new Decimal(10).pow(e));
 	if (m.toStringWithDecimalPlaces(precision) == 10) {
 		m = new Decimal(1);
 		e = e.add(1);
@@ -233,13 +237,13 @@ function formatDecimalInfinity(number, smallAllowed = true, expand = false, hasP
 	return result + "%" + (expand ? " (of Infinity)" : "");
 };
 
-function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false) {
+function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false, internal = false) {
 	number = new Decimal(number);
 	if (number.lt(0)) number = new Decimal(0);
 	if (isNaN(number.sign) || isNaN(number.mag) || isNaN(number.layer)) return "NaN";
 	if (number.lt(1e308) && number.gt(-1e308) && (number.gt(1e-308) || number.lt(-1e-308)) || number.eq(0)) return format(number.toNumber(), smallAllowed, expand, hasPercent, "decimal");
 	if (number.sign < 0) return "-" + formatDecimal(number.neg(), smallAllowed, expand, hasPercent);
-	if (number.gte(infNum()) || number.mag === Infinity) return "Infinity";
+	if ((number.gte(infNum()) && !internal) || number.mag === Infinity) return "Infinity";
 	// format
 	if (number.gte("eeee1000")) {
 		var slog = number.slog();
@@ -252,7 +256,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	if (number.gte(0.0001) || !smallAllowed) return number.toStringWithDecimalPlaces(smallAllowed&&number.lt(1000)?2:0);
 	// invert
 	let e = number.log10().ceil();
-    let m = number.div(Decimal.pow(10, e));
+    let m = number.div(new Decimal(10).pow(e));
 	number = new Decimal(10).pow(e.neg()).mul(m);
 	// continue
 	let val = "";
@@ -260,7 +264,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 		val = formatDecimalInternal(number, (""+game.options["num_note"]).includes("eng")?2:3);
 		return val.replace(/([^(?:e|F)]*)$/, '-$1');
 	};
-	return formatDecimal(number, true, expand, hasPercent) + "<sup>-1</sup>";
+	return formatDecimal(number, true, expand, hasPercent, true) + "<sup>-1</sup>";
 };
 
 const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>";
