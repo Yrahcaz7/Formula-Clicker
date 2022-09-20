@@ -850,6 +850,8 @@ const loop = setInterval(() => {
 			gen *= 0.0003;
 			game.points = game.points.add(pointButtonGain().mul(gen));
 			game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
+			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
+			if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
 		};
 	};
 	update();
