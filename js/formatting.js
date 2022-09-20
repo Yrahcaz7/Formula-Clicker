@@ -94,7 +94,7 @@ function format(number = NaN, smallAllowed = true, expand = false, hasPercent = 
 	if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
 	if (("" + game.options["num_note"]).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
 	if (("" + game.options["num_note"]).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
-	return formatDecimal(number);
+	return formatDecimal(number, smallAllowed, expand, hasPercent);
 };
 
 function formatWhole(number) {
@@ -181,8 +181,8 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 		if (slog.gte(1e6)) return pre + "F" + format(slog.floor().toNumber(), false, expand, hasPercent);
 		return pre + "eee" + format(number.mag, true, expand, hasPercent) + "F" + format(number.layer, false, expand, hasPercent);
 	};
-	if (number.gte("1e1000000")) return pre + formatDecimalInternal(number, 0, false);
-	if (number.gte("1e10000")) return pre + formatDecimalInternal(number, 0);
+	if (number.gte("e1000000")) return pre + formatDecimalInternal(number, 0, false);
+	if (number.gte("e10000")) return pre + formatDecimalInternal(number, 0);
 	if (number.gte(1e9) || (number.gte(1e3) && (""+game.options["num_note"]).includes("eng"))) return pre + formatDecimalInternal(number, (""+game.options["num_note"]).includes("eng")?2:3);
 	if (number.gte(1000000)) {
 		let result = number.toStringWithDecimalPlaces(0);
@@ -192,21 +192,18 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 		let result = number.toStringWithDecimalPlaces(0);
 		return pre + cutoff(result, ",", result.length - 6, result.length - 3);
 	};
-	if (number.gte(0.1)) return pre + number.toStringWithDecimalPlaces(2);
+	if (number.gte(0.1) || !smallAllowed) return pre + number.toStringWithDecimalPlaces(2);
 	if (number.gte(0.01)) return pre + number.toStringWithDecimalPlaces(3);
 	if (number.gte(0.001)) return pre + number.toStringWithDecimalPlaces(4);
 	if (number.gte(0.0001)) return pre + number.toStringWithDecimalPlaces(5);
-	if (number.gte(0.00001) || !smallAllowed) return pre + number.toStringWithDecimalPlaces(6);
+	if (number.gte(0.00001)) return pre + number.toStringWithDecimalPlaces(6);
 	// invert
 	let e = number.log10().ceil();
     let m = number.div(new Decimal(10).pow(e));
 	number = new Decimal(10).pow(e.neg()).mul(m);
 	// continue
-	let val = "";
-	if (number.lt("1e1000")) {
-		val = formatDecimalInternal(number, (""+game.options["num_note"]).includes("eng")?2:3);
-		return pre + val.replace(/([^(?:e|F)]*)$/, '-$1');
-	};
+	let val = formatDecimal(number, true, expand, hasPercent, true);
+	if (number.lt("e1000000")) return pre + val.replace(/([^(?:e|F)]*)$/, '-$1');
 	return pre + formatDecimal(number, true, expand, hasPercent, true) + "<sup>-1</sup>";
 };
 
