@@ -797,7 +797,7 @@ function update() {
 		if (document.getElementById("break_infinity")) {
 			if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
 			else document.getElementById("break_infinity").className = "upgrade fade";
-			document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum());
+			document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 		};
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();

@@ -33,15 +33,14 @@ const shortIllions = [
 	["c"],
 ];
 
-function formatIllions(number = NaN, smallAllowed = true, short = false, callback = "sho") {
+function formatIllions(number = NaN, short = false) {
 	if (number !== number) return "NaN";
-	if (!number) return "0.00";
-	if (number < 1e3 && number > -1e3) return format(number, smallAllowed, !short, false, callback);
 	let pre = "";
 	if (number < 0) {
 		number = 0 - number;
 		pre = "-";
 	};
+	if (number < 1) return pre + "0.00";
 	if (number === Infinity || number == infNum()) return pre + "Infinity";
 	const place3s = Math.floor(Math.log10(number) / 3);
 	let remain = (number / (10 ** (place3s * 3))).toFixed(2);
@@ -87,14 +86,14 @@ function formatIllions(number = NaN, smallAllowed = true, short = false, callbac
 	return (pre + remain + (!short && post ? " " : "") + post).replace("undefined", "");
 };
 
-function format(number = NaN, smallAllowed = true, expand = false, hasPercent = false, callback = "") {
+function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false) {
 	if (number !== number) return "NaN";
 	let natural = typeof number=="object"?number.toNumber():+number;
-	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3) && callback != "sho") return formatIllions(number, smallAllowed, !expand);
+	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
 	if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
 	if (("" + game.options["num_note"]).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
 	if (("" + game.options["num_note"]).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
-	return formatDecimal(number, smallAllowed, expand, hasPercent);
+	return formatDecimal(number, smallAllowed, expand, hasPercent, showInfValue);
 };
 
 function formatWhole(number) {
