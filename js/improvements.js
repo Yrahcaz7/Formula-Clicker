@@ -382,7 +382,7 @@ const improvements = [{
 	cost() {
 		return new Decimal(1e30).pow(game.improvements[25]).mul("1e600");
 	},
-	max: 10,
+	max: 80,
 	unlocked() {
 		return game.improvements[24] > 0;
 	},

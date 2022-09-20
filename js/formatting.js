@@ -119,29 +119,6 @@ function formatLogarithm(number = NaN, smallAllowed = true, callback = "log") {
 	return result;
 };
 
-function formatInfinity(number = NaN, smallAllowed = true, expand = false, hasPercent = false) {
-	if (number !== number) return "NaN";
-	if (number <= 0) {
-		if (hasPercent) return "(0.00%" + (expand ? " (of Infinity)" : "") + ")";
-		return "0.00%" + (expand ? " (of Infinity)" : "");
-	};
-	if (number === Infinity || number == 1.7976931348620926e308) {
-		if (hasPercent) return "(100.00%" + (expand ? " (of Infinity)" : "") + ")";
-		return "100.00%" + (expand ? " (of Infinity)" : "");
-	};
-	let percentage = Math.log10(number + 1) / Math.log10(1.7976931348620926e308) * 100;
-	let result = percentage.toFixed(2);;
-	if (smallAllowed) {
-		if (percentage < 0.00001) result = percentage.toExponential(3);
-		else if (percentage < 0.0001) result = percentage.toFixed(6);
-		else if (percentage < 0.001) result = percentage.toFixed(5);
-		else if (percentage < 0.01) result = percentage.toFixed(4);
-		else if (percentage < 0.1) result = percentage.toFixed(3);
-	};
-	if (hasPercent) return "(" + result + "%" + (expand ? " (of Infinity)" : "") + ")";
-	return result + "%" + (expand ? " (of Infinity)" : "");
-};
-
 function formatStrange(number = NaN, smallAllowed = true, type = "", whole = false) {
 	if (type == "letsci") return (whole?number.toFixed(0):format(number, smallAllowed, false, false, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "leteng") return (whole?number.toFixed(0):formatEngineering(number, smallAllowed, type)).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
@@ -154,6 +131,7 @@ function formatStrange(number = NaN, smallAllowed = true, type = "", whole = fal
 
 function format(number = NaN, smallAllowed = true, expand = false, hasPercent = false, callback = "") {
 	if (number !== number) return "NaN";
+	if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
 	if (typeof number == "object" && callback != "decimal") {
 		if (("" + game.options["num_note"]).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
 		if (("" + game.options["num_note"]).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
@@ -163,7 +141,6 @@ function format(number = NaN, smallAllowed = true, expand = false, hasPercent = 
 	if ((game.options["num_note"] == "sho" || ((game.options["num_note"] == "mixsci" || game.options["num_note"] == "mixeng") && number < 1e36 && number > -1e36)) && (number >= 1e3 || number <= -1e3) && callback != "sho") return formatIllions(number, smallAllowed, !expand);
 	if ((game.options["num_note"] == "eng" || game.options["num_note"] == "mixeng") && (number >= 1e3 || number <= -1e3) && callback != "eng") return formatEngineering(number, smallAllowed);
 	if (game.options["num_note"] == "log" && callback != "log") return formatLogarithm(number, smallAllowed);
-	if (game.options["num_note"] == "inf") return formatInfinity(number, smallAllowed, expand, hasPercent);
 	if (game.options["num_note"] == "letsci" && callback != "letsci") return formatStrange(number, smallAllowed, "letsci");
 	if (game.options["num_note"] == "leteng" && callback != "leteng") return formatStrange(number, smallAllowed, "leteng");
 	if (game.options["num_note"] == "letlog" && callback != "letlog") return formatStrange(number, smallAllowed, "letlog");
@@ -197,8 +174,10 @@ function format(number = NaN, smallAllowed = true, expand = false, hasPercent = 
 
 function formatWhole(number = NaN) {
 	if (number !== number) return "NaN";
-	if (game.options["num_note"] == "inf") return formatInfinity(number, false);
-	if (number >= 1000 || number <= -1000) return format(number, false);
+	if (number >= 1000 || number <= -1000) {
+		if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, false);
+		return format(number, false);
+	};
 	return formatStrange(number, false, game.options["num_note"], true);
 };
 
@@ -226,14 +205,37 @@ function formatDecimalInternal(number, precision, mantissa = true) {
 	return "e" + format(e.toNumber(), false);
 };
 
-function formatDecimalStrange(number = NaN, smallAllowed = true, hasPercent = false, type = "") {
+function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, type = "") {
 	if (type == "let") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "sym") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
 	return formatDecimal(number, smallAllowed, false, false);
 };
 
+function formatDecimalInfinity(number, smallAllowed = true, expand = false, hasPercent = false) {
+	number = new Decimal(number);
+	if (number.gte(infNum())) {
+		if (hasPercent) return "(100.00%" + (expand ? " (of Infinity)" : "") + ")";
+		return "100.00%" + (expand ? " (of Infinity)" : "");
+	};
+	let percentage = number.log10().div(infNum().log10()).mul(100), round = 2;
+	if (smallAllowed) {
+		if (percentage.lt(0.00001)) return formatDecimal(number, true, expand, hasPercent);
+		else if (percentage.lt(0.0001)) round = 6;
+		else if (percentage.lt(0.001)) round = 5;
+		else if (percentage.lt(0.01)) round = 4;
+		else if (percentage.lt(0.1)) round = 3;
+	} else {
+		if (percentage.lt(0.01)) return formatDecimal(number, false, expand, hasPercent);
+	};
+	let result = percentage.toNumber().toFixed(round);
+	if (percentage == "Infinity") result = formatDecimalInternal(percentage, round);
+	if (hasPercent) return "(" + result + "%" + (expand ? " (of Infinity)" : "") + ")";
+	return result + "%" + (expand ? " (of Infinity)" : "");
+};
+
 function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false) {
 	number = new Decimal(number);
+	if (number.lt(0)) number = new Decimal(0);
 	if (isNaN(number.sign) || isNaN(number.mag) || isNaN(number.layer)) return "NaN";
 	if (number.lt(1e308) && number.gt(-1e308) && (number.gt(1e-308) || number.lt(-1e-308)) || number.eq(0)) return format(number.toNumber(), smallAllowed, expand, hasPercent, "decimal");
 	if (number.sign < 0) return "-" + formatDecimal(number.neg(), smallAllowed, expand, hasPercent);
