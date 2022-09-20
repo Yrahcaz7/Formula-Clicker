@@ -25,7 +25,11 @@ function prestige() {
 	game.upgrades = [];
 	let imp = game.improvements;
 	game.improvements = [];
-	if (game.infinity.milestones[23]) {
+	if (game.infinity.milestones[28]) {
+		for (let index = 0; index < imp.length && index < 25; index++) {
+			if (imp[index]) game.improvements[index] = imp[index];
+		};
+	} else if (game.infinity.milestones[23]) {
 		for (let index = 0; index < imp.length && index < 22; index++) {
 			if (imp[index]) game.improvements[index] = imp[index];
 		};
@@ -74,7 +78,7 @@ function getInfGain() {
 function getNextInf() {
 	if (getInfGain() == game.infinity.stage) return "Max " + infinity + " gained on reset";
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167);
-	return "Next " + infinity + " at " + format(next) + " points";
+	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
 
 const resources = {
@@ -175,6 +179,7 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the first twenty-two improvements on reset",
 	req: {infinity_points: 66},
+	merge: [28],
 }, {
 	desc: "improves the " + infinity + " element in the point gain formula",
 	req: {infinity_points: 75},
@@ -192,4 +197,7 @@ const infinity_milestones = [{
 		return "gains " + format(0.01, true, false, true) + "% of your point gain per second";
 	},
 	req: {infinity_points: 115},
+}, {
+	desc: "keeps the first twenty-five improvements on reset",
+	req: {infinity_points: 132},
 }];

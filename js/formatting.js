@@ -181,7 +181,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 		return pre + "eee" + format(number.mag, true, expand, hasPercent) + "F" + format(number.layer, false, expand, hasPercent);
 	};
 	if (number.gte("e1000000")) return pre + formatDecimalInternal(number, 0, false);
-	if (number.gte("e10000")) return pre + formatDecimalInternal(number, 0);
+	if (number.gte("e1000")) return pre + formatDecimalInternal(number, 0);
 	if (number.gte(1e9) || (number.gte(1e3) && (""+game.options["num_note"]).includes("eng"))) return pre + formatDecimalInternal(number, (""+game.options["num_note"]).includes("eng")?2:3);
 	if (number.gte(1000000)) {
 		let result = number.toStringWithDecimalPlaces(0);

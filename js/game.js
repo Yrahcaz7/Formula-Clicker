@@ -319,7 +319,7 @@ function update() {
 			game.clicks++;
 			// wave points
 			if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
-				let gen = game.wave.pointGen * improvements[15].effect();
+				let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
 				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
 				game.wave.points += gen;
 				game.wave.pointTotal += gen;
@@ -342,7 +342,7 @@ function update() {
 	if (document.getElementById("pointButton")) {
 		let extra = "";
 		if (game.improvements[15] > 0) {
-			let gen = game.wave.pointGen * improvements[15].effect();
+			let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
 			if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
 			extra += "<br>+" + format(gen) + " wave points";
 		};

@@ -386,4 +386,19 @@ const improvements = [{
 	unlocked() {
 		return game.improvements[24] > 0;
 	},
+}, {
+	title: "TIRELESS GRIND",
+	desc() {
+		return "increases wave point gain from the point button by " + format(7.5, true, false, true) + "% of your wave points per second";
+	},
+	effect() {
+		return game.improvements[26] * 0.075;
+	},
+	cost() {
+		return new Decimal(1e10).pow(game.improvements[26]).mul("1e800");
+	},
+	max: 20,
+	unlocked() {
+		return game.improvements[25] > 0;
+	},
 }];
