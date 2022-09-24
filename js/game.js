@@ -395,12 +395,17 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
-		let work = 1;
-		work *= improvements[22].effect();
-		if (game.infinity.milestones[14]) work *= 2;
-		for (let iteration = 0; iteration < work; iteration++) {
-			if (game.improvements[16] > 0 && element.unlocked() && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
-			else if (game.improvements[3] > 0 && element.unlocked() && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
+		let max = 100000;
+		if (element.max) max = element.max;
+		if (element.unlocked() && game.upgrades[index] < max) {
+			let work = 1;
+			work *= improvements[22].effect();
+			if (game.infinity.milestones[14]) work *= 2;
+			for (let iteration = 0; iteration < work; iteration++) {
+				if (game.upgrades[index] >= max) break;
+				if (game.improvements[16] > 0 && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
+				else if (game.improvements[3] > 0 && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
+			};
 		};
 		if (game.tab != "main" || !element.unlocked()) {
 			if (document.getElementById("upgrade_" + index)) document.getElementById("upgrade_" + index).remove();
@@ -417,8 +422,6 @@ function update() {
 			else document.getElementById("upgrades").appendChild(append);
 		};
 		if (document.getElementById("upgrade_" + index)) {
-			let max = 100000;
-			if (element.max) max = element.max;
 			if (game.upgrades[index] >= max) document.getElementById("upgrade_" + index).className = "upgrade maxed";
 			else if (game.points.gte(element.cost())) document.getElementById("upgrade_" + index).className = "upgrade";
 			else document.getElementById("upgrade_" + index).className = "upgrade fade";
@@ -445,8 +448,13 @@ function update() {
 		let max = 100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.improvements[index] < max) {
-			if (index == 0 && game.improvements[11]) buy("improvement", index, true);
-			else if (game.infinity.milestones[12]) buy("improvement", index);
+			if (index == 0 && game.improvements[11]) {
+				buy("improvement", index, true);
+				if (game.improvements[27] > 0) {
+					buy("improvement", index, true);
+					buy("improvement", index, true);
+				};
+			} else if (game.infinity.milestones[12]) buy("improvement", index);
 		};
 		if (document.getElementById("tab-improvements") && element.unlocked() && game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {

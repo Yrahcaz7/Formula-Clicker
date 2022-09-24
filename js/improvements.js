@@ -383,7 +383,7 @@ const improvements = [{
 	cost() {
 		return new Decimal(1e30).pow(game.improvements[25]).mul("1e600");
 	},
-	max: 80,
+	max: 50,
 	unlocked() {
 		return game.improvements[24] > 0;
 	},
@@ -401,5 +401,17 @@ const improvements = [{
 	max: 20,
 	unlocked() {
 		return game.improvements[25] > 0;
+	},
+}, {
+	title: "FACE-SLAP",
+	desc() {
+		return "improves the EFFECIENCY autobuyer to work thrice as fast";
+	},
+	cost() {
+		return new Decimal("1e1250");
+	},
+	max: 1,
+	unlocked() {
+		return game.improvements[26] > 0;
 	},
 }];
