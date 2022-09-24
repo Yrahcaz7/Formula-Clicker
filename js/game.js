@@ -620,9 +620,14 @@ function update() {
 		if (typeof element.max == "function") max = element.max();
 		else if (element.max) max = element.max;
 		if (element.unlocked() && game.wave.upgrades[index] < max) {
-			if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave_upgrade", index, true);
-			else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy("wave_upgrade", index, true);
-			else if (game.infinity.milestones[11]) buy("wave_upgrade", index);
+			let work = 1;
+			if (game.infinity.milestones[31]) work *= 2;
+			for (let iteration = 0; iteration < work; iteration++) {
+				if (game.wave.upgrades[index] >= max) break;
+				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave_upgrade", index, true);
+				else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy	("wave_upgrade", index, true);
+				else if (game.infinity.milestones[11]) buy("wave_upgrade", index);
+			};
 		};
 		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
 		if (game.tab != "waves" || !element.unlocked()) {
@@ -846,6 +851,8 @@ const loop = setInterval(() => {
 	if (game.infinity.milestones[26]) {
 		let gen = new Decimal(1e-10);
 		if (game.infinity.milestones[27]) gen = new Decimal(0.01);
+		if (game.infinity.milestones[30]) gen = new Decimal(1);
+		if (game.infinity.milestones[32]) gen = new Decimal(100);
 		if (gen.gt(0) && pointButtonGain().gt(0)) {
 			gen *= 0.0003;
 			game.points = game.points.add(pointButtonGain().mul(gen));
