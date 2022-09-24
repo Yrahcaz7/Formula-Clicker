@@ -336,9 +336,10 @@ const improvements = [{
 	cost() {
 		if (game.improvements[22] === 0) return new Decimal("1e360");
 		if (game.improvements[22] === 1) return new Decimal("1e750");
-		return new Decimal("1e1000");
+		if (game.improvements[22] === 2) return new Decimal("1e1250");
+		return new Decimal("1e2500");
 	},
-	max: 3,
+	max: 4,
 	unlocked() {
 		return game.improvements[21] > 0 && game.infinity.stage > 1;
 	},

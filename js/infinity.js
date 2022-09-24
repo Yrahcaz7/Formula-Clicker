@@ -226,7 +226,7 @@ const infinity_milestones = [{
 	req: {infinity_points: 132},
 }, {
 	desc() {
-		if (this.effect() == 1.75) return "multiplies " + infinity + " gain by " + format(1.75);
+		if (this.effect() == 1.75) return "multiplies " + infinity + " gain by " + format(1.75) + "x (maxed)";
 		return "multiplies " + infinity + " gain based on your wave points (" + format(this.effect()) + "x)";
 	},
 	effect() {
