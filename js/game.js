@@ -144,7 +144,7 @@ function pointButtonGain() {
 function buy(type, index, free = false) {
 	if (type == "upgrade") {
 		if (!upgrades[index].unlocked()) return false;
-		let max = Infinity;
+		let max = 100000;
 		if (upgrades[index].max) max = upgrades[index].max;
 		if (game.points.gte(upgrades[index].cost()) && game.upgrades[index] < max) {
 			if (!free) game.points = game.points.sub(upgrades[index].cost());
@@ -153,7 +153,7 @@ function buy(type, index, free = false) {
 		} else return false;
 	} else if (type == "improvement") {
 		if (!improvements[index].unlocked()) return false;
-		let max = Infinity;
+		let max = 100000;
 		if (improvements[index].max) max = improvements[index].max;
 		if (game.points.gte(improvements[index].cost()) && game.improvements[index] < max) {
 			if (!free) game.points = game.points.sub(improvements[index].cost());
@@ -162,7 +162,7 @@ function buy(type, index, free = false) {
 		} else return false;
 	} else if (type == "wave_upgrade") {
 		if (!wave_upgrades[index].unlocked()) return false;
-		let max = Infinity;
+		let max = 100000;
 		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
 		else if (wave_upgrades[index].max) max = wave_upgrades[index].max;
 		if (game.wave.points >= wave_upgrades[index].cost() && game.wave.upgrades[index] < max) {
@@ -323,6 +323,9 @@ function update() {
 				game.wave.points += gen;
 				game.wave.pointTotal += gen;
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+				if (game.points === Infinity) game.points = 1.7976931348620926e308;
+				if (game.pointTotal === Infinity) game.pointTotal = 1.7976931348620926e308;
+				if (game.pointBest === Infinity) game.pointBest = 1.7976931348620926e308;
 				if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
 			};
 			game.clicks++;
@@ -414,7 +417,7 @@ function update() {
 			else document.getElementById("upgrades").appendChild(append);
 		};
 		if (document.getElementById("upgrade_" + index)) {
-			let max = Infinity;
+			let max = 100000;
 			if (element.max) max = element.max;
 			if (game.upgrades[index] >= max) document.getElementById("upgrade_" + index).className = "upgrade maxed";
 			else if (game.points.gte(element.cost())) document.getElementById("upgrade_" + index).className = "upgrade";
@@ -439,7 +442,7 @@ function update() {
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
-		let max = Infinity;
+		let max = 100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.improvements[index] < max) {
 			if (index == 0 && game.improvements[11]) buy("improvement", index, true);
@@ -616,12 +619,13 @@ function update() {
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
 		const element = wave_upgrades[index];
-		let max = Infinity;
+		let max = 100000;
 		if (typeof element.max == "function") max = element.max();
 		else if (element.max) max = element.max;
 		if (element.unlocked() && game.wave.upgrades[index] < max) {
 			let work = 1;
 			if (game.infinity.milestones[31]) work *= 2;
+			if (game.infinity.milestones[33]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.wave.upgrades[index] >= max) break;
 				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave_upgrade", index, true);
@@ -648,7 +652,7 @@ function update() {
 			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
 			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
 			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
-			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(wave_upgrades[index].cost())+(max!==Infinity?"<br>Bought: "+(max==1?!!game.wave.upgrades[index]:formatWhole(game.wave.upgrades[index])+"/"+formatWhole(max)):"");
+			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(wave_upgrades[index].cost())+(max<100000?"<br>Bought: "+(max==1?!!game.wave.upgrades[index]:formatWhole(game.wave.upgrades[index])+"/"+formatWhole(max)):"");
 			else {
 				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(wave_upgrades[index].cost());
 				document.getElementById("wave_upgrade_" + index).className += " small";
@@ -844,6 +848,9 @@ const loop = setInterval(() => {
 			game.wave.points += gen;
 			game.wave.pointTotal += gen;
 			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+			if (game.points === Infinity) game.points = 1.7976931348620926e308;
+			if (game.pointTotal === Infinity) game.pointTotal = 1.7976931348620926e308;
+			if (game.pointBest === Infinity) game.pointBest = 1.7976931348620926e308;
 		};
 		// best ever
 		if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;

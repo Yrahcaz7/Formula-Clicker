@@ -64,8 +64,23 @@ function prestige() {
 	game.wave.frame = 0;
 	game.wave.min = 0;
 	game.wave.max = 0;
-	game.wave.upgrades = [];
-	setPage();
+	if (!game.infinity.milestones[40]) {
+		let wvupg = game.wave.upgrades;
+		game.wave.upgrades = [];
+		let num = 0;
+		if (game.infinity.milestones[39]) num = 6;
+		else if (game.infinity.milestones[38]) num = 5;
+		else if (game.infinity.milestones[37]) num = 4;
+		else if (game.infinity.milestones[36]) num = 3;
+		else if (game.infinity.milestones[35]) num = 2;
+		else if (game.infinity.milestones[34]) num = 1;
+		if (num > 0) {
+			for (let index = 0; index < wvupg.length && index < num; index++) {
+				if (wvupg[index]) game.wave.upgrades[index] = wvupg[index];
+			};
+		};
+	};
+	if (!game.infinity.milestones[18]) setPage();
 };
 
 function getInfGain() {
@@ -211,10 +226,13 @@ const infinity_milestones = [{
 	req: {infinity_points: 132},
 }, {
 	desc() {
+		if (this.effect() == 2) return "multiplies " + infinity + " gain by " + format(2);
 		return "multiplies " + infinity + " gain based on your wave points (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		return (game.wave.points + 1) ** 0.0025;
+		let eff = (game.wave.points + 1) ** 0.002;
+		if (eff > 2) return 2;
+		return eff;
 	},
 	req: {infinity_points: 150},
 }, {
@@ -226,9 +244,40 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the wave upgrade autobuyer to work twice as fast",
 	req: {infinity_points: 195},
+	merge: [33],
 }, {
 	desc() {
 		return "gains " + format(100, true, false, true) + "% of your point gain per second, but disables manual point gain";
 	},
 	req: {infinity_points: 225},
+}, {
+	desc: "improves the wave upgrade autobuyer to work four times as fast",
+	req: {infinity_points: 275},
+}, {
+	desc: "keeps the first wave upgrade on reset",
+	req: {infinity_points: 333},
+	merge: [35],
+}, {
+	desc: "keeps the first two wave upgrades on reset",
+	req: {infinity_points: 400},
+	merge: [36],
+}, {
+	desc: "keeps the first three wave upgrades on reset",
+	req: {infinity_points: 480},
+	merge: [37],
+}, {
+	desc: "keeps the first four wave upgrades on reset",
+	req: {infinity_points: 575},
+	merge: [38],
+}, {
+	desc: "keeps the first five wave upgrades on reset",
+	req: {infinity_points: 690},
+	merge: [39],
+}, {
+	desc: "keeps the first six wave upgrades on reset",
+	req: {infinity_points: 825},
+	merge: [40],
+}, {
+	desc: "keeps all wave upgrades on reset",
+	req: {infinity_points: 1000},
 }];

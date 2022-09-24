@@ -123,7 +123,7 @@ const wave_upgrades = [{
 		return (5 ** game.wave.upgrades[4]) * 250;
 	},
 	max() {
-		if (game.infinity.milestones[20]) return Infinity;
+		if (game.infinity.milestones[20]) return 100000;
 		return 26;
 	},
 	unlocked() {
