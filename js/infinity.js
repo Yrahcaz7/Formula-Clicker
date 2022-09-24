@@ -228,7 +228,7 @@ const infinity_milestones = [{
 	req: {infinity_points: 195},
 }, {
 	desc() {
-		return "gains " + format(100, true, false, true) + "% of your point gain per second";
+		return "gains " + format(100, true, false, true) + "% of your point gain per second, but disables manual point gain";
 	},
-	req: {infinity_points: 222},
+	req: {infinity_points: 225},
 }];

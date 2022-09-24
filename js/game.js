@@ -308,25 +308,24 @@ function update() {
 		append.id = "pointButton";
 		append.type = "button";
 		append.onclick = () => {
-			// points
-			game.points = game.points.add(pointButtonGain());
-			game.pointTotal = game.pointTotal.add(pointButtonGain());
-			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
-			if (game.points.gt(infNum())) game.points = infNum();
-			if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
-			if (game.pointBest.gt(infNum())) game.pointBest = infNum();
-			// clicks
-			game.clicks++;
-			// wave points
+			if (!game.infinity.milestones[32]) {
+				game.points = game.points.add(pointButtonGain());
+				game.pointTotal = game.pointTotal.add(pointButtonGain());
+				if (game.points.gt(game.pointBest)) game.pointBest = game.points;
+				if (game.points.gt(infNum())) game.points = infNum();
+				if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
+				if (game.pointBest.gt(infNum())) game.pointBest = infNum();
+				if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
+			};
 			if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
 				let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
 				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
 				game.wave.points += gen;
 				game.wave.pointTotal += gen;
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+				if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
 			};
-			// best ever
-			if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
+			game.clicks++;
 		};
 		document.getElementById("main").appendChild(append);
 	};
@@ -340,13 +339,14 @@ function update() {
 	};
 	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
 	if (document.getElementById("pointButton")) {
-		let extra = "";
+		let text = "";
+		if (!game.infinity.milestones[32]) text += "+" + format(pointButtonGain()) + " points<br>";
 		if (game.improvements[15] > 0) {
 			let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
 			if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
-			extra += "<br>+" + format(gen) + " wave points";
+			text += "+" + format(gen) + " wave points";
 		};
-		document.getElementById("pointButton").innerHTML = "+" + format(pointButtonGain()) + " points" + extra;
+		document.getElementById("pointButton").innerHTML = text;
 	};
 	if (document.getElementById("varDisplay")) {
 		const superscript = (string) => {return "<sup>" + string + "</sup>"};
@@ -859,6 +859,9 @@ const loop = setInterval(() => {
 			game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
 			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
 			if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
+			if (game.points.gt(infNum())) game.points = infNum();
+			if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
+			if (game.pointBest.gt(infNum())) game.pointBest = infNum();
 		};
 	};
 	update();
