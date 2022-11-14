@@ -234,7 +234,7 @@ const infinity_milestones = [{
 	},
 	effect() {
 		let eff = (game.wave.points + 1) ** 0.002;
-		if (eff > 1.75) return 1.75;
+		if (eff > 1.75 || eff !== eff) return 1.75;
 		return eff;
 	},
 	req: {infinity_points: 150},
@@ -290,6 +290,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast again",
 	req: {infinity_points: 1500},
+	merge: [50],
 }, {
 	desc: "keeps everything on reset",
 	req: {infinity_points: 2000},
@@ -318,4 +319,23 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
 	req: {infinity_points: 100000},
+	merge: [51],
+}, {
+	desc: "multiplies the absolute maximum bought for everything by 100",
+	req: {infinity_points: 250000},
+}, {
+	desc: "improves the upgrade autobuyer to work twice as fast again",
+	req: {infinity_points: 500000},
+	merge: [52],
+}, {
+	desc() {
+		return "sets your amount of EFFECIENCY to " + format(1e10) + " and disables buying it";
+	},
+	req: {infinity_points: 5000000},
+}, {
+	desc: "improves the upgrade autobuyer to work five times as fast",
+	req: {infinity_points: 2500000},
+}, {
+	desc: "improves the break infinity autobuyer to not reset your points",
+	req: {infinity_points: 5000000},
 }];

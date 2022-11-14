@@ -144,7 +144,7 @@ function pointButtonGain() {
 function buy(type, index, free = false) {
 	if (type == "upgrade") {
 		if (!upgrades[index].unlocked()) return false;
-		let max = 100000;
+		let max = game.infinity.milestones[49]?10000000:100000;
 		if (upgrades[index].max) max = upgrades[index].max;
 		if (game.points.gte(upgrades[index].cost()) && game.upgrades[index] < max) {
 			if (!free) game.points = game.points.sub(upgrades[index].cost());
@@ -153,7 +153,7 @@ function buy(type, index, free = false) {
 		} else return false;
 	} else if (type == "improvement") {
 		if (!improvements[index].unlocked()) return false;
-		let max = 100000;
+		let max = game.infinity.milestones[49]?10000000:100000;
 		if (improvements[index].max) max = improvements[index].max;
 		if (game.points.gte(improvements[index].cost()) && game.improvements[index] < max) {
 			if (!free) game.points = game.points.sub(improvements[index].cost());
@@ -162,7 +162,7 @@ function buy(type, index, free = false) {
 		} else return false;
 	} else if (type == "wave_upgrade") {
 		if (!wave_upgrades[index].unlocked()) return false;
-		let max = 100000;
+		let max = game.infinity.milestones[49]?10000000:100000;
 		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
 		else if (wave_upgrades[index].max) max = wave_upgrades[index].max;
 		if (game.wave.points >= wave_upgrades[index].cost() && game.wave.upgrades[index] < max) {
@@ -395,7 +395,7 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
-		let max = 100000;
+		let max = game.infinity.milestones[49]?10000000:100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.upgrades[index] < max) {
 			let work = 1;
@@ -403,6 +403,8 @@ function update() {
 			if (game.infinity.milestones[14]) work *= 2;
 			if (game.infinity.milestones[41]) work *= 2;
 			if (game.infinity.milestones[42]) work *= 2;
+			if (game.infinity.milestones[50]) work *= 2;
+			if (game.infinity.milestones[52]) work *= 5;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.upgrades[index] >= max) break;
 				if (game.improvements[16] > 0 && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
@@ -447,18 +449,21 @@ function update() {
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
-		let max = 100000;
+		let max = game.infinity.milestones[49]?10000000:100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.improvements[index] < max) {
 			if (index == 0 && game.improvements[11]) {
-				let work = 1;
-				if (game.improvements[27] > 0) work *= 3;
-				if (game.infinity.milestones[44]) work *= 2;
-				if (game.infinity.milestones[46]) work *= 2;
-				if (game.infinity.milestones[48]) work *= 2;
-				for (let iteration = 0; iteration < work; iteration++) {
-					if (game.upgrades[0] >= max) break;
-					buy("improvement", 0, true);
+				if (game.infinity.milestones[51]) game.improvements[0] = 1e10;
+				else {
+					let work = 1;
+					if (game.improvements[27] > 0) work *= 3;
+					if (game.infinity.milestones[44]) work *= 2;
+					if (game.infinity.milestones[46]) work *= 2;
+					if (game.infinity.milestones[48]) work *= 2;
+					for (let iteration = 0; iteration < work; iteration++) {
+						if (game.upgrades[0] >= max) break;
+						buy("improvement", 0, true);
+					};
 				};
 			} else if (game.infinity.milestones[12]) buy("improvement", index);
 		};
@@ -633,7 +638,7 @@ function update() {
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
 		const element = wave_upgrades[index];
-		let max = 100000;
+		let max = game.infinity.milestones[49]?10000000:100000;
 		if (typeof element.max == "function") max = element.max();
 		else if (element.max) max = element.max;
 		if (element.unlocked() && game.wave.upgrades[index] < max) {
@@ -800,7 +805,7 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br><span class='big'>If you really want to keep playing...</span><br><br>You have currently broken Infinity " + (game.infinity.stage - 13).toFixed(0) + " extra times.";
+		if (game.infinity.stage > 12) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br><span class='big'>If you really want to keep playing...</span><br><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.";
 		document.getElementById("???_display").innerHTML = text;
 		if (count >= 0) {
 			if (!document.getElementById("break_infinity")) {
@@ -829,9 +834,13 @@ function update() {
 		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 	};
 	if (game.infinity.milestones[45] && game.points.gte(infNum())) {
-		game.points = game.points.sub(infNum());
+		if (!game.infinity.milestones[53]) game.points = game.points.sub(infNum());
 		game.infinity.stage++;
 	};
+	// fixes
+	if (game.wave.points !== game.wave.points) game.wave.points = 1.7976931348623157e308;
+	if (game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348623157e308;
+	if (game.wave.pointGen !== game.wave.pointGen) game.wave.pointGen = 1.7976931348623157e308;
 };
 
 const loop = setInterval(() => {
