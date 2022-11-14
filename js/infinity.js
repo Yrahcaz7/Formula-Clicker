@@ -5,6 +5,8 @@ function prestige() {
 		game.infinity.points += getInfGain();
 		game.infinity.pointTotal += getInfGain();
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
+		if (game.infinity.points === Infinity) game.infinity.points = 1.7976931348623157e308;
+		if (game.infinity.pointTotal === Infinity) game.infinity.pointTotal = 1.7976931348623157e308;
 	};
 	if (game.infinity.milestones[43]) return;
 	game.points = new Decimal(0);
@@ -87,6 +89,7 @@ function prestige() {
 function getInfGain() {
 	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
 	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
+	if (game.points > infNum()) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (gain !== gain) return 0;
 	return gain;
 };
@@ -105,6 +108,29 @@ function infMul() {
 	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
 	if (game.infinity.milestones[57]) mul *= infinity_milestones[57].effect();
 	return mul;
+};
+
+function breakInfBulk() {
+	let bulk = 1;
+	if (game.infinity.milestones[64]) bulk *= 10;
+	if (game.infinity.milestones[65]) bulk *= 10;
+	if (game.infinity.milestones[66]) bulk *= 10;
+	if (game.infinity.milestones[67]) bulk *= 10;
+	if (game.infinity.milestones[68]) bulk *= 10;
+	if (game.infinity.milestones[69]) bulk *= 100;
+	if (game.infinity.milestones[70]) bulk *= 100;
+	if (game.infinity.milestones[71]) bulk *= 100;
+	if (game.infinity.milestones[72]) bulk *= 100;
+	if (game.infinity.milestones[73]) bulk *= 100;
+	if (game.infinity.milestones[74]) {
+		let mul = 1;
+		if (game.infinity.milestones[75]) mul *= 2;
+		if (game.infinity.milestones[76]) mul *= 2;
+		if (game.infinity.milestones[77]) mul *= 2;
+		if (game.infinity.milestones[78]) mul *= 2;
+		bulk += game.infinity.stage / 500000 * mul;
+	};
+	return bulk;
 };
 
 const resources = {
@@ -180,6 +206,7 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps all of your clicks on reset",
 	req: {infinity_points: 30},
+	merge: [43],
 }, {
 	desc: "keeps the first four improvements on reset",
 	req: {infinity_points: 35},
@@ -228,6 +255,7 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps the first twenty-five improvements on reset",
 	req: {infinity_points: 132},
+	merge: [43],
 }, {
 	desc() {
 		if (this.effect() == 1.75) return "multiplies " + infinity + " gain by " + format(1.75) + "x (maxed)";
@@ -284,6 +312,7 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps all wave upgrades on reset",
 	req: {infinity_points: 1000},
+	merge: [43],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
 	req: {infinity_points: 1200},
@@ -383,46 +412,62 @@ const infinity_milestones = [{
 	desc: "improves the break infinity autobuyer to work twice as fast again",
 	req: {infinity_points: 1e10},
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 10x",
+	desc: "makes break infinity bulk buy 10x",
 	req: {infinity_points: 4.5e10},
 	merge: [65],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 10x more",
+	desc: "makes break infinity bulk buy 10x more",
 	req: {infinity_points: 2e11},
 	merge: [66],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 10x more again",
+	desc: "makes break infinity bulk buy 10x more again",
 	req: {infinity_points: 1e12},
 	merge: [67],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 10x more again",
+	desc: "makes break infinity bulk buy 10x more again",
 	req: {infinity_points: 7.5e12},
 	merge: [68],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 10x more again",
+	desc: "makes break infinity bulk buy 10x more again",
 	req: {infinity_points: 1e14},
 	merge: [69],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 100x more",
+	desc: "makes break infinity bulk buy 100x more",
 	req: {infinity_points: 2.5e15},
 	merge: [70],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	desc: "makes break infinity bulk buy 100x more again",
 	req: {infinity_points: 1e17},
 	merge: [71],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	desc: "makes break infinity bulk buy 100x more again",
 	req: {infinity_points: 5e18},
 	merge: [72],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	desc: "makes break infinity bulk buy 100x more again",
 	req: {infinity_points: 5e20},
 	merge: [73],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	desc: "makes break infinity bulk buy 100x more again",
 	req: {infinity_points: 7.5e22},
 	merge: [74],
 }, {
-	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	desc: "makes break infinity bulk buying scale based on your broken infinities",
 	req: {infinity_points: 2.5e25},
+	merge: [75],
+}, {
+	desc: "makes break infinity bulk buy scaling 2x greater",
+	req: {infinity_points: 1e36},
+	merge: [76],
+}, {
+	desc: "makes break infinity bulk buy scaling 2x greater again",
+	req: {infinity_points: 1e55},
+	merge: [77],
+}, {
+	desc: "makes break infinity bulk buy scaling 2x greater again",
+	req: {infinity_points: 1e100},
+	merge: [78],
+}, {
+	desc: "makes break infinity bulk buy scaling 2x greater again",
+	req: {infinity_points: 1e175},
 }];

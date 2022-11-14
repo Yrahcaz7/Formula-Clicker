@@ -834,7 +834,7 @@ function update() {
 				append.onclick = () => {
 					if (game.points.gte(infNum())) {
 						game.points = game.points.sub(infNum());
-						game.infinity.stage++;
+						game.infinity.stage += breakInfBulk();
 					};
 				};
 				document.getElementById("main").appendChild(append);
@@ -865,18 +865,7 @@ function update() {
 		if (game.infinity.milestones[61]) work *= 2;
 		if (game.infinity.milestones[62]) work *= 2;
 		if (game.infinity.milestones[63]) work *= 2;
-		let bulk = 1;
-		if (game.infinity.milestones[64]) bulk *= 10;
-		if (game.infinity.milestones[65]) bulk *= 10;
-		if (game.infinity.milestones[66]) bulk *= 10;
-		if (game.infinity.milestones[67]) bulk *= 10;
-		if (game.infinity.milestones[68]) bulk *= 10;
-		if (game.infinity.milestones[69]) bulk *= 100;
-		if (game.infinity.milestones[70]) bulk *= 100;
-		if (game.infinity.milestones[71]) bulk *= 100;
-		if (game.infinity.milestones[72]) bulk *= 100;
-		if (game.infinity.milestones[73]) bulk *= 100;
-		if (game.infinity.milestones[74]) bulk *= 100;
+		let bulk = breakInfBulk();
 		for (let iteration = 0; iteration < work; iteration++) {
 			if (game.points.lt(infNum())) break;
 			if (!game.infinity.milestones[53]) game.points = game.points.sub(infNum());
