@@ -401,6 +401,8 @@ function update() {
 			let work = 1;
 			work *= improvements[22].effect();
 			if (game.infinity.milestones[14]) work *= 2;
+			if (game.infinity.milestones[41]) work *= 2;
+			if (game.infinity.milestones[42]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.upgrades[index] >= max) break;
 				if (game.improvements[16] > 0 && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
@@ -794,8 +796,9 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
+		if (game.infinity.stage > 12 && game.points.gte(infNum())) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!";
 		document.getElementById("???_display").innerHTML = text;
-		if (count >= 0) {
+		if (count >= 0 && game.infinity.stage <= 12) {
 			if (!document.getElementById("break_infinity")) {
 				let append = document.createElement("button");
 				append.id = "break_infinity";
@@ -814,7 +817,8 @@ function update() {
 		if (document.getElementById("break_infinity")) {
 			if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
 			else document.getElementById("break_infinity").className = "upgrade fade";
-			document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
+			if (game.infinity.stage >= 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
+			else document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 		};
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();

@@ -6,6 +6,7 @@ function prestige() {
 		game.infinity.pointTotal += getInfGain();
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
 	};
+	if (game.infinity.milestones[43]) return;
 	game.points = new Decimal(0);
 	game.pointBest = new Decimal(0);
 	game.pointTotal = new Decimal(0);
@@ -170,6 +171,7 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
 	req: {infinity_points: 20},
+	merge: [41],
 }, {
 	desc: "improves the wave upgrade autobuyer to not need to use any wave points",
 	req: {infinity_points: 25},
@@ -280,4 +282,14 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps all wave upgrades on reset",
 	req: {infinity_points: 1000},
+}, {
+	desc: "improves the upgrade autobuyer to work twice as fast",
+	req: {infinity_points: 1200},
+	merge: [42],
+}, {
+	desc: "improves the upgrade autobuyer to work twice as fast again",
+	req: {infinity_points: 1500},
+}, {
+	desc: "keeps everything on reset",
+	req: {infinity_points: 2000},
 }];
