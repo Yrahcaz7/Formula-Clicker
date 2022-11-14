@@ -307,13 +307,10 @@ const infinity_milestones = [{
 	merge: [48],
 }, {
 	desc() {
-		if (this.effect() == 2.5) return "multiplies " + infinity + " gain by " + format(2.5) + "x (maxed)";
 		return "multiplies " + infinity + " gain based on your " + infinity + " (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		let eff = (game.infinity.points + 1) ** 0.025;
-		if (eff > 2.5) return 2.5;
-		return eff;
+		return (game.infinity.points + 1) ** 0.025;
 	},
 	req: {infinity_points: 50000},
 }, {
@@ -335,7 +332,18 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the upgrade autobuyer to work five times as fast",
 	req: {infinity_points: 2500000},
+	merge: [56],
 }, {
 	desc: "improves the break infinity autobuyer to not reset your points",
 	req: {infinity_points: 5000000},
+}, {
+	desc: "improves the break infinity autobuyer to work five times as fast",
+	req: {infinity_points: 10000000},
+	merge: [55],
+}, {
+	desc: "improves the break infinity autobuyer to work five times as fast again",
+	req: {infinity_points: 25000000},
+}, {
+	desc: "improves the upgrade autobuyer to work twice as fast",
+	req: {infinity_points: 50000000},
 }];

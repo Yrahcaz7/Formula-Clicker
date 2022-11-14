@@ -405,6 +405,7 @@ function update() {
 			if (game.infinity.milestones[42]) work *= 2;
 			if (game.infinity.milestones[50]) work *= 2;
 			if (game.infinity.milestones[52]) work *= 5;
+			if (game.infinity.milestones[56]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.upgrades[index] >= max || game.points.lt(upgrades[index].cost())) break;
 				if (game.improvements[16] > 0 && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
@@ -567,8 +568,8 @@ function update() {
 				append.style = "margin-top: 0px";
 				append.innerHTML = element.title;
 				append.onclick = () => {
-					if (copy(element.value())) alert(element.title + " Successful!");
-					else alert(element.title + " Failure: try a different browser");
+					if (copy(element.value())) alert(element.title + ": Successful!");
+					else alert(element.title + ": Failure - try a different browser");
 				};
 				document.getElementById("options").appendChild(append);
 			};
@@ -807,6 +808,24 @@ function update() {
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
 		if (game.infinity.stage > 12) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br><span class='big'>If you really want to keep playing...</span><br><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.";
 		document.getElementById("???_display").innerHTML = text;
+		if (game.infinity.stage > 12) {
+			if (!document.getElementById("export_score")) {
+				let append = document.createElement("button");
+				append.id = "export_score";
+				append.type = "button";
+				append.onclick = () => {
+					if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 13) + "!")) alert("Export score: Successful!");
+					else alert("Export score: Failure - try a different browser");
+				};
+				document.getElementById("main").appendChild(append);
+				let br = document.createElement("br");
+				br.id = "score_br";
+				document.getElementById("main").appendChild(br);
+			};
+		} else {
+			if (document.getElementById("export_score")) document.getElementById("export_score").remove();
+			if (document.getElementById("score_br")) document.getElementById("score_br").remove();
+		};
 		if (count >= 0) {
 			if (!document.getElementById("break_infinity")) {
 				let append = document.createElement("button");
@@ -823,6 +842,7 @@ function update() {
 		} else {
 			if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 		};
+		if (document.getElementById("export_score")) document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 13);
 		if (document.getElementById("break_infinity")) {
 			if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
 			else document.getElementById("break_infinity").className = "upgrade fade";
@@ -831,11 +851,21 @@ function update() {
 		};
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
+		if (document.getElementById("export_score")) document.getElementById("export_score").remove();
+		if (document.getElementById("score_br")) document.getElementById("score_br").remove();
 		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 	};
 	if (game.infinity.milestones[45] && game.points.gte(infNum())) {
-		if (!game.infinity.milestones[53]) game.points = game.points.sub(infNum());
-		game.infinity.stage++;
+		let work = 1;
+		if (game.infinity.milestones[54]) work *= 5;
+		if (game.infinity.milestones[55]) work *= 5;
+		for (let iteration = 0; iteration < work; iteration++) {
+			if (game.points.lt(infNum())) break;
+			if (!game.infinity.milestones[53]) game.points = game.points.sub(infNum());
+			game.infinity.stage++;
+			let gen = pointButtonGain();
+			if (game.infinity.milestones[53] && gen.gt(game.points)) game.points = gen;
+		};
 	};
 	// fixes
 	if (game.wave.points !== game.wave.points) game.wave.points = 1.7976931348623157e308;
