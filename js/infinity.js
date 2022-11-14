@@ -279,7 +279,7 @@ const infinity_milestones = [{
 	merge: [33],
 }, {
 	desc() {
-		return "gains " + format(100, true, false, true) + "% of your point gain per second, but disables manual point gain";
+		return "gains " + format(100, true, false, true) + "% of your point gain per second and disables manual point gain";
 	},
 	req: {infinity_points: 225},
 }, {
@@ -471,6 +471,9 @@ const infinity_milestones = [{
 	desc: "makes break infinity bulk buy scaling 2x greater again",
 	req: {infinity_points: 1e175},
 }, {
-	desc: "does... something...",
+	desc() {
+		if (game.infinity.milestones[79]) return "unlocks the TRUE ENDING";
+		return "does... something...";
+	},
 	req: {infinity_points: 1.7976931348623157e308},
 }];
