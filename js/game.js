@@ -30,6 +30,7 @@ let game = {
 		milestones: [],
 		stage: 1,
 	},
+	time: new Date().getTime(),
 };
 
 function get_alpha() {
@@ -287,12 +288,12 @@ function update() {
 		};
 		if (document.getElementById("tab-infinity")) {
 			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
-			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100) document.getElementById("tab-infinity").className = "tab notif";
+			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100 && getInfGain() !== Infinity) document.getElementById("tab-infinity").className = "tab notif";
 			else document.getElementById("tab-infinity").className = "tab";
 		};
 		if (document.getElementById("tab-???")) {
 			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
-			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1)) document.getElementById("tab-???").className = "tab notif";
+			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1) || game.infinity.milestones[79]) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
 	};
@@ -806,7 +807,7 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br><span class='big'>If you really want to keep playing...</span><br><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.";
+		if (game.infinity.stage > 12) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br><span class='big'>"+(game.infinity.milestones[79]?"TRUE ENDING - ALL INFINITIES BROKEN</span><br><br>You have currently broken Infinity "+formatWhole(Infinity)+" extra times.":"If you really want to keep playing...</span><br><br>You have currently broken Infinity "+formatWhole(game.infinity.stage-13)+" extra times.");
 		document.getElementById("???_display").innerHTML = text;
 		if (game.infinity.stage > 12) {
 			if (!document.getElementById("export_score")) {
@@ -814,8 +815,13 @@ function update() {
 				append.id = "export_score";
 				append.type = "button";
 				append.onclick = () => {
-					if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 13) + "!")) alert("Export score: Successful!");
-					else alert("Export score: Failure - try a different browser");
+					if (game.infinity.milestones[79]) {
+						if (copy("in Yrahcaz7's Formula Clicker, I achieved the TRUE ENDING in " + format((new Date().getTime() - game.time) / 1000) + " seconds!")) alert("Export score: Successful!");
+						else alert("Export score: Failure - try a different browser");
+					} else {
+						if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 13) + ", and I achieved it in " + format((new Date().getTime() - game.time) / 1000) + " seconds!")) alert("Export score: Successful!");
+						else alert("Export score: Failure - try a different browser");
+					};
 				};
 				document.getElementById("main").appendChild(append);
 				let br = document.createElement("br");
@@ -842,11 +848,15 @@ function update() {
 		} else {
 			if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 		};
-		if (document.getElementById("export_score")) document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 13);
+		if (document.getElementById("export_score")) {
+			if (game.infinity.milestones[79]) document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(Infinity) + " in " + format((new Date().getTime() - game.time) / 1000) + " seconds";
+			else document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 13) + " in " + format((new Date().getTime() - game.time) / 1000) + " seconds";
+		};
 		if (document.getElementById("break_infinity")) {
 			if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
 			else document.getElementById("break_infinity").className = "upgrade fade";
-			if (game.infinity.stage == 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
+			if (game.infinity.milestones[79]) document.getElementById("break_infinity").innerHTML = "THERE IS AN END<br><br>you have broken the<br>VERY LAST Infinity";
+			else if (game.infinity.stage == 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 			else document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 		};
 	} else {
@@ -893,6 +903,7 @@ const loop = setInterval(() => {
 		max += wave_upgrades[0].effect();
 		max *= improvements[14].effect();
 		max *= improvements[18].effect();
+		if (max !== max) max = 1.7976931348623157e308;
 		// calculate point max
 		let pointMax = 100;
 		pointMax *= wave_upgrades[2].effect();

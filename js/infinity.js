@@ -470,4 +470,7 @@ const infinity_milestones = [{
 }, {
 	desc: "makes break infinity bulk buy scaling 2x greater again",
 	req: {infinity_points: 1e175},
+}, {
+	desc: "does... something...",
+	req: {infinity_points: 1.7976931348623157e308},
 }];

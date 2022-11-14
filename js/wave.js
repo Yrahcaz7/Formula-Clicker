@@ -110,10 +110,10 @@ const wave_upgrades = [{
 	baseEff() {
 		let eff = (game.wave.points + 1) ** 0.1;
 		if (game.improvements[20]) {
-			if (eff > 3.6) return 3.6;
+			if (eff > 3.6 || eff !== eff) return 3.6;
 			return eff;
 		};
-		if (eff > 3.333333333333333) return 3.333333333333333;
+		if (eff > 3.333333333333333 || eff !== eff) return 3.333333333333333;
 		return eff;
 	},
 	effect() {
