@@ -406,7 +406,7 @@ function update() {
 			if (game.infinity.milestones[50]) work *= 2;
 			if (game.infinity.milestones[52]) work *= 5;
 			for (let iteration = 0; iteration < work; iteration++) {
-				if (game.upgrades[index] >= max) break;
+				if (game.upgrades[index] >= max || game.points.lt(upgrades[index].cost())) break;
 				if (game.improvements[16] > 0 && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
 				else if (game.improvements[3] > 0 && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
 			};
@@ -461,7 +461,7 @@ function update() {
 					if (game.infinity.milestones[46]) work *= 2;
 					if (game.infinity.milestones[48]) work *= 2;
 					for (let iteration = 0; iteration < work; iteration++) {
-						if (game.upgrades[0] >= max) break;
+						if (game.improvements[0] >= max || game.points.lt(improvements[0].cost())) break;
 						buy("improvement", 0, true);
 					};
 				};
