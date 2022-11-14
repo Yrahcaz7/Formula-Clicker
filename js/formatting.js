@@ -199,8 +199,51 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	number = new Decimal(10).pow(e.neg()).mul(m);
 	// continue
 	let val = formatDecimal(number, true, expand, hasPercent, true);
-	if (number.lt("e1000000")) return pre + val.replace(/([^(?:e|F)]*)$/, '-$1');
+	if (number.lt("e10000")) return pre + val.replace(/([^(?:e|F)]*)$/, '-$1');
 	return pre + formatDecimal(number, true, expand, hasPercent, true) + "<sup>-1</sup>";
+};
+
+const time = [[
+	"s", "second", "seconds"
+], [
+	"m", "minute", "minutes"
+], [
+	"h", "hour", "hours"
+], [
+	"d", "day", "days"
+], [
+	"y", "year", "years"
+]];
+
+function formatTime(ms, short = false) {
+	let seconds = ms / 1000;
+	let arr = [Math.floor(seconds / 31536000), Math.floor(seconds / 86400) % 365, Math.floor(seconds / 3600) % 24, Math.floor(seconds / 60) % 60, seconds % 60];
+	for (let index = 0; index < arr.length; index++) {
+		if (arr[index] === 0) arr[index] = undefined;
+		else break;
+	};
+	let result = "";
+	if (short) {
+		for (let index = 0; index < arr.length; index++) {
+			const number = arr[index];
+			if (number === undefined) continue;
+			if (index === arr.length - 1) result += format(number) + time[arr.length - (index + 1)][0];
+			else result += formatWhole(number) + time[arr.length - (index + 1)][0] + " ";
+		};
+	} else {
+		for (let index = 0; index < arr.length; index++) {
+			const number = arr[index];
+			if (number === undefined) continue;
+			if (number === 1) {
+				if (index === arr.length - 1) result += format(number) + " " + time[arr.length - (index + 1)][1];
+				else result += formatWhole(number) + " " + time[arr.length - (index + 1)][1] + " ";
+			} else {
+				if (index === arr.length - 1) result += format(number) + " " + time[arr.length - (index + 1)][2];
+				else result += formatWhole(number) + " " + time[arr.length - (index + 1)][2] + " ";
+			};
+		};
+	};
+	return result;
 };
 
 const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>";
