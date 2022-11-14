@@ -102,6 +102,7 @@ function getNextInf() {
 function infMul() {
 	let mul = 1;
 	if (game.infinity.milestones[29]) mul *= infinity_milestones[29].effect();
+	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
 	return mul;
 };
 
@@ -292,4 +293,29 @@ const infinity_milestones = [{
 }, {
 	desc: "keeps everything on reset",
 	req: {infinity_points: 2000},
+}, {
+	desc: "improves the EFFECIENCY autobuyer to work twice as fast",
+	req: {infinity_points: 5000},
+	merge: [46],
+}, {
+	desc: "unlocks the break infinity autobuyer",
+	req: {infinity_points: 10000},
+}, {
+	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
+	req: {infinity_points: 25000},
+	merge: [48],
+}, {
+	desc() {
+		if (this.effect() == 2.5) return "multiplies " + infinity + " gain by " + format(2.5) + "x (maxed)";
+		return "multiplies " + infinity + " gain based on your " + infinity + " (" + format(this.effect()) + "x)";
+	},
+	effect() {
+		let eff = (game.infinity.points + 1) ** 0.025;
+		if (eff > 2.5) return 2.5;
+		return eff;
+	},
+	req: {infinity_points: 50000},
+}, {
+	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
+	req: {infinity_points: 100000},
 }];

@@ -381,7 +381,7 @@ function update() {
 		};
 		document.getElementById("varDisplay").innerHTML = formula + text;
 	};
-	// tab displays
+	// tab displays and autobuyers
 	if (game.tab == "main") {
 		if (!document.getElementById("upgrades")) {
 			let append = document.createElement("div");
@@ -451,10 +451,14 @@ function update() {
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.improvements[index] < max) {
 			if (index == 0 && game.improvements[11]) {
-				buy("improvement", index, true);
-				if (game.improvements[27] > 0) {
-					buy("improvement", index, true);
-					buy("improvement", index, true);
+				let work = 1;
+				if (game.improvements[27] > 0) work *= 3;
+				if (game.infinity.milestones[44]) work *= 2;
+				if (game.infinity.milestones[46]) work *= 2;
+				if (game.infinity.milestones[48]) work *= 2;
+				for (let iteration = 0; iteration < work; iteration++) {
+					if (game.upgrades[0] >= max) break;
+					buy("improvement", 0, true);
 				};
 			} else if (game.infinity.milestones[12]) buy("improvement", index);
 		};
@@ -823,6 +827,10 @@ function update() {
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
 		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
+	};
+	if (game.infinity.milestones[45] && game.points.gte(infNum())) {
+		game.points = game.points.sub(infNum());
+		game.infinity.stage++;
 	};
 };
 
