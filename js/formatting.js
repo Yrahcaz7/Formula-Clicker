@@ -236,10 +236,10 @@ function formatTime(ms, short = false) {
 			if (number === undefined) continue;
 			if (number === 1) {
 				if (index === arr.length - 1) result += format(number) + " " + time[arr.length - (index + 1)][1];
-				else result += formatWhole(number) + " " + time[arr.length - (index + 1)][1] + " ";
+				else result += formatWhole(number) + " " + time[arr.length - (index + 1)][1] + (index === arr.length - 2 ? ", and " : ", ");
 			} else {
 				if (index === arr.length - 1) result += format(number) + " " + time[arr.length - (index + 1)][2];
-				else result += formatWhole(number) + " " + time[arr.length - (index + 1)][2] + " ";
+				else result += formatWhole(number) + " " + time[arr.length - (index + 1)][2] + (index === arr.length - 2 ? ", and " : ", ");
 			};
 		};
 	};

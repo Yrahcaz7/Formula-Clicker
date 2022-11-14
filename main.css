@@ -103,6 +103,17 @@ button.prestigeButton {
 	padding: var(--text-size);
 }
 
+.ending {
+	background-color: #804 !important;
+	border: 5px double #fff !important;
+	border-radius: 10px !important;
+	color: #fff !important;
+}
+
+.ending:not(.big):not(.upgrade):hover {
+	background-color: #602 !important;
+}
+
 div.milestone {
 	width: 100%;
 	background-color: #ccc;
