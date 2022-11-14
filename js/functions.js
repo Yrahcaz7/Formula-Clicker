@@ -18,12 +18,12 @@ const poem = [
 
 function copy(text) {
 	const fallback = () => {
-		var textArea = document.createElement("textarea");
+		let textArea = document.createElement("textarea");
 		textArea.value = text;
 		document.body.appendChild(textArea);
 		textArea.focus();
 		textArea.select();
-		var successful = document.execCommand("copy");
+		let successful = document.execCommand("copy");
 		document.body.removeChild(textArea);
 		return successful;
 	};

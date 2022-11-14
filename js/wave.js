@@ -1,6 +1,6 @@
 function waveFormula(min = game.wave.min, max = game.wave.max) {
 	if (min > max) min = max;
-	var result = "";
+	let result = "";
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
 	if (game.infinity.milestones[25]) {
@@ -19,14 +19,14 @@ function waveFormula(min = game.wave.min, max = game.wave.max) {
 	return result;
 };
 
-var sinwaves = [];
+let sinwaves = [];
 
-for (var iteration = 0; iteration <= 615; iteration++) {
+for (let iteration = 0; iteration <= 615; iteration++) {
 	sinwaves.push(Math.round(((50 * Math.sin((iteration * 50) / 2500)) + 50) * 100) / 100);
 };
 
 function waveMult() {
-	var mult = 1;
+	let mult = 1;
 	mult *= wave_upgrades[4].effect();
 	mult *= improvements[21].effect();
 	mult *= improvements[25].effect();
@@ -42,7 +42,7 @@ const wave_upgrades = [{
 		return game.wave.upgrades[0] * 0.25;
 	},
 	cost() {
-		var div = 1;
+		let div = 1;
 		div *= wave_upgrades[5].effect();
 		return (1.5 ** game.wave.upgrades[0]) * 10 / div;
 	},
@@ -58,7 +58,7 @@ const wave_upgrades = [{
 		return game.wave.upgrades[1] * 0.25;
 	},
 	cost() {
-		var div = 1;
+		let div = 1;
 		div *= wave_upgrades[5].effect();
 		if (game.wave.upgrades[7] > 0) return (1.4 ** game.wave.upgrades[1]) * 25 / div;
 		return (1.5 ** game.wave.upgrades[1]) * 25 / div;
@@ -108,7 +108,7 @@ const wave_upgrades = [{
 		return "multiplies the value of your wave based on your wave points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
-		var eff = (game.wave.points + 1) ** 0.1;
+		let eff = (game.wave.points + 1) ** 0.1;
 		if (game.improvements[20]) {
 			if (eff > 3.6) return 3.6;
 			return eff;

@@ -24,32 +24,32 @@ function prestige() {
 		game.unlocks = [];
 	};
 	game.upgrades = [];
-	var imp = game.improvements;
+	let imp = game.improvements;
 	game.improvements = [];
 	if (game.infinity.milestones[28]) {
-		for (var index = 0; index < imp.length && index < 25; index++) {
+		for (let index = 0; index < imp.length && index < 25; index++) {
 			if (imp[index]) game.improvements[index] = imp[index];
 		};
 	} else if (game.infinity.milestones[23]) {
-		for (var index = 0; index < imp.length && index < 22; index++) {
+		for (let index = 0; index < imp.length && index < 22; index++) {
 			if (imp[index]) game.improvements[index] = imp[index];
 		};
 	} else {
 		if (game.infinity.milestones[22]) {
-			for (var index = 0; index < imp.length && index < 14; index++) {
+			for (let index = 0; index < imp.length && index < 14; index++) {
 				if (imp[index]) game.improvements[index] = imp[index];
 			};
 		} else {
 			if (game.infinity.milestones[21]) {
-				for (var index = 0; index < imp.length && index < 10; index++) {
+				for (let index = 0; index < imp.length && index < 10; index++) {
 					if (imp[index]) game.improvements[index] = imp[index];
 				};
 			} else if (game.infinity.milestones[18]) {
-				for (var index = 0; index < imp.length && index < 5; index++) {
+				for (let index = 0; index < imp.length && index < 5; index++) {
 					if (imp[index]) game.improvements[index] = imp[index];
 				};
 			} else if (game.infinity.milestones[17]) {
-				for (var index = 0; index < imp.length && index < 4; index++) {
+				for (let index = 0; index < imp.length && index < 4; index++) {
 					if (imp[index]) game.improvements[index] = imp[index];
 				};
 			} else if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
@@ -66,9 +66,9 @@ function prestige() {
 	game.wave.min = 0;
 	game.wave.max = 0;
 	if (!game.infinity.milestones[40]) {
-		var wvupg = game.wave.upgrades;
+		let wvupg = game.wave.upgrades;
 		game.wave.upgrades = [];
-		var num = 0;
+		let num = 0;
 		if (game.infinity.milestones[39]) num = 6;
 		else if (game.infinity.milestones[38]) num = 5;
 		else if (game.infinity.milestones[37]) num = 4;
@@ -76,7 +76,7 @@ function prestige() {
 		else if (game.infinity.milestones[35]) num = 2;
 		else if (game.infinity.milestones[34]) num = 1;
 		if (num > 0) {
-			for (var index = 0; index < wvupg.length && index < num; index++) {
+			for (let index = 0; index < wvupg.length && index < num; index++) {
 				if (wvupg[index]) game.wave.upgrades[index] = wvupg[index];
 			};
 		};
@@ -86,7 +86,7 @@ function prestige() {
 
 function getInfGain() {
 	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
-	var gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
+	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (gain !== gain) return 0;
 	return gain;
 };
@@ -94,13 +94,13 @@ function getInfGain() {
 function getNextInf() {
 	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
 	if (getInfGain() === 0) return "Next " + infinity + " at " + format(1.7976931348620926e308, true, false, false, true) + " points";
-	var next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
+	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
 	if (next.gte(infNum())) return "Max " + infinity + " gained on reset";
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
 
 function infMul() {
-	var mul = 1;
+	let mul = 1;
 	if (game.infinity.milestones[29]) mul *= infinity_milestones[29].effect();
 	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
 	if (game.infinity.milestones[57]) mul *= infinity_milestones[57].effect();
@@ -234,7 +234,7 @@ const infinity_milestones = [{
 		return "multiplies " + infinity + " gain based on your wave points (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		var eff = (game.wave.points + 1) ** 0.002;
+		let eff = (game.wave.points + 1) ** 0.002;
 		if (eff > 1.75 || eff !== eff) return 1.75;
 		return eff;
 	},
