@@ -350,10 +350,13 @@ const infinity_milestones = [{
 	req: {infinity_points: 50000000},
 }, {
 	desc() {
+		if (this.effect() == 10) return "multiplies " + infinity + " gain by " + format(10) + "x (maxed)";
 		return "multiplies " + infinity + " gain based on your broken infinities (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		return ((game.infinity.stage / 10000) + 1) ** 0.25;
+		let eff = ((game.infinity.stage / 10000) + 1) ** 0.25;
+		if (eff > 10 || eff !== eff) return 10;
+		return eff;
 	},
 	req: {infinity_points: 100000000},
 }, {
@@ -379,4 +382,47 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the break infinity autobuyer to work twice as fast again",
 	req: {infinity_points: 1e10},
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 10x",
+	req: {infinity_points: 4.5e10},
+	merge: [65],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 10x more",
+	req: {infinity_points: 2e11},
+	merge: [66],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 10x more again",
+	req: {infinity_points: 1e12},
+	merge: [67],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 10x more again",
+	req: {infinity_points: 7.5e12},
+	merge: [68],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 10x more again",
+	req: {infinity_points: 1e14},
+	merge: [69],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 100x more",
+	req: {infinity_points: 2.5e15},
+	merge: [70],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	req: {infinity_points: 1e17},
+	merge: [71],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	req: {infinity_points: 5e18},
+	merge: [72],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	req: {infinity_points: 5e20},
+	merge: [73],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	req: {infinity_points: 7.5e22},
+	merge: [74],
+}, {
+	desc: "improves the break infinity autobuyer to bulk buy 100x more again",
+	req: {infinity_points: 2.5e25},
 }];
