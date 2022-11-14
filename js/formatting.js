@@ -87,7 +87,7 @@ function formatIllions(number = NaN, short = false) {
 };
 
 function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false) {
-	if (number !== number) return "NaN";
+	if (number !== number || (typeof number == "number" && number >= 1.797693134862e308)) number = Infinity;
 	let natural = typeof number=="object"?number.toNumber():+number;
 	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
 	if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
