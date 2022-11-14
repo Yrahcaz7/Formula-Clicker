@@ -143,7 +143,7 @@ function pointButtonGain() {
 
 function buy(type, index, free = false) {
 	if (type == "upgrade") {
-		if (!upgrades[index].unlocked()) return false;
+		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
 		var max = game.infinity.milestones[49]?10000000:100000;
 		if (upgrades[index].max) max = upgrades[index].max;
 		if (game.points.gte(upgrades[index].cost()) && game.upgrades[index] < max) {
@@ -152,7 +152,7 @@ function buy(type, index, free = false) {
 			return true;
 		} else return false;
 	} else if (type == "improvement") {
-		if (!improvements[index].unlocked()) return false;
+		if (!improvements[index] || !improvements[index].unlocked()) return false;
 		var max = game.infinity.milestones[49]?10000000:100000;
 		if (improvements[index].max) max = improvements[index].max;
 		if (game.points.gte(improvements[index].cost()) && game.improvements[index] < max) {
@@ -161,7 +161,7 @@ function buy(type, index, free = false) {
 			return true;
 		} else return false;
 	} else if (type == "wave_upgrade") {
-		if (!wave_upgrades[index].unlocked()) return false;
+		if (!wave_upgrades[index] || !wave_upgrades[index].unlocked()) return false;
 		var max = game.infinity.milestones[49]?10000000:100000;
 		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
 		else if (wave_upgrades[index].max) max = wave_upgrades[index].max;
