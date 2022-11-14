@@ -4,7 +4,7 @@ const options = [{
 	type: "color",
 	default: "#dddddd",
 	value() {
-		let val = getComputedStyle(document.querySelector(':root')).getPropertyValue("--background-color").trim();
+		var val = getComputedStyle(document.querySelector(':root')).getPropertyValue("--background-color").trim();
 		if (val) return val;
 		return this.default;
 	},
@@ -17,7 +17,7 @@ const options = [{
 	type: "color",
 	default: "#000000",
 	value() {
-		let val = getComputedStyle(document.querySelector(':root')).getPropertyValue("--text-color").trim();
+		var val = getComputedStyle(document.querySelector(':root')).getPropertyValue("--text-color").trim();
 		if (val) return val;
 		return this.default;
 	},
@@ -32,7 +32,7 @@ const options = [{
 	min: 8,
 	max: 32,
 	value() {
-		let val = getComputedStyle(document.querySelector(':root')).getPropertyValue("--text-size").trim();
+		var val = getComputedStyle(document.querySelector(':root')).getPropertyValue("--text-size").trim();
 		if (val) return val;
 		return this.default;
 	},
@@ -45,7 +45,7 @@ const options = [{
 	type: "checkbox",
 	default: true,
 	value() {
-		let val = game.options[this.id];
+		var val = game.options[this.id];
 		if (val !== undefined) return val;
 		return this.default;
 	},
@@ -57,7 +57,7 @@ const options = [{
 	list: ["scientific", "mixed scientific", "engineering", "mixed engineering", "short", "logarithm", "percentage of infinity", "letters: scientific", "letters: engineering", "letters: logarithm", "symbols: scientific", "symbols: engineering", "symbols: logarithm"],
 	intList: ["sci", "mixsci", "eng", "mixeng", "sho", "log", "inf", "letsci", "leteng", "letlog", "symsci", "symeng", "symlog"],
 	value() {
-		let val = game.options[this.id];
+		var val = game.options[this.id];
 		if (val !== undefined) return val;
 		return this.default;
 	},

@@ -24,32 +24,32 @@ function prestige() {
 		game.unlocks = [];
 	};
 	game.upgrades = [];
-	let imp = game.improvements;
+	var imp = game.improvements;
 	game.improvements = [];
 	if (game.infinity.milestones[28]) {
-		for (let index = 0; index < imp.length && index < 25; index++) {
+		for (var index = 0; index < imp.length && index < 25; index++) {
 			if (imp[index]) game.improvements[index] = imp[index];
 		};
 	} else if (game.infinity.milestones[23]) {
-		for (let index = 0; index < imp.length && index < 22; index++) {
+		for (var index = 0; index < imp.length && index < 22; index++) {
 			if (imp[index]) game.improvements[index] = imp[index];
 		};
 	} else {
 		if (game.infinity.milestones[22]) {
-			for (let index = 0; index < imp.length && index < 14; index++) {
+			for (var index = 0; index < imp.length && index < 14; index++) {
 				if (imp[index]) game.improvements[index] = imp[index];
 			};
 		} else {
 			if (game.infinity.milestones[21]) {
-				for (let index = 0; index < imp.length && index < 10; index++) {
+				for (var index = 0; index < imp.length && index < 10; index++) {
 					if (imp[index]) game.improvements[index] = imp[index];
 				};
 			} else if (game.infinity.milestones[18]) {
-				for (let index = 0; index < imp.length && index < 5; index++) {
+				for (var index = 0; index < imp.length && index < 5; index++) {
 					if (imp[index]) game.improvements[index] = imp[index];
 				};
 			} else if (game.infinity.milestones[17]) {
-				for (let index = 0; index < imp.length && index < 4; index++) {
+				for (var index = 0; index < imp.length && index < 4; index++) {
 					if (imp[index]) game.improvements[index] = imp[index];
 				};
 			} else if (game.infinity.milestones[3] && imp[3]) game.improvements[3] = imp[3];
@@ -66,9 +66,9 @@ function prestige() {
 	game.wave.min = 0;
 	game.wave.max = 0;
 	if (!game.infinity.milestones[40]) {
-		let wvupg = game.wave.upgrades;
+		var wvupg = game.wave.upgrades;
 		game.wave.upgrades = [];
-		let num = 0;
+		var num = 0;
 		if (game.infinity.milestones[39]) num = 6;
 		else if (game.infinity.milestones[38]) num = 5;
 		else if (game.infinity.milestones[37]) num = 4;
@@ -76,7 +76,7 @@ function prestige() {
 		else if (game.infinity.milestones[35]) num = 2;
 		else if (game.infinity.milestones[34]) num = 1;
 		if (num > 0) {
-			for (let index = 0; index < wvupg.length && index < num; index++) {
+			for (var index = 0; index < wvupg.length && index < num; index++) {
 				if (wvupg[index]) game.wave.upgrades[index] = wvupg[index];
 			};
 		};
@@ -86,7 +86,7 @@ function prestige() {
 
 function getInfGain() {
 	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
-	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
+	var gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (gain !== gain) return 0;
 	return gain;
 };
@@ -94,15 +94,16 @@ function getInfGain() {
 function getNextInf() {
 	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
 	if (getInfGain() === 0) return "Next " + infinity + " at " + format(1.7976931348620926e308, true, false, false, true) + " points";
-	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
+	var next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
 	if (next.gte(infNum())) return "Max " + infinity + " gained on reset";
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
 
 function infMul() {
-	let mul = 1;
+	var mul = 1;
 	if (game.infinity.milestones[29]) mul *= infinity_milestones[29].effect();
 	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
+	if (game.infinity.milestones[57]) mul *= infinity_milestones[57].effect();
 	return mul;
 };
 
@@ -233,7 +234,7 @@ const infinity_milestones = [{
 		return "multiplies " + infinity + " gain based on your wave points (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		let eff = (game.wave.points + 1) ** 0.002;
+		var eff = (game.wave.points + 1) ** 0.002;
 		if (eff > 1.75 || eff !== eff) return 1.75;
 		return eff;
 	},
@@ -343,7 +344,39 @@ const infinity_milestones = [{
 }, {
 	desc: "improves the break infinity autobuyer to work five times as fast again",
 	req: {infinity_points: 25000000},
+	merge: [58],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
 	req: {infinity_points: 50000000},
+}, {
+	desc() {
+		return "multiplies " + infinity + " gain based on your broken infinities (" + format(this.effect()) + "x)";
+	},
+	effect() {
+		return ((game.infinity.stage / 10000) + 1) ** 0.25;
+	},
+	req: {infinity_points: 100000000},
+}, {
+	desc: "improves the break infinity autobuyer to work five times as fast again",
+	req: {infinity_points: 250000000},
+	merge: [59],
+}, {
+	desc: "improves the break infinity autobuyer to work twice as fast",
+	req: {infinity_points: 500000000},
+	merge: [60],
+}, {
+	desc: "improves the break infinity autobuyer to work twice as fast again",
+	req: {infinity_points: 1e9},
+	merge: [61],
+}, {
+	desc: "improves the break infinity autobuyer to work twice as fast again",
+	req: {infinity_points: 2.5e9},
+	merge: [62],
+}, {
+	desc: "improves the break infinity autobuyer to work twice as fast again",
+	req: {infinity_points: 5e9},
+	merge: [63],
+}, {
+	desc: "improves the break infinity autobuyer to work twice as fast again",
+	req: {infinity_points: 1e10},
 }];
