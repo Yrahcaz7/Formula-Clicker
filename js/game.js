@@ -796,9 +796,9 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12 && game.points.gte(infNum())) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!";
+		if (game.infinity.stage > 12) text += "<br><span class='big'>Congrats! You beat the game!</span><br><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><span class='big'>Credit roll:</span><br><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br><span class='big'>If you really want to keep playing...</span><br><br>You have currently broken Infinity " + (game.infinity.stage - 13).toFixed(0) + " extra times.";
 		document.getElementById("???_display").innerHTML = text;
-		if (count >= 0 && game.infinity.stage <= 12) {
+		if (count >= 0) {
 			if (!document.getElementById("break_infinity")) {
 				let append = document.createElement("button");
 				append.id = "break_infinity";
@@ -817,7 +817,7 @@ function update() {
 		if (document.getElementById("break_infinity")) {
 			if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
 			else document.getElementById("break_infinity").className = "upgrade fade";
-			if (game.infinity.stage >= 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
+			if (game.infinity.stage == 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 			else document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 		};
 	} else {
