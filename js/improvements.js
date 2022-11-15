@@ -123,10 +123,10 @@ const improvements = [{
 }, {
 	title: "LARGER EXPONENT",
 	desc() {
-		return "multiplies " + delta + " by " + format(1.03886);
+		return "multiplies " + delta + " by " + format(1.0388601182540846);
 	},
 	effect() {
-		return 1.03886 ** game.improvements[8];
+		return 1.0388601182540846 ** game.improvements[8];
 	},
 	cost() {
 		return new Decimal(1e4).pow(game.improvements[8]).mul(1e40);
@@ -138,10 +138,10 @@ const improvements = [{
 }, {
 	title: "MORE MULTIPLIERS",
 	desc() {
-		return "multiplies " + epsilon + " by " + format(1.13551);
+		return "multiplies " + epsilon + " by " + format(1.1355081270020038);
 	},
 	effect() {
-		return 1.13551 ** game.improvements[9];
+		return 1.1355081270020038 ** game.improvements[9];
 	},
 	cost() {
 		return new Decimal(1e5).pow(game.improvements[9]).mul(1e45);
@@ -346,10 +346,10 @@ const improvements = [{
 }, {
 	title: "EVEN MORE",
 	desc() {
-		return "multiplies " + zeta + " by " + format(1.03886);
+		return "multiplies " + zeta + " by " + format(1.0388601182540846);
 	},
 	effect() {
-		return 1.03886 ** game.improvements[23];
+		return 1.0388601182540846 ** game.improvements[23];
 	},
 	cost() {
 		return new Decimal(1e10).pow(game.improvements[23]).mul("1e400");

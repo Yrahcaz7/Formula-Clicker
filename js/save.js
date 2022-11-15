@@ -9,7 +9,7 @@ function hardReset() {
 function getProxy() {
 	let get = JSON.stringify(game).replace(/Â/g, "");
 	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null").replace(/null/g, "!N"); // numbers
-	get = get.replace(/point/g, "¶").replace(/Best/g, "«").replace(/Total/g, "¬").replace(/min/g, "¯").replace(/max/g, "°").replace(/Min/g, "±").replace(/Max/g, "²").replace(/upgrades/g, "³").replace(/improvements/g, "¼").replace(/options/g, "½").replace(/wave/g, "¾").replace(/startTime/g, "s;").replace(/finishTime/g, "f;").replace(/clicks/g, "c;").replace(/best/g, "b;").replace(/stage/g, "i;"); // words
+	get = get.replace(/point/g, "¶").replace(/Best/g, "«").replace(/Total/g, "¬").replace(/min/g, "¯").replace(/max/g, "°").replace(/Min/g, "±").replace(/Max/g, "²").replace(/upgrades/g, "³").replace(/improvements/g, "¼").replace(/options/g, "½").replace(/wave/g, "¾").replace(/startTime/g, "s;").replace(/finishTime/g, "f;").replace(/clicks/g, "c;").replace(/bg_col/g, "bg;").replace(/txt_col/g, "tx;").replace(/txt_px/g, "px;").replace(/show_°_imp/g, "sh;").replace(/best/g, "b;").replace(/stage/g, "i;"); // words
 	get = get.replace(/false/g, "!F").replace(/true/g, "!T"); // booleans
 	get = get.replace(/","/g, "&").replace(/":"/g, "=").replace(/":/g, "(").replace(/,"/g, ")"); // technical
 	get = get.replace(/=#/g, "$").replace(/\(\[/g, "´").replace(/\]\)/g, "µ").replace(/\(\{"/g, "·").replace(/\}\)/g, "¸").replace(/\)¶/g, "¹").replace(/«\(/g, "»").replace(/¬\(/g, "º"); // advanced technical
@@ -53,7 +53,7 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	save = save.replace(/\$/g, "=#").replace(/´/g, "([").replace(/µ/g, "])").replace(/·/g, "({\"").replace(/¸/g, "})").replace(/¹/g, ")¶").replace(/»/g, "«(").replace(/º/g, "¬("); // advanced technical
 	save = save.replace(/&/g, "\",\"").replace(/=/g, "\":\"").replace(/\(/g, "\":").replace(/\)/g, ",\""); // technical
 	save = save.replace(/!F/g, "false").replace(/!T/g, "true"); // booleans
-	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave").replace(/s;/g, "startTime").replace(/f;/g, "finishTime").replace(/c;/g, "clicks").replace(/b;/g, "best").replace(/i;/g, "stage"); // words
+	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave").replace(/s;/g, "startTime").replace(/f;/g, "finishTime").replace(/c;/g, "clicks").replace(/bg;/g, "bg_col").replace(/tx;/g, "txt_col").replace(/px;/g, "txt_px").replace(/sh;/g, "show_°_imp").replace(/b;/g, "best").replace(/i;/g, "stage"); // words
 	save = save.replace(/null|!N/g, "1.7976931348620926e308"); // numbers
 	// decimal conversion
 	let result = JSON.parse(save.replace(/Â/g, ""));
