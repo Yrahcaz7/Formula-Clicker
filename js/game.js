@@ -31,6 +31,7 @@ let game = {
 		stage: 1,
 	},
 	time: new Date().getTime(),
+	finishTime: undefined,
 };
 
 function get_alpha() {
@@ -173,6 +174,11 @@ function buy(type, index, free = false) {
 		} else return false;
 	};
 	return false;
+};
+
+function getTime() {
+	if (game.finishTime) return formatTime(game.finishTime - game.time)
+	return formatTime(new Date().getTime() - game.time)
 };
 
 function update() {
@@ -816,10 +822,10 @@ function update() {
 				append.type = "button";
 				append.onclick = () => {
 					if (game.infinity.milestones[79]) {
-						if (copy("in Yrahcaz7's Formula Clicker, I achieved the TRUE ENDING in " + formatTime(new Date().getTime() - game.time) + "!")) alert("Export score: Successful!");
+						if (copy("in Yrahcaz7's Formula Clicker, I achieved the TRUE ENDING in " + getTime() + "!")) alert("Export score: Successful!");
 						else alert("Export score: Failure - try a different browser");
 					} else {
-						if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 13) + ", and I achieved it in " + formatTime(new Date().getTime() - game.time) + "!")) alert("Export score: Successful!");
+						if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 13) + ", and I achieved it in " + getTime() + "!")) alert("Export score: Successful!");
 						else alert("Export score: Failure - try a different browser");
 					};
 				};
@@ -851,10 +857,10 @@ function update() {
 		if (document.getElementById("export_score")) {
 			if (game.infinity.milestones[79]) {
 				document.getElementById("export_score").className = "ending";
-				document.getElementById("export_score").innerHTML = "Export TRUE ENDING ACHIEVED in " + formatTime(new Date().getTime() - game.time);
+				document.getElementById("export_score").innerHTML = "Export TRUE ENDING ACHIEVED in " + getTime();
 			} else {
 				document.getElementById("export_score").className = "";
-				document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 13) + " in " + formatTime(new Date().getTime() - game.time);
+				document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 13) + " in " + getTime();
 			};
 		};
 		if (document.getElementById("break_infinity")) {
@@ -890,9 +896,12 @@ function update() {
 			if (game.infinity.milestones[53] && gen.gt(game.points)) game.points = gen;
 		};
 	};
+	// stop timer on game complete
+	if (game.infinity.milestones[79] && game.finishTime === undefined) game.finishTime = new Date().getTime();
 	// fixes
 	if (game.wave.points !== game.wave.points) game.wave.points = 1.7976931348623157e308;
 	if (game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348623157e308;
+	if (game.wave.pointTotal !== game.wave.pointTotal) game.wave.pointTotal = 1.7976931348623157e308;
 	if (game.wave.pointGen !== game.wave.pointGen) game.wave.pointGen = 1.7976931348623157e308;
 };
 
