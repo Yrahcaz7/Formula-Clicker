@@ -87,7 +87,7 @@ function formatIllions(number = NaN, short = false) {
 };
 
 function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false) {
-	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) number = Infinity;
+	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) return "Infinity";
 	let natural = typeof number=="object"?number.toNumber():+number;
 	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
 	if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
@@ -97,7 +97,7 @@ function format(number, smallAllowed = true, expand = false, hasPercent = false,
 };
 
 function formatWhole(number) {
-	if (game.options["num_note"] == "inf" || (("" + game.options["num_note"]).includes("log") && new Decimal(number).gte(1000))) return format(number, false);
+	if (("" + game.options["num_note"]).includes("log") && new Decimal(number).gte(1000)) return format(number, false);
 	let result = format(number, false);
 	if (result.includes("e") || game.options["num_note"] == "sho" || ("" + game.options["num_note"]).includes("mix")) return result;
 	return result.split(".")[0];
