@@ -8,7 +8,7 @@ function hardReset() {
 
 function getProxy() {
 	get = JSON.stringify(game).replace(/Â/g, "");
-	get = get.replace(/e\+/g, "e"); // numbers
+	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null"); // numbers
 	get = get.replace(/point/g, "¶").replace(/Best/g, "«").replace(/Total/g, "¬").replace(/min/g, "¯").replace(/max/g, "°").replace(/Min/g, "±").replace(/Max/g, "²").replace(/upgrades/g, "³").replace(/improvements/g, "¼").replace(/options/g, "½").replace(/wave/g, "¾"); // words
 	get = get.replace(/false/g, "!F").replace(/true/g, "!T"); // booleans
 	get = get.replace(/","/g, "&").replace(/":"/g, "=").replace(/":/g, "(").replace(/,"/g, ")"); // technical
@@ -39,7 +39,7 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	save = save.replace(/&/g, "\",\"").replace(/=/g, "\":\"").replace(/\(/g, "\":").replace(/\)/g, ",\""); // technical
 	save = save.replace(/!F/g, "false").replace(/!T/g, "true"); // booleans
 	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave"); // words
-	save = save.replace(/null/g, "1.7976931348623157e308"); // numbers
+	save = save.replace(/null/g, "1.7976931348620926e308"); // numbers
 	// decimal conversion
 	let result = JSON.parse(save.replace(/Â/g, ""));
 	result.infinity.best.points = new Decimal(result.infinity.best.points);

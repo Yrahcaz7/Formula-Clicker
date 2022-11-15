@@ -5,8 +5,8 @@ function prestige() {
 		game.infinity.points += getInfGain();
 		game.infinity.pointTotal += getInfGain();
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
-		if (game.infinity.points === Infinity) game.infinity.points = 1.7976931348623157e308;
-		if (game.infinity.pointTotal === Infinity) game.infinity.pointTotal = 1.7976931348623157e308;
+		if (game.infinity.points === Infinity) game.infinity.points = 1.7976931348620926e308;
+		if (game.infinity.pointTotal === Infinity) game.infinity.pointTotal = 1.7976931348620926e308;
 	};
 	if (game.infinity.milestones[43]) return;
 	game.points = new Decimal(0);
@@ -475,5 +475,5 @@ const infinity_milestones = [{
 		if (game.infinity.milestones[79]) return "unlocks the TRUE ENDING";
 		return "does... something...";
 	},
-	req: {infinity_points: 1.7976931348623157e308},
+	req: {infinity_points: 1.7976931348620926e308},
 }];

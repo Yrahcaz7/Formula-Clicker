@@ -899,10 +899,10 @@ function update() {
 	// stop timer on game complete
 	if (game.infinity.milestones[79] && game.finishTime === undefined) game.finishTime = new Date().getTime();
 	// fixes
-	if (game.wave.points !== game.wave.points) game.wave.points = 1.7976931348623157e308;
-	if (game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348623157e308;
-	if (game.wave.pointTotal !== game.wave.pointTotal) game.wave.pointTotal = 1.7976931348623157e308;
-	if (game.wave.pointGen !== game.wave.pointGen) game.wave.pointGen = 1.7976931348623157e308;
+	if (game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
+	if (game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
+	if (game.wave.pointTotal !== game.wave.pointTotal) game.wave.pointTotal = 1.7976931348620926e308;
+	if (game.wave.pointGen !== game.wave.pointGen) game.wave.pointGen = 1.7976931348620926e308;
 };
 
 const loop = setInterval(() => {
@@ -918,7 +918,7 @@ const loop = setInterval(() => {
 		max += wave_upgrades[0].effect();
 		max *= improvements[14].effect();
 		max *= improvements[18].effect();
-		if (max !== max) max = 1.7976931348623157e308;
+		if (max !== max) max = 1.7976931348620926e308;
 		// calculate point max
 		let pointMax = 100;
 		pointMax *= wave_upgrades[2].effect();
