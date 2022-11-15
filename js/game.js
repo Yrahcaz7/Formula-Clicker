@@ -11,7 +11,6 @@ let game = {
 	wave: {
 		points: 0,
 		pointBest: 0,
-		pointTotal: 0,
 		pointMax: 100,
 		pointGen: 0,
 		frame: 0,
@@ -22,7 +21,6 @@ let game = {
 	infinity: {
 		points: 0,
 		pointBest: 0,
-		pointTotal: 0,
 		best: {
 			points: new Decimal(0),
 			wave_points: 0,
@@ -34,7 +32,7 @@ let game = {
 	finishTime: undefined,
 };
 
-function get_alpha() {
+function getAlpha() {
 	let a = 1;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
@@ -42,7 +40,7 @@ function get_alpha() {
 	return a;
 };
 
-function get_beta() {
+function getBeta() {
 	let b = 1;
 	b += upgrades[2].effect();
 	b += upgrades[3].effect();
@@ -50,7 +48,7 @@ function get_beta() {
 	return b;
 };
 
-function get_gamma() {
+function getGamma() {
 	let g = 1;
 	g += upgrades[4].effect();
 	g += upgrades[5].effect();
@@ -58,7 +56,7 @@ function get_gamma() {
 	return g;
 };
 
-function get_delta() {
+function getDelta() {
 	let d = 0;
 	d += upgrades[6].effect();
 	d += upgrades[7].effect();
@@ -66,7 +64,7 @@ function get_delta() {
 	return d;
 };
 
-function get_epsilon() {
+function getEpsilon() {
 	let e = 0;
 	e += upgrades[8].effect();
 	e += upgrades[9].effect();
@@ -74,7 +72,7 @@ function get_epsilon() {
 	return e;
 };
 
-function get_zeta() {
+function getZeta() {
 	let z = 0;
 	z += upgrades[10].effect();
 	z += upgrades[11].effect();
@@ -82,7 +80,7 @@ function get_zeta() {
 	return z;
 };
 
-function get_constant() {
+function getConstant() {
 	let co = new Decimal(2.5);
 	co = co.add(improvements[0].effect());
 	co = co.mul(improvements[1].effect());
@@ -91,25 +89,25 @@ function get_constant() {
 	return co;
 };
 
-function get_g_exponent() {
+function getGammaEx() {
 	let g_ex = 2;
 	g_ex += improvements[2].effect();
 	return g_ex;
 };
 
-function get_d_exponent() {
+function getDeltaEx() {
 	let d_ex = 0.5;
 	d_ex += improvements[6].effect();
 	return d_ex;
 };
 
-function get_e_exponent() {
+function getEpsilonEx() {
 	let e_ex = 1.5;
 	e_ex += improvements[12].effect();
 	return e_ex;
 };
 
-function get_multiplier() {
+function getPointMult() {
 	let mul = new Decimal(1);
 	if (game.infinity.milestones[24]) mul = mul.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
 	else if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
@@ -119,17 +117,17 @@ function get_multiplier() {
 
 function pointButtonGain() {
 	let imp = game.improvements[5] + game.improvements[10] + game.improvements[24];
-	let a = get_alpha();
-	let b = get_beta();
-	let g = get_gamma();
-	let d = get_delta();
-	let e = get_epsilon();
-	let z = get_zeta();
-	let co = get_constant();
-	let g_ex = get_g_exponent();
-	let d_ex = get_d_exponent();
-	let e_ex = get_e_exponent();
-	let mul = get_multiplier();
+	let a = getAlpha();
+	let b = getBeta();
+	let g = getGamma();
+	let d = getDelta();
+	let e = getEpsilon();
+	let z = getZeta();
+	let co = getConstant();
+	let g_ex = getGammaEx();
+	let d_ex = getDeltaEx();
+	let e_ex = getEpsilonEx();
+	let mul = getPointMult();
 	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2.22).pow(z)).mul(mul);
 	if (z > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
 	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(mul);
@@ -329,10 +327,8 @@ function update() {
 				let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
 				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
 				game.wave.points += gen;
-				game.wave.pointTotal += gen;
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-				if (game.wave.pointTotal === Infinity || game.wave.pointTotal !== game.wave.pointTotal) game.wave.pointTotal = 1.7976931348620926e308;
 				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
 				if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
 				if (game.infinity.best.wave_points === Infinity || game.infinity.best.wave_points !== game.infinity.best.wave_points) game.infinity.best.wave_points = 1.7976931348620926e308;
@@ -361,26 +357,26 @@ function update() {
 	};
 	if (document.getElementById("varDisplay")) {
 		const superscript = (string) => {return "<sup>" + string + "</sup>"};
-		const _constant = format(get_constant()) + constant();
-		const _delta = superscript("(" + format(get_g_exponent()) + " + " + delta + superscript(format(get_d_exponent())) + ")");
-		const _epsilon = epsilon + superscript(format(get_e_exponent()));
-		const _zeta = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
-		let text = "Your " + alpha + " is " + format(get_alpha());
-		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(get_beta());
-		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(get_gamma());
-		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(get_delta());
-		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(get_epsilon());
-		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(get_zeta());
+		const constantFm = format(getConstant()) + constant();
+		const deltaFm = superscript("(" + format(getGammaEx()) + " + " + delta + superscript(format(getDeltaEx())) + ")");
+		const epsilonFm = epsilon + superscript(format(getEpsilonEx()));
+		const zetaFm = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
+		let text = "Your " + alpha + " is " + format(getAlpha());
+		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(getBeta());
+		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(getGamma());
+		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(getDelta());
+		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(getEpsilon());
+		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(getZeta());
 		let formula = "";
-		if (game.improvements[24]) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon + format(2.22) + superscript(zeta);
-		else if (game.upgrades[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon + _zeta;
-		else if (game.improvements[10] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")" + _epsilon;
-		else if (game.upgrades[8] > 0) formula = _constant + "(" + format(1.45) + gamma + _delta + ")(" + epsilon + " + " + format(1) + ")";
-		else if (game.improvements[5] > 2) formula = _constant + "(" + format(1.45) + gamma + _delta + ")";
-		else if (game.improvements[5] > 0) formula = _constant + "(" + gamma + _delta + ")";
-		else if (game.upgrades[6] > 0) formula = _constant + gamma + _delta;
-		else if (game.upgrades[4] > 0) formula = _constant + gamma + superscript(format(get_g_exponent()));
-		else if (game.upgrades[2] > 0) formula = _constant;
+		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
+		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
+		else if (game.improvements[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm;
+		else if (game.upgrades[8] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")(" + epsilon + " + " + format(1) + ")";
+		else if (game.improvements[5] > 2) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")";
+		else if (game.improvements[5] > 0) formula = constantFm + "(" + gamma + deltaFm + ")";
+		else if (game.upgrades[6] > 0) formula = constantFm + gamma + deltaFm;
+		else if (game.upgrades[4] > 0) formula = constantFm + gamma + superscript(format(getGammaEx()));
+		else if (game.upgrades[2] > 0) formula = constantFm;
 		if (formula) {
 			if (game.infinity.milestones[24]) formula += "(" + format(1.45) + superscript(infinity) + " + " + format(2.5e9) + infinity + ")";
 			else if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
@@ -935,10 +931,8 @@ const loop = setInterval(() => {
 			gen *= 0.03;
 			if (gen > game.wave.pointMax - game.wave.points) gen = game.wave.pointMax - game.wave.points;
 			game.wave.points += gen;
-			game.wave.pointTotal += gen;
 			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 			if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-			if (game.wave.pointTotal === Infinity || game.wave.pointTotal !== game.wave.pointTotal) game.wave.pointTotal = 1.7976931348620926e308;
 			if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
 		};
 		// best ever
