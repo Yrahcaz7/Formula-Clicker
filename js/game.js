@@ -28,7 +28,7 @@ let game = {
 		milestones: [],
 		stage: 1,
 	},
-	time: new Date().getTime(),
+	startTime: new Date().getTime(),
 	finishTime: undefined,
 };
 
@@ -175,14 +175,17 @@ function buy(type, index, free = false) {
 };
 
 function getTime() {
-	if (game.finishTime) return formatTime(game.finishTime - game.time)
-	return formatTime(new Date().getTime() - game.time)
+	if (game.finishTime) return formatTime(game.finishTime - game.startTime)
+	return formatTime(new Date().getTime() - game.startTime)
 };
 
 function update() {
 	// garbage collection for transitioning from old versions
 	delete game.wave.pointTotal;
 	delete game.infinity.pointTotal;
+	// variable name changes from transitioning from old versions
+	if (game.time) game.startTime = game.time;
+	delete game.time;
 	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
 	delete game.infinity.best.wave_points;
 	// unlocks
