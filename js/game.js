@@ -23,7 +23,7 @@ let game = {
 		pointBest: 0,
 		best: {
 			points: new Decimal(0),
-			wave_points: 0,
+			wavePoints: 0,
 		},
 		milestones: [],
 		stage: 1,
@@ -90,21 +90,21 @@ function getConstant() {
 };
 
 function getGammaEx() {
-	let g_ex = 2;
-	g_ex += improvements[2].effect();
-	return g_ex;
+	let gEx = 2;
+	gEx += improvements[2].effect();
+	return gEx;
 };
 
 function getDeltaEx() {
-	let d_ex = 0.5;
-	d_ex += improvements[6].effect();
-	return d_ex;
+	let dEx = 0.5;
+	dEx += improvements[6].effect();
+	return dEx;
 };
 
 function getEpsilonEx() {
-	let e_ex = 1.5;
-	e_ex += improvements[12].effect();
-	return e_ex;
+	let eEx = 1.5;
+	eEx += improvements[12].effect();
+	return eEx;
 };
 
 function getPointMult() {
@@ -124,19 +124,19 @@ function pointButtonGain() {
 	let e = getEpsilon();
 	let z = getZeta();
 	let co = getConstant();
-	let g_ex = getGammaEx();
-	let d_ex = getDeltaEx();
-	let e_ex = getEpsilonEx();
+	let gEx = getGammaEx();
+	let dEx = getDeltaEx();
+	let eEx = getEpsilonEx();
 	let mul = getPointMult();
-	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2.22).pow(z)).mul(mul);
-	if (z > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
-	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e ** e_ex).mul(mul);
-	if (e > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(e + 1).mul(mul);
-	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(g_ex + (d ** d_ex))).mul(mul);
-	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(g).pow(g_ex + (d ** d_ex))).mul(mul);
-	if (d > 0 && imp >= 1) return co.mul(a).mul(b).mul(g).mul(new Decimal(g).pow(g_ex + (d ** d_ex))).mul(mul);
-	if (d > 0) return co.mul(a).mul(b).mul(new Decimal(g).pow(g_ex + (d ** d_ex))).mul(mul);
-	if (g > 1) return co.mul(a).mul(b).mul(g ** g_ex).mul(mul);
+	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2.22).pow(z)).mul(mul);
+	if (z > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
+	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(mul);
+	if (e > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e + 1).mul(mul);
+	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(mul);
+	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
+	if (d > 0 && imp >= 1) return co.mul(a).mul(b).mul(g).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
+	if (d > 0) return co.mul(a).mul(b).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
+	if (g > 1) return co.mul(a).mul(b).mul(g ** gEx).mul(mul);
 	if (b > 1) return co.mul(a).mul(b).mul(mul);
 	return new Decimal(a).mul(mul);
 };
@@ -180,6 +180,11 @@ function getTime() {
 };
 
 function update() {
+	// garbage collection for transitioning from old versions
+	delete game.wave.pointTotal;
+	delete game.infinity.pointTotal;
+	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
+	delete game.infinity.best.wave_points;
 	// unlocks
 	if (game.points.gt(0) && !game.unlocks.includes("pd")) game.unlocks.push("pd");
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("vd")) game.unlocks.push("vd");
@@ -330,8 +335,8 @@ function update() {
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
 				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
-				if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
-				if (game.infinity.best.wave_points === Infinity || game.infinity.best.wave_points !== game.infinity.best.wave_points) game.infinity.best.wave_points = 1.7976931348620926e308;
+				if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
+				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
 			};
 		};
 		document.getElementById("main").appendChild(append);
@@ -704,7 +709,7 @@ function update() {
 			append.style = "border-top:1px solid #000;border-bottom:1px solid #000";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wave_points);
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints);
 		if (document.getElementById("infinity_prestige_button")) {
 			if (game.infinity.points >= 45 && game.infinity.stage == 1) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
@@ -936,8 +941,8 @@ const loop = setInterval(() => {
 			if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
 		};
 		// best ever
-		if (game.wave.points > game.infinity.best.wave_points) game.infinity.best.wave_points = game.wave.points;
-		if (game.infinity.best.wave_points === Infinity || game.infinity.best.wave_points !== game.infinity.best.wave_points) game.infinity.best.wave_points = 1.7976931348620926e308;
+		if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
+		if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
 	};
 	if (game.infinity.milestones[26]) {
 		let gen = new Decimal(1e-10);

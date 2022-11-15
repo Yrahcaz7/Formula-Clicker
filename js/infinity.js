@@ -136,7 +136,7 @@ const resources = {
 	points: "points",
 	pointBest: "best points",
 	pointTotal: "total points",
-	wave_points: "wave points",
+	wavePoints: "wave points",
 	wave_pointBest: "best wave points",
 	wave_pointTotal: "total wave points",
 	infinity_points: infinity,
