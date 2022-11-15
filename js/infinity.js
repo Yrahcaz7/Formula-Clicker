@@ -1,12 +1,14 @@
 const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage)};
 
 function prestige() {
+	game.clicks++;
 	if (getInfGain() > 0) {
 		game.infinity.points += getInfGain();
 		game.infinity.pointTotal += getInfGain();
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
 		if (game.infinity.points === Infinity) game.infinity.points = 1.7976931348620926e308;
 		if (game.infinity.pointTotal === Infinity) game.infinity.pointTotal = 1.7976931348620926e308;
+		if (game.infinity.pointBest === Infinity) game.infinity.pointBest = 1.7976931348620926e308;
 	};
 	if (game.infinity.milestones[43]) return;
 	game.points = new Decimal(0);
