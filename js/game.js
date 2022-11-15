@@ -464,19 +464,17 @@ function update() {
 		const element = improvements[index];
 		let max = game.infinity.milestones[49]?10000000:100000;
 		if (element.max) max = element.max;
-		if (element.unlocked() && game.improvements[index] < max) {
+		if (element.unlocked() && index == 0 && game.infinity.milestones[51]) game.improvements[0] = 1e10;
+		else if (element.unlocked() && game.improvements[index] < max) {
 			if (index == 0 && game.improvements[11]) {
-				if (game.infinity.milestones[51]) game.improvements[0] = 1e10;
-				else {
-					let work = 1;
-					if (game.improvements[27] > 0) work *= 3;
-					if (game.infinity.milestones[44]) work *= 2;
-					if (game.infinity.milestones[46]) work *= 2;
-					if (game.infinity.milestones[48]) work *= 2;
-					for (let iteration = 0; iteration < work; iteration++) {
-						if (game.improvements[0] >= max || game.points.lt(improvements[0].cost())) break;
-						buy("improvement", 0, true);
-					};
+				let work = 1;
+				if (game.improvements[27] > 0) work *= 3;
+				if (game.infinity.milestones[44]) work *= 2;
+				if (game.infinity.milestones[46]) work *= 2;
+				if (game.infinity.milestones[48]) work *= 2;
+				for (let iteration = 0; iteration < work; iteration++) {
+					if (game.improvements[0] >= max || game.points.lt(improvements[0].cost())) break;
+					buy("improvement", 0, true);
 				};
 			} else if (game.infinity.milestones[12]) buy("improvement", index);
 		};
