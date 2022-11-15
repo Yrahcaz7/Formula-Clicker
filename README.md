@@ -9,3 +9,7 @@ Eventually, after hours of rich gameplay (I would not recommend playing it all i
 *However... I wonder if what seems to be the end... is truly the end...*
 
 > Note: you don't start with an options menu, but you unlock it later.
+
+> Another note: uses Patashu's `break_eternity.js` for big numbers.
+>
+> In hindsight, `break_infinity.js` would have worked too. Oh well.
