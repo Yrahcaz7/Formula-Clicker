@@ -99,7 +99,7 @@ function format(number, smallAllowed = true, expand = false, hasPercent = false,
 function formatWhole(number) {
 	if (("" + game.options["num_note"]).includes("log") && new Decimal(number).gte(1000)) return format(number, false);
 	let result = format(number, false);
-	if (result.includes("e") || game.options["num_note"] == "sho" || ("" + game.options["num_note"]).includes("mix")) return result;
+	if (result.includes("e") || (game.options["num_note"] == "sho" || ("" + game.options["num_note"]).includes("mix") && new Decimal(number).gte(1000))) return result;
 	return result.split(".")[0];
 };
 
@@ -219,6 +219,10 @@ const time = [[
 
 function formatTime(ms, short = false) {
 	let seconds = ms / 1000;
+	if (seconds <= 0 || seconds !== seconds) {
+		if (short) return format(0) + time[0][0];
+		return format(0) + " " + time[0][2];
+	};
 	let arr = [Math.floor(seconds / 31536000), Math.floor(seconds / 86400) % 365, Math.floor(seconds / 3600) % 24, Math.floor(seconds / 60) % 60, seconds % 60];
 	for (let index = 0; index < arr.length; index++) {
 		if (arr[index] === 0) arr[index] = undefined;
