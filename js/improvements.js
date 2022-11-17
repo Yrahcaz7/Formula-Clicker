@@ -384,6 +384,7 @@ const improvements = [{
 	max: 1,
 }];
 
+// sets default unlock condition
 for (let index = 0; index < improvements.length; index++) {
 	if (improvements[index].unlocked === undefined) improvements[index].unlocked = function() {
 		return game.improvements[index - 1] > 0;

@@ -1,21 +1,26 @@
 const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage)};
 
-function prestige() {
+function prestige() { // reset for infinity points
 	game.clicks++;
 	if (getInfGain() > 0) {
+		// gain infinity points
 		game.infinity.points += getInfGain();
 		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
+		// fix invalid values
 		if (game.infinity.points === Infinity || game.infinity.points !== game.infinity.points) game.infinity.points = 1.7976931348620926e308;
 		if (game.infinity.pointBest === Infinity || game.infinity.pointBest !== game.infinity.pointBest) game.infinity.pointBest = 1.7976931348620926e308;
 	};
 	if (game.infinity.milestones[43]) return;
+	// reset points
 	game.points = new Decimal(0);
 	game.pointBest = new Decimal(0);
 	game.pointTotal = new Decimal(0);
+	// reset clicks
 	if (!game.infinity.milestones[16]) {
 		if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
 		else game.clicks = 0;
 	};
+	// reset unlocks
 	if (game.infinity.milestones[18]) {
 		game.unlocks = ["pd", "vd", "t", "o"];
 	} else if (game.infinity.milestones[17]) {
@@ -25,7 +30,9 @@ function prestige() {
 		game.tab = "main";
 		game.unlocks = [];
 	};
+	// reset upgrades
 	game.upgrades = [];
+	// reset improvements
 	let imp = game.improvements;
 	game.improvements = [];
 	if (game.infinity.milestones[28]) {
@@ -59,6 +66,7 @@ function prestige() {
 		};
 		if (game.infinity.milestones[5] && imp[16]) game.improvements[16] = imp[16];
 	};
+	// reset wave points
 	game.wave.points = 0;
 	game.wave.pointBest = 0;
 	game.wave.pointMax = 100;
@@ -66,6 +74,7 @@ function prestige() {
 	game.wave.frame = 0;
 	game.wave.min = 0;
 	game.wave.max = 0;
+	// reset wave upgrades
 	if (!game.infinity.milestones[40]) {
 		let wvupg = game.wave.upgrades;
 		game.wave.upgrades = [];
@@ -82,10 +91,11 @@ function prestige() {
 			};
 		};
 	};
+	// reset page
 	if (!game.infinity.milestones[18]) setPage();
 };
 
-function getInfGain() {
+function getInfGain() { // calculate infinity point gain
 	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
 	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (game.points > infNum()) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
@@ -93,7 +103,7 @@ function getInfGain() {
 	return gain;
 };
 
-function getNextInf() {
+function getNextInf() { // calculate next infinity at
 	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
 	if (getInfGain() === 0) return "Next " + infinity + " at " + format(1.7976931348620926e308, true, false, false, true) + " points";
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
@@ -101,7 +111,7 @@ function getNextInf() {
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
 
-function infMul() {
+function infMul() { // calculate infinity multiplier
 	let mul = 1;
 	if (game.infinity.milestones[29]) mul *= infinity_milestones[29].effect();
 	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
@@ -109,7 +119,7 @@ function infMul() {
 	return mul;
 };
 
-function breakInfBulk() {
+function breakInfBulk() { // calculate break infinity bulk buy amount
 	let bulk = 1;
 	if (game.infinity.milestones[64]) bulk *= 10;
 	if (game.infinity.milestones[65]) bulk *= 10;
@@ -133,15 +143,7 @@ function breakInfBulk() {
 };
 
 const resources = {
-	points: "points",
-	pointBest: "best points",
-	pointTotal: "total points",
-	wavePoints: "wave points",
-	wave_pointBest: "best wave points",
-	wave_pointTotal: "total wave points",
 	infinity_points: infinity,
-	infinity_pointBest: "best " + infinity,
-	infinity_pointTotal: "total " + infinity,
 };
 
 const infinity_milestones = [{

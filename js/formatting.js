@@ -1,4 +1,4 @@
-function cutoff(string, seperator, ...indexes) {
+function cutoff(string, seperator, ...indexes) { // technical function used for inserting commas into numbers
 	if (!seperator || indexes.length === 0) return "" + string;
 	let array = [];
 	let cut = 0;
@@ -27,7 +27,7 @@ const shortIllions = [
 	["c"],
 ];
 
-function formatIllions(number = NaN, short = false) {
+function formatIllions(number = NaN, short = false) { // number -illion format
 	if (number !== number) return "NaN";
 	let pre = "";
 	if (number < 0) {
@@ -80,7 +80,7 @@ function formatIllions(number = NaN, short = false) {
 	return (pre + remain + (!short && post ? " " : "") + post).replace("undefined", "");
 };
 
-function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) {
+function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) { // global number format (redirects to all others)
 	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) return "Infinity";
 	let natural = typeof number=="object"?number.toNumber():+number;
 	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
@@ -90,14 +90,14 @@ function format(number, smallAllowed = true, expand = false, hasPercent = false,
 	return formatDecimal(number, smallAllowed, expand, hasPercent, showInfValue);
 };
 
-function formatWhole(number) {
+function formatWhole(number) { // global integer format (redirects to all others)
 	if (("" + game.options["num_note"]).includes("log") && new Decimal(number).gte(1000)) return format(number, false);
 	let result = format(number, false);
 	if (result.includes("e") || (game.options["num_note"] == "sho" || ("" + game.options["num_note"]).includes("mix") && new Decimal(number).gte(1000))) return result;
 	return result.split(".")[0];
 };
 
-function formatDecimalInternal(number, precision = 2, mantissa = true) {
+function formatDecimalInternal(number, precision = 2, mantissa = true) { // internal function for large number formatting
 	number = new Decimal(number);
 	if (("" + game.options["num_note"]).includes("log") && number.lt("e1000000")) {
 		if (number.gte("e10000")) {
@@ -129,36 +129,7 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 	return "e" + format(e.toNumber(), false, false, false, false, true);
 };
 
-function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, type = "") {
-	if (type == "let") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
-	if (type == "sym") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
-	return formatDecimal(number, smallAllowed, false, hasPercent);
-};
-
-function formatDecimalInfinity(number, smallAllowed = true, expand = false, hasPercent = false) {
-	number = new Decimal(number);
-	if (number.gte(infNum())) {
-		if (hasPercent) return "(100%" + (expand ? " (of Infinity)" : "") + ")";
-		return "100%" + (expand ? " (of Infinity)" : "");
-	};
-	let percentage = number.log10().div(infNum().log10()).mul(100), round = 2;
-	if (smallAllowed) {
-		if (percentage.lt(0.00001)) return formatDecimal(number, true, expand, hasPercent);
-		else if (percentage.lt(0.0001)) round = 6;
-		else if (percentage.lt(0.001)) round = 5;
-		else if (percentage.lt(0.01)) round = 4;
-		else if (percentage.lt(0.1)) round = 3;
-	} else {
-		if (percentage.lt(0.01)) return formatDecimal(number, false, expand, hasPercent);
-	};
-	let result = percentage.toNumber().toFixed(round);
-	if (result == "Infinity") result = formatDecimalInternal(percentage, round);
-	if (result == "100.00%") result = "100%";
-	if (hasPercent) return "(" + result + "%" + (expand ? " (of Infinity)" : "") + ")";
-	return result + "%" + (expand ? " (of Infinity)" : "");
-};
-
-function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false, internal = false) {
+function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false, internal = false) { // large number format
 	number = new Decimal(number);
 	if (number.eq(0)) return "0.00";
 	if (isNaN(number.sign) || isNaN(number.mag) || isNaN(number.layer)) return "NaN";
@@ -199,6 +170,35 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	return pre + formatDecimal(number, true, expand, hasPercent, true) + "<sup>-1</sup>";
 };
 
+function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, type = "") { // number letter and symbol formats
+	if (type == "let") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
+	if (type == "sym") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
+	return formatDecimal(number, smallAllowed, false, hasPercent);
+};
+
+function formatDecimalInfinity(number, smallAllowed = true, expand = false, hasPercent = false) { // number percentage of infinity format
+	number = new Decimal(number);
+	if (number.gte(infNum())) {
+		if (hasPercent) return "(100%" + (expand ? " (of Infinity)" : "") + ")";
+		return "100%" + (expand ? " (of Infinity)" : "");
+	};
+	let percentage = number.log10().div(infNum().log10()).mul(100), round = 2;
+	if (smallAllowed) {
+		if (percentage.lt(0.00001)) return formatDecimal(number, true, expand, hasPercent);
+		else if (percentage.lt(0.0001)) round = 6;
+		else if (percentage.lt(0.001)) round = 5;
+		else if (percentage.lt(0.01)) round = 4;
+		else if (percentage.lt(0.1)) round = 3;
+	} else {
+		if (percentage.lt(0.01)) return formatDecimal(number, false, expand, hasPercent);
+	};
+	let result = percentage.toNumber().toFixed(round);
+	if (result == "Infinity") result = formatDecimalInternal(percentage, round);
+	if (result == "100.00%") result = "100%";
+	if (hasPercent) return "(" + result + "%" + (expand ? " (of Infinity)" : "") + ")";
+	return result + "%" + (expand ? " (of Infinity)" : "");
+};
+
 const time = [[
 	"s", "second", "seconds"
 ], [
@@ -211,7 +211,7 @@ const time = [[
 	"y", "year", "years"
 ]];
 
-function formatTime(ms, short = false) {
+function formatTime(ms, short = false) { // time format
 	let seconds = ms / 1000;
 	if (seconds <= 0 || seconds !== seconds) {
 		if (short) return format(0) + time[0][0];
@@ -245,6 +245,8 @@ function formatTime(ms, short = false) {
 	};
 	return result;
 };
+
+// shorthands for symbols
 
 const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>";
 

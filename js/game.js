@@ -32,7 +32,7 @@ let game = {
 	finishTime: undefined,
 };
 
-function getAlpha() {
+function getAlpha() { // calculates alpha
 	let a = 1;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
@@ -40,7 +40,7 @@ function getAlpha() {
 	return a;
 };
 
-function getBeta() {
+function getBeta() { // calculates beta
 	let b = 1;
 	b += upgrades[2].effect();
 	b += upgrades[3].effect();
@@ -48,7 +48,7 @@ function getBeta() {
 	return b;
 };
 
-function getGamma() {
+function getGamma() { // calculates gamma
 	let g = 1;
 	g += upgrades[4].effect();
 	g += upgrades[5].effect();
@@ -56,7 +56,7 @@ function getGamma() {
 	return g;
 };
 
-function getDelta() {
+function getDelta() { // calculates delta
 	let d = 0;
 	d += upgrades[6].effect();
 	d += upgrades[7].effect();
@@ -64,7 +64,7 @@ function getDelta() {
 	return d;
 };
 
-function getEpsilon() {
+function getEpsilon() { // calculates epsilon
 	let e = 0;
 	e += upgrades[8].effect();
 	e += upgrades[9].effect();
@@ -72,7 +72,7 @@ function getEpsilon() {
 	return e;
 };
 
-function getZeta() {
+function getZeta() { // calculates zeta
 	let z = 0;
 	z += upgrades[10].effect();
 	z += upgrades[11].effect();
@@ -80,7 +80,7 @@ function getZeta() {
 	return z;
 };
 
-function getConstant() {
+function getConstant() { // calculates the constant
 	let co = new Decimal(2.5);
 	co = co.add(improvements[0].effect());
 	co = co.mul(improvements[1].effect());
@@ -89,25 +89,25 @@ function getConstant() {
 	return co;
 };
 
-function getGammaEx() {
+function getGammaEx() { // calculates the gamma exponent
 	let gEx = 2;
 	gEx += improvements[2].effect();
 	return gEx;
 };
 
-function getDeltaEx() {
+function getDeltaEx() { // calculates the delta exponent
 	let dEx = 0.5;
 	dEx += improvements[6].effect();
 	return dEx;
 };
 
-function getEpsilonEx() {
+function getEpsilonEx() { // calculates the epsilon exponent
 	let eEx = 1.5;
 	eEx += improvements[12].effect();
 	return eEx;
 };
 
-function getPointMult() {
+function getPointMult() { // calculates point gain mult
 	let mul = new Decimal(1);
 	if (game.infinity.milestones[24]) mul = mul.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
 	else if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
@@ -115,7 +115,7 @@ function getPointMult() {
 	return mul;
 };
 
-function pointButtonGain() {
+function pointButtonGain() { // calculates point button gain
 	let imp = game.improvements[5] + game.improvements[10] + game.improvements[24];
 	let a = getAlpha();
 	let b = getBeta();
@@ -141,7 +141,7 @@ function pointButtonGain() {
 	return new Decimal(a).mul(mul);
 };
 
-function buy(type, index, free = false) {
+function buy(type, index, free = false) { // buys the specified upgrade, improvement, or wave upgrade
 	if (type == "upgrade") {
 		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
 		let max = game.infinity.milestones[49]?10000000:100000;
@@ -174,12 +174,12 @@ function buy(type, index, free = false) {
 	return false;
 };
 
-function getTime() {
+function getTime() { // calculates the current run time
 	if (game.finishTime) return formatTime(game.finishTime - game.startTime)
 	return formatTime(new Date().getTime() - game.startTime)
 };
 
-function update() {
+function update() { // does everything except resource gen
 	// garbage collection for transitioning from old versions
 	delete game.wave.pointTotal;
 	delete game.infinity.pointTotal;
@@ -949,6 +949,7 @@ function update() {
 };
 
 const loop = setInterval(() => {
+	// wave point gen
 	if (game.unlocks.includes("w")) {
 		if (game.wave.frame > 312) game.wave.frame = 0;
 		// calculate wave min
@@ -984,14 +985,14 @@ const loop = setInterval(() => {
 			if (gen > game.wave.pointMax - game.wave.points) gen = game.wave.pointMax - game.wave.points;
 			game.wave.points += gen;
 			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+			if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
 			// fix invalid values
 			if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
 			if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
+			if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
 		};
-		// best ever
-		if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
-		if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
 	};
+	// point gen
 	if (game.infinity.milestones[26]) {
 		// calculate point gain
 		let gen = new Decimal(1e-10);
@@ -1011,7 +1012,9 @@ const loop = setInterval(() => {
 			if (game.pointBest.gt(infNum())) game.pointBest = infNum();
 		};
 	};
+	// everthing else
 	update();
+	// move wave a frame
 	if (game.unlocks.includes("w")) game.wave.frame++;
 	else game.wave.frame = 0;
 }, 30);

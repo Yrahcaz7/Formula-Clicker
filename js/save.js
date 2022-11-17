@@ -1,13 +1,13 @@
 const ID = "Yrahcaz7/Formula-Clicker/save";
 
-function hardReset() {
+function hardReset() { // resets everything
 	if (!confirm("Are you really sure you want to reset EVERYTHING?")) return;
 	localStorage.removeItem(ID);
 	game = undefined;
 	location.reload();
 };
 
-function getProxy() {
+function getProxy() { // retrieves the save proxy
 	if (!game) return "";
 	let get = JSON.stringify(game).replace(/Â/g, "");
 	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null").replace(/null/g, "!N"); // numbers
@@ -41,7 +41,7 @@ function getProxy() {
 	return btoa(get.replace(/Â/g, ""));
 };
 
-function normalizeSave(save = localStorage.getItem(ID)) {
+function normalizeSave(save = localStorage.getItem(ID)) { // converts a save proxy to an object
 	if (!save) return undefined;
 	save = atob(save).replace(/Â/g, "");
 	save = save.replace(/<>/g, ")tab=½&unlocks´\""); // constant
@@ -71,23 +71,23 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	return result;
 };
 
-function setPage() {
+function setPage() { // resets the page
 	document.body.innerHTML = "<div class=outer><div class=inner><div id=main>";
 };
 
-function load() {
+function load() { // loads the save
 	setPage();
 	if (!localStorage.getItem(ID)) return;
 	Object.assign(game, normalizeSave());
 };
 
-function importSave(save) {
+function importSave(save) { // imports an external save
 	if (!save) return;
 	Object.assign(game, normalizeSave(save));
 	location.reload();
 };
 
-window.onbeforeunload = () => {
+window.onbeforeunload = () => { // saves the game
 	let proxy = getProxy();
 	if (proxy) localStorage.setItem(ID, proxy);
 };

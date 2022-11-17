@@ -1,4 +1,4 @@
-function waveFormula(min = game.wave.min, max = game.wave.max) {
+function waveFormula(min = game.wave.min, max = game.wave.max) { // calculates the wave formula
 	if (min > max) min = max;
 	let result = "";
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
@@ -25,7 +25,7 @@ for (let iteration = 0; iteration <= 615; iteration++) {
 	sinwaves.push(Math.round(((50 * Math.sin((iteration * 50) / 2500)) + 50) * 100) / 100);
 };
 
-function waveMult() {
+function waveMult() { // calculates wave multiplier
 	let mult = 1;
 	mult *= wave_upgrades[4].effect();
 	mult *= improvements[21].effect();

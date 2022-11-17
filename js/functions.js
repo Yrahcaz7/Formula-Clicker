@@ -1,4 +1,4 @@
-const poem = [
+const poem = [ // the poem (in code form)
 	["<span class=v1>Light, </span>", "<span class=v2>Darkness, </span>", "<span class=v6>Nothingness</span>"],
 	["v1", "in the darkness", "there lies a light", "a brilliant light"],
 	["v1", "the light is hope", "the light is peace", "but light is not perfect"],
@@ -16,7 +16,7 @@ const poem = [
 	["v6", "infinite nothingness", "has no beginning", "no beginning means no end"],
 ];
 
-function copy(text) {
+function copy(text) { // copies text to clipboard
 	const fallback = () => {
 		let textArea = document.createElement("textarea");
 		textArea.value = text;
@@ -32,7 +32,7 @@ function copy(text) {
 	return fallback();
 };
 
-function findNumber(percentage, min, max) {
+function findNumber(percentage, min, max) { // calculates a number from a percentage in between two numbers
 	if (percentage > 1) percentage = 1;
 	if (percentage < 0) percentage = 0;
 	if (min > max) min = max;
