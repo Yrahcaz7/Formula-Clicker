@@ -53,7 +53,7 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	save = save.replace(/\$/g, "=#").replace(/´/g, "([").replace(/µ/g, "])").replace(/·/g, "({\"").replace(/¸/g, "})").replace(/¹/g, ")¶").replace(/»/g, "«(").replace(/º/g, "¬("); // advanced technical
 	save = save.replace(/&/g, "\",\"").replace(/=/g, "\":\"").replace(/\(/g, "\":").replace(/\)/g, ",\""); // technical
 	save = save.replace(/!F/g, "false").replace(/!T/g, "true"); // booleans
-	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave").replace(/s;/g, "startTime").replace(/f;/g, "finishTime").replace(/c;/g, "clicks").replace(/bg;/g, "bg_col").replace(/tx;/g, "txt_col").replace(/px;/g, "txt_px").replace(/sh;/g, "show_°_imp").replace(/b;/g, "best").replace(/i;/g, "stage"); // words
+	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave").replace(/s;/g, "startTime").replace(/f;/g, "finishTime").replace(/c;/g, "clicks").replace(/bg;/g, "bg_col").replace(/tx;/g, "txt_col").replace(/px;/g, "txt_px").replace(/sh;/g, "show_max_imp").replace(/b;/g, "best").replace(/i;/g, "stage"); // words
 	save = save.replace(/null|!N/g, "1.7976931348620926e308"); // numbers
 	// decimal conversion
 	let result = JSON.parse(save.replace(/Â/g, ""));
