@@ -11,15 +11,9 @@ function cutoff(string, seperator, ...indexes) {
 	return array.join(seperator);
 };
 
-const illionPrefixes = [
-	["un", "duo", "tre", "quattuor", "quin", "sex", "septen", "octo", "novem"],
-	["cen"],
-];
+const illionPrefixes = ["un", "duo", "tre", "quattuor", "quin", "sex", "septen", "octo", "novem"];
 
-const shortIllionPrefixes = [
-	["u", "d", "t", "q", "Q", "s", "S", "o", "n"],
-	["c"],
-];
+const shortIllionPrefixes = ["u", "d", "t", "q", "Q", "s", "S", "o", "n"];
 
 const illions = [
 	["million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion"],
@@ -43,7 +37,7 @@ function formatIllions(number = NaN, short = false) {
 	if (number < 1) return pre + "0.00";
 	if (number === Infinity || number == infNum()) return pre + "Infinity";
 	const place3s = Math.floor(Math.log10(number) / 3);
-	let remain = (number / (10 ** (place3s * 3))).toFixed(2);
+	let remain = (number / (10 ** (place3s * 3))).toFixed(3 - (Math.floor(Math.log10(number)) % 3));
 	let post = "";
 	if (place3s) {
 		if (place3s == 1) {
@@ -54,8 +48,8 @@ function formatIllions(number = NaN, short = false) {
 			if (val >= 99) {
 				const loc = Math.floor((val + 1) / 100) % 10 - 1;
 				if (val % 100 != 99) {
-					if (short) post += shortIllionPrefixes[0][val % 10];
-					else post += illionPrefixes[0][val % 10];
+					if (short) post += shortIllionPrefixes[val % 10];
+					else post += illionPrefixes[val % 10];
 				};
 				if (val % 10 != 9 && val % 100 > 9) {
 					if (short) post += shortIllionPrefixes[1][loc];
@@ -70,8 +64,8 @@ function formatIllions(number = NaN, short = false) {
 			};
 			if (val >= 9) {
 				if (val % 10 != 9) {
-					if (short) post += shortIllionPrefixes[0][val % 10];
-					else post += illionPrefixes[0][val % 10];
+					if (short) post += shortIllionPrefixes[val % 10];
+					else post += illionPrefixes[val % 10];
 				};
 				const loc = Math.floor((val + 1) / 10) % 10 - 1;
 				if (short) post += shortIllions[1][loc];
