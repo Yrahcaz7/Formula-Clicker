@@ -121,11 +121,13 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 	};
 	if (("" + game.options["num_note"]).includes("eng")) {
 		let er = e.div(3).floor().mul(3);
+		precision = (er.toNumber() - e.toNumber()) + 3;
 		m = m.mul(new Decimal(10).pow(e.sub(er)));
+		if (number.gte("e1000")) mantissa = false;
 		e = er;
 	};
 	if (mantissa) {
-		if (number.lt("1e10000")) return m.toStringWithDecimalPlaces(precision) + "e" + e;
+		if (number.lt("e10000")) return m.toStringWithDecimalPlaces(precision) + "e" + e;
 		if (e.toNumber() === Infinity) return m.toStringWithDecimalPlaces(precision) + "e" + formatDecimal(e, false);
 		return m.toStringWithDecimalPlaces(precision) + "e" + format(e.toNumber(), false);
 	};
