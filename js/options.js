@@ -73,7 +73,10 @@ const options = [{
 	id: "im_save",
 	type: "import",
 	set(value) {
-		if (!value) return;
-		if (confirm("Are you sure?")) importSave(value);
+		if (!value) {
+			if (confirm("Are you sure? You are importing a blank save. Importing a blank save is equal to resetting all of your progress! Make sure to export your save somewhere safe first!")) hardReset();
+			return;
+		};
+		if (confirm("Are you sure? Make sure to export your save somewhere safe first!")) importSave(value);
 	},
 }];

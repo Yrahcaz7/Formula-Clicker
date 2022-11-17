@@ -1,12 +1,14 @@
 const ID = "Yrahcaz7/Formula-Clicker/save";
 
 function hardReset() {
+	if (!confirm("Are you really sure you want to reset EVERYTHING?")) return;
 	localStorage.removeItem(ID);
-	game = null;
+	game = undefined;
 	location.reload();
 };
 
 function getProxy() {
+	if (!game) return "";
 	let get = JSON.stringify(game).replace(/Â/g, "");
 	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null").replace(/null/g, "!N"); // numbers
 	get = get.replace(/point/g, "¶").replace(/Best/g, "«").replace(/Total/g, "¬").replace(/min/g, "¯").replace(/max/g, "°").replace(/Min/g, "±").replace(/Max/g, "²").replace(/upgrades/g, "³").replace(/improvements/g, "¼").replace(/options/g, "½").replace(/wave/g, "¾").replace(/startTime/g, "s;").replace(/finishTime/g, "f;").replace(/clicks/g, "c;").replace(/bg_col/g, "bg;").replace(/txt_col/g, "tx;").replace(/txt_px/g, "px;").replace(/show_°_imp/g, "sh;").replace(/best/g, "b;").replace(/stage/g, "i;"); // words
@@ -40,7 +42,7 @@ function getProxy() {
 };
 
 function normalizeSave(save = localStorage.getItem(ID)) {
-	if (!save) return null;
+	if (!save) return undefined;
 	save = atob(save).replace(/Â/g, "");
 	save = save.replace(/<>/g, ")tab=½&unlocks´\""); // constant
 	save = save.replace(/P;/g, "&¾Points").replace(/¿/g, ")frame(").replace(/\|/g, "infinity").replace(/\~/g, "milestones"); // more words
