@@ -816,8 +816,27 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12) text += "<br><div class=big>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class=big>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>"+(game.infinity.milestones[79]?"<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity "+formatWhole(Infinity)+" extra times.":"<div class=big>If you really want to keep playing...</div><br>You have currently broken Infinity "+formatWhole(game.infinity.stage-13)+" extra times.");
+		if (game.infinity.stage > 12) text += "<br><div class=big>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class=big>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>"+(game.infinity.milestones[79]?"<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity "+formatWhole(Infinity)+" extra times.<br><br>The time it took you to achieve the TRUE ENDING is below.<br><br>If you want to beat your record, you can reset your game.<br><br>Make sure to export your record somewhere safe before resetting!":"<div class=big>If you really want to keep playing...</div><br>You have currently broken Infinity "+formatWhole(game.infinity.stage-13)+" extra times.");
 		document.getElementById("???_display").innerHTML = text;
+		if (game.infinity.milestones[79]) {
+			if (!document.getElementById("reset_game")) {
+				let append = document.createElement("button");
+				append.id = "reset_game";
+				append.type = "button";
+				append.className = "ending";
+				append.innerHTML = "RESET EVERYTHING<br><br>THERE IS NO GOING BACK";
+				append.onclick = () => {
+					hardReset();
+				};
+				document.getElementById("main").appendChild(append);
+				let br = document.createElement("br");
+				br.id = "reset_br";
+				document.getElementById("main").appendChild(br);
+			};
+		} else {
+			if (document.getElementById("reset_game")) document.getElementById("reset_game").remove();
+			if (document.getElementById("reset_br")) document.getElementById("reset_br").remove();
+		};
 		if (game.infinity.stage > 12) {
 			if (!document.getElementById("export_score")) {
 				let append = document.createElement("button");
@@ -876,6 +895,8 @@ function update() {
 		};
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
+		if (document.getElementById("reset_game")) document.getElementById("reset_game").remove();
+		if (document.getElementById("reset_br")) document.getElementById("reset_br").remove();
 		if (document.getElementById("export_score")) document.getElementById("export_score").remove();
 		if (document.getElementById("score_br")) document.getElementById("score_br").remove();
 		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
