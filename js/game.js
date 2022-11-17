@@ -196,13 +196,15 @@ function update() {
 	if (game.improvements[13] && !game.unlocks.includes("w")) game.unlocks.push("w");
 	if ((game.points.gte(infNum()) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
 	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
-	// main display
+	// point display
 	if (game.unlocks.includes("pd") && !document.getElementById("pointDisplay")) {
 		let append = document.createElement("div");
 		append.id = "pointDisplay";
 		if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
 		else document.getElementById("main").appendChild(append);
 	};
+	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
+	// point button
 	if (!document.getElementById("pointButton")) {
 		let append = document.createElement("button");
 		append.id = "pointButton";
@@ -231,15 +233,6 @@ function update() {
 		};
 		document.getElementById("main").appendChild(append);
 	};
-	if (game.unlocks.includes("vd") && !document.getElementById("varDisplay")) {
-		let append = document.createElement("div");
-		append.id = "varDisplay";
-		append.className = "margin";
-		if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
-		else if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
-		else document.getElementById("main").appendChild(append);
-	};
-	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
 	if (document.getElementById("pointButton")) {
 		let text = "";
 		if (!game.infinity.milestones[32]) text += "+" + format(pointButtonGain()) + " points<br>";
@@ -250,18 +243,30 @@ function update() {
 		};
 		document.getElementById("pointButton").innerHTML = text;
 	};
+	// variable and formula display
+	if (game.unlocks.includes("vd") && !document.getElementById("varDisplay")) {
+		let append = document.createElement("div");
+		append.id = "varDisplay";
+		append.className = "margin";
+		if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
+		else if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
+		else document.getElementById("main").appendChild(append);
+	};
 	if (document.getElementById("varDisplay")) {
+		// formula components
 		const superscript = (string) => {return "<sup>" + string + "</sup>"};
 		const constantFm = format(getConstant()) + constant();
 		const deltaFm = superscript("(" + format(getGammaEx()) + " + " + delta + superscript(format(getDeltaEx())) + ")");
 		const epsilonFm = epsilon + superscript(format(getEpsilonEx()));
 		const zetaFm = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
+		// variable display
 		let text = "Your " + alpha + " is " + format(getAlpha());
 		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(getBeta());
 		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(getGamma());
 		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(getDelta());
 		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(getEpsilon());
 		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(getZeta());
+		// normal formulas
 		let formula = "";
 		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
 		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
@@ -272,12 +277,14 @@ function update() {
 		else if (game.upgrades[6] > 0) formula = constantFm + gamma + deltaFm;
 		else if (game.upgrades[4] > 0) formula = constantFm + gamma + superscript(format(getGammaEx()));
 		else if (game.upgrades[2] > 0) formula = constantFm;
+		// add infinity formula piece
 		if (formula) {
 			if (game.infinity.milestones[24]) formula += "(" + format(1.45) + superscript(infinity) + " + " + format(2.5e9) + infinity + ")";
 			else if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
 			else if (game.infinity.milestones[0]) formula += "(" + format(1.2) + superscript(infinity) + " + " + format(5) + infinity + ")";
 			formula = "Your point gain is " + formula + "<br><br>";
 		};
+		// display variables and formula
 		document.getElementById("varDisplay").innerHTML = formula + text;
 	};
 	// tabs
@@ -288,6 +295,7 @@ function update() {
 		else if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton").nextSibling);
 	};
 	if (document.getElementById("tabs") && game.unlocks.includes("t")) {
+		// main tab
 		if (!document.getElementById("tab-main")) {
 			let append = document.createElement("button");
 			append.id = "tab-main";
@@ -303,6 +311,11 @@ function update() {
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
+		if (document.getElementById("tab-main")) {
+			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
+			else document.getElementById("tab-main").className = "tab";
+		};
+		// improvements tab
 		if (!document.getElementById("tab-improvements")) {
 			let append = document.createElement("button");
 			append.id = "tab-improvements";
@@ -317,6 +330,11 @@ function update() {
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
+		if (document.getElementById("tab-improvements")) {
+			if (game.tab == "improvements") document.getElementById("tab-improvements").className = "tab on";
+			else document.getElementById("tab-improvements").className = "tab";
+		};
+		// options tab
 		if (game.unlocks.includes("o") && !document.getElementById("tab-options")) {
 			let append = document.createElement("button");
 			append.id = "tab-options";
@@ -328,6 +346,11 @@ function update() {
 			append.innerHTML = "Options";
 			document.getElementById("tabs").appendChild(append);
 		};
+		if (document.getElementById("tab-options")) {
+			if (game.tab == "options") document.getElementById("tab-options").className = "tab on";
+			else document.getElementById("tab-options").className = "tab";
+		};
+		// waves tab
 		if (game.unlocks.includes("w") && !document.getElementById("tab-waves")) {
 			let append = document.createElement("button");
 			append.id = "tab-waves";
@@ -341,6 +364,11 @@ function update() {
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
+		if (document.getElementById("tab-waves")) {
+			if (game.tab == "waves") document.getElementById("tab-waves").className = "tab on";
+			else document.getElementById("tab-waves").className = "tab";
+		};
+		// infinity tab
 		if (game.unlocks.includes("i") && !document.getElementById("tab-infinity")) {
 			let append = document.createElement("button");
 			append.id = "tab-infinity";
@@ -354,6 +382,12 @@ function update() {
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
+		if (document.getElementById("tab-infinity")) {
+			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
+			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100 && getInfGain() !== Infinity) document.getElementById("tab-infinity").className = "tab notif";
+			else document.getElementById("tab-infinity").className = "tab";
+		};
+		// ??? tab
 		if (game.unlocks.includes("?") && !document.getElementById("tab-???")) {
 			let append = document.createElement("button");
 			append.id = "tab-???";
@@ -366,34 +400,13 @@ function update() {
 			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
-		if (document.getElementById("tab-main")) {
-			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
-			else document.getElementById("tab-main").className = "tab";
-		};
-		if (document.getElementById("tab-improvements")) {
-			if (game.tab == "improvements") document.getElementById("tab-improvements").className = "tab on";
-			else document.getElementById("tab-improvements").className = "tab";
-		};
-		if (document.getElementById("tab-options")) {
-			if (game.tab == "options") document.getElementById("tab-options").className = "tab on";
-			else document.getElementById("tab-options").className = "tab";
-		};
-		if (document.getElementById("tab-waves")) {
-			if (game.tab == "waves") document.getElementById("tab-waves").className = "tab on";
-			else document.getElementById("tab-waves").className = "tab";
-		};
-		if (document.getElementById("tab-infinity")) {
-			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
-			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100 && getInfGain() !== Infinity) document.getElementById("tab-infinity").className = "tab notif";
-			else document.getElementById("tab-infinity").className = "tab";
-		};
 		if (document.getElementById("tab-???")) {
 			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
 			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1) || game.infinity.milestones[79]) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
 	};
-	// tab displays and autobuyers
+	// main tab
 	if (game.tab == "main") {
 		if (!document.getElementById("upgrades")) {
 			let append = document.createElement("div");
@@ -404,6 +417,7 @@ function update() {
 	} else {
 		if (document.getElementById("upgrades")) document.getElementById("upgrades").remove();
 	};
+	// upgrades
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
@@ -449,6 +463,7 @@ function update() {
 			};
 		};
 	};
+	// improvements tab
 	if (game.tab == "improvements") {
 		if (!document.getElementById("improvements")) {
 			let append = document.createElement("div");
@@ -459,6 +474,7 @@ function update() {
 	} else {
 		if (document.getElementById("improvements")) document.getElementById("improvements").remove();
 	};
+	// improvements
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
@@ -502,6 +518,7 @@ function update() {
 			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "            ".slice(rows[rows.length - 1].length - 20) + "Bought:");
 		};
 	};
+	// options tab
 	if (game.tab == "options") {
 		if (!document.getElementById("options")) {
 			let append = document.createElement("div");
@@ -511,6 +528,7 @@ function update() {
 	} else {
 		if (document.getElementById("options")) document.getElementById("options").remove();
 	};
+	// options
 	for (let index = 0; index < options.length && index < game.improvements[4]; index++) {
 		const element = options[index];
 		if (game.options[element.id] === undefined && element.type != "export" && element.type != "import") game.options[element.id] = element.value();
@@ -609,6 +627,7 @@ function update() {
 			};
 		};
 	};
+	// waves tab
 	if (game.tab == "waves") {
 		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
@@ -646,6 +665,7 @@ function update() {
 		if (document.getElementById("wave_graph")) document.getElementById("wave_graph").remove();
 		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").remove();
 	};
+	// wave upgrades
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
 		const element = wave_upgrades[index];
@@ -689,6 +709,7 @@ function update() {
 			};
 		};
 	};
+	// infinity tab
 	if (game.tab == "infinity") {
 		if (!document.getElementById("infinity_point_display")) {
 			let append = document.createElement("div");
@@ -728,6 +749,7 @@ function update() {
 		if (document.getElementById("infinity_prestige_button")) document.getElementById("infinity_prestige_button").remove();
 		if (document.getElementById("infinity_milestones")) document.getElementById("infinity_milestones").remove();
 	};
+	// infinity milestones
 	for (let index = 0; index < infinity_milestones.length; index++) {
 		if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
 		const element = infinity_milestones[index];
@@ -783,6 +805,7 @@ function update() {
 			else document.getElementById("infinity_milestone_" + index).className = "milestone";
 		};
 	};
+	// ??? tab
 	if (game.tab == "???") {
 		if (!document.getElementById("???_display")) {
 			let append = document.createElement("div");
@@ -901,6 +924,7 @@ function update() {
 		if (document.getElementById("score_br")) document.getElementById("score_br").remove();
 		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 	};
+	// break infinity autobuyer
 	if (game.infinity.milestones[45] && game.points.gte(infNum())) {
 		let work = 1;
 		if (game.infinity.milestones[54]) work *= 5;
@@ -945,7 +969,7 @@ const loop = setInterval(() => {
 		game.wave.min = min;
 		game.wave.max = max;
 		game.wave.pointMax = pointMax;
-		// wave point gain
+		// calculate wave point gain
 		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
 		gen *= waveMult();
 		if (game.infinity.milestones[25]) gen *= (1.1 ** game.infinity.points) + (game.infinity.points * 5);
@@ -955,10 +979,12 @@ const loop = setInterval(() => {
 		if (gen === Infinity || gen !== gen) gen = 1.7976931348620926e308;
 		game.wave.pointGen = gen;
 		if (game.wave.points < game.wave.pointMax) {
+			// generate wave points
 			gen *= 0.03;
 			if (gen > game.wave.pointMax - game.wave.points) gen = game.wave.pointMax - game.wave.points;
 			game.wave.points += gen;
 			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+			// fix invalid values
 			if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
 			if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
 		};
@@ -967,16 +993,19 @@ const loop = setInterval(() => {
 		if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
 	};
 	if (game.infinity.milestones[26]) {
+		// calculate point gain
 		let gen = new Decimal(1e-10);
 		if (game.infinity.milestones[27]) gen = new Decimal(0.01);
 		if (game.infinity.milestones[30]) gen = new Decimal(1);
 		if (game.infinity.milestones[32]) gen = new Decimal(100);
 		if (gen.gt(0) && pointButtonGain().gt(0)) {
+			// generate points
 			gen *= 0.0003;
 			game.points = game.points.add(pointButtonGain().mul(gen));
 			game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
 			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
 			if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
+			// fix invalid values
 			if (game.points.gt(infNum())) game.points = infNum();
 			if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
 			if (game.pointBest.gt(infNum())) game.pointBest = infNum();
