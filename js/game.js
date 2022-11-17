@@ -196,6 +196,90 @@ function update() {
 	if (game.improvements[13] && !game.unlocks.includes("w")) game.unlocks.push("w");
 	if ((game.points.gte(infNum()) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
 	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
+	// main display
+	if (game.unlocks.includes("pd") && !document.getElementById("pointDisplay")) {
+		let append = document.createElement("div");
+		append.id = "pointDisplay";
+		if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
+		else document.getElementById("main").appendChild(append);
+	};
+	if (!document.getElementById("pointButton")) {
+		let append = document.createElement("button");
+		append.id = "pointButton";
+		append.type = "button";
+		append.onclick = () => {
+			game.clicks++;
+			if (!game.infinity.milestones[32]) {
+				game.points = game.points.add(pointButtonGain());
+				game.pointTotal = game.pointTotal.add(pointButtonGain());
+				if (game.points.gt(game.pointBest)) game.pointBest = game.points;
+				if (game.points.gt(infNum())) game.points = infNum();
+				if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
+				if (game.pointBest.gt(infNum())) game.pointBest = infNum();
+				if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
+			};
+			if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
+				let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
+				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
+				game.wave.points += gen;
+				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
+				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
+				if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
+				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
+			};
+		};
+		document.getElementById("main").appendChild(append);
+	};
+	if (game.unlocks.includes("vd") && !document.getElementById("varDisplay")) {
+		let append = document.createElement("div");
+		append.id = "varDisplay";
+		append.className = "margin";
+		if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
+		else if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
+		else document.getElementById("main").appendChild(append);
+	};
+	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
+	if (document.getElementById("pointButton")) {
+		let text = "";
+		if (!game.infinity.milestones[32]) text += "+" + format(pointButtonGain()) + " points<br>";
+		if (game.improvements[15] > 0) {
+			let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
+			if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
+			text += "+" + format(gen) + " wave points";
+		};
+		document.getElementById("pointButton").innerHTML = text;
+	};
+	if (document.getElementById("varDisplay")) {
+		const superscript = (string) => {return "<sup>" + string + "</sup>"};
+		const constantFm = format(getConstant()) + constant();
+		const deltaFm = superscript("(" + format(getGammaEx()) + " + " + delta + superscript(format(getDeltaEx())) + ")");
+		const epsilonFm = epsilon + superscript(format(getEpsilonEx()));
+		const zetaFm = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
+		let text = "Your " + alpha + " is " + format(getAlpha());
+		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(getBeta());
+		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(getGamma());
+		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(getDelta());
+		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(getEpsilon());
+		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(getZeta());
+		let formula = "";
+		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
+		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
+		else if (game.improvements[10]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm;
+		else if (game.upgrades[8] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")(" + epsilon + " + " + format(1) + ")";
+		else if (game.improvements[5] > 2) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")";
+		else if (game.improvements[5] > 0) formula = constantFm + "(" + gamma + deltaFm + ")";
+		else if (game.upgrades[6] > 0) formula = constantFm + gamma + deltaFm;
+		else if (game.upgrades[4] > 0) formula = constantFm + gamma + superscript(format(getGammaEx()));
+		else if (game.upgrades[2] > 0) formula = constantFm;
+		if (formula) {
+			if (game.infinity.milestones[24]) formula += "(" + format(1.45) + superscript(infinity) + " + " + format(2.5e9) + infinity + ")";
+			else if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
+			else if (game.infinity.milestones[0]) formula += "(" + format(1.2) + superscript(infinity) + " + " + format(5) + infinity + ")";
+			formula = "Your point gain is " + formula + "<br><br>";
+		};
+		document.getElementById("varDisplay").innerHTML = formula + text;
+	};
 	// tabs
 	if ((game.unlocks.includes("t")) && !document.getElementById("tabs")) {
 		let append = document.createElement("span");
@@ -308,90 +392,6 @@ function update() {
 			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1) || game.infinity.milestones[79]) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
-	};
-	// main display
-	if (game.unlocks.includes("pd") && !document.getElementById("pointDisplay")) {
-		let append = document.createElement("div");
-		append.id = "pointDisplay";
-		if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
-		else document.getElementById("main").appendChild(append);
-	};
-	if (!document.getElementById("pointButton")) {
-		let append = document.createElement("button");
-		append.id = "pointButton";
-		append.type = "button";
-		append.onclick = () => {
-			game.clicks++;
-			if (!game.infinity.milestones[32]) {
-				game.points = game.points.add(pointButtonGain());
-				game.pointTotal = game.pointTotal.add(pointButtonGain());
-				if (game.points.gt(game.pointBest)) game.pointBest = game.points;
-				if (game.points.gt(infNum())) game.points = infNum();
-				if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
-				if (game.pointBest.gt(infNum())) game.pointBest = infNum();
-				if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
-			};
-			if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
-				let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
-				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
-				game.wave.points += gen;
-				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
-				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
-				if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
-				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
-			};
-		};
-		document.getElementById("main").appendChild(append);
-	};
-	if (game.unlocks.includes("vd") && !document.getElementById("varDisplay")) {
-		let append = document.createElement("div");
-		append.id = "varDisplay";
-		append.className = "margin";
-		if (document.getElementById("tabs")) document.getElementById("main").insertBefore(append, document.getElementById("tabs"));
-		else if (document.getElementById("upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("upgrades"));
-		else document.getElementById("main").appendChild(append);
-	};
-	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
-	if (document.getElementById("pointButton")) {
-		let text = "";
-		if (!game.infinity.milestones[32]) text += "+" + format(pointButtonGain()) + " points<br>";
-		if (game.improvements[15] > 0) {
-			let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
-			if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
-			text += "+" + format(gen) + " wave points";
-		};
-		document.getElementById("pointButton").innerHTML = text;
-	};
-	if (document.getElementById("varDisplay")) {
-		const superscript = (string) => {return "<sup>" + string + "</sup>"};
-		const constantFm = format(getConstant()) + constant();
-		const deltaFm = superscript("(" + format(getGammaEx()) + " + " + delta + superscript(format(getDeltaEx())) + ")");
-		const epsilonFm = epsilon + superscript(format(getEpsilonEx()));
-		const zetaFm = "(" + format(2) + superscript(zeta) + " + " + format(5) + zeta + ")";
-		let text = "Your " + alpha + " is " + format(getAlpha());
-		if (game.upgrades[2] > 0) text += "<br>Your " + beta + " is " + format(getBeta());
-		if (game.upgrades[4] > 0) text += "<br>Your " + gamma + " is " + format(getGamma());
-		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(getDelta());
-		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(getEpsilon());
-		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(getZeta());
-		let formula = "";
-		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
-		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
-		else if (game.improvements[10]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm;
-		else if (game.upgrades[8] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")(" + epsilon + " + " + format(1) + ")";
-		else if (game.improvements[5] > 2) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")";
-		else if (game.improvements[5] > 0) formula = constantFm + "(" + gamma + deltaFm + ")";
-		else if (game.upgrades[6] > 0) formula = constantFm + gamma + deltaFm;
-		else if (game.upgrades[4] > 0) formula = constantFm + gamma + superscript(format(getGammaEx()));
-		else if (game.upgrades[2] > 0) formula = constantFm;
-		if (formula) {
-			if (game.infinity.milestones[24]) formula += "(" + format(1.45) + superscript(infinity) + " + " + format(2.5e9) + infinity + ")";
-			else if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
-			else if (game.infinity.milestones[0]) formula += "(" + format(1.2) + superscript(infinity) + " + " + format(5) + infinity + ")";
-			formula = "Your point gain is " + formula + "<br><br>";
-		};
-		document.getElementById("varDisplay").innerHTML = formula + text;
 	};
 	// tab displays and autobuyers
 	if (game.tab == "main") {
