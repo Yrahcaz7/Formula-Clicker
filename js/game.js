@@ -193,7 +193,7 @@ function update() {
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("vd")) game.unlocks.push("vd");
 	if (game.points.gte(1000) && !game.unlocks.includes("t")) game.unlocks.push("t");
 	if (game.improvements[4] > 0 && !game.unlocks.includes("o")) game.unlocks.push("o");
-	if (game.improvements[13] > 0 && !game.unlocks.includes("w")) game.unlocks.push("w");
+	if (game.improvements[13] && !game.unlocks.includes("w")) game.unlocks.push("w");
 	if ((game.points.gte(infNum()) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
 	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
 	// tabs
@@ -378,7 +378,7 @@ function update() {
 		let formula = "";
 		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
 		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
-		else if (game.improvements[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm;
+		else if (game.improvements[10]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm;
 		else if (game.upgrades[8] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")(" + epsilon + " + " + format(1) + ")";
 		else if (game.improvements[5] > 2) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")";
 		else if (game.improvements[5] > 0) formula = constantFm + "(" + gamma + deltaFm + ")";
@@ -420,8 +420,8 @@ function update() {
 			if (game.infinity.milestones[56]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.upgrades[index] >= max || game.points.lt(upgrades[index].cost())) break;
-				if (game.improvements[16] > 0 && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
-				else if (game.improvements[3] > 0 && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
+				if (game.improvements[16] && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
+				else if (game.improvements[3] && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
 			};
 		};
 		if (game.tab != "main" || !element.unlocked()) {
@@ -468,7 +468,7 @@ function update() {
 		else if (element.unlocked() && game.improvements[index] < max) {
 			if (index == 0 && game.improvements[11]) {
 				let work = 1;
-				if (game.improvements[27] > 0) work *= 3;
+				if (game.improvements[27]) work *= 3;
 				if (game.infinity.milestones[44]) work *= 2;
 				if (game.infinity.milestones[46]) work *= 2;
 				if (game.infinity.milestones[48]) work *= 2;

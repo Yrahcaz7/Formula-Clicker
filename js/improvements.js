@@ -21,7 +21,7 @@ const improvements = [{
 		return "multiplies the " + constant() + " constant by " + format(1.5);
 	},
 	effect() {
-		if (game.improvements[1] > 0) return 1.5;
+		if (game.improvements[1]) return 1.5;
 		return 1;
 	},
 	cost() {
@@ -44,7 +44,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.upgrades[5] > 0 && game.improvements[1] > 0;
+		return game.upgrades[5] > 0 && game.improvements[1];
 	},
 }, {
 	title: "AUTOMATION",
@@ -74,7 +74,7 @@ const improvements = [{
 	},
 	max: 7,
 	unlocked() {
-		return game.upgrades[7] > 0 && game.improvements[3] > 0;
+		return game.upgrades[7] > 0 && game.improvements[3];
 	},
 }, {
 	title: "SUPER COMBO",
@@ -159,9 +159,6 @@ const improvements = [{
 		return new Decimal(1e47);
 	},
 	max: 1,
-	unlocked() {
-		return game.improvements[9] > 0;
-	},
 }, {
 	title: "FINALLY!",
 	desc() {
@@ -171,7 +168,7 @@ const improvements = [{
 		return (game.improvements[0] + 1) ** 0.3333333333333333;
 	},
 	effect() {
-		if (game.improvements[11] > 0) return this.baseEff();
+		if (game.improvements[11]) return this.baseEff();
 		return 1;
 	},
 	cost() {
@@ -179,7 +176,7 @@ const improvements = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.improvements[8] > 2 && game.improvements[10] > 0;
+		return game.improvements[8] > 2 && game.improvements[10];
 	},
 }, {
 	title: "REPETITION",
@@ -194,7 +191,7 @@ const improvements = [{
 	},
 	max: 10,
 	unlocked() {
-		return game.improvements[8] > 3 && game.improvements[9] > 1 && game.improvements[11] > 0;
+		return game.improvements[8] > 3 && game.improvements[9] > 1 && game.improvements[11];
 	},
 }, {
 	title: "HERE COMES TRIGONOMETRY",
@@ -218,9 +215,6 @@ const improvements = [{
 		return new Decimal(1e5).pow(game.improvements[14]).mul(1e95);
 	},
 	max: 5,
-	unlocked() {
-		return game.improvements[13] > 0;
-	},
 }, {
 	title: "BACK TO THE GRIND",
 	desc() {
@@ -234,9 +228,6 @@ const improvements = [{
 		return new Decimal(10).pow(game.improvements[15]).mul(1e90);
 	},
 	max: 20,
-	unlocked() {
-		return game.improvements[14] > 0;
-	},
 }, {
 	title: "SUPER AUTO",
 	desc() {
@@ -262,9 +253,6 @@ const improvements = [{
 		return new Decimal(1e5).pow(game.improvements[17]).mul(1e140);
 	},
 	max: 5,
-	unlocked() {
-		return game.improvements[16] > 0;
-	},
 }, {
 	title: "INFLUENCE",
 	desc() {
@@ -274,7 +262,7 @@ const improvements = [{
 		return game.points.add(1).pow(0.0025);
 	},
 	effect() {
-		if (game.improvements[18] > 0) return this.baseEff();
+		if (game.improvements[18]) return this.baseEff();
 		return 1;
 	},
 	cost() {
@@ -293,9 +281,6 @@ const improvements = [{
 		return new Decimal(1e188);
 	},
 	max: 1,
-	unlocked() {
-		return game.improvements[18] > 0;
-	},
 }, {
 	title: "MULT CAP UP",
 	desc: "increase the cap on RECURSION's effect",
@@ -303,9 +288,6 @@ const improvements = [{
 		return new Decimal(1e215);
 	},
 	max: 1,
-	unlocked() {
-		return game.improvements[19] > 0;
-	},
 }, {
 	title: "WAVE MULT",
 	desc() {
@@ -315,16 +297,13 @@ const improvements = [{
 		return game.points.add(1).pow(0.0015);
 	},
 	effect() {
-		if (game.improvements[21] > 0) return this.baseEff();
+		if (game.improvements[21]) return this.baseEff();
 		return 1;
 	},
 	cost() {
 		return new Decimal(1e250);
 	},
 	max: 1,
-	unlocked() {
-		return game.improvements[20] > 0;
-	},
 }, {
 	title: "FASTER, FASTER!",
 	desc() {
@@ -341,7 +320,7 @@ const improvements = [{
 	},
 	max: 4,
 	unlocked() {
-		return game.improvements[21] > 0 && game.infinity.stage > 1;
+		return game.improvements[21] && game.infinity.stage > 1;
 	},
 }, {
 	title: "EVEN MORE",
@@ -355,9 +334,6 @@ const improvements = [{
 		return new Decimal(1e10).pow(game.improvements[23]).mul("1e400");
 	},
 	max: 10,
-	unlocked() {
-		return game.improvements[22] > 0;
-	},
 }, {
 	title: "INSANE SCALING",
 	desc() {
@@ -385,9 +361,6 @@ const improvements = [{
 		return new Decimal(1e30).pow(game.improvements[25]).mul("1e600");
 	},
 	max: 50,
-	unlocked() {
-		return game.improvements[24] > 0;
-	},
 }, {
 	title: "TIRELESS GRIND",
 	desc() {
@@ -400,9 +373,6 @@ const improvements = [{
 		return new Decimal(1e10).pow(game.improvements[26]).mul("1e800");
 	},
 	max: 20,
-	unlocked() {
-		return game.improvements[25] > 0;
-	},
 }, {
 	title: "FACE-SLAP",
 	desc() {
@@ -412,7 +382,10 @@ const improvements = [{
 		return new Decimal("1e1250");
 	},
 	max: 1,
-	unlocked() {
-		return game.improvements[26] > 0;
-	},
 }];
+
+for (let index = 0; index < improvements.length; index++) {
+	if (improvements[index].unlocked === undefined) improvements[index].unlocked = function() {
+		return game.improvements[index - 1] > 0;
+	};
+};

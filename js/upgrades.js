@@ -152,7 +152,7 @@ const upgrades = [{
 		return new Decimal(5).pow(game.upgrades[10]).mul(1e55);
 	},
 	unlocked() {
-		return game.pointTotal.gte(1.5e55) && game.improvements[10] > 0 && game.upgrades[9] > 0;
+		return game.pointTotal.gte(1.5e55) && game.improvements[10] && game.upgrades[9] > 0;
 	},
 }, {
 	title: "NEVER-ENDING",
