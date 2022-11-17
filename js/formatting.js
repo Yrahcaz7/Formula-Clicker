@@ -86,10 +86,10 @@ function formatIllions(number = NaN, short = false) {
 	return (pre + remain + (!short && post ? " " : "") + post).replace("undefined", "");
 };
 
-function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false) {
+function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) {
 	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) return "Infinity";
 	let natural = typeof number=="object"?number.toNumber():+number;
-	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
+	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
 	if (game.options["num_note"] == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
 	if (("" + game.options["num_note"]).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
 	if (("" + game.options["num_note"]).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
@@ -129,10 +129,10 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 	if (mantissa) {
 		if (number.lt("e10000")) return m.toStringWithDecimalPlaces(precision) + "e" + e;
 		if (e.toNumber() === Infinity) return m.toStringWithDecimalPlaces(precision) + "e" + formatDecimal(e, false);
-		return m.toStringWithDecimalPlaces(precision) + "e" + format(e.toNumber(), false);
+		return m.toStringWithDecimalPlaces(precision) + "e" + format(e.toNumber(), false, false, false, false, true);
 	};
 	if (e.toNumber() === Infinity) return "e" + formatDecimal(e, false);
-	return "e" + format(e.toNumber(), false);
+	return "e" + format(e.toNumber(), false, false, false, false, true);
 };
 
 function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, type = "") {
