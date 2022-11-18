@@ -1,13 +1,20 @@
 const ID = "Yrahcaz7/Formula-Clicker/save";
 
-function hardReset() { // resets everything
+/**
+ * resets everything.
+ */
+function hardReset() {
 	if (!confirm("Are you really sure you want to reset EVERYTHING?")) return;
 	localStorage.removeItem(ID);
 	game = undefined;
 	location.reload();
 };
 
-function getProxy() { // retrieves the save proxy
+/**
+ * retrieves the save proxy.
+ * @returns {string} proxy
+ */
+function getProxy() {
 	if (!game) return "";
 	let get = JSON.stringify(game).replace(/Â/g, "");
 	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null").replace(/null/g, "!N"); // numbers
@@ -41,7 +48,13 @@ function getProxy() { // retrieves the save proxy
 	return btoa(get.replace(/Â/g, ""));
 };
 
-function normalizeSave(save = localStorage.getItem(ID)) { // converts a save proxy to an object
+/**
+ * converts a save proxy to an object.
+ * returns undefined on failure.
+ * @param {string} save - save proxy to use instead of default.
+ * @returns {object | undefined} object
+ */
+function normalizeSave(save = localStorage.getItem(ID)) {
 	if (!save) return undefined;
 	save = atob(save).replace(/Â/g, "");
 	save = save.replace(/<>/g, ")tab=½&unlocks´\""); // constant
@@ -65,23 +78,30 @@ function normalizeSave(save = localStorage.getItem(ID)) { // converts a save pro
 			if (key == "points" || key == "pointBest" || key == "pointTotal") result[key] = new Decimal(result[key]);
 		};
 	};
-	// fixes
-	if (result.infinity.stage === undefined) result.infinity.stage = 1;
 	// return result
 	return result;
 };
 
-function setPage() { // resets the page
+/**
+ * resets the page.
+ */
+function setPage() {
 	document.body.innerHTML = "<div class=outer><div class=inner><div id=main>";
 };
 
-function load() { // loads the save
+/**
+ * loads your save.
+ */
+function load() {
 	setPage();
 	if (!localStorage.getItem(ID)) return;
 	Object.assign(game, normalizeSave());
 };
 
-function importSave(save) { // imports an external save
+/**
+ * imports an external save.
+ */
+function importSave(save) {
 	if (!save) return;
 	Object.assign(game, normalizeSave(save));
 	location.reload();

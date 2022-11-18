@@ -16,7 +16,12 @@ const poem = [ // the poem (in code form)
 	["v6", "infinite nothingness", "has no beginning", "no beginning means no end"],
 ];
 
-function copy(text) { // copies text to clipboard
+/**
+ * copies text to clipboard.
+ * @param {string} text - the text to copy.
+ * @returns {boolean} success
+ */
+function copy(text) {
 	const fallback = () => {
 		let textArea = document.createElement("textarea");
 		textArea.value = text;
@@ -32,7 +37,14 @@ function copy(text) { // copies text to clipboard
 	return fallback();
 };
 
-function findNumber(percentage, min, max) { // calculates a number from a percentage in between two numbers
+/**
+ * calculates a number from a percentage in between two numbers.
+ * @param {number} percentage - the percentage (between 0 and 1.)
+ * @param {number} min - the lower number.
+ * @param {number} max - the higher number.
+ * @returns {number} number
+ */
+function findNumber(percentage, min, max) {
 	if (percentage > 1) percentage = 1;
 	if (percentage < 0) percentage = 0;
 	if (min > max) min = max;

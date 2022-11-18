@@ -32,7 +32,11 @@ let game = {
 	finishTime: undefined,
 };
 
-function getAlpha() { // calculates alpha
+/**
+ * calculates alpha.
+ * @returns {number} alpha
+ */
+function getAlpha() {
 	let a = 1;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
@@ -40,7 +44,11 @@ function getAlpha() { // calculates alpha
 	return a;
 };
 
-function getBeta() { // calculates beta
+/**
+ * calculates beta.
+ * @returns {number} beta
+ */
+function getBeta() {
 	let b = 1;
 	b += upgrades[2].effect();
 	b += upgrades[3].effect();
@@ -48,7 +56,11 @@ function getBeta() { // calculates beta
 	return b;
 };
 
-function getGamma() { // calculates gamma
+/**
+ * calculates gamma.
+ * @returns {number} gamma
+ */
+function getGamma() {
 	let g = 1;
 	g += upgrades[4].effect();
 	g += upgrades[5].effect();
@@ -56,7 +68,11 @@ function getGamma() { // calculates gamma
 	return g;
 };
 
-function getDelta() { // calculates delta
+/**
+ * calculates delta.
+ * @returns {number} delta
+ */
+function getDelta() {
 	let d = 0;
 	d += upgrades[6].effect();
 	d += upgrades[7].effect();
@@ -64,7 +80,11 @@ function getDelta() { // calculates delta
 	return d;
 };
 
-function getEpsilon() { // calculates epsilon
+/**
+ * calculates epsilon.
+ * @returns {number} epsilon
+ */
+function getEpsilon() {
 	let e = 0;
 	e += upgrades[8].effect();
 	e += upgrades[9].effect();
@@ -72,7 +92,11 @@ function getEpsilon() { // calculates epsilon
 	return e;
 };
 
-function getZeta() { // calculates zeta
+/**
+ * calculates zeta.
+ * @returns {number} zeta
+ */
+function getZeta() {
 	let z = 0;
 	z += upgrades[10].effect();
 	z += upgrades[11].effect();
@@ -80,7 +104,11 @@ function getZeta() { // calculates zeta
 	return z;
 };
 
-function getConstant() { // calculates the constant
+/**
+ * calculates the constant.
+ * @returns {decimal} constant
+ */
+function getConstant() {
 	let co = new Decimal(2.5);
 	co = co.add(improvements[0].effect());
 	co = co.mul(improvements[1].effect());
@@ -89,25 +117,41 @@ function getConstant() { // calculates the constant
 	return co;
 };
 
-function getGammaEx() { // calculates the gamma exponent
+/**
+ * calculates the gamma exponent.
+ * @returns {number} exponent
+ */
+function getGammaEx() {
 	let gEx = 2;
 	gEx += improvements[2].effect();
 	return gEx;
 };
 
-function getDeltaEx() { // calculates the delta exponent
+/**
+ * calculates the delta exponent.
+ * @returns {number} exponent
+ */
+function getDeltaEx() {
 	let dEx = 0.5;
 	dEx += improvements[6].effect();
 	return dEx;
 };
 
-function getEpsilonEx() { // calculates the epsilon exponent
+/**
+ * calculates the epsilon exponent.
+ * @returns {number} exponent
+ */
+function getEpsilonEx() {
 	let eEx = 1.5;
 	eEx += improvements[12].effect();
 	return eEx;
 };
 
-function getPointMult() { // calculates point gain mult
+/**
+ * calculates point gain multiplier.
+ * @returns {decimal} multiplier
+ */
+function getPointMult() {
 	let mul = new Decimal(1);
 	if (game.infinity.milestones[24]) mul = mul.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
 	else if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
@@ -115,7 +159,11 @@ function getPointMult() { // calculates point gain mult
 	return mul;
 };
 
-function pointButtonGain() { // calculates point button gain
+/**
+ * calculates point button gain.
+ * @returns {decimal} gain
+ */
+function pointButtonGain() {
 	let imp = game.improvements[5] + game.improvements[10] + game.improvements[24];
 	let a = getAlpha();
 	let b = getBeta();
@@ -141,7 +189,14 @@ function pointButtonGain() { // calculates point button gain
 	return new Decimal(a).mul(mul);
 };
 
-function buy(type, index, free = false) { // buys the specified upgrade, improvement, or wave upgrade
+/**
+ * buys the specified upgrade, improvement, or wave upgrade.
+ * @param {string} type - the type of purchase: upgrade, improvement, or wave upgrade.
+ * @param {number} index - the index of the purchase.
+ * @param {boolean} free - whether to not use any currency on purchase.
+ * @returns {boolean} success
+ */
+function buy(type, index, free = false) {
 	if (type == "upgrade") {
 		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
 		let max = game.infinity.milestones[49]?10000000:100000;
@@ -160,7 +215,7 @@ function buy(type, index, free = false) { // buys the specified upgrade, improve
 			game.improvements[index]++;
 			return true;
 		} else return false;
-	} else if (type == "wave_upgrade") {
+	} else if (type == "wave upgrade") {
 		if (!wave_upgrades[index] || !wave_upgrades[index].unlocked()) return false;
 		let max = game.infinity.milestones[49]?10000000:100000;
 		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
@@ -174,12 +229,19 @@ function buy(type, index, free = false) { // buys the specified upgrade, improve
 	return false;
 };
 
-function getTime() { // calculates the current run time
+/**
+ * calculates the current run time.
+ * @returns {string} time
+ */
+function getTime() {
 	if (game.finishTime) return formatTime(game.finishTime - game.startTime)
 	return formatTime(new Date().getTime() - game.startTime)
 };
 
-function update() { // does everything except resource gen
+/**
+ * does a game tick (not including passive resource gen.)
+ */
+function update() {
 	// garbage collection for transitioning from old versions
 	delete game.wave.pointTotal;
 	delete game.infinity.pointTotal;
@@ -678,9 +740,9 @@ function update() { // does everything except resource gen
 			if (game.infinity.milestones[33]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.wave.upgrades[index] >= max) break;
-				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave_upgrade", index, true);
+				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave upgrade", index, true);
 				else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy	("wave_upgrade", index, true);
-				else if (game.infinity.milestones[11]) buy("wave_upgrade", index);
+				else if (game.infinity.milestones[11]) buy("wave upgrade", index);
 			};
 		};
 		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
@@ -693,7 +755,7 @@ function update() { // does everything except resource gen
 			append.id = "wave_upgrade_" + index;
 			append.type = "button";
 			append.onclick = () => {
-				buy("wave_upgrade", index);
+				buy("wave upgrade", index);
 			};
 			if (document.getElementById("wave_upgrade_" + (index - 1))) document.getElementById("wave_upgrades").insertBefore(append, document.getElementById("wave_upgrade_" + (index - 1)).nextSibling);
 			else document.getElementById("wave_upgrades").appendChild(append);

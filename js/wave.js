@@ -1,7 +1,12 @@
-function waveFormula(min = game.wave.min, max = game.wave.max) { // calculates the wave formula
-	if (min > max) min = max;
+/**
+ * calculates the wave formula.
+ * @returns {string} formula
+ */
+function waveFormula() {
 	let result = "";
-	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
+	let max = game.wave.max, min = game.wave.min;
+	if (min > max) min = max;
+	result += "(" + format(Math.abs((game.wave.max - game.wave.min) / 2)) + " * sin(time)) + " + format((game.wave.max + game.wave.min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
 	if (game.infinity.milestones[25]) {
 		if (result.endsWith(")")) result += "(" + format(1.1) + "<sup>" + infinity + "</sup> + " + format(5) + infinity + ")";
@@ -25,7 +30,11 @@ for (let iteration = 0; iteration <= 615; iteration++) {
 	sinwaves.push(Math.round(((50 * Math.sin((iteration * 50) / 2500)) + 50) * 100) / 100);
 };
 
-function waveMult() { // calculates wave multiplier
+/**
+ * calculates wave multiplier.
+ * @returns {number} multiplier
+ */
+function waveMult() {
 	let mult = 1;
 	mult *= wave_upgrades[4].effect();
 	mult *= improvements[21].effect();

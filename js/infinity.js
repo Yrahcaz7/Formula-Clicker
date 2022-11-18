@@ -1,6 +1,8 @@
 const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage)};
-
-function prestige() { // reset for infinity points
+/**
+ * resets for infinity points.
+ */
+function prestige() {
 	game.clicks++;
 	if (getInfGain() > 0) {
 		// gain infinity points
@@ -95,7 +97,11 @@ function prestige() { // reset for infinity points
 	if (!game.infinity.milestones[18]) setPage();
 };
 
-function getInfGain() { // calculate infinity point gain
+/**
+ * calculates infinity point gain.
+ * @returns {number} gain
+ */
+function getInfGain() {
 	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
 	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (game.points > infNum()) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
@@ -103,7 +109,11 @@ function getInfGain() { // calculate infinity point gain
 	return gain;
 };
 
-function getNextInf() { // calculate next infinity at
+/**
+ * calculates "next infinity at" text.
+ * @returns {string} text
+ */
+function getNextInf() {
 	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
 	if (getInfGain() === 0) return "Next " + infinity + " at " + format(1.7976931348620926e308, true, false, false, true) + " points";
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
@@ -111,7 +121,11 @@ function getNextInf() { // calculate next infinity at
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
 
-function infMul() { // calculate infinity multiplier
+/**
+ * calculates infinity multiplier.
+ * @returns {number} multiplier
+ */
+function infMul() {
 	let mul = 1;
 	if (game.infinity.milestones[29]) mul *= infinity_milestones[29].effect();
 	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
@@ -119,7 +133,11 @@ function infMul() { // calculate infinity multiplier
 	return mul;
 };
 
-function breakInfBulk() { // calculate break infinity bulk buy amount
+/**
+ * calculates break infinity bulk buy amount.
+ * @returns {number} bulk
+ */
+function breakInfBulk() {
 	let bulk = 1;
 	if (game.infinity.milestones[64]) bulk *= 10;
 	if (game.infinity.milestones[65]) bulk *= 10;
