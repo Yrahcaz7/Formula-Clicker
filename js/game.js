@@ -36,7 +36,7 @@ let game = {
  * buys the specified upgrade, improvement, or wave upgrade.
  * @param {string} type - the type of purchase: upgrade, improvement, or wave upgrade.
  * @param {number} index - the index of the purchase.
- * @param {boolean} free - whether to not use any currency on purchase.
+ * @param {boolean} free - if true, does not use any currency on purchase.
  * @returns {boolean} success
  */
 function buy(type, index, free = false) {

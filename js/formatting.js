@@ -27,7 +27,13 @@ const shortIllions = [
 	["c"],
 ];
 
-function formatIllions(number = NaN, short = false) { // number -illion format
+/**
+ * formats a number with the -illion system.
+ * @param {number} number - the number to format.
+ * @param {boolean} short - if true, shortens the format (e.g. 10m instead of 10 million)
+ * @returns {string} formatted number
+ */
+function formatIllions(number, short = false) {
 	if (number !== number) return "NaN";
 	let pre = "";
 	if (number < 0) {
@@ -80,7 +86,17 @@ function formatIllions(number = NaN, short = false) { // number -illion format
 	return (pre + remain + (!short && post ? " " : "") + post).replace("undefined", "");
 };
 
-function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) { // global number format (redirects to all others)
+/**
+ * formats a number: redirects to all other number formats.
+ * @param {number | decimal} number - the number to format.
+ * @param {boolean} smallAllowed - if true, allows small number formatting.
+ * @param {boolean} expand - if true, expands the format if possible.
+ * @param {boolean} hasPercent - if true, number is a percentage value.
+ * @param {boolean} showInfValue - if true, shows value at Infinity.
+ * @param {boolean} internal - if true, is being called by another function.
+ * @returns {string} formatted number
+ */
+function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) {
 	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) return "Infinity";
 	let natural = typeof number=="object"?number.toNumber():+number;
 	if ((natural !== Infinity && natural !== -Infinity) && (game.options["num_note"] == "sho" || (("" + game.options["num_note"]).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
@@ -90,14 +106,26 @@ function format(number, smallAllowed = true, expand = false, hasPercent = false,
 	return formatDecimal(number, smallAllowed, expand, hasPercent, showInfValue);
 };
 
-function formatWhole(number) { // global integer format (redirects to all others)
-	if (("" + game.options["num_note"]).includes("log") && new Decimal(number).gte(1000)) return format(number, false);
-	let result = format(number, false);
-	if (result.includes("e") || (game.options["num_note"] == "sho" || ("" + game.options["num_note"]).includes("mix") && new Decimal(number).gte(1000))) return result;
+/**
+ * formats an integer: redirects to all other number formats.
+ * @param {number | decimal} integer - the integer to format.
+ * @returns {string} formatted number
+ */
+function formatWhole(integer) {
+	if (("" + game.options["num_note"]).includes("log") && new Decimal(integer).gte(1000)) return format(integer, false);
+	let result = format(integer, false);
+	if (result.includes("e") || (game.options["num_note"] == "sho" || ("" + game.options["num_note"]).includes("mix") && new Decimal(integer).gte(1000))) return result;
 	return result.split(".")[0];
 };
 
-function formatDecimalInternal(number, precision = 2, mantissa = true) { // internal function for large number formatting
+/**
+ * formats part of a large number: an internal function.
+ * @param {number | decimal} number - the number to format.
+ * @param {number} precision - the number of precision digits.
+ * @param {boolean} mantissa - if true, shows the mantissa.
+ * @returns {string} formatted number
+ */
+function formatDecimalInternal(number, precision = 2, mantissa = true) {
 	number = new Decimal(number);
 	if (("" + game.options["num_note"]).includes("log") && number.lt("e1000000")) {
 		if (number.gte("e10000")) {
@@ -129,7 +157,16 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) { // inte
 	return "e" + format(e.toNumber(), false, false, false, false, true);
 };
 
-function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false, internal = false) { // large number format
+/**
+ * formats a large number (decimal type.)
+ * @param {number | decimal} number - the number to format.
+ * @param {boolean} smallAllowed - if true, allows small number formatting.
+ * @param {boolean} expand - if true, expands the format if possible.
+ * @param {boolean} hasPercent - if true, number is a percentage value.
+ * @param {boolean} internal - if true, is being called by another function.
+ * @returns {string} formatted number
+ */
+function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false, internal = false) {
 	number = new Decimal(number);
 	if (number.eq(0)) return "0.00";
 	if (number.isNaN() || number.eq(Infinity)) return "Infinity";
@@ -170,13 +207,29 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	return pre + formatDecimal(number, true, expand, hasPercent, true) + "<sup>-1</sup>";
 };
 
-function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, type = "") { // number letter and symbol formats
+/**
+ * formats a number with a strange format.
+ * @param {number | decimal} number - the number to format.
+ * @param {boolean} smallAllowed - if true, allows small number formatting.
+ * @param {boolean} hasPercent - if true, number is a percentage value.
+ * @param {string} type - the type of strange number format: let or sym.
+ * @returns {string} formatted number
+ */
+function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, type = "") {
 	if (type == "let") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "A").replace(/1/g, "C").replace(/2/g, "E").replace(/3/g, "G").replace(/4/g, "I").replace(/5/g, "K").replace(/6/g, "M").replace(/7/g, "O").replace(/8/g, "Q").replace(/9/g, "S");
 	if (type == "sym") return formatDecimal(number, smallAllowed, false, false).replace(/0/g, "~").replace(/1/g, "!").replace(/2/g, "@").replace(/3/g, "#").replace(/4/g, "$").replace(/5/g, "^").replace(/6/g, "&").replace(/7/g, ":").replace(/8/g, ";").replace(/9/g, "?");
 	return formatDecimal(number, smallAllowed, false, hasPercent);
 };
 
-function formatDecimalInfinity(number, smallAllowed = true, expand = false, hasPercent = false) { // number percentage of infinity format
+/**
+ * formats a number with the percentage of infinity format.
+ * @param {number | decimal} number - the number to format.
+ * @param {boolean} smallAllowed - if true, allows small number formatting.
+ * @param {boolean} expand - if true, expands the format if possible.
+ * @param {boolean} hasPercent - if true, number is a percentage value.
+ * @returns {string} formatted number
+ */
+function formatDecimalInfinity(number, smallAllowed = true, expand = false, hasPercent = false) {
 	number = new Decimal(number);
 	if (number.gte(infNum())) {
 		if (hasPercent) return "(100%" + (expand ? " (of Infinity)" : "") + ")";
@@ -211,7 +264,13 @@ const time = [[
 	"y", "year", "years"
 ]];
 
-function formatTime(ms, short = false) { // time format
+/**
+ * formats a number with the time format.
+ * @param {number} ms - the number of milliseconds.
+ * @param {boolean} short - if true, shortens the format (e.g. 10s instead of 10 seconds)
+ * @returns {string} formatted number
+ */
+function formatTime(ms, short = false) {
 	let seconds = ms / 1000;
 	if (seconds <= 0 || seconds !== seconds) {
 		if (short) return format(0) + time[0][0];
