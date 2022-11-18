@@ -118,6 +118,7 @@ div.milestone {
 	width: 100%;
 	background-color: #ccc;
 	border-top: 1px solid #000;
+	color: #000;
 	margin: auto;
 }
 
@@ -143,7 +144,7 @@ input.color {
 div.v0 {
 	background-color: #444;
 	color: #fff;
-	font-family: 'Bradley Hand', 'Comic Sans MS', 'Brush Script MT';
+	font-family: 'Bradley Hand', cursive, 'Comic Sans MS', 'Brush Script MT';
 }
 
 span.v1 {
