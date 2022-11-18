@@ -83,6 +83,16 @@ function update() {
 	// variable name changes from transitioning from old versions
 	if (game.time) game.startTime = game.time;
 	delete game.time;
+	if (game.options.bg_col) game.options.bc = game.options.bg_col;
+	delete game.options.bg_col;
+	if (game.options.txt_col) game.options.tc = game.options.txt_col;
+	delete game.options.txt_col;
+	if (game.options.txt_px) game.options.ts = game.options.txt_px;
+	delete game.options.txt_px;
+	if (game.options.show_max_imp) game.options.sm = game.options.show_max_imp;
+	delete game.options.show_max_imp;
+	if (game.options.num_note) game.options.nn = game.options.num_note;
+	delete game.options.num_note;
 	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
 	delete game.infinity.best.wave_points;
 	// unlocks

@@ -16,21 +16,25 @@ function hardReset() {
  */
 function getProxy() {
 	if (!game) return "";
+	// initialize proxy
 	let get = JSON.stringify(game).replace(/Â/g, "");
-	// numbers and null
+	// simplify numbers and null
 	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null").replace(/null/g, "!N");
-	// true and false
+	// simplify true and false
 	get = get.replace(/true/g, "!T").replace(/false/g, "!F");
-	// !F chains
+	// simplify !F chains
 	while (/(!F,)+!F/.test(get)) {
 		let find = /(!F,)+!F/.exec(get)[0];
 		get = get.replace(find, "@F" + ((find.length + 1) / 3));
 	};
-	// !T chains
+	// simplify !T chains
 	while (/(!T,)+!T/.test(get)) {
 		let find = /(!T,)+!T/.exec(get)[0];
 		get = get.replace(find, "@T" + ((find.length + 1) / 3));
 	};
+	// simplify technical
+	get = get.replace(/":"/g, "=").replace(/","/g, " ");
+	// return proxy
 	return btoa(get.replace(/Â/g, ""));
 };
 
@@ -45,11 +49,13 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	save = atob(save).replace(/Â/g, "");
 	// undo shortening
 	if (save.includes("version")) {
-		// !T chains
+		// expand technical
+		save = save.replace(/=/g, '":"').replace(/ /g, '","');
+		// expand !T chains
 		save = save.replace(/@T(\d+)/g, (substring, number) => "!T,".repeat(number - 1) + "!T");
-		// !F chains
+		// expand !F chains
 		save = save.replace(/@F(\d+)/g, (substring, number) => "!F,".repeat(number - 1) + "!F");
-		// true and false
+		// expand true and false
 		save = save.replace(/!F/g, "false").replace(/!T/g, "true");
 	} else {
 		// undo shortening from old versions

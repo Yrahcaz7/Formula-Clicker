@@ -1,6 +1,6 @@
 const options = [{
 	title: "Background Color",
-	id: "bg_col",
+	id: "bc",
 	type: "color",
 	default: "#dddddd",
 	value() {
@@ -13,7 +13,7 @@ const options = [{
 	},
 }, {
 	title: "Text Color",
-	id: "txt_col",
+	id: "tc",
 	type: "color",
 	default: "#000000",
 	value() {
@@ -26,7 +26,7 @@ const options = [{
 	},
 }, {
 	title: "Text Size",
-	id: "txt_px",
+	id: "ts",
 	type: "number",
 	default: "18px",
 	min: 8,
@@ -41,7 +41,7 @@ const options = [{
 	},
 }, {
 	title: "Show Maxed Improvements",
-	id: "show_max_imp",
+	id: "sm",
 	type: "checkbox",
 	default: true,
 	value() {
@@ -51,7 +51,7 @@ const options = [{
 	},
 }, {
 	title: "Number Notation",
-	id: "num_note",
+	id: "nn",
 	type: "dropdown",
 	default: "scientific",
 	list: ["scientific", "mixed scientific", "engineering", "mixed engineering", "short", "logarithm", "percentage of infinity", "letters: scientific", "letters: engineering", "letters: logarithm", "symbols: scientific", "symbols: engineering", "symbols: logarithm"],
@@ -63,14 +63,12 @@ const options = [{
 	},
 }, {
 	title: "Export Save",
-	id: "ex_save",
 	type: "export",
 	value() {
 		return getProxy();
 	},
 }, {
 	title: "Import Save",
-	id: "im_save",
 	type: "import",
 	set(value) {
 		if (!value) {
