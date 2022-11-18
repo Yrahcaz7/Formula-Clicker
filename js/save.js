@@ -17,7 +17,20 @@ function hardReset() {
 function getProxy() {
 	if (!game) return "";
 	let get = JSON.stringify(game).replace(/Â/g, "");
+	// numbers and null
 	get = get.replace(/e\+/g, "e").replace(/1.7976931348620926e308/g, "null").replace(/null/g, "!N");
+	// true and false
+	get = get.replace(/true/g, "!T").replace(/false/g, "!F");
+	// !F chains
+	while (/(!F,)+!F/.test(get)) {
+		let find = /(!F,)+!F/.exec(get)[0];
+		get = get.replace(find, "@F" + ((find.length + 1) / 3));
+	};
+	// !T chains
+	while (/(!T,)+!T/.test(get)) {
+		let find = /(!T,)+!T/.exec(get)[0];
+		get = get.replace(find, "@T" + ((find.length + 1) / 3));
+	};
 	return btoa(get.replace(/Â/g, ""));
 };
 
@@ -30,19 +43,18 @@ function getProxy() {
 function normalizeSave(save = localStorage.getItem(ID)) {
 	if (!save) return undefined;
 	save = atob(save).replace(/Â/g, "");
-	// undo shortening from old versions
-	save = save.replace(/<>/g, ")tab=½&unlocks´\""); // constant
-	save = save.replace(/P;/g, "&¾Points").replace(/¿/g, ")frame(").replace(/\|/g, "infinity").replace(/\~/g, "milestones"); // more words
-	save = save.replace(/®¢(\d+)/g, (substring, number) => "¢".repeat(+number)); // ¢ chains
-	save = save.replace(/®¡(\d+)/g, (substring, number) => "¡".repeat(+number)); // ¡ chains
-	save = save.replace(/®T(\d+)/g, (substring, number) => "!T,".repeat(number - 1) + "!T"); // !T chains
-	save = save.replace(/®F(\d+)/g, (substring, number) => "!F,".repeat(number - 1) + "!F"); // !F chains
-	save = save.replace(/\^(\d+)/g, (substring, number) => "0".repeat(+number)); // 0 chains
-	save = save.replace(/¡/g, ",0").replace(/¢/g, ",1").replace(/£/g, ",2").replace(/¤/g, ",3").replace(/¥/g, ",4").replace(/¦/g, ",5").replace(/§/g, ",6").replace(/¨/g, ",7").replace(/©/g, ",8").replace(/ª/g, ",9"); // item numbers
-	save = save.replace(/\$/g, "=#").replace(/´/g, "([").replace(/µ/g, "])").replace(/·/g, "({\"").replace(/¸/g, "})").replace(/¹/g, ")¶").replace(/»/g, "«(").replace(/º/g, "¬("); // advanced technical
-	save = save.replace(/&/g, "\",\"").replace(/=/g, "\":\"").replace(/\(/g, "\":").replace(/\)/g, ",\""); // technical
-	save = save.replace(/!F/g, "false").replace(/!T/g, "true"); // booleans
-	save = save.replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave").replace(/s;/g, "startTime").replace(/f;/g, "finishTime").replace(/c;/g, "clicks").replace(/bg;/g, "bg_col").replace(/tx;/g, "txt_col").replace(/px;/g, "txt_px").replace(/sh;/g, "show_max_imp").replace(/b;/g, "best").replace(/i;/g, "stage"); // words
+	// undo shortening
+	if (save.includes("version")) {
+		// !T chains
+		save = save.replace(/@T(\d+)/g, (substring, number) => "!T,".repeat(number - 1) + "!T");
+		// !F chains
+		save = save.replace(/@F(\d+)/g, (substring, number) => "!F,".repeat(number - 1) + "!F");
+		// true and false
+		save = save.replace(/!F/g, "false").replace(/!T/g, "true");
+	} else {
+		// undo shortening from old versions
+		save = save.replace(/<>/g, ")tab=½&unlocks´\"").replace(/P;/g, "&¾Points").replace(/¿/g, ")frame(").replace(/\|/g, "infinity").replace(/\~/g, "milestones").replace(/®¢(\d+)/g, (s, number) => "¢".repeat(+number)).replace(/®¡(\d+)/g, (s, number) => "¡".repeat(+number)).replace(/®T(\d+)/g, (s, number) => "!T,".repeat(number - 1) + "!T").replace(/®F(\d+)/g, (s, number) => "!F,".repeat(number - 1) + "!F").replace(/\^(\d+)/g, (s, number) => "0".repeat(+number)).replace(/¡/g, ",0").replace(/¢/g, ",1").replace(/£/g, ",2").replace(/¤/g, ",3").replace(/¥/g, ",4").replace(/¦/g, ",5").replace(/§/g, ",6").replace(/¨/g, ",7").replace(/©/g, ",8").replace(/ª/g, ",9").replace(/\$/g, "=#").replace(/´/g, "([").replace(/µ/g, "])").replace(/·/g, "({\"").replace(/¸/g, "})").replace(/¹/g, ")¶").replace(/»/g, "«(").replace(/º/g, "¬(").replace(/&/g, "\",\"").replace(/=/g, "\":\"").replace(/\(/g, "\":").replace(/\)/g, ",\"").replace(/!F/g, "false").replace(/!T/g, "true").replace(/¶/g, "point").replace(/«/g, "Best").replace(/¬/g, "Total").replace(/¯/g, "min").replace(/°/g, "max").replace(/±/g, "Min").replace(/²/g, "Max").replace(/³/g, "upgrades").replace(/¼/g, "improvements").replace(/½/g, "options").replace(/¾/g, "wave").replace(/s;/g, "startTime").replace(/f;/g, "finishTime").replace(/c;/g, "clicks").replace(/bg;/g, "bg_col").replace(/tx;/g, "txt_col").replace(/px;/g, "txt_px").replace(/sh;/g, "show_max_imp").replace(/b;/g, "best").replace(/i;/g, "stage");
+	};
 	// fix numbers
 	save = save.replace(/null|!N/g, "1.7976931348620926e308");
 	// fix decimals
