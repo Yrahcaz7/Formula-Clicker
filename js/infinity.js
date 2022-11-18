@@ -160,120 +160,116 @@ function breakInfBulk() {
 	return bulk;
 };
 
-const resources = {
-	infinity_points: infinity,
-};
-
 const infinity_milestones = [{
 	desc: "adds the " + infinity + " element to the point gain formula",
-	req: {infinity_points: 1},
+	req: 1,
 }, {
 	desc: "adds the " + infinity + " element to the sinusoidal wave formula",
-	req: {infinity_points: 2},
+	req: 2,
 }, {
 	desc() {return "keeps " + format(50, true, false, true) + "% of your clicks on reset"},
-	req: {infinity_points: 3},
+	req: 3,
 	merge: [16],
 }, {
 	desc: "keeps the improvement AUTOMATION on reset",
-	req: {infinity_points: 4},
+	req: 4,
 	merge: [17],
 }, {
 	desc: "keeps the improvement FINALLY! on reset",
-	req: {infinity_points: 5},
+	req: 5,
 	merge: [22],
 }, {
 	desc: "keeps the improvement SUPER AUTO on reset",
-	req: {infinity_points: 6},
+	req: 6,
 	merge: [23],
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
-	req: {infinity_points: 7},
+	req: 7,
 	merge: [19],
 }, {
 	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't need to use any wave points",
-	req: {infinity_points: 8},
+	req: 8,
 	merge: [11, 15],
 }, {
 	desc: "unlocks COOLHEADED autobuyer, which doesn't need to use any wave points",
-	req: {infinity_points: 9},
+	req: 9,
 	merge: [11, 15],
 }, {
 	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't need to use any wave points",
-	req: {infinity_points: 10},
+	req: 10,
 	merge: [11, 15],
 }, {
 	desc: "changes SUPER AUTO to always activate",
-	req: {infinity_points: 12},
+	req: 12,
 }, {
 	desc: "unlocks the wave upgrade autobuyer",
-	req: {infinity_points: 14},
+	req: 14,
 }, {
 	desc: "unlocks the improvement autobuyer",
-	req: {infinity_points: 16},
+	req: 16,
 }, {
 	desc: "improves the " + infinity + " element in the point gain formula",
-	req: {infinity_points: 18},
+	req: 18,
 	merge: [24],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
-	req: {infinity_points: 20},
+	req: 20,
 	merge: [41],
 }, {
 	desc: "improves the wave upgrade autobuyer to not need to use any wave points",
-	req: {infinity_points: 25},
+	req: 25,
 }, {
 	desc: "keeps all of your clicks on reset",
-	req: {infinity_points: 30},
+	req: 30,
 	merge: [43],
 }, {
 	desc: "keeps the first four improvements on reset",
-	req: {infinity_points: 35},
+	req: 35,
 	merge: [18],
 }, {
 	desc: "keeps the first five improvements on reset",
-	req: {infinity_points: 40},
+	req: 40,
 	merge: [21],
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
-	req: {infinity_points: 45},
+	req: 45,
 	merge: [25],
 }, {
 	desc: "removes the maximum bought on RECURSION, a wave upgrade",
-	req: {infinity_points: 50},
+	req: 50,
 }, {
 	desc: "keeps the first ten improvements on reset",
-	req: {infinity_points: 55},
+	req: 55,
 	merge: [22],
 }, {
 	desc: "keeps the first fourteen improvements on reset",
-	req: {infinity_points: 60},
+	req: 60,
 	merge: [23],
 }, {
 	desc: "keeps the first twenty-two improvements on reset",
-	req: {infinity_points: 66},
+	req: 66,
 	merge: [28],
 }, {
 	desc: "improves the " + infinity + " element in the point gain formula",
-	req: {infinity_points: 75},
+	req: 75,
 }, {
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
-	req: {infinity_points: 86},
+	req: 86,
 }, {
 	desc() {
 		return "gains " + format(1e-10, true, false, true) + "% of your point gain per second";
 	},
-	req: {infinity_points: 100},
+	req: 100,
 	merge: [27],
 }, {
 	desc() {
 		return "gains " + format(0.01, true, false, true) + "% of your point gain per second";
 	},
-	req: {infinity_points: 115},
+	req: 115,
 	merge: [30],
 }, {
 	desc: "keeps the first twenty-five improvements on reset",
-	req: {infinity_points: 132},
+	req: 132,
 	merge: [43],
 }, {
 	desc() {
@@ -285,74 +281,74 @@ const infinity_milestones = [{
 		if (eff > 1.75 || eff !== eff) return 1.75;
 		return eff;
 	},
-	req: {infinity_points: 150},
+	req: 150,
 }, {
 	desc() {
 		return "gains " + format(1, true, false, true) + "% of your point gain per second";
 	},
-	req: {infinity_points: 170},
+	req: 170,
 	merge: [32],
 }, {
 	desc: "improves the wave upgrade autobuyer to work twice as fast",
-	req: {infinity_points: 195},
+	req: 195,
 	merge: [33],
 }, {
 	desc() {
 		return "gains " + format(100, true, false, true) + "% of your point gain per second and disables manual point gain";
 	},
-	req: {infinity_points: 225},
+	req: 225,
 }, {
 	desc: "improves the wave upgrade autobuyer to work four times as fast",
-	req: {infinity_points: 275},
+	req: 275,
 }, {
 	desc: "keeps the first wave upgrade on reset",
-	req: {infinity_points: 333},
+	req: 333,
 	merge: [35],
 }, {
 	desc: "keeps the first two wave upgrades on reset",
-	req: {infinity_points: 400},
+	req: 400,
 	merge: [36],
 }, {
 	desc: "keeps the first three wave upgrades on reset",
-	req: {infinity_points: 480},
+	req: 480,
 	merge: [37],
 }, {
 	desc: "keeps the first four wave upgrades on reset",
-	req: {infinity_points: 575},
+	req: 575,
 	merge: [38],
 }, {
 	desc: "keeps the first five wave upgrades on reset",
-	req: {infinity_points: 690},
+	req: 690,
 	merge: [39],
 }, {
 	desc: "keeps the first six wave upgrades on reset",
-	req: {infinity_points: 825},
+	req: 825,
 	merge: [40],
 }, {
 	desc: "keeps all wave upgrades on reset",
-	req: {infinity_points: 1000},
+	req: 1000,
 	merge: [43],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
-	req: {infinity_points: 1200},
+	req: 1200,
 	merge: [42],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast again",
-	req: {infinity_points: 1500},
+	req: 1500,
 	merge: [50],
 }, {
 	desc: "keeps everything on reset",
-	req: {infinity_points: 2000},
+	req: 2000,
 }, {
 	desc: "improves the EFFECIENCY autobuyer to work twice as fast",
-	req: {infinity_points: 5000},
+	req: 5000,
 	merge: [46],
 }, {
 	desc: "unlocks the break infinity autobuyer",
-	req: {infinity_points: 10000},
+	req: 10000,
 }, {
 	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
-	req: {infinity_points: 25000},
+	req: 25000,
 	merge: [48],
 }, {
 	desc() {
@@ -361,41 +357,41 @@ const infinity_milestones = [{
 	effect() {
 		return (game.infinity.points + 1) ** 0.025;
 	},
-	req: {infinity_points: 50000},
+	req: 50000,
 }, {
 	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
-	req: {infinity_points: 100000},
+	req: 100000,
 	merge: [51],
 }, {
 	desc: "multiplies the absolute maximum bought for everything by 100",
-	req: {infinity_points: 250000},
+	req: 250000,
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast again",
-	req: {infinity_points: 500000},
+	req: 500000,
 	merge: [52],
 }, {
 	desc() {
 		return "sets your amount of EFFECIENCY to " + format(1e10) + " and disables buying it";
 	},
-	req: {infinity_points: 5000000},
+	req: 5000000,
 }, {
 	desc: "improves the upgrade autobuyer to work five times as fast",
-	req: {infinity_points: 2500000},
+	req: 2500000,
 	merge: [56],
 }, {
 	desc: "improves the break infinity autobuyer to not reset your points",
-	req: {infinity_points: 5000000},
+	req: 5000000,
 }, {
 	desc: "improves the break infinity autobuyer to work five times as fast",
-	req: {infinity_points: 10000000},
+	req: 10000000,
 	merge: [55],
 }, {
 	desc: "improves the break infinity autobuyer to work five times as fast again",
-	req: {infinity_points: 25000000},
+	req: 25000000,
 	merge: [58],
 }, {
 	desc: "improves the upgrade autobuyer to work twice as fast",
-	req: {infinity_points: 50000000},
+	req: 50000000,
 }, {
 	desc() {
 		if (this.effect() == 10) return "multiplies " + infinity + " gain by " + format(10) + "x (maxed)";
@@ -406,93 +402,93 @@ const infinity_milestones = [{
 		if (eff > 10 || eff !== eff) return 10;
 		return eff;
 	},
-	req: {infinity_points: 100000000},
+	req: 100000000,
 }, {
 	desc: "improves the break infinity autobuyer to work five times as fast again",
-	req: {infinity_points: 250000000},
+	req: 250000000,
 	merge: [59],
 }, {
 	desc: "improves the break infinity autobuyer to work twice as fast",
-	req: {infinity_points: 500000000},
+	req: 500000000,
 	merge: [60],
 }, {
 	desc: "improves the break infinity autobuyer to work twice as fast again",
-	req: {infinity_points: 1e9},
+	req: 1e9,
 	merge: [61],
 }, {
 	desc: "improves the break infinity autobuyer to work twice as fast again",
-	req: {infinity_points: 2.5e9},
+	req: 2.5e9,
 	merge: [62],
 }, {
 	desc: "improves the break infinity autobuyer to work twice as fast again",
-	req: {infinity_points: 5e9},
+	req: 5e9,
 	merge: [63],
 }, {
 	desc: "improves the break infinity autobuyer to work twice as fast again",
-	req: {infinity_points: 1e10},
+	req: 1e10,
 }, {
 	desc: "makes break infinity bulk buy 10x",
-	req: {infinity_points: 4.5e10},
+	req: 4.5e10,
 	merge: [65],
 }, {
 	desc: "makes break infinity bulk buy 10x more",
-	req: {infinity_points: 2e11},
+	req: 2e11,
 	merge: [66],
 }, {
 	desc: "makes break infinity bulk buy 10x more again",
-	req: {infinity_points: 1e12},
+	req: 1e12,
 	merge: [67],
 }, {
 	desc: "makes break infinity bulk buy 10x more again",
-	req: {infinity_points: 7.5e12},
+	req: 7.5e12,
 	merge: [68],
 }, {
 	desc: "makes break infinity bulk buy 10x more again",
-	req: {infinity_points: 1e14},
+	req: 1e14,
 	merge: [69],
 }, {
 	desc: "makes break infinity bulk buy 100x more",
-	req: {infinity_points: 2.5e15},
+	req: 2.5e15,
 	merge: [70],
 }, {
 	desc: "makes break infinity bulk buy 100x more again",
-	req: {infinity_points: 1e17},
+	req: 1e17,
 	merge: [71],
 }, {
 	desc: "makes break infinity bulk buy 100x more again",
-	req: {infinity_points: 5e18},
+	req: 5e18,
 	merge: [72],
 }, {
 	desc: "makes break infinity bulk buy 100x more again",
-	req: {infinity_points: 5e20},
+	req: 5e20,
 	merge: [73],
 }, {
 	desc: "makes break infinity bulk buy 100x more again",
-	req: {infinity_points: 7.5e22},
+	req: 7.5e22,
 	merge: [74],
 }, {
 	desc: "makes break infinity bulk buying scale based on your broken infinities",
-	req: {infinity_points: 2.5e25},
+	req: 2.5e25,
 	merge: [75],
 }, {
 	desc: "makes break infinity bulk buy scaling 2x greater",
-	req: {infinity_points: 1e36},
+	req: 1e36,
 	merge: [76],
 }, {
 	desc: "makes break infinity bulk buy scaling 2x greater again",
-	req: {infinity_points: 1e55},
+	req: 1e55,
 	merge: [77],
 }, {
 	desc: "makes break infinity bulk buy scaling 2x greater again",
-	req: {infinity_points: 1e100},
+	req: 1e100,
 	merge: [78],
 }, {
 	desc: "makes break infinity bulk buy scaling 2x greater again",
-	req: {infinity_points: 1e175},
+	req: 1e175,
 }, {
 	desc() {
 		if (game.infinity.milestones[79]) return "unlocks the TRUE ENDING";
 		return "does... something...";
 	},
-	req: {infinity_points: 1.7976931348620926e308},
+	req: 1.7976931348620926e308,
 }];

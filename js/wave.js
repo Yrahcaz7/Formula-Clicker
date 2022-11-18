@@ -8,15 +8,12 @@ function waveFormula() {
 	if (min > max) min = max;
 	result += "(" + format(Math.abs((game.wave.max - game.wave.min) / 2)) + " * sin(time)) + " + format((game.wave.max + game.wave.min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
-	if (game.infinity.milestones[25]) {
-		if (result.endsWith(")")) result += "(" + format(1.1) + "<sup>" + infinity + "</sup> + " + format(5) + infinity + ")";
-		else result = "(" + result + ")(" + format(1.1) + "<sup>" + infinity + "</sup> + " + format(5) + infinity + ")";
-	} else if (game.infinity.milestones[19]) {
-		if (result.endsWith(")")) result += "(" + format(1.05) + "<sup>" + infinity + "</sup> + " + format(2.5) + infinity + ")";
-		else result = "(" + result + ")(" + format(1.05) + "<sup>" + infinity + "</sup> + " + format(2.5) + infinity + ")";
-	} else if (game.infinity.milestones[6]) {
-		if (result.endsWith(")")) result += "(" + format(1.02) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
-		else result = "(" + result + ")(" + format(1.02) + "<sup>" + infinity + "</sup> + " + format(2) + infinity + ")";
+	if (game.infinity.milestones[6]) {
+		let numbers = [1.02, 2];
+		if (game.infinity.milestones[19]) numbers = [1.05, 2.5];
+		if (game.infinity.milestones[25]) numbers = [1.1, 5];
+		if (result.endsWith(")")) result += "(" + format(numbers[0]) + "<sup>" + infinity + "</sup> + " + format(numbers[1]) + infinity + ")";
+		else result = "(" + result + ")(" + format(numbers[0]) + "<sup>" + infinity + "</sup> + " + format(numbers[1]) + infinity + ")";
 	} else if (game.infinity.milestones[1]) {
 		if (result.endsWith(")")) result += "(" + infinity + " + " + format(1) + ")";
 		else result = "(" + result + ")(" + infinity + " + " + format(1) + ")";
