@@ -132,7 +132,7 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) { // inte
 function formatDecimal(number, smallAllowed = true, expand = false, hasPercent = false, internal = false) { // large number format
 	number = new Decimal(number);
 	if (number.eq(0)) return "0.00";
-	if (isNaN(number.sign) || isNaN(number.mag) || isNaN(number.layer)) return "NaN";
+	if (number.isNaN() || number.eq(Infinity)) return "Infinity";
 	if (number.sign < 0) return "-" + formatDecimal(number.neg(), smallAllowed, expand, hasPercent);
 	// handle negatives
 	let pre = "";
