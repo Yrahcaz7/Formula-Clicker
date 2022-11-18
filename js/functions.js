@@ -50,3 +50,12 @@ function findNumber(percentage, min, max) {
 	if (min > max) min = max;
 	return (percentage * (max - min)) + min;
 };
+
+/**
+ * calculates the current run time.
+ * @returns {string} time
+ */
+function getTime() {
+	if (game.finishTime) return formatTime(game.finishTime - game.startTime);
+	return formatTime(new Date().getTime() - game.startTime);
+};
