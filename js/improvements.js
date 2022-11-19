@@ -1,5 +1,5 @@
 const improvements = [{
-	title: "EFFECIENCY",
+	title: "EFFICIENCY",
 	desc() {
 		return "increases the " + constant() + " constant based on your times clicked (+" + format(this.baseEff()) + ")";
 	},

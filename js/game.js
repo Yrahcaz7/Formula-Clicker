@@ -432,6 +432,8 @@ function update() {
 		};
 	} else {
 		if (document.getElementById("options")) document.getElementById("options").remove();
+		if (document.getElementById("option_reset_br")) document.getElementById("option_reset_br").remove();
+		if (document.getElementById("option_reset")) document.getElementById("option_reset").remove();
 	};
 	// options
 	for (let index = 0; index < options.length && index < game.improvements[4]; index++) {
@@ -442,7 +444,8 @@ function update() {
 			append.id = "option_" + index;
 			append.style = "margin-left: auto";
 			append.innerHTML = (index !== 0 ? "<br><br>" : "") + (element.type != "export" ? element.title + ": " : "");
-			document.getElementById("options").appendChild(append);
+			if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+			else document.getElementById("options").appendChild(append);
 		};
 		if (element.type == "color") {
 			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
@@ -451,7 +454,8 @@ function update() {
 				append.type = "color";
 				append.className = "color";
 				append.value = game.options[element.id];
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").value;
 			element.set(game.options[element.id]);
@@ -463,7 +467,8 @@ function update() {
 				append.min = element.min;
 				append.max = element.max;
 				append.value = ("" + game.options[element.id]).replace("px", "");
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 			if (document.getElementById("option_" + index + "_type")) {
 				let val = document.getElementById("option_" + index + "_type").value;
@@ -478,7 +483,8 @@ function update() {
 				append.id = "option_" + index + "_type";
 				append.type = "checkbox";
 				append.checked = game.options[element.id];
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = document.getElementById("option_" + index + "_type").checked;
 		} else if (element.type == "dropdown") {
@@ -487,7 +493,8 @@ function update() {
 				append.id = "option_" + index + "_type";
 				append.value = game.options[element.id];
 				if (append.value === undefined) append.value = element.default;
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 				for (let num = 0; num < element.list.length; num++) {
 					const item = element.list[num];
 					document.getElementById("option_" + index + "_type").innerHTML += "<option value='"+item+"' "+(element.intList[num]==game.options[element.id]?"selected":"")+">"+item+"</option>";
@@ -504,20 +511,23 @@ function update() {
 					if (copy(element.value())) alert(element.title + ": Successful!");
 					else alert(element.title + ": Failure - try a different browser");
 				};
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 		} else if (element.type == "import") {
 			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {
 				let append = document.createElement("input");
 				append.id = "option_" + index + "_type";
 				append.type = "text";
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 			if (!document.getElementById("option_" + index + "_space") && game.tab == "options") {
 				let append = document.createElement("span");
 				append.id = "option_" + index + "_space";
 				append.innerHTML = " ";
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 			if (!document.getElementById("option_" + index + "_confirm") && game.tab == "options") {
 				let append = document.createElement("button");
@@ -528,9 +538,28 @@ function update() {
 					if (!document.getElementById("option_" + index + "_type")) return;
 					element.set(document.getElementById("option_" + index + "_type").value);
 				};
-				document.getElementById("options").appendChild(append);
+				if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
+				else document.getElementById("options").appendChild(append);
 			};
 		};
+	};
+	if (!document.getElementById("option_reset") && game.tab == "options") {
+		let br = document.createElement("br");
+		br.id = "option_reset_br";
+		document.getElementById("options").appendChild(br);
+		let append = document.createElement("button");
+		append.id = "option_reset";
+		append.onclick = () => {
+			for (let index = 0; index < options.length; index++) {
+				const element = options[index];
+				if (element.type == "export" || element.type == "import") continue;
+				game.options[element.id] = element.default;
+			};
+			setPage();
+		};
+		append.style = "margin-left: auto";
+		append.innerHTML = "Reset Options";
+		document.getElementById("options").appendChild(append);
 	};
 	// waves tab
 	if (game.tab == "waves") {
