@@ -110,7 +110,7 @@ const wave_upgrades = [{
 	title: "RECURSION",
 	desc() {
 		if (this.baseEff() == 3.6 && game.improvements[20]) return "multiplies the value of your wave by " + format(3.6) + "x (maxed)";
-		if (this.baseEff() == 3.36 && !game.improvements[20]) return "multiplies the value of your wave by " + format(3.33) + "x (maxed)";
+		if (this.baseEff() == 3.36 && !game.improvements[20]) return "multiplies the value of your wave by " + format(3.36) + "x (maxed)";
 		return "multiplies the value of your wave based on your wave points (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
