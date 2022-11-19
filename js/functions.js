@@ -19,14 +19,15 @@ const poem = [ // the poem (in code form)
 var clicking = false;
 
 document.addEventListener("keydown", (event) => {
-	if ((event.keyCode == 32 || event.key == " ") && !clicking) {
+	console.log(event.keyCode, event.key);
+	if ((event.keyCode == 16 || event.keyCode == 32 || event.key == "Shift" || event.key == " ") && !clicking) {
 		clicking = true;
 		click();
 	};
 });
 
 document.addEventListener("keyup", (event) => {
-	if (event.keyCode == 32 || event.key == " ") {
+	if (event.keyCode == 16 || event.keyCode == 32 || event.key == "Shift" || event.key == " ") {
 		clicking = false;
 	};
 });
