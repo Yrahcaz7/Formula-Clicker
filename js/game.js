@@ -391,7 +391,7 @@ function update() {
 			if (game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 			if (game.improvements[index] >= max) maxed++;
 		};
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options.sm && game.options.sm !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -526,6 +526,16 @@ function update() {
 	};
 	// waves tab
 	if (game.tab == "waves") {
+		// wave point display
+		if (!document.getElementById("wave_point_display")) {
+			let append = document.createElement("div");
+			append.id = "wave_point_display";
+			if (document.getElementById("wave_graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave_graph"));
+			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
+			else document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
+		// wave graph
 		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
 			append.id = "wave_graph";
@@ -544,20 +554,13 @@ function update() {
 			};
 			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+(game.wave.min<game.wave.max?sinwaves[game.wave.frame+151]:"50")+" r='5' stroke=#000 fill=#eee /></svg>";
 		};
-		if (!document.getElementById("wave_point_display")) {
-			let append = document.createElement("div");
-			append.id = "wave_point_display";
-			if (document.getElementById("wave_graph")) document.getElementById("main").insertBefore(append, document.getElementById("wave_graph"));
-			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
-			else document.getElementById("main").appendChild(append);
-		};
+		// wave upgrade frame
 		if (!document.getElementById("wave_upgrades")) {
 			let append = document.createElement("div");
 			append.id = "wave_upgrades";
 			append.style = "display: flex; flex-wrap: wrap";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
 	} else {
 		if (document.getElementById("wave_graph")) document.getElementById("wave_graph").remove();
 		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").remove();

@@ -150,7 +150,7 @@ const wave_upgrades = [{
 		return game.wave.upgrades[4] > 0;
 	},
 }, {
-	title: "MATHMATICAL",
+	title: "MATHEMATICAL",
 	desc: "improves the effect formula of CALCULATIONS",
 	cost() {
 		return 7500;

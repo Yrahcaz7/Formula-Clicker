@@ -19,7 +19,6 @@ const poem = [ // the poem (in code form)
 var clicking = false;
 
 document.addEventListener("keydown", (event) => {
-	console.log(event.keyCode, event.key);
 	if ((event.keyCode == 16 || event.keyCode == 32 || event.key == "Shift" || event.key == " ") && !clicking) {
 		clicking = true;
 		click();
