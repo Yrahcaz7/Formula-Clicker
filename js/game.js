@@ -534,7 +534,7 @@ function update() {
 			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula()+"<br>Note: everything in this tab costs wave points";
 		// wave graph
 		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
@@ -611,11 +611,14 @@ function update() {
 	};
 	// infinity tab
 	if (game.tab == "infinity") {
+		// infinity point display
 		if (!document.getElementById("infinity_point_display")) {
 			let append = document.createElement("div");
 			append.id = "infinity_point_display";
 			document.getElementById("main").appendChild(append);
 		};
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints);
+		// infinity prestige button
 		if (!document.getElementById("infinity_prestige_button")) {
 			let append = document.createElement("button");
 			append.id = "infinity_prestige_button";
@@ -625,13 +628,6 @@ function update() {
 			};
 			document.getElementById("main").appendChild(append);
 		};
-		if (!document.getElementById("infinity_milestones")) {
-			let append = document.createElement("div");
-			append.id = "infinity_milestones";
-			append.style = "border-top:1px solid #000;border-bottom:1px solid #000";
-			document.getElementById("main").appendChild(append);
-		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints);
 		if (document.getElementById("infinity_prestige_button")) {
 			if (game.infinity.points >= 45 && game.infinity.stage == 1) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
@@ -643,6 +639,13 @@ function update() {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
 				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
 			};
+		};
+		// infinity milestones frame
+		if (!document.getElementById("infinity_milestones")) {
+			let append = document.createElement("div");
+			append.id = "infinity_milestones";
+			append.style = "border-top:1px solid #000;border-bottom:1px solid #000";
+			document.getElementById("main").appendChild(append);
 		};
 	} else {
 		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").remove();
@@ -901,4 +904,7 @@ const loop = setInterval(() => {
 	// move wave a frame
 	if (game.unlocks.includes("w")) game.wave.frame++;
 	else game.wave.frame = 0;
+	// save the game
+	let proxy = getProxy();
+	if (proxy) localStorage.setItem(ID, proxy);
 }, 30);

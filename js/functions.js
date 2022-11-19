@@ -35,7 +35,6 @@ document.addEventListener("keyup", (event) => {
  * clicks the point button.
  */
 function click() {
-	console.log("click");
 	game.clicks++;
 	if (!game.infinity.milestones[32]) {
 		game.points = game.points.add(pointButtonGain());
