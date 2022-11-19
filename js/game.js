@@ -117,26 +117,7 @@ function update() {
 		append.id = "pointButton";
 		append.type = "button";
 		append.onclick = () => {
-			game.clicks++;
-			if (!game.infinity.milestones[32]) {
-				game.points = game.points.add(pointButtonGain());
-				game.pointTotal = game.pointTotal.add(pointButtonGain());
-				if (game.points.gt(game.pointBest)) game.pointBest = game.points;
-				if (game.points.gt(infNum())) game.points = infNum();
-				if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
-				if (game.pointBest.gt(infNum())) game.pointBest = infNum();
-				if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
-			};
-			if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
-				let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
-				if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
-				game.wave.points += gen;
-				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
-				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
-				if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
-				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
-			};
+			click();
 		};
 		document.getElementById("main").appendChild(append);
 	};
