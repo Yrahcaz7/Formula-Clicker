@@ -61,7 +61,7 @@ const improvements = [{
 }, {
 	title: "OPTIONS GALORE",
 	desc() {
-		if (game.improvements[4] >= 4) return "unlocks another option; (" + alpha + " and " + beta + " multiplier is maxed)";
+		if (game.improvements[4] >= 4) return "unlocks another option; " + alpha + " and " + beta + " multiplier is maxed at " + format(1.1 ** 4);
 		if (game.improvements[4] > 0) return "unlocks another option; also multiplies " + alpha + " and " + beta + " by " + format(1.1);
 		return "unlocks the options tab; also multiplies " + alpha + " and " + beta + " by " + format(1.1);
 	},
