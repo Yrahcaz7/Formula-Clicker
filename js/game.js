@@ -220,6 +220,7 @@ function update() {
 		};
 		if (document.getElementById("tab-main")) {
 			if (game.tab == "main") document.getElementById("tab-main").className = "tab on";
+			else if (game.points.gte(infNum())) document.getElementById("tab-main").className = "tab finished";
 			else document.getElementById("tab-main").className = "tab";
 		};
 		// improvements tab
@@ -273,6 +274,7 @@ function update() {
 		};
 		if (document.getElementById("tab-waves")) {
 			if (game.tab == "waves") document.getElementById("tab-waves").className = "tab on";
+			else if (game.wave.points >= 1.7976931348620926e308) document.getElementById("tab-waves").className = "tab finished";
 			else document.getElementById("tab-waves").className = "tab";
 		};
 		// infinity tab
@@ -291,7 +293,8 @@ function update() {
 		};
 		if (document.getElementById("tab-infinity")) {
 			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
-			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100 && getInfGain() !== Infinity) document.getElementById("tab-infinity").className = "tab notif";
+			else if (game.infinity.points >= 1.7976931348620926e308) document.getElementById("tab-infinity").className = "tab finished";
+			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100) document.getElementById("tab-infinity").className = "tab notif";
 			else document.getElementById("tab-infinity").className = "tab";
 		};
 		// ??? tab
@@ -383,6 +386,7 @@ function update() {
 		if (document.getElementById("improvements")) document.getElementById("improvements").remove();
 	};
 	// improvements
+	let maxed = 0;
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
@@ -402,7 +406,10 @@ function update() {
 				};
 			} else if (game.infinity.milestones[12]) buy("improvement", index);
 		};
-		if (document.getElementById("tab-improvements") && element.unlocked() && game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
+		if (document.getElementById("tab-improvements") && element.unlocked()) {
+			if (game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
+			if (game.improvements[index] >= max) maxed++;
+		};
 		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options["show_max_imp"] && game.options["show_max_imp"] !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
@@ -426,6 +433,7 @@ function update() {
 			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "            ".slice(rows[rows.length - 1].length - 20) + "Bought:");
 		};
 	};
+	if (maxed == improvements.length && game.tab != "improvements") document.getElementById("tab-improvements").className = "tab finished";
 	// options tab
 	if (game.tab == "options") {
 		if (!document.getElementById("options")) {

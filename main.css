@@ -51,6 +51,11 @@ body {
 	border: 1px solid #881;
 }
 
+.tab.finished {
+	background-color: #3e3;
+	border: 1px solid #181;
+}
+
 .big {
 	font-size: calc(var(--text-size) * 2);
 }
