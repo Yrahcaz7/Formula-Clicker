@@ -1,4 +1,4 @@
-const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage)};
+const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage===Infinity?1.7976931348620926e308:game.infinity.stage)};
 /**
  * resets for infinity points.
  */
@@ -486,9 +486,6 @@ const infinity_milestones = [{
 	desc: "makes break infinity bulk buy scaling 2x greater again",
 	req: 1e175,
 }, {
-	desc() {
-		if (game.infinity.milestones[79]) return "unlocks the TRUE ENDING";
-		return "does... something...";
-	},
+	desc: "unlocks the 13th upgrade (look at the main tab)",
 	req: 1.7976931348620926e308,
 }];

@@ -80,6 +80,7 @@ function getConstant() {
 	co = co.mul(improvements[1].effect());
 	co = co.mul(improvements[11].effect());
 	co = co.mul(wave_upgrades[3].effect());
+	co = co.pow(upgrades[12].effect());
 	return co;
 };
 

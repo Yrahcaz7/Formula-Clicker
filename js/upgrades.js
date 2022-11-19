@@ -168,4 +168,19 @@ const upgrades = [{
 	unlocked() {
 		return game.pointTotal.gte(1.5e57) && game.upgrades[10] > 0;
 	},
+}, {
+	title: "TO THE BEYOND",
+	desc() {
+		return "exponentiates the " + constant() + " constant by " + format(10) + ". compounds upon itself.";
+	},
+	effect() {
+		return 10 ** game.upgrades[12];
+	},
+	cost() {
+		return new Decimal("e1000").pow(10 ** game.upgrades[12]);
+	},
+	max: 308,
+	unlocked() {
+		return game.infinity.milestones[79];
+	},
 }];
