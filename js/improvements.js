@@ -266,7 +266,7 @@ const improvements = [{
 		return 1;
 	},
 	cost() {
-		return new Decimal(1e175);
+		return new Decimal(1e166);
 	},
 	max: 1,
 	unlocked() {
@@ -278,7 +278,7 @@ const improvements = [{
 		return "increase the minimum value of your wave by " + format(45, true, false, true) + "% of the maximum value of your wave (after all other minimum value increases)";
 	},
 	cost() {
-		return new Decimal(1e188);
+		return new Decimal(1e185);
 	},
 	max: 1,
 }, {
