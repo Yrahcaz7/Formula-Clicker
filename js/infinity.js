@@ -187,15 +187,15 @@ const infinity_milestones = [{
 	req: 7,
 	merge: [19],
 }, {
-	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't need to use any wave points",
+	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't spend any wave points",
 	req: 8,
 	merge: [11, 15],
 }, {
-	desc: "unlocks COOLHEADED autobuyer, which doesn't need to use any wave points",
+	desc: "unlocks COOLHEADED autobuyer, which doesn't spend any wave points",
 	req: 9,
 	merge: [11, 15],
 }, {
-	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't need to use any wave points",
+	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't spend any wave points",
 	req: 10,
 	merge: [11, 15],
 }, {
@@ -216,7 +216,7 @@ const infinity_milestones = [{
 	req: 20,
 	merge: [41],
 }, {
-	desc: "improves the wave upgrade autobuyer to not need to use any wave points",
+	desc: "improves the wave upgrade autobuyer to not spend any wave points",
 	req: 25,
 }, {
 	desc: "keeps all of your clicks on reset",

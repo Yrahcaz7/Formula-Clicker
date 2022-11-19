@@ -1,4 +1,11 @@
-function cutoff(string, seperator, ...indexes) { // technical function used for inserting commas into numbers
+/**
+ * inserts a seperator into a string at certain indexes
+ * @param {string} string - the string to use
+ * @param {string} seperator - what to insert into the string
+ * @param  {...number} indexes - where to insert the seperator
+ * @returns {string} new string
+ */
+function cutoff(string, seperator, ...indexes) {
 	if (!seperator || indexes.length === 0) return "" + string;
 	let array = [];
 	let cut = 0;

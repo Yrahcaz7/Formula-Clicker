@@ -162,7 +162,7 @@ const improvements = [{
 }, {
 	title: "FINALLY!",
 	desc() {
-		return "unlocks EFFECIENCY autobuyer, which doesn't need to use any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.baseEff()) + "x)";
+		return "unlocks EFFECIENCY autobuyer, which doesn't spend any points; also multiplies the " + constant() + " constant based on the amount of EFFECIENCY you have (" + format(this.baseEff()) + "x)";
 	},
 	baseEff() {
 		return (game.improvements[0] + 1) ** 0.3333333333333333;

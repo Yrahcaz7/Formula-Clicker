@@ -37,7 +37,7 @@ let game = {
  * buys the specified upgrade, improvement, or wave upgrade.
  * @param {string} type - the type of purchase: upgrade, improvement, or wave upgrade.
  * @param {number} index - the index of the purchase.
- * @param {boolean} free - if true, does not use any currency on purchase.
+ * @param {boolean} free - if true, does not spend any currency on purchase.
  * @returns {boolean} success
  */
 function buy(type, index, free = false) {
@@ -571,7 +571,7 @@ function update() {
 			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula()+"<br>Note: everything in this tab costs wave points";
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
 		// wave graph
 		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
