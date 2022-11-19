@@ -951,7 +951,8 @@ const loop = setInterval(() => {
 	// move wave a frame
 	if (game.unlocks.includes("w")) game.wave.frame++;
 	else game.wave.frame = 0;
+}, 30), save = setInterval(() => {
 	// save the game
 	let proxy = getProxy();
 	if (proxy) localStorage.setItem(ID, proxy);
-}, 30);
+}, 1000);
