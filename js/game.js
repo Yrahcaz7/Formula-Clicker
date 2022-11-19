@@ -326,7 +326,7 @@ function update() {
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.upgrades[index] >= max || game.points.lt(upgrades[index].cost())) break;
 				if (game.improvements[16] && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
-				else if (game.improvements[3] && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
+				else if (game.improvements[3] && game.options.uo && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
 			};
 		};
 		if (game.tab != "main" || !element.unlocked()) {
@@ -367,6 +367,7 @@ function update() {
 		if (document.getElementById("improvements")) document.getElementById("improvements").remove();
 	};
 	// improvements
+	if (document.getElementById("option_autobuyer")) game.options.uo = document.getElementById("option_autobuyer").checked;
 	let maxed = 0;
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
@@ -391,7 +392,7 @@ function update() {
 			if (game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 			if (game.improvements[index] >= max) maxed++;
 		};
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options.sm && game.options.sm !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && (index != 3 || game.improvements[16]) && !game.options.sm && game.options.sm !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -412,6 +413,13 @@ function update() {
 			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost())+" Bought: "+(max==1?!!game.improvements[index]:formatWhole(game.improvements[index])+(element.max?"/"+formatWhole(max):""));
 			let rows = document.getElementById("improvement_" + index).innerHTML.split("<br>");
 			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "            ".slice(rows[rows.length - 1].length - 20) + "Bought:");
+			if (index == 3 && game.improvements[3]) {
+				if (game.improvements[16]) delete game.options.uo;
+				else {
+					if (game.options.uo === undefined) game.options.uo = true;
+					document.getElementById("improvement_3").innerHTML = document.getElementById("improvement_3").innerHTML.replace("<br><br>Cost:", "<br>toggle auto: <input id=option_autobuyer type=checkbox "+(game.options.uo?"checked":"")+"></input><br><br>Cost:");
+				};
+			};
 		};
 	};
 	if (maxed == improvements.length && game.tab != "improvements") document.getElementById("tab-improvements").className = "tab finished";
