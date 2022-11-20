@@ -156,12 +156,11 @@ function update() {
 		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(getZeta());
 		// normal formula
 		let formula = "";
-		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
-		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
-		else if (game.improvements[10]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm;
-		else if (game.upgrades[8] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")(" + epsilon + " + " + format(1) + ")";
-		else if (game.improvements[5] > 2) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")";
-		else if (game.improvements[5] > 0) formula = constantFm + "(" + gamma + deltaFm + ")";
+		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + ")" + deltaFm + epsilonFm + format(2.22) + superscript(zeta);
+		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + ")" + deltaFm + epsilonFm + zetaFm;
+		else if (game.improvements[10]) formula = constantFm + "(" + format(1.45) + gamma + ")" + deltaFm + epsilonFm;
+		else if (game.upgrades[8] > 0) formula = constantFm + "(" + format(1.45) + gamma + ")" + deltaFm + "(" + epsilon + " + " + format(1) + ")";
+		else if (game.improvements[5] > 2) formula = constantFm + "(" + format(1.45) + gamma + ")" + deltaFm;
 		else if (game.upgrades[6] > 0) formula = constantFm + gamma + deltaFm;
 		else if (game.upgrades[4] > 0) formula = constantFm + gamma + superscript(format(getGammaEx()));
 		else if (game.upgrades[2] > 0) formula = constantFm;
@@ -369,7 +368,7 @@ function update() {
 				delete game.options.uo;
 			} else {
 				if (game.options.uo === undefined) game.options.uo = true;
-				if (!document.getElementById("improvement_display").innerHTML) document.getElementById("improvement_display").innerHTML = "Toggle autobuyer: <input id=option_autobuyer type=checkbox "+(game.options.uo?"checked":"")+"></input>";
+				if (!document.getElementById("improvement_display").innerHTML) document.getElementById("improvement_display").innerHTML = "Toggle upgrade autobuyer: <input id=option_autobuyer type=checkbox "+(game.options.uo?"checked":"")+"></input>";
 				game.options.uo = document.getElementById("option_autobuyer").checked;
 			};
 		};
