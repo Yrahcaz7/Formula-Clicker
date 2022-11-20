@@ -38,7 +38,6 @@ function prestige() {
 			if (element.type == "export" || element.type == "import") continue;
 			if (element.set) element.set(element.default);
 		};
-		if (game.options.nn) game.options.nn = ("" + game.options.nn).replace(/let|sym/, "");
 	};
 	// reset upgrades
 	game.upgrades = [];

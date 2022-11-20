@@ -105,11 +105,13 @@ function formatIllions(number, short = false) {
  */
 function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) {
 	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) return "Infinity";
-	let natural = typeof number=="object"?number.toNumber():+number;
-	if ((natural !== Infinity && natural !== -Infinity) && (game.options.nn == "sho" || (("" + game.options.nn).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
-	if (game.options.nn == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
-	if (("" + game.options.nn).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
-	if (("" + game.options.nn).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
+	if (game.improvements[4] >= 5) {
+		let natural = typeof number=="object"?number.toNumber():+number;
+		if ((natural !== Infinity && natural !== -Infinity) && (game.options.nn == "sho" || (("" + game.options.nn).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
+		if (game.options.nn == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
+		if (("" + game.options.nn).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");
+		if (("" + game.options.nn).includes("sym")) return formatDecimalStrange(number, smallAllowed, hasPercent, "sym");
+	};
 	return formatDecimal(number, smallAllowed, expand, hasPercent, showInfValue);
 };
 
@@ -134,7 +136,7 @@ function formatWhole(integer) {
  */
 function formatDecimalInternal(number, precision = 2, mantissa = true) {
 	number = new Decimal(number);
-	if (("" + game.options.nn).includes("log") && number.lt("e1000000")) {
+	if (game.improvements[4] >= 5 && ("" + game.options.nn).includes("log") && number.lt("e1000000")) {
 		if (number.gte("e10000")) {
 			let result = number.log10().toStringWithDecimalPlaces(0);
 			return "e" + cutoff(result, ",", result.length - 6, result.length - 3);
@@ -148,7 +150,7 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 		m = new Decimal(1);
 		e = e.add(1);
 	};
-	if (("" + game.options.nn).includes("eng")) {
+	if (game.improvements[4] >= 5 && ("" + game.options.nn).includes("eng")) {
 		let er = e.div(3).floor().mul(3);
 		precision = (er.toNumber() - e.toNumber()) + 3;
 		m = m.mul(new Decimal(10).pow(e.sub(er)));
@@ -194,7 +196,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 	};
 	if (number.gte("e1000000")) return pre + formatDecimalInternal(number, 0, false);
 	if (number.gte("e1000")) return pre + formatDecimalInternal(number, 0);
-	if (number.gte(1e9) || (number.gte(1e3) && (""+game.options.nn).includes("eng"))) return pre + formatDecimalInternal(number, (""+game.options.nn).includes("eng")?2:3);
+	if (number.gte(1e9) || (number.gte(1e3) && (""+game.options.nn).includes("eng"))) return pre + formatDecimalInternal(number, (game.improvements[4]>=5&&(""+game.options.nn).includes("eng"))?2:3);
 	if (number.gte(1000)) {
 		let result = number.toStringWithDecimalPlaces(0);
 		return pre + cutoff(result, ",", result.length - 6, result.length - 3);
