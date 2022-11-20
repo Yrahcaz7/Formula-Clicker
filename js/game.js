@@ -456,6 +456,7 @@ function update() {
 			append.innerHTML = (index !== 0 ? "<br><br>" : "") + (element.type != "export" ? element.title + ": " : "");
 			if (document.getElementById("option_reset_br")) document.getElementById("options").insertBefore(document.getElementById("option_reset_br"), append);
 			else document.getElementById("options").appendChild(append);
+			if (element.set && element.type != "export" && element.type != "import") element.set(game.options[element.id]);
 		};
 		if (element.type == "color") {
 			if (!document.getElementById("option_" + index + "_type") && game.tab == "options") {

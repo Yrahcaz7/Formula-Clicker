@@ -32,6 +32,14 @@ function prestige() {
 		game.tab = "main";
 		game.unlocks = [];
 	};
+	if (!game.unlocks.includes("o")) {
+		for (let index = 0; index < options.length; index++) {
+			const element = options[index];
+			if (element.type == "export" || element.type == "import") continue;
+			if (element.set) element.set(element.default);
+		};
+		if (game.options.nn) game.options.nn = ("" + game.options.nn).replace(/let|sym/, "");
+	};
 	// reset upgrades
 	game.upgrades = [];
 	// reset improvements
