@@ -34,6 +34,7 @@ for (let iteration = 0; iteration <= 615; iteration++) {
 function waveMult() {
 	let mult = 1;
 	mult *= wave_upgrades[4].effect();
+	mult *= wave_upgrades[8].effect();
 	mult *= improvements[21].effect();
 	mult *= improvements[25].effect();
 	return mult;
@@ -126,7 +127,9 @@ const wave_upgrades = [{
 		return this.baseEff() ** game.wave.upgrades[4];
 	},
 	cost() {
-		return (5 ** game.wave.upgrades[4]) * 250;
+		let div = 1;
+		if (game.wave.upgrades[9]) div *= 1.75;
+		return (5 ** game.wave.upgrades[4]) * 250 / div;
 	},
 	max() {
 		if (game.infinity.milestones[20]) return 100000;
@@ -144,7 +147,9 @@ const wave_upgrades = [{
 		return 2 ** game.wave.upgrades[5];
 	},
 	cost() {
-		return (5 ** game.wave.upgrades[5]) * 500;
+		let div = 1;
+		if (game.wave.upgrades[9]) div *= 1.75;
+		return (5 ** game.wave.upgrades[5]) * 500 / div;
 	},
 	unlocked() {
 		return game.wave.upgrades[4] > 0;
@@ -167,6 +172,32 @@ const wave_upgrades = [{
 	},
 	max: 1,
 	unlocked() {
-		return game.wave.upgrades[6] > 0;
+		return game.wave.upgrades[6];
+	},
+}, {
+	title: "UNSTOPPABLE",
+	desc: "doubles the value of your wave when you have less wave points than your best",
+	effect() {
+		if (game.wave.upgrades[8] && game.wave.points < game.wave.pointBest) return 2;
+		return 1;
+	},
+	cost() {
+		return 5e14;
+	},
+	max: 1,
+	unlocked() {
+		return game.wave.upgrades[7] && game.improvements[20];
+	},
+}, {
+	title: "EVEN CHEAPER",
+	desc() {
+		return "divides the cost of RECURSION and CHEAPER by " + format(1.75);
+	},
+	cost() {
+		return 5e18;
+	},
+	max: 1,
+	unlocked() {
+		return game.wave.upgrades[8] && game.improvements[21];
 	},
 }];
