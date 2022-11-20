@@ -250,7 +250,7 @@ const improvements = [{
 		return 1.45 ** game.improvements[17];
 	},
 	cost() {
-		return new Decimal(1e5).pow(game.improvements[17]).mul(1e140);
+		return new Decimal(1e5).pow(game.improvements[17]).mul(1e135);
 	},
 	max: 5,
 }, {
@@ -266,7 +266,7 @@ const improvements = [{
 		return 1;
 	},
 	cost() {
-		return new Decimal(1e166);
+		return new Decimal(1e162);
 	},
 	max: 1,
 	unlocked() {
@@ -275,17 +275,17 @@ const improvements = [{
 }, {
 	title: "SELF STABILIZER",
 	desc() {
-		return "increase the minimum value of your wave by " + format(45, true, false, true) + "% of the maximum value of your wave (after all other minimum value increases)";
+		return "increase the minimum value of your wave by " + format(45, true, false, true) + "% of the maximum value of your wave (after all other minimum value buffs)";
 	},
 	cost() {
-		return new Decimal(1e188);
+		return new Decimal(1e175);
 	},
 	max: 1,
 }, {
 	title: "MULT CAP UP",
 	desc: "increase the cap on RECURSION's effect",
 	cost() {
-		return new Decimal(1e205);
+		return new Decimal(1e191);
 	},
 	max: 1,
 }, {
