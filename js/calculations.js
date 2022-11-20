@@ -91,6 +91,7 @@ function getConstant() {
 function getGammaEx() {
 	let gEx = 2;
 	gEx += improvements[2].effect();
+	if (game.improvements[5] > 0) gEx++;
 	return gEx;
 };
 
@@ -143,13 +144,12 @@ function pointButtonGain() {
 	let dEx = getDeltaEx();
 	let eEx = getEpsilonEx();
 	let mul = getPointMult();
-	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2.22).pow(z)).mul(mul);
-	if (z > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
-	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(mul);
-	if (e > 0) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e + 1).mul(mul);
-	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(mul);
-	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(g).mul(d).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
-	if (d > 0 && imp >= 1) return co.mul(a).mul(b).mul(g).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
+	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2.22).pow(z)).mul(mul);
+	if (z > 0) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
+	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(mul);
+	if (e > 0) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e + 1).mul(mul);
+	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(mul);
+	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(d).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
 	if (d > 0) return co.mul(a).mul(b).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
 	if (g > 1) return co.mul(a).mul(b).mul(g ** gEx).mul(mul);
 	if (b > 1) return co.mul(a).mul(b).mul(mul);

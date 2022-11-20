@@ -154,7 +154,7 @@ function update() {
 		if (game.upgrades[6] > 0) text += "<br>Your " + delta + " is " + format(getDelta());
 		if (game.upgrades[8] > 0) text += "<br>Your " + epsilon + " is " + format(getEpsilon());
 		if (game.upgrades[10] > 0) text += "<br>Your " + zeta + " is " + format(getZeta());
-		// normal formulas
+		// normal formula
 		let formula = "";
 		if (game.improvements[24]) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + format(2.22) + superscript(zeta);
 		else if (game.upgrades[10] > 0) formula = constantFm + "(" + format(1.45) + gamma + deltaFm + ")" + epsilonFm + zetaFm;
