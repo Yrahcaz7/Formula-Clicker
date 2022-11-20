@@ -94,6 +94,7 @@ function update() {
 	if (game.options.num_note) game.options.nn = game.options.num_note;
 	delete game.options.num_note;
 	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
+	else if (game.infinity.best.wavePoints === undefined) game.infinity.best.wavePoints = game.wave.pointBest;
 	delete game.infinity.best.wave_points;
 	// unlocks
 	if (game.points.gt(0) && !game.unlocks.includes("pd")) game.unlocks.push("pd");
