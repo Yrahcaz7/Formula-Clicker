@@ -364,7 +364,7 @@ function update() {
 			document.getElementById("main").appendChild(append);
 		};
 		if (document.getElementById("improvement_display")) {
-			if (game.improvements[16]) {
+			if (game.improvements[16] || !game.improvements[3]) {
 				document.getElementById("improvement_display").innerHTML = "";
 				delete game.options.uo;
 			} else {
