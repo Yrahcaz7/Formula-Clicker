@@ -11,6 +11,13 @@ function prestige() {
 		// fix invalid values
 		if (game.infinity.points === Infinity || game.infinity.points !== game.infinity.points) game.infinity.points = 1.7976931348620926e308;
 		if (game.infinity.pointBest === Infinity || game.infinity.pointBest !== game.infinity.pointBest) game.infinity.pointBest = 1.7976931348620926e308;
+		// check for new milestones unlocked
+		for (let index = 0; index < infinity_milestones.length; index++) {
+			if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
+			if (!game.infinity.milestones[index] && game.infinity.milestones[index - 1] !== false) {
+				if (game.infinity.points >= infinity_milestones[index].req) game.infinity.milestones[index] = true;
+			};
+		};
 	};
 	if (game.infinity.milestones[43]) return;
 	// reset points
