@@ -71,6 +71,8 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 			if (key == "points" || key == "pointBest" || key == "pointTotal") result[key] = new Decimal(result[key]);
 		};
 	};
+	// update version
+	result.version = "v1.2";
 	// return result
 	return result;
 };
