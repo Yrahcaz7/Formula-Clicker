@@ -85,11 +85,7 @@ function prestige() {
 	// reset wave points
 	game.wave.points = 0;
 	game.wave.pointBest = 0;
-	game.wave.pointMax = 100;
-	game.wave.pointGen = 0;
 	game.wave.frame = 0;
-	game.wave.min = 0;
-	game.wave.max = 0;
 	// reset wave upgrades
 	if (!game.infinity.milestones[40]) {
 		let wvupg = game.wave.upgrades;

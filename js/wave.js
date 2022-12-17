@@ -1,12 +1,18 @@
+let sinwaves = [];
+
+for (let iteration = 0; iteration <= 615; iteration++) {
+	sinwaves.push(Math.round(((50 * Math.sin((iteration * 50) / 2500)) + 50) * 100) / 100);
+};
+
 /**
  * calculates the wave formula.
  * @returns {string} formula
  */
 function waveFormula() {
+	const max = getWaveMax(), min = getWaveMin();
 	let result = "";
-	let max = game.wave.max, min = game.wave.min;
 	if (min > max) min = max;
-	result += "(" + format(Math.abs((game.wave.max - game.wave.min) / 2)) + " * sin(time)) + " + format((game.wave.max + game.wave.min) / 2);
+	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
 	if (game.infinity.milestones[6]) {
 		let numbers = [1.02, 2];
@@ -19,12 +25,6 @@ function waveFormula() {
 		else result = "(" + result + ")(" + infinity + " + " + format(1) + ")";
 	};
 	return result;
-};
-
-let sinwaves = [];
-
-for (let iteration = 0; iteration <= 615; iteration++) {
-	sinwaves.push(Math.round(((50 * Math.sin((iteration * 50) / 2500)) + 50) * 100) / 100);
 };
 
 /**

@@ -45,9 +45,10 @@ function click() {
 		if (game.pointBest.gt(infNum())) game.pointBest = infNum();
 		if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
 	};
-	if (game.improvements[15] > 0 && game.wave.points < game.wave.pointMax) {
-		let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
-		if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
+	const max = getWavePointMax();
+	if (game.improvements[15] > 0 && game.wave.points < max) {
+		let gen = getWaveClickGen();
+		if (gen + game.wave.points > max) gen = max - game.wave.points;
 		game.wave.points += gen;
 		if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 		if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;

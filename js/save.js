@@ -95,6 +95,10 @@ function load() {
 	if (save) Object.assign(game, normalizeSave(save));
 	// garbage collection (for old versions)
 	delete game.wave.pointTotal;
+	delete game.wave.pointMax;
+	delete game.wave.pointGen;
+	delete game.wave.min;
+	delete game.wave.max;
 	delete game.infinity.pointTotal;
 	// name changes (from old versions)
 	if (game.time) game.startTime = game.time;

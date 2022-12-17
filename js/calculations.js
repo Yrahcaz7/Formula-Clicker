@@ -155,3 +155,59 @@ function pointButtonGain() {
 	if (b > 1) return co.mul(a).mul(b).mul(mul);
 	return new Decimal(a).mul(mul);
 };
+
+/**
+ * calculates the wave maximum.
+ * @returns {number} maximum
+ */
+function getWaveMax() {
+	let max = 1;
+	max += wave_upgrades[0].effect();
+	max *= improvements[14].effect();
+	max *= improvements[18].effect();
+	if (max !== max) max = 1.7976931348620926e308;
+	return max;
+};
+
+/**
+ * calculates the wave minimum.
+ * @returns {number} minimum
+ */
+function getWaveMin() {
+	let min = 0;
+	min += wave_upgrades[1].effect();
+	min *= improvements[17].effect();
+	if (game.improvements[19]) min += getWaveMax() * 0.45;
+	return min;
+};
+
+/**
+ * calculates the wave point generation.
+ * @returns {number} generation
+ */
+function getWaveGen() {
+	let gen = findNumber(Math.abs((sinwaves[game.wave.frame + 151] / 100) - 1), getWaveMin(), getWaveMax());
+	gen *= waveMult();
+	if (game.infinity.milestones[25]) gen *= (1.1 ** game.infinity.points) + (game.infinity.points * 5);
+	else if (game.infinity.milestones[19]) gen *= (1.05 ** game.infinity.points) + (game.infinity.points * 2.5);
+	else if (game.infinity.milestones[6]) gen *= (1.02 ** game.infinity.points) + (game.infinity.points * 2);
+	else if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
+	if (gen === Infinity || gen !== gen) gen = 1.7976931348620926e308;
+	return gen;
+};
+
+/**
+ * calculates the wave point generation on click.
+ * @returns {number} generation
+ */
+function getWaveClickGen() {
+	return getWaveGen() * (improvements[15].effect() + improvements[26].effect());
+};
+
+/**
+ * calculates the wave point maximum.
+ * @returns {number} maximum
+ */
+function getWavePointMax() {
+	return 100 * wave_upgrades[2].effect();
+};

@@ -11,11 +11,7 @@ let game = {
 	wave: {
 		points: 0,
 		pointBest: 0,
-		pointMax: 100,
-		pointGen: 0,
 		frame: 0,
-		min: 0,
-		max: 1,
 		upgrades: [],
 	},
 	infinity: {
@@ -107,8 +103,9 @@ function update() {
 		let text = "";
 		if (!game.infinity.milestones[32]) text += "+" + format(pointButtonGain()) + " points<br>";
 		if (game.improvements[15] > 0) {
-			let gen = game.wave.pointGen * (improvements[15].effect() + improvements[26].effect());
-			if (gen + game.wave.points > game.wave.pointMax) gen = game.wave.pointMax - game.wave.points;
+			const max = getWavePointMax();
+			let gen = getWaveClickGen();
+			if (gen + game.wave.points > max) gen = max - game.wave.points;
 			text += "+" + format(gen) + " wave points";
 		};
 		document.getElementById("pointButton").innerHTML = text;
@@ -563,7 +560,7 @@ function update() {
 			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have " + format(game.wave.points) + "/" + format(game.wave.pointMax) + " wave points<br>" + (game.wave.upgrades[3] > 0 ? "Your best wave points is " + format(game.wave.pointBest) + "<br>" : "") + "You are gaining " + format(game.wave.pointGen, false) + " wave points per second<br>Your wave formula is " + waveFormula();
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have " + format(game.wave.points) + "/" + format(getWavePointMax()) + " wave points<br>" + (game.wave.upgrades[3] > 0 ? "Your best wave points is " + format(game.wave.pointBest) + "<br>" : "") + "You are gaining " + format(getWaveGen(), false) + " wave points per second<br>Your wave formula is " + waveFormula();
 		// wave graph
 		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
@@ -573,15 +570,16 @@ function update() {
 			else document.getElementById("main").appendChild(append);
 		};
 		if (document.getElementById("wave_graph") && sinwaves.length) {
+			const normal = getWaveMin() < getWaveMax();
 			let points = "";
-			if (game.wave.min < game.wave.max) {
+			if (normal) {
 				for (let iteration = 0; iteration <= 302; iteration++) {
 					points += ((iteration - 1) * 2) + "," + sinwaves[iteration + game.wave.frame] + " ";
 				};
 			} else {
 				points = "0,50 600,50";
 			};
-			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class='graph'><polyline points='" + points + "' fill='none' stroke='#000'/><circle cx='300' cy='" + (game.wave.min < game.wave.max ? sinwaves[game.wave.frame + 151] : "50") + "' r='5' stroke='#000' fill='#eee'/></svg>";
+			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class='graph'><polyline points='" + points + "' fill='none' stroke='#000'/><circle cx='300' cy='" + (normal ? sinwaves[game.wave.frame + 151] : "50") + "' r='5' stroke='#000' fill='#eee'/></svg>";
 		};
 		// wave upgrade frame
 		if (!document.getElementById("wave_upgrades")) {
@@ -868,37 +866,13 @@ const loop = setInterval(() => {
 	// wave point gen
 	if (game.unlocks.includes("w")) {
 		if (game.wave.frame > 312) game.wave.frame = 0;
-		// calculate wave min
-		let min = 0;
-		min += wave_upgrades[1].effect();
-		min *= improvements[17].effect();
-		if (game.improvements[19]) min += game.wave.max * 0.45;
-		// calculate wave max
-		let max = 1;
-		max += wave_upgrades[0].effect();
-		max *= improvements[14].effect();
-		max *= improvements[18].effect();
-		if (max !== max) max = 1.7976931348620926e308;
-		// calculate point max
-		let pointMax = 100;
-		pointMax *= wave_upgrades[2].effect();
-		// set values
-		game.wave.min = min;
-		game.wave.max = max;
-		game.wave.pointMax = pointMax;
 		// calculate wave point gain
-		let gen = findNumber(Math.abs((sinwaves[game.wave.frame+151] / 100) - 1), min, max);
-		gen *= waveMult();
-		if (game.infinity.milestones[25]) gen *= (1.1 ** game.infinity.points) + (game.infinity.points * 5);
-		else if (game.infinity.milestones[19]) gen *= (1.05 ** game.infinity.points) + (game.infinity.points * 2.5);
-		else if (game.infinity.milestones[6]) gen *= (1.02 ** game.infinity.points) + (game.infinity.points * 2);
-		else if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
-		if (gen === Infinity || gen !== gen) gen = 1.7976931348620926e308;
-		game.wave.pointGen = gen;
-		if (game.wave.points < game.wave.pointMax) {
+		const max = getWavePointMax();
+		let gen = getWaveGen();
+		if (game.wave.points < max) {
 			// generate wave points
 			gen *= 0.03;
-			if (gen > game.wave.pointMax - game.wave.points) gen = game.wave.pointMax - game.wave.points;
+			if (gen > max - game.wave.points) gen = max - game.wave.points;
 			game.wave.points += gen;
 			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 			if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
