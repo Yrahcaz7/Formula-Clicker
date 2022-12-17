@@ -15,5 +15,3 @@ Eventually, after hours of rich gameplay (I would not recommend playing it all i
 - You don't start with an options menu, but you unlock it later.
 
 - Uses Patashu's `break_eternity.js` for big numbers.
-
-- Saving (and other features) may not work on IE (Internet Explorer.)
