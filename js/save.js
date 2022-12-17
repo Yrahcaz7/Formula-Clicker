@@ -88,13 +88,35 @@ function setPage() {
  * loads your save.
  */
 function load() {
+	// setup the page
 	setPage();
-	if (!localStorage.getItem(ID)) return;
-	Object.assign(game, normalizeSave());
+	// load the save
+	let save = localStorage.getItem(ID);
+	if (save) Object.assign(game, normalizeSave(save));
+	// garbage collection (for old versions)
+	delete game.wave.pointTotal;
+	delete game.infinity.pointTotal;
+	// name changes (from old versions)
+	if (game.time) game.startTime = game.time;
+	delete game.time;
+	if (game.options.bg_col) game.options.bc = game.options.bg_col;
+	delete game.options.bg_col;
+	if (game.options.txt_col) game.options.tc = game.options.txt_col;
+	delete game.options.txt_col;
+	if (game.options.txt_px) game.options.ts = game.options.txt_px;
+	delete game.options.txt_px;
+	if (game.options.show_max_imp) game.options.sm = game.options.show_max_imp;
+	delete game.options.show_max_imp;
+	if (game.options.num_note) game.options.nn = game.options.num_note;
+	delete game.options.num_note;
+	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
+	else if (game.infinity.best.wavePoints === undefined) game.infinity.best.wavePoints = game.wave.pointBest;
+	delete game.infinity.best.wave_points;
 };
 
 /**
  * imports an external save.
+ * @param {string} save - the save proxy to import.
  */
 function importSave(save) {
 	if (!save) return;
