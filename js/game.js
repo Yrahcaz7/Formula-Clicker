@@ -581,7 +581,7 @@ function update() {
 			} else {
 				points = "0,50 600,50";
 			};
-			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class='graph'><polyline points='" + points + "' fill='none' stroke='#000' /><circle cx='300' cy='" + (game.wave.min < game.wave.max ? sinwaves[game.wave.frame + 151] : "50") + "' r='5' stroke='#000' fill='#eee' /></svg>";
+			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class='graph'><polyline points='" + points + "' fill='none' stroke='#000'/><circle cx='300' cy='" + (game.wave.min < game.wave.max ? sinwaves[game.wave.frame + 151] : "50") + "' r='5' stroke='#000' fill='#eee'/></svg>";
 		};
 		// wave upgrade frame
 		if (!document.getElementById("wave_upgrades")) {
