@@ -1,5 +1,5 @@
 const poem = [ // the poem (in code form)
-	["<span class=v1>Light, </span>", "<span class=v2>Darkness, </span>", "<span class=v6>Nothingness</span>"],
+	["<span class='v1'>Light, </span>", "<span class='v2'>Darkness, </span>", "<span class='v6'>Nothingness</span>"],
 	["v1", "in the darkness", "there lies a light", "a brilliant light"],
 	["v1", "the light is hope", "the light is peace", "but light is not perfect"],
 	["v2", "darkness is always there", "you just don't see it", "close your eyes, find it"],

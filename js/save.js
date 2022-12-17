@@ -81,7 +81,7 @@ function normalizeSave(save = localStorage.getItem(ID)) {
  * resets the page.
  */
 function setPage() {
-	document.body.innerHTML = "<div class=outer><div class=inner><div id=main>";
+	document.body.innerHTML = "<div class='outer'><div class='inner'><div id='main'>";
 };
 
 /**

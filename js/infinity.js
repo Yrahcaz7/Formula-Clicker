@@ -1,4 +1,4 @@
-const infNum = () => {return new Decimal(1.7976931348620926e308).pow(game.infinity.stage===Infinity?1.7976931348620926e308:game.infinity.stage)};
+const infNum = () => { return new Decimal(1.7976931348620926e308).pow(game.infinity.stage === Infinity ? 1.7976931348620926e308 : game.infinity.stage) };
 /**
  * resets for infinity points.
  */
@@ -270,15 +270,11 @@ const infinity_milestones = [{
 	desc: "improves the " + infinity + " element in the sinusoidal wave formula",
 	req: 86,
 }, {
-	desc() {
-		return "gains " + format(1e-10, true, false, true) + "% of your point gain per second";
-	},
+	desc() { return "gains " + format(1e-10, true, false, true) + "% of your point gain per second" },
 	req: 100,
 	merge: [27],
 }, {
-	desc() {
-		return "gains " + format(0.01, true, false, true) + "% of your point gain per second";
-	},
+	desc() { return "gains " + format(0.01, true, false, true) + "% of your point gain per second" },
 	req: 115,
 	merge: [30],
 }, {
@@ -297,9 +293,7 @@ const infinity_milestones = [{
 	},
 	req: 150,
 }, {
-	desc() {
-		return "gains " + format(1, true, false, true) + "% of your point gain per second";
-	},
+	desc() { return "gains " + format(1, true, false, true) + "% of your point gain per second" },
 	req: 170,
 	merge: [32],
 }, {
@@ -307,9 +301,7 @@ const infinity_milestones = [{
 	req: 195,
 	merge: [33],
 }, {
-	desc() {
-		return "gains " + format(100, true, false, true) + "% of your point gain per second and disables manual point gain";
-	},
+	desc() { return "gains " + format(100, true, false, true) + "% of your point gain per second and disables manual point gain" },
 	req: 225,
 }, {
 	desc: "improves the wave upgrade autobuyer to work four times as fast",
@@ -365,12 +357,8 @@ const infinity_milestones = [{
 	req: 25000,
 	merge: [48],
 }, {
-	desc() {
-		return "multiplies " + infinity + " gain based on your " + infinity + " (" + format(this.effect()) + "x)";
-	},
-	effect() {
-		return (game.infinity.points + 1) ** 0.025;
-	},
+	desc() { return "multiplies " + infinity + " gain based on your " + infinity + " (" + format(this.effect()) + "x)" },
+	effect() { return (game.infinity.points + 1) ** 0.025 },
 	req: 50000,
 }, {
 	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
@@ -384,9 +372,7 @@ const infinity_milestones = [{
 	req: 500000,
 	merge: [52],
 }, {
-	desc() {
-		return "sets your amount of EFFECIENCY to " + format(1e10) + " and disables buying it";
-	},
+	desc() { return "sets your amount of EFFECIENCY to " + format(1e10) + " and disables buying it" },
 	req: 5000000,
 }, {
 	desc: "improves the upgrade autobuyer to work five times as fast",

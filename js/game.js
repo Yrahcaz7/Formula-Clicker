@@ -369,7 +369,7 @@ function update() {
 				delete game.options.uo;
 			} else {
 				if (game.options.uo === undefined) game.options.uo = true;
-				if (!document.getElementById("improvement_display").innerHTML) document.getElementById("improvement_display").innerHTML = "Toggle upgrade autobuyer: <input id=option_autobuyer type=checkbox "+(game.options.uo?"checked":"")+"></input>";
+				if (!document.getElementById("improvement_display").innerHTML) document.getElementById("improvement_display").innerHTML = "Toggle upgrade autobuyer: <input id='option_autobuyer' type='checkbox' " + (game.options.uo ? "checked" : "") + "></input>";
 				game.options.uo = document.getElementById("option_autobuyer").checked;
 			};
 		};
@@ -582,12 +582,12 @@ function update() {
 			else if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have "+format(game.wave.points)+"/"+format(game.wave.pointMax)+" wave points<br>"+(game.wave.upgrades[3]>0?"Your best wave points is "+format(game.wave.pointBest)+"<br>":"")+"You are gaining "+format(game.wave.pointGen,false)+" wave points per second<br>Your wave formula is "+waveFormula();
+		if (document.getElementById("wave_point_display")) document.getElementById("wave_point_display").innerHTML = "You have " + format(game.wave.points) + "/" + format(game.wave.pointMax) + " wave points<br>" + (game.wave.upgrades[3] > 0 ? "Your best wave points is " + format(game.wave.pointBest) + "<br>" : "") + "You are gaining " + format(game.wave.pointGen, false) + " wave points per second<br>Your wave formula is " + waveFormula();
 		// wave graph
 		if (!document.getElementById("wave_graph")) {
 			let append = document.createElement("div");
 			append.id = "wave_graph";
-			append.innerHTML = "<svg viewBox='0 0 600 100' class=graph></svg>"
+			append.innerHTML = "<svg viewBox='0 0 600 100' class='graph'></svg>"
 			if (document.getElementById("wave_upgrades")) document.getElementById("main").insertBefore(append, document.getElementById("wave_upgrades"));
 			else document.getElementById("main").appendChild(append);
 		};
@@ -600,7 +600,7 @@ function update() {
 			} else {
 				points = "0,50 600,50";
 			};
-			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class=graph><polyline points='"+points+"' fill=none stroke=#000 /><circle cx=300 cy="+(game.wave.min<game.wave.max?sinwaves[game.wave.frame+151]:"50")+" r='5' stroke=#000 fill=#eee /></svg>";
+			document.getElementById("wave_graph").innerHTML = "<svg viewBox='0 0 600 100' class='graph'><polyline points='" + points + "' fill='none' stroke='#000' /><circle cx='300' cy='" + (game.wave.min < game.wave.max ? sinwaves[game.wave.frame + 151] : "50") + "' r='5' stroke='#000' fill='#eee' /></svg>";
 		};
 		// wave upgrade frame
 		if (!document.getElementById("wave_upgrades")) {
@@ -747,10 +747,10 @@ function update() {
 			append.id = "???_display";
 			document.getElementById("main").appendChild(append);
 		};
-		let text = "<div class=v0><span style='font-size:calc(var(--text-size)*2)'>", count = +game.infinity.points;
+		let text = "<div class='v0'><span style='font-size: calc(var(--text-size) * 2)'>", count = +game.infinity.points;
 		for (let iteration = 0; iteration < poem.length; iteration++) {
 			const element = poem[iteration];
-			if (iteration !== 0 && element[0] != poem[iteration - 1][0]) text += "<span class=" + element[0] + ">";
+			if (iteration !== 0 && element[0] != poem[iteration - 1][0]) text += "<span class='" + element[0] + "'>";
 			for (let index = 0; index < element.length; index++) {
 				if (iteration === 0) {
 					count--;
@@ -774,7 +774,7 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12) text += "<br><div class=big>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class=big>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>"+(game.infinity.stage===Infinity?"<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity "+formatWhole(Infinity)+" extra times.<br><br>The time it took you to achieve the TRUE ENDING is below.<br><br>If you want to beat your record, you can reset your game.<br><br>Make sure to export your record somewhere safe before resetting!":"<div class=big>If you really want to keep playing...</div><br>You have currently broken Infinity "+formatWhole(game.infinity.stage-13)+" extra times.");
+		if (game.infinity.stage > 12) text += "<br><div class='big'>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class='big'>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>" + (game.infinity.stage === Infinity ? "<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity " + formatWhole(Infinity) + " extra times.<br><br>The time it took you to achieve the TRUE ENDING is below.<br><br>If you want to beat your record, you can reset your game.<br><br>Make sure to export your record somewhere safe before resetting!" : "<div class='big'>If you really want to keep playing...</div><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.");
 		document.getElementById("???_display").innerHTML = text;
 		if (game.infinity.stage === Infinity) {
 			if (!document.getElementById("reset_game")) {
