@@ -7,10 +7,8 @@ function prestige() {
 	if (getInfGain() > 0) {
 		// gain infinity points
 		game.infinity.points += getInfGain();
-		if (game.infinity.points > game.infinity.pointBest) game.infinity.pointBest = game.infinity.points;
 		// fix invalid values
 		if (game.infinity.points === Infinity || game.infinity.points !== game.infinity.points) game.infinity.points = 1.7976931348620926e308;
-		if (game.infinity.pointBest === Infinity || game.infinity.pointBest !== game.infinity.pointBest) game.infinity.pointBest = 1.7976931348620926e308;
 		// check for new milestones unlocked
 		for (let index = 0; index < infinity_milestones.length; index++) {
 			if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
@@ -197,15 +195,15 @@ const infinity_milestones = [{
 	req: 7,
 	merge: [19],
 }, {
-	desc: "unlocks LARGER NUMBERS autobuyer, which doesn't spend any wave points",
+	desc: "unlocks the LARGER NUMBERS autobuyer, which doesn't spend any wave points",
 	req: 8,
 	merge: [11, 15],
 }, {
-	desc: "unlocks COOLHEADED autobuyer, which doesn't spend any wave points",
+	desc: "unlocks the COOLHEADED autobuyer, which doesn't spend any wave points",
 	req: 9,
 	merge: [11, 15],
 }, {
-	desc: "unlocks LOOSEN CHAINS autobuyer, which doesn't spend any wave points",
+	desc: "unlocks the LOOSEN CHAINS autobuyer, which doesn't spend any wave points",
 	req: 10,
 	merge: [11, 15],
 }, {

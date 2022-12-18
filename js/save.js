@@ -99,6 +99,7 @@ function load() {
 	delete game.wave.pointGen;
 	delete game.wave.min;
 	delete game.wave.max;
+	delete game.infinity.pointBest;
 	delete game.infinity.pointTotal;
 	// name changes (from old versions)
 	if (game.time) game.startTime = game.time;

@@ -16,7 +16,6 @@ let game = {
 	},
 	infinity: {
 		points: 0,
-		pointBest: 0,
 		best: {
 			points: new Decimal(0),
 			wavePoints: 0,
