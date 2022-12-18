@@ -1,5 +1,5 @@
 /**
- * inserts a seperator into a string at certain indexes
+ * Inserts a seperator into a string at certain indexes
  * @param {string} string - the string to use
  * @param {string} seperator - what to insert into the string
  * @param  {...number} indexes - where to insert the seperator
@@ -35,7 +35,7 @@ const shortIllions = [
 ];
 
 /**
- * formats a number with the -illion system.
+ * Formats a number with the -illion system.
  * @param {number} number - the number to format.
  * @param {boolean} short - if true, shortens the format (e.g. 10m instead of 10 million)
  * @returns {string} formatted number
@@ -94,7 +94,7 @@ function formatIllions(number, short = false) {
 };
 
 /**
- * formats a number: redirects to all other number formats.
+ * Formats a number: redirects to all other number formats.
  * @param {number | decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.
@@ -116,7 +116,7 @@ function format(number, smallAllowed = true, expand = false, hasPercent = false,
 };
 
 /**
- * formats an integer: redirects to all other number formats.
+ * Formats an integer: redirects to all other number formats.
  * @param {number | decimal} integer - the integer to format.
  * @returns {string} formatted number
  */
@@ -128,7 +128,7 @@ function formatWhole(integer) {
 };
 
 /**
- * formats part of a large number: an internal function.
+ * Formats part of a large number: an internal function.
  * @param {number | decimal} number - the number to format.
  * @param {number} precision - the number of precision digits.
  * @param {boolean} mantissa - if true, shows the mantissa.
@@ -167,7 +167,7 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 };
 
 /**
- * formats a large number (decimal type).
+ * Formats a large number (decimal type).
  * @param {number | decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.
@@ -217,7 +217,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 };
 
 /**
- * formats a number with a strange format.
+ * Formats a number with a strange format.
  * @param {number | decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} hasPercent - if true, number is a percentage value.
@@ -231,7 +231,7 @@ function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, t
 };
 
 /**
- * formats a number with the percentage of infinity format.
+ * Formats a number with the percentage of infinity format.
  * @param {number | decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.
@@ -274,7 +274,7 @@ const time = [[
 ]];
 
 /**
- * formats a number with the time format.
+ * Formats a number with the time format.
  * @param {number} ms - the number of milliseconds.
  * @param {boolean} short - if true, shortens the format (e.g. 10s instead of 10 seconds)
  * @returns {string} formatted number

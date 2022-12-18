@@ -25,12 +25,12 @@ let game = {
 	},
 	startTime: new Date().getTime(),
 	finishTime: -1,
-	version: "v1.2",
+	version: "v1.3",
 };
 
 const buy = {
 	/**
-	 * buys the specified upgrade.
+	 * Buys the specified upgrade.
 	 * @param {number} index - the index of the purchase.
 	 * @param {boolean} free - if true, does not spend any currency on purchase.
 	 * @returns {boolean} success
@@ -47,7 +47,7 @@ const buy = {
 		return false;
 	},
 	/**
-	 * buys the specified improvement.
+	 * Buys the specified improvement.
 	 * @param {number} index - the index of the purchase.
 	 * @param {boolean} free - if true, does not spend any currency on purchase.
 	 * @returns {boolean} success
@@ -64,7 +64,7 @@ const buy = {
 		return false;
 	},
 	/**
-	 * buys the specified wave upgrade.
+	 * Buys the specified wave upgrade.
 	 * @param {number} index - the index of the purchase.
 	 * @param {boolean} free - if true, does not spend any currency on purchase.
 	 * @returns {boolean} success
@@ -84,7 +84,7 @@ const buy = {
 };
 
 /**
- * does a game tick (not including passive resource gen).
+ * Does a game tick (not including passive resource gen).
  */
 function update() {
 	// unlocks

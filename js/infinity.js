@@ -1,6 +1,6 @@
 const infNum = () => { return new Decimal(1.7976931348620926e308).pow(game.infinity.stage === Infinity ? 1.7976931348620926e308 : game.infinity.stage) };
 /**
- * resets for infinity points.
+ * Resets for infinity points.
  */
 function prestige() {
 	game.clicks++;
@@ -106,7 +106,7 @@ function prestige() {
 };
 
 /**
- * calculates infinity point gain.
+ * Calculates infinity point gain.
  * @returns {number} gain
  */
 function getInfGain() {
@@ -118,7 +118,7 @@ function getInfGain() {
 };
 
 /**
- * calculates "next infinity at" text.
+ * Calculates "next infinity at" text.
  * @returns {string} text
  */
 function getNextInf() {
@@ -130,7 +130,7 @@ function getNextInf() {
 };
 
 /**
- * calculates infinity multiplier.
+ * Calculates infinity multiplier.
  * @returns {number} multiplier
  */
 function infMul() {
@@ -142,7 +142,7 @@ function infMul() {
 };
 
 /**
- * calculates break infinity bulk buy amount.
+ * Calculates break infinity bulk buy amount.
  * @returns {number} bulk
  */
 function breakInfBulk() {

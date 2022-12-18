@@ -32,7 +32,7 @@ document.addEventListener("keyup", (event) => {
 });
 
 /**
- * clicks the point button.
+ * Clicks the point button.
  */
 function click() {
 	game.clicks++;
@@ -59,7 +59,7 @@ function click() {
 };
 
 /**
- * copies text to clipboard.
+ * Copies text to clipboard.
  * @param {string} text - the text to copy.
  * @returns {boolean} success
  */
@@ -80,7 +80,7 @@ function copy(text) {
 };
 
 /**
- * calculates a number from a percentage in between two numbers.
+ * Calculates a number from a percentage in between two numbers.
  * @param {number} percentage - the percentage (between 0 and 1).
  * @param {number} min - the lower number.
  * @param {number} max - the higher number.
@@ -94,7 +94,7 @@ function findNumber(percentage, min, max) {
 };
 
 /**
- * calculates the current run time.
+ * Calculates the current run time.
  * @returns {string} time
  */
 function getTime() {

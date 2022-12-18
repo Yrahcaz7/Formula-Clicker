@@ -1,5 +1,5 @@
 /**
- * calculates alpha.
+ * Calculates alpha.
  * @returns {number} alpha
  */
  function getAlpha() {
@@ -11,7 +11,7 @@
 };
 
 /**
- * calculates beta.
+ * Calculates beta.
  * @returns {number} beta
  */
 function getBeta() {
@@ -23,7 +23,7 @@ function getBeta() {
 };
 
 /**
- * calculates gamma.
+ * Calculates gamma.
  * @returns {number} gamma
  */
 function getGamma() {
@@ -35,7 +35,7 @@ function getGamma() {
 };
 
 /**
- * calculates delta.
+ * Calculates delta.
  * @returns {number} delta
  */
 function getDelta() {
@@ -47,7 +47,7 @@ function getDelta() {
 };
 
 /**
- * calculates epsilon.
+ * Calculates epsilon.
  * @returns {number} epsilon
  */
 function getEpsilon() {
@@ -59,7 +59,7 @@ function getEpsilon() {
 };
 
 /**
- * calculates zeta.
+ * Calculates zeta.
  * @returns {number} zeta
  */
 function getZeta() {
@@ -71,7 +71,7 @@ function getZeta() {
 };
 
 /**
- * calculates the constant.
+ * Calculates the constant.
  * @returns {decimal} constant
  */
 function getConstant() {
@@ -85,7 +85,7 @@ function getConstant() {
 };
 
 /**
- * calculates the gamma exponent.
+ * Calculates the gamma exponent.
  * @returns {number} exponent
  */
 function getGammaEx() {
@@ -96,7 +96,7 @@ function getGammaEx() {
 };
 
 /**
- * calculates the delta exponent.
+ * Calculates the delta exponent.
  * @returns {number} exponent
  */
 function getDeltaEx() {
@@ -106,7 +106,7 @@ function getDeltaEx() {
 };
 
 /**
- * calculates the epsilon exponent.
+ * Calculates the epsilon exponent.
  * @returns {number} exponent
  */
 function getEpsilonEx() {
@@ -116,7 +116,7 @@ function getEpsilonEx() {
 };
 
 /**
- * calculates point gain multiplier.
+ * Calculates point gain multiplier.
  * @returns {decimal} multiplier
  */
 function getPointMult() {
@@ -128,7 +128,7 @@ function getPointMult() {
 };
 
 /**
- * calculates point button gain.
+ * Calculates point button gain.
  * @returns {decimal} gain
  */
 function pointButtonGain() {
@@ -157,7 +157,7 @@ function pointButtonGain() {
 };
 
 /**
- * calculates the wave maximum.
+ * Calculates the wave maximum.
  * @returns {number} maximum
  */
 function getWaveMax() {
@@ -170,7 +170,7 @@ function getWaveMax() {
 };
 
 /**
- * calculates the wave minimum.
+ * Calculates the wave minimum.
  * @returns {number} minimum
  */
 function getWaveMin() {
@@ -182,7 +182,7 @@ function getWaveMin() {
 };
 
 /**
- * calculates the wave point generation.
+ * Calculates the wave point generation.
  * @returns {number} generation
  */
 function getWaveGen() {
@@ -197,7 +197,7 @@ function getWaveGen() {
 };
 
 /**
- * calculates the wave point generation on click.
+ * Calculates the wave point generation on click.
  * @returns {number} generation
  */
 function getWaveClickGen() {
@@ -205,7 +205,7 @@ function getWaveClickGen() {
 };
 
 /**
- * calculates the wave point maximum.
+ * Calculates the wave point maximum.
  * @returns {number} maximum
  */
 function getWavePointMax() {

@@ -5,7 +5,7 @@ for (let iteration = 0; iteration <= 615; iteration++) {
 };
 
 /**
- * calculates the wave formula.
+ * Calculates the wave formula.
  * @returns {string} formula
  */
 function waveFormula() {
@@ -28,7 +28,7 @@ function waveFormula() {
 };
 
 /**
- * calculates wave multiplier.
+ * Calculates wave multiplier.
  * @returns {number} multiplier
  */
 function waveMult() {

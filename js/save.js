@@ -1,7 +1,7 @@
 const ID = "Yrahcaz7/Formula-Clicker/save";
 
 /**
- * resets everything.
+ * Resets everything.
  */
 function hardReset() {
 	if (!confirm("Are you really sure you want to reset EVERYTHING?")) return;
@@ -11,7 +11,7 @@ function hardReset() {
 };
 
 /**
- * retrieves the save proxy.
+ * Retrieves the save proxy.
  * @returns {string} proxy
  */
 function getProxy() {
@@ -39,7 +39,7 @@ function getProxy() {
 };
 
 /**
- * converts a save proxy to an object.
+ * Converts a save proxy to an object.
  * returns undefined on failure.
  * @param {string} save - save proxy to use instead of default.
  * @returns {object | undefined} object
@@ -72,20 +72,20 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 		};
 	};
 	// update version
-	result.version = "v1.2";
+	result.version = "v1.3";
 	// return result
 	return result;
 };
 
 /**
- * resets the page.
+ * Resets the page.
  */
 function setPage() {
 	document.body.innerHTML = "<div class='outer'><div class='inner'><div id='main'>";
 };
 
 /**
- * loads your save.
+ * Loads your save.
  */
 function load() {
 	// setup the page
@@ -122,7 +122,7 @@ function load() {
 };
 
 /**
- * imports an external save.
+ * Imports an external save.
  * @param {string} save - the save proxy to import.
  */
 function importSave(save) {
