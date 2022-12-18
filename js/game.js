@@ -84,7 +84,7 @@ const buy = {
 };
 
 /**
- * does a game tick (not including passive resource gen.)
+ * does a game tick (not including passive resource gen).
  */
 function update() {
 	// unlocks

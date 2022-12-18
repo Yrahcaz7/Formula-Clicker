@@ -167,7 +167,7 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 };
 
 /**
- * formats a large number (decimal type.)
+ * formats a large number (decimal type).
  * @param {number | decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.

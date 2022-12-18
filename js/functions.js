@@ -81,7 +81,7 @@ function copy(text) {
 
 /**
  * calculates a number from a percentage in between two numbers.
- * @param {number} percentage - the percentage (between 0 and 1.)
+ * @param {number} percentage - the percentage (between 0 and 1).
  * @param {number} min - the lower number.
  * @param {number} max - the higher number.
  * @returns {number} number
