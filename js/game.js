@@ -38,7 +38,7 @@ let game = {
 function buy(type, index, free = false) {
 	if (type == "upgrade") {
 		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
-		let max = game.infinity.milestones[49]?10000000:100000;
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (upgrades[index].max) max = upgrades[index].max;
 		if (game.points.gte(upgrades[index].cost()) && game.upgrades[index] < max) {
 			if (!free) game.points = game.points.sub(upgrades[index].cost());
@@ -47,7 +47,7 @@ function buy(type, index, free = false) {
 		} else return false;
 	} else if (type == "improvement") {
 		if (!improvements[index] || !improvements[index].unlocked()) return false;
-		let max = game.infinity.milestones[49]?10000000:100000;
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (improvements[index].max) max = improvements[index].max;
 		if (game.points.gte(improvements[index].cost()) && game.improvements[index] < max) {
 			if (!free) game.points = game.points.sub(improvements[index].cost());
@@ -56,7 +56,7 @@ function buy(type, index, free = false) {
 		} else return false;
 	} else if (type == "wave upgrade") {
 		if (!wave_upgrades[index] || !wave_upgrades[index].unlocked()) return false;
-		let max = game.infinity.milestones[49]?10000000:100000;
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
 		else if (wave_upgrades[index].max) max = wave_upgrades[index].max;
 		if (game.wave.points >= wave_upgrades[index].cost() && game.wave.upgrades[index] < max) {
@@ -289,7 +289,7 @@ function update() {
 	for (let index = 0; index < upgrades.length; index++) {
 		if (game.upgrades[index] === undefined) game.upgrades[index] = 0;
 		const element = upgrades[index];
-		let max = game.infinity.milestones[49]?10000000:100000;
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && game.upgrades[index] < max && index != 12) {
 			let work = 1;
@@ -366,7 +366,7 @@ function update() {
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
-		let max = game.infinity.milestones[49]?10000000:100000;
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && index == 0 && game.infinity.milestones[51]) game.improvements[0] = 1e10;
 		else if (element.unlocked() && game.improvements[index] < max) {
@@ -595,7 +595,7 @@ function update() {
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
 		const element = wave_upgrades[index];
-		let max = game.infinity.milestones[49]?10000000:100000;
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (typeof element.max == "function") max = element.max();
 		else if (element.max) max = element.max;
 		if (element.unlocked() && game.wave.upgrades[index] < max) {
@@ -605,7 +605,7 @@ function update() {
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.wave.upgrades[index] >= max) break;
 				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave upgrade", index, true);
-				else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy	("wave_upgrade", index, true);
+				else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy("wave upgrade", index, true);
 				else if (game.infinity.milestones[11]) buy("wave upgrade", index);
 			};
 		};
