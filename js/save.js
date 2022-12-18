@@ -71,6 +71,8 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 			if (key == "points" || key == "pointBest" || key == "pointTotal") result[key] = new Decimal(result[key]);
 		};
 	};
+	// fix finish time
+	if (!result.finishTime || result.infinity.stage < 1.7976931348620926e308) result.finishTime = -1;
 	// update version
 	result.version = "v1.3";
 	// return result
@@ -117,8 +119,6 @@ function load() {
 	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
 	else if (game.infinity.best.wavePoints === undefined) game.infinity.best.wavePoints = game.wave.pointBest;
 	delete game.infinity.best.wave_points;
-	// other old version fixes
-	if (!game.finishTime) game.finishTime = -1;
 };
 
 /**
