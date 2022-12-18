@@ -117,6 +117,8 @@ function load() {
 	if (game.infinity.best.wave_points) game.infinity.best.wavePoints = game.infinity.best.wave_points;
 	else if (game.infinity.best.wavePoints === undefined) game.infinity.best.wavePoints = game.wave.pointBest;
 	delete game.infinity.best.wave_points;
+	// other old version fixes
+	if (!game.finishTime) game.finishTime = -1;
 };
 
 /**

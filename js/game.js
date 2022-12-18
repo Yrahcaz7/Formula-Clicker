@@ -24,19 +24,18 @@ let game = {
 		stage: 1,
 	},
 	startTime: new Date().getTime(),
-	finishTime: undefined,
+	finishTime: -1,
 	version: "v1.2",
 };
 
-/**
- * buys the specified upgrade, improvement, or wave upgrade.
- * @param {string} type - the type of purchase: upgrade, improvement, or wave upgrade.
- * @param {number} index - the index of the purchase.
- * @param {boolean} free - if true, does not spend any currency on purchase.
- * @returns {boolean} success
- */
-function buy(type, index, free = false) {
-	if (type == "upgrade") {
+const buy = {
+	/**
+	 * buys the specified upgrade.
+	 * @param {number} index - the index of the purchase.
+	 * @param {boolean} free - if true, does not spend any currency on purchase.
+	 * @returns {boolean} success
+	 */
+	upgrade(index, free = false) {
 		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
 		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (upgrades[index].max) max = upgrades[index].max;
@@ -44,8 +43,16 @@ function buy(type, index, free = false) {
 			if (!free) game.points = game.points.sub(upgrades[index].cost());
 			game.upgrades[index]++;
 			return true;
-		} else return false;
-	} else if (type == "improvement") {
+		};
+		return false;
+	},
+	/**
+	 * buys the specified improvement.
+	 * @param {number} index - the index of the purchase.
+	 * @param {boolean} free - if true, does not spend any currency on purchase.
+	 * @returns {boolean} success
+	 */
+	improvement(index, free = false) {
 		if (!improvements[index] || !improvements[index].unlocked()) return false;
 		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (improvements[index].max) max = improvements[index].max;
@@ -53,8 +60,16 @@ function buy(type, index, free = false) {
 			if (!free) game.points = game.points.sub(improvements[index].cost());
 			game.improvements[index]++;
 			return true;
-		} else return false;
-	} else if (type == "wave upgrade") {
+		};
+		return false;
+	},
+	/**
+	 * buys the specified wave upgrade.
+	 * @param {number} index - the index of the purchase.
+	 * @param {boolean} free - if true, does not spend any currency on purchase.
+	 * @returns {boolean} success
+	 */
+	wave_upgrade(index, free = false) {
 		if (!wave_upgrades[index] || !wave_upgrades[index].unlocked()) return false;
 		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
@@ -63,9 +78,9 @@ function buy(type, index, free = false) {
 			if (!free) game.wave.points -= wave_upgrades[index].cost();
 			game.wave.upgrades[index]++;
 			return true;
-		} else return false;
-	};
-	return false;
+		};
+		return false;
+	},
 };
 
 /**
@@ -302,8 +317,8 @@ function update() {
 			if (game.infinity.milestones[56]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.upgrades[index] >= max || game.points.lt(upgrades[index].cost())) break;
-				if (game.improvements[16] && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy("upgrade", index, true);
-				else if (game.improvements[3] && game.options.uo && (game.points * 0.025) >= element.cost()) buy("upgrade", index);
+				if (game.improvements[16] && ((game.points * 0.1) >= element.cost() || game.infinity.milestones[10])) buy.upgrade(index, true);
+				else if (game.improvements[3] && game.options.uo && (game.points * 0.025) >= element.cost()) buy.upgrade(index);
 			};
 		};
 		if (game.tab != "main" || !element.unlocked()) {
@@ -315,7 +330,7 @@ function update() {
 			append.id = "upgrade_" + index;
 			append.type = "button";
 			append.onclick = () => {
-				buy("upgrade", index);
+				buy.upgrade(index);
 			};
 			if (index == 12) append.style = "max-width:none;border-radius:10px;flex-basis:100%";
 			if (document.getElementById("upgrade_" + (index - 1))) document.getElementById("upgrades").insertBefore(append, document.getElementById("upgrade_" + (index - 1)).nextSibling);
@@ -378,9 +393,9 @@ function update() {
 				if (game.infinity.milestones[48]) work *= 2;
 				for (let iteration = 0; iteration < work; iteration++) {
 					if (game.improvements[0] >= max || game.points.lt(improvements[0].cost())) break;
-					buy("improvement", 0, true);
+					buy.improvement(0, true);
 				};
-			} else if (game.infinity.milestones[12]) buy("improvement", index);
+			} else if (game.infinity.milestones[12]) buy.improvement(index);
 		};
 		if (document.getElementById("tab-improvements") && element.unlocked()) {
 			if (game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
@@ -395,7 +410,7 @@ function update() {
 			append.id = "improvement_" + index;
 			append.type = "button";
 			append.onclick = () => {
-				buy("improvement", index);
+				buy.improvement(index);
 			};
 			if (document.getElementById("improvement_" + (index - 1))) document.getElementById("improvements").insertBefore(append, document.getElementById("improvement_" + (index - 1)).nextSibling);
 			else document.getElementById("improvements").appendChild(append);
@@ -604,9 +619,9 @@ function update() {
 			if (game.infinity.milestones[33]) work *= 2;
 			for (let iteration = 0; iteration < work; iteration++) {
 				if (game.wave.upgrades[index] >= max) break;
-				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy("wave upgrade", index, true);
-				else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy("wave upgrade", index, true);
-				else if (game.infinity.milestones[11]) buy("wave upgrade", index);
+				if (game.infinity.milestones[11] && game.infinity.milestones[15]) buy.wave_upgrade(index, true);
+				else if ((index == 0 && game.infinity.milestones[7]) || (index == 1 && game.infinity.milestones[8]) || (index == 2 && game.infinity.milestones[9])) buy.wave_upgrade(index, true);
+				else if (game.infinity.milestones[11]) buy.wave_upgrade(index);
 			};
 		};
 		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
@@ -619,7 +634,7 @@ function update() {
 			append.id = "wave_upgrade_" + index;
 			append.type = "button";
 			append.onclick = () => {
-				buy("wave upgrade", index);
+				buy.wave_upgrade(index);
 			};
 			if (document.getElementById("wave_upgrade_" + (index - 1))) document.getElementById("wave_upgrades").insertBefore(append, document.getElementById("wave_upgrade_" + (index - 1)).nextSibling);
 			else document.getElementById("wave_upgrades").appendChild(append);
@@ -858,7 +873,7 @@ function update() {
 		};
 	};
 	// stop timer on game complete
-	if (game.infinity.stage === Infinity && game.finishTime === undefined) game.finishTime = new Date().getTime();
+	if (game.infinity.stage === Infinity && game.finishTime === -1) game.finishTime = new Date().getTime();
 };
 
 const loop = setInterval(() => {
