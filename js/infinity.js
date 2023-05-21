@@ -1,4 +1,5 @@
 const infNum = () => { return new Decimal(1.7976931348620926e308).pow(game.infinity.stage === Infinity ? 1.7976931348620926e308 : game.infinity.stage) };
+
 /**
  * Resets for infinity points.
  */
@@ -18,10 +19,6 @@ function prestige() {
 		};
 	};
 	if (game.infinity.milestones[43]) return;
-	// reset points
-	game.points = new Decimal(0);
-	game.pointBest = new Decimal(0);
-	game.pointTotal = new Decimal(0);
 	// reset clicks
 	if (!game.infinity.milestones[16]) {
 		if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
@@ -80,10 +77,6 @@ function prestige() {
 		};
 		if (game.infinity.milestones[5] && imp[16]) game.improvements[16] = imp[16];
 	};
-	// reset wave points
-	game.wave.points = 0;
-	game.wave.pointBest = 0;
-	game.wave.frame = 0;
 	// reset wave upgrades
 	if (!game.infinity.milestones[40]) {
 		let wvupg = game.wave.upgrades;
@@ -101,6 +94,14 @@ function prestige() {
 			};
 		};
 	};
+	// reset points
+	game.points = new Decimal(0);
+	game.pointBest = new Decimal(0);
+	game.pointTotal = new Decimal(0);
+	// reset wave points
+	game.wave.points = 0;
+	game.wave.pointBest = 0;
+	game.wave.frame = 0;
 	// reset page
 	if (!game.infinity.milestones[18]) setPage();
 };
