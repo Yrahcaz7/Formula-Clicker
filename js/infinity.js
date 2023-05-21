@@ -121,7 +121,7 @@ function prestige() {
 function getInfGain() {
 	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
 	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
-	if (game.points > infNum()) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
+	if (game.points.gte(infNum())) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (gain !== gain) return 0;
 	return gain;
 };
