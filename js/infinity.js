@@ -134,7 +134,7 @@ function getNextInf() {
 	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
 	if (getInfGain() === 0) return "Next " + infinity + " at " + format(1.7976931348620926e308, true, false, false, true) + " points";
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
-	if (next.gte(infNum())) return "Max " + infinity + " gained on reset";
+	if (next.gt(infNum())) return "Max " + infinity + " gained on reset";
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
 

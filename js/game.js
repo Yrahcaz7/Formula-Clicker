@@ -877,50 +877,52 @@ function update() {
 };
 
 const loop = setInterval(() => {
-	// wave point gen
-	if (game.unlocks.includes("w")) {
-		if (game.wave.frame > 312) game.wave.frame = 0;
-		// calculate wave point gain
-		const max = getWavePointMax();
-		let gen = getWaveGen();
-		if (game.wave.points < max) {
-			// generate wave points
-			gen *= 0.03;
-			if (gen > max - game.wave.points) gen = max - game.wave.points;
-			game.wave.points += gen;
-			if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
-			if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
-			// fix invalid values
-			if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-			if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
-			if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
+	if (!prestiging) {
+		// wave point gen
+		if (game.unlocks.includes("w")) {
+			if (game.wave.frame > 312) game.wave.frame = 0;
+			// calculate wave point gain
+			const max = getWavePointMax();
+			let gen = getWaveGen();
+			if (game.wave.points < max) {
+				// generate wave points
+				gen *= 0.03;
+				if (gen > max - game.wave.points) gen = max - game.wave.points;
+				game.wave.points += gen;
+				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
+				if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
+				// fix invalid values
+				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
+				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
+				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
+			};
 		};
-	};
-	// point gen
-	if (game.infinity.milestones[26]) {
-		// calculate point gain
-		let gen = new Decimal(1e-10);
-		if (game.infinity.milestones[27]) gen = new Decimal(0.01);
-		if (game.infinity.milestones[30]) gen = new Decimal(1);
-		if (game.infinity.milestones[32]) gen = new Decimal(100);
-		if (gen.gt(0) && pointButtonGain().gt(0)) {
-			// generate points
-			gen *= 0.0003;
-			game.points = game.points.add(pointButtonGain().mul(gen));
-			game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
-			if (game.points.gt(game.pointBest)) game.pointBest = game.points;
-			if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
-			// fix invalid values
-			if (game.points.gt(infNum())) game.points = infNum();
-			if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
-			if (game.pointBest.gt(infNum())) game.pointBest = infNum();
+		// point gen
+		if (game.infinity.milestones[26]) {
+			// calculate point gain
+			let gen = new Decimal(1e-10);
+			if (game.infinity.milestones[27]) gen = new Decimal(0.01);
+			if (game.infinity.milestones[30]) gen = new Decimal(1);
+			if (game.infinity.milestones[32]) gen = new Decimal(100);
+			if (gen.gt(0) && pointButtonGain().gt(0)) {
+				// generate points
+				gen *= 0.0003;
+				game.points = game.points.add(pointButtonGain().mul(gen));
+				game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
+				if (game.points.gt(game.pointBest)) game.pointBest = game.points;
+				if (game.points.gt(game.infinity.best.points)) game.infinity.best.points = game.points;
+				// fix invalid values
+				if (game.points.gt(infNum())) game.points = infNum();
+				if (game.pointTotal.gt(infNum())) game.pointTotal = infNum();
+				if (game.pointBest.gt(infNum())) game.pointBest = infNum();
+			};
 		};
+		// everthing else
+		update();
+		// move wave a frame
+		if (game.unlocks.includes("w")) game.wave.frame++;
+		else game.wave.frame = 0;
 	};
-	// everthing else
-	update();
-	// move wave a frame
-	if (game.unlocks.includes("w")) game.wave.frame++;
-	else game.wave.frame = 0;
 }, 30), save = setInterval(() => {
 	// save the game
 	let proxy = getProxy();
