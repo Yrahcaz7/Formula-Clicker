@@ -22,7 +22,10 @@ function prestige() {
 			};
 		};
 	};
-	if (game.infinity.milestones[43]) return;
+	if (game.infinity.milestones[43]) {
+		prestiging = false;
+		return;
+	};
 	// reset clicks
 	if (!game.infinity.milestones[16]) {
 		if (game.infinity.milestones[2]) game.clicks = Math.floor(game.clicks * 0.5);
@@ -108,6 +111,7 @@ function prestige() {
 	game.wave.frame = 0;
 	// reset page
 	if (!game.infinity.milestones[22]) setPage();
+	prestiging = false;
 };
 
 /**
