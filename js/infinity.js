@@ -1,9 +1,13 @@
 const infNum = () => { return new Decimal(1.7976931348620926e308).pow(game.infinity.stage === Infinity ? 1.7976931348620926e308 : game.infinity.stage) };
 
+let prestiging = false;
+
 /**
  * Resets for infinity points.
  */
 function prestige() {
+	if (prestiging) return;
+	prestiging = true;
 	game.clicks++;
 	if (getInfGain() > 0) {
 		// gain infinity points
@@ -103,7 +107,7 @@ function prestige() {
 	game.wave.pointBest = 0;
 	game.wave.frame = 0;
 	// reset page
-	if (!game.infinity.milestones[18]) setPage();
+	if (!game.infinity.milestones[22]) setPage();
 };
 
 /**
