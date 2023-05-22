@@ -1,5 +1,5 @@
 const upgrades = [{
-	title: "ELEMENTARY",
+	title: "PRIMARY",
 	desc() {
 		return "increases " + alpha + " by " + format(0.1);
 	},

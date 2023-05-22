@@ -74,7 +74,7 @@ function normalizeSave(save = localStorage.getItem(ID)) {
 	// fix finish time
 	if (!result.finishTime || result.infinity.stage < 1.7976931348620926e308) result.finishTime = -1;
 	// update version
-	result.version = "v1.3";
+	result.version = version;
 	// return result
 	return result;
 };

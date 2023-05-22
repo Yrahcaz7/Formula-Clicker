@@ -1,3 +1,5 @@
+const version = "v1.4";
+
 let game = {
 	points: new Decimal(0),
 	pointBest: new Decimal(0),
@@ -25,7 +27,7 @@ let game = {
 	},
 	startTime: new Date().getTime(),
 	finishTime: -1,
-	version: "v1.3",
+	version: version,
 };
 
 const buy = {
