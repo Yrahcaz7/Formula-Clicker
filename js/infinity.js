@@ -263,7 +263,7 @@ const infinity_milestones = [{
 	req: 60,
 	merge: [23],
 }, {
-	desc: "keeps the first twenty-two improvements on reset",
+	desc: "keeps the first twenty two improvements on reset",
 	req: 66,
 	merge: [28],
 }, {
@@ -281,7 +281,7 @@ const infinity_milestones = [{
 	req: 115,
 	merge: [30],
 }, {
-	desc: "keeps the first twenty-five improvements on reset",
+	desc: "keeps the first twenty five improvements on reset",
 	req: 132,
 	merge: [43],
 }, {
@@ -338,11 +338,11 @@ const infinity_milestones = [{
 	req: 1000,
 	merge: [43],
 }, {
-	desc: "improves the upgrade autobuyer to work twice as fast",
+	desc: "improves the upgrade autobuyer to work four times as fast",
 	req: 1200,
 	merge: [42],
 }, {
-	desc: "improves the upgrade autobuyer to work twice as fast again",
+	desc: "improves the upgrade autobuyer to work eight times as fast",
 	req: 1500,
 	merge: [50],
 }, {
@@ -356,7 +356,7 @@ const infinity_milestones = [{
 	desc: "unlocks the break infinity autobuyer",
 	req: 10000,
 }, {
-	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
+	desc: "improves the EFFECIENCY autobuyer to work four times as fast",
 	req: 25000,
 	merge: [48],
 }, {
@@ -364,21 +364,21 @@ const infinity_milestones = [{
 	effect() { return (game.infinity.points + 1) ** 0.025 },
 	req: 50000,
 }, {
-	desc: "improves the EFFECIENCY autobuyer to work twice as fast again",
+	desc: "improves the EFFECIENCY autobuyer to work eight times as fast",
 	req: 100000,
 	merge: [51],
 }, {
-	desc: "multiplies the absolute maximum bought for everything by 100",
+	desc() { return "increases the absolute maximum bought from " + format(100000) + " to " + format(10000000) },
 	req: 250000,
 }, {
-	desc: "improves the upgrade autobuyer to work twice as fast again",
+	desc: "improves the upgrade autobuyer to work sixteen times as fast",
 	req: 500000,
 	merge: [52],
 }, {
 	desc() { return "sets your amount of EFFECIENCY to " + format(1e10) + " and disables buying it" },
-	req: 5000000,
+	req: 1000000,
 }, {
-	desc: "improves the upgrade autobuyer to work five times as fast",
+	desc: "improves the upgrade autobuyer to work eighty times as fast",
 	req: 2500000,
 	merge: [56],
 }, {
@@ -389,104 +389,103 @@ const infinity_milestones = [{
 	req: 10000000,
 	merge: [55],
 }, {
-	desc: "improves the break infinity autobuyer to work five times as fast again",
+	desc: "improves the break infinity autobuyer to work twenty five times as fast",
 	req: 25000000,
 	merge: [58],
 }, {
-	desc: "improves the upgrade autobuyer to work twice as fast",
+	desc: "improves the upgrade autobuyer to work one hundred sixty times as fast",
 	req: 50000000,
 }, {
 	desc() {
 		if (this.effect() == 10) return "multiplies " + infinity + " gain by " + format(10) + "x (maxed)";
-		return "multiplies " + infinity + " gain based on your broken infinities (" + format(this.effect()) + "x)";
+		return "multiplies " + infinity + " gain based your number of broken Infinity (" + format(this.effect()) + "x)";
 	},
 	effect() {
-		let eff = ((game.infinity.stage / 10000) + 1) ** 0.25;
+		let eff = (((game.infinity.stage - 1) / 10000) + 1) ** 0.25;
 		if (eff > 10 || eff !== eff) return 10;
 		return eff;
 	},
 	req: 100000000,
 }, {
-	desc: "improves the break infinity autobuyer to work five times as fast again",
+	desc: "improves the break infinity autobuyer to work one hundred twenty five times as fast",
 	req: 250000000,
 	merge: [59],
 }, {
-	desc: "improves the break infinity autobuyer to work twice as fast",
+	desc: "improves the break infinity autobuyer to work two hundred fifty times as fast",
 	req: 500000000,
 	merge: [60],
 }, {
-	desc: "improves the break infinity autobuyer to work twice as fast again",
+	desc: "improves the break infinity autobuyer to work five hundred times as fast",
 	req: 1e9,
 	merge: [61],
 }, {
-	desc: "improves the break infinity autobuyer to work twice as fast again",
+	desc: "improves the break infinity autobuyer to work one thousand times as fast",
 	req: 2.5e9,
 	merge: [62],
 }, {
-	desc: "improves the break infinity autobuyer to work twice as fast again",
+	desc: "improves the break infinity autobuyer to work two thousand times as fast",
 	req: 5e9,
 	merge: [63],
 }, {
-	desc: "improves the break infinity autobuyer to work twice as fast again",
+	desc: "improves the break infinity autobuyer to work four thousand times as fast",
 	req: 1e10,
 }, {
-	desc: "makes break infinity bulk buy 10x",
+	desc() { return "makes break infinity bulk " + format(10) + "x broken Infinity" },
 	req: 4.5e10,
 	merge: [65],
 }, {
-	desc: "makes break infinity bulk buy 10x more",
+	desc() { return "makes break infinity bulk " + format(100) + "x broken Infinity" },
 	req: 2e11,
 	merge: [66],
 }, {
-	desc: "makes break infinity bulk buy 10x more again",
+	desc() { return "makes break infinity bulk " + format(1000) + "x broken Infinity" },
 	req: 1e12,
 	merge: [67],
 }, {
-	desc: "makes break infinity bulk buy 10x more again",
+	desc() { return "makes break infinity bulk " + format(10000) + "x broken Infinity" },
 	req: 7.5e12,
 	merge: [68],
 }, {
-	desc: "makes break infinity bulk buy 10x more again",
+	desc() { return "makes break infinity bulk " + format(100000) + "x broken Infinity" },
 	req: 1e14,
 	merge: [69],
 }, {
-	desc: "makes break infinity bulk buy 100x more",
+	desc() { return "makes break infinity bulk " + format(10000000) + "x broken Infinity" },
 	req: 2.5e15,
 	merge: [70],
 }, {
-	desc: "makes break infinity bulk buy 100x more again",
+	desc() { return "makes break infinity bulk " + format(1e9) + "x broken Infinity" },
 	req: 1e17,
 	merge: [71],
 }, {
-	desc: "makes break infinity bulk buy 100x more again",
+	desc() { return "makes break infinity bulk " + format(1e11) + "x broken Infinity" },
 	req: 5e18,
 	merge: [72],
 }, {
-	desc: "makes break infinity bulk buy 100x more again",
+	desc() { return "makes break infinity bulk " + format(1e13) + "x broken Infinity" },
 	req: 5e20,
 	merge: [73],
 }, {
-	desc: "makes break infinity bulk buy 100x more again",
+	desc() { return "makes break infinity bulk " + format(1e15) + "x broken Infinity" },
 	req: 7.5e22,
 	merge: [74],
 }, {
-	desc: "makes break infinity bulk buying scale based on your broken infinities",
+	desc: "makes break infinity bulk scale based on your number of broken Infinity",
 	req: 2.5e25,
-	merge: [75],
 }, {
-	desc: "makes break infinity bulk buy scaling 2x greater",
+	desc: "makes break infinity bulk scaling twice as much",
 	req: 1e36,
 	merge: [76],
 }, {
-	desc: "makes break infinity bulk buy scaling 2x greater again",
+	desc: "makes break infinity bulk scaling four times as much",
 	req: 1e55,
 	merge: [77],
 }, {
-	desc: "makes break infinity bulk buy scaling 2x greater again",
+	desc: "makes break infinity bulk scaling eight times as muchn",
 	req: 1e100,
 	merge: [78],
 }, {
-	desc: "makes break infinity bulk buy scaling 2x greater again",
+	desc: "makes break infinity bulk scaling sixteen times as much",
 	req: 1e175,
 }, {
 	desc: "unlocks the 13th upgrade (look at the main tab)",

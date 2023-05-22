@@ -798,7 +798,7 @@ function update() {
 						if (copy("in Yrahcaz7's Formula Clicker, I achieved the TRUE ENDING in " + getTime() + "!")) alert("Export score: Successful!");
 						else alert("Export score: Failure - try a different browser");
 					} else {
-						if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 13) + ", and I achieved it in " + getTime() + "!")) alert("Export score: Successful!");
+						if (copy("in Yrahcaz7's Formula Clicker, my high score is " + formatWhole(game.infinity.stage - 1) + ", and I achieved it in " + getTime() + "!")) alert("Export score: Successful!");
 						else alert("Export score: Failure - try a different browser");
 					};
 				};
@@ -818,6 +818,9 @@ function update() {
 				append.type = "button";
 				append.onclick = () => {
 					if (game.points.gte(infNum())) {
+						if (game.infinity.stage == 12) {
+							setPage();
+						};
 						game.points = game.points.sub(infNum());
 						game.infinity.stage += breakInfBulk();
 					};
@@ -833,7 +836,7 @@ function update() {
 				document.getElementById("export_score").innerHTML = "Export TRUE ENDING ACHIEVED in " + getTime();
 			} else {
 				document.getElementById("export_score").className = "";
-				document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 13) + " in " + getTime();
+				document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 1) + " in " + getTime();
 			};
 		};
 		if (document.getElementById("break_infinity")) {

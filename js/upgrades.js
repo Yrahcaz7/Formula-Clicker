@@ -171,7 +171,7 @@ const upgrades = [{
 }, {
 	title: "TO THE BEYOND",
 	desc() {
-		return "exponentiates the " + constant() + " constant by " + format(10) + ". compounds upon itself.";
+		return "exponentiates the " + constant() + " constant by " + format(10) + " (compounds upon itself)";
 	},
 	effect() {
 		return 10 ** game.upgrades[12];
