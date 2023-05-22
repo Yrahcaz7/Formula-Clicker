@@ -98,6 +98,6 @@ function findNumber(percentage, min, max) {
  * @returns {string} time
  */
 function getTime() {
-	if (game.finishTime) return formatTime(game.finishTime - game.startTime);
+	if (game.finishTime !== -1) return formatTime(game.finishTime - game.startTime);
 	return formatTime(new Date().getTime() - game.startTime);
 };
