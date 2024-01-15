@@ -104,15 +104,15 @@ function update() {
 		if (document.getElementById("pointButton")) document.getElementById("main").insertBefore(append, document.getElementById("pointButton"));
 		else document.getElementById("main").appendChild(append);
 	};
-	if (document.getElementById("pointDisplay")) document.getElementById("pointDisplay").innerHTML = "You have <b>"+format(game.points, true, true)+"</b> points";
+	if (document.getElementById("pointDisplay")) {
+		document.getElementById("pointDisplay").innerHTML = "You have <b>" + format(game.points, true, true) + "</b> points";
+	};
 	// point button
 	if (!document.getElementById("pointButton")) {
 		let append = document.createElement("button");
 		append.id = "pointButton";
 		append.type = "button";
-		append.onclick = () => {
-			click();
-		};
+		append.onclick = click;
 		document.getElementById("main").appendChild(append);
 	};
 	if (document.getElementById("pointButton")) {
@@ -249,7 +249,7 @@ function update() {
 		};
 		if (document.getElementById("tab-waves")) {
 			if (game.tab == "waves") document.getElementById("tab-waves").className = "tab on";
-			else if (game.wave.points >= 1.7976931348620926e308) document.getElementById("tab-waves").className = "tab finished";
+			else if (game.wave.points >= MAX) document.getElementById("tab-waves").className = "tab finished";
 			else document.getElementById("tab-waves").className = "tab";
 		};
 		// infinity tab
@@ -268,7 +268,7 @@ function update() {
 		};
 		if (document.getElementById("tab-infinity")) {
 			if (game.tab == "infinity") document.getElementById("tab-infinity").className = "tab on";
-			else if (game.infinity.points >= 1.7976931348620926e308) document.getElementById("tab-infinity").className = "tab finished";
+			else if (game.infinity.points >= MAX) document.getElementById("tab-infinity").className = "tab finished";
 			else if (getInfGain() > 0 && getInfGain() >= game.infinity.points / 100) document.getElementById("tab-infinity").className = "tab notif";
 			else document.getElementById("tab-infinity").className = "tab";
 		};
@@ -881,37 +881,43 @@ function update() {
 	if (game.infinity.stage === Infinity && game.finishTime === -1) game.finishTime = new Date().getTime();
 };
 
+let prevTime = new Date().getTime();
+
 const loop = setInterval(() => {
+	// calculate delta time
+	let newTime = new Date().getTime();
+	let delta = Math.min((newTime - prevTime) / 1000, 1);
+	prevTime = newTime;
+	// do the stuff
 	if (!prestiging) {
 		// wave point gen
 		if (game.unlocks.includes("w")) {
 			if (game.wave.frame > 312) game.wave.frame = 0;
 			// calculate wave point gain
 			const max = getWavePointMax();
-			let gen = getWaveGen();
+			let gen = getWaveGen() * delta;
 			if (game.wave.points < max) {
 				// generate wave points
-				gen *= 0.03;
 				if (gen > max - game.wave.points) gen = max - game.wave.points;
 				game.wave.points += gen;
 				if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
 				if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
 				// fix invalid values
-				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
-				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
+				if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = MAX;
+				if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = MAX;
+				if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = MAX;
 			};
 		};
 		// point gen
 		if (game.infinity.milestones[26]) {
 			// calculate point gain
-			let gen = new Decimal(1e-10);
-			if (game.infinity.milestones[27]) gen = new Decimal(0.01);
-			if (game.infinity.milestones[30]) gen = new Decimal(1);
-			if (game.infinity.milestones[32]) gen = new Decimal(100);
-			if (gen.gt(0) && pointButtonGain().gt(0)) {
+			let gen = 1e-10;
+			if (game.infinity.milestones[27]) gen = 0.01;
+			if (game.infinity.milestones[30]) gen = 1;
+			if (game.infinity.milestones[32]) gen = 100;
+			if (gen > 0 && pointButtonGain().gt(0)) {
 				// generate points
-				gen *= 0.0003;
+				gen *= 0.01 * delta;
 				game.points = game.points.add(pointButtonGain().mul(gen));
 				game.pointTotal = game.pointTotal.add(pointButtonGain().mul(gen));
 				if (game.points.gt(game.pointBest)) game.pointBest = game.points;

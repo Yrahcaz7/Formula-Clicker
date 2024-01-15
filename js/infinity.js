@@ -1,4 +1,4 @@
-const infNum = () => { return new Decimal(1.7976931348620926e308).pow(game.infinity.stage === Infinity ? 1.7976931348620926e308 : game.infinity.stage) };
+const infNum = () => { return new Decimal(MAX).pow(game.infinity.stage === Infinity ? MAX : game.infinity.stage) };
 
 let prestiging = false;
 
@@ -13,7 +13,7 @@ function prestige() {
 		// gain infinity points
 		game.infinity.points += getInfGain();
 		// fix invalid values
-		if (game.infinity.points === Infinity || game.infinity.points !== game.infinity.points) game.infinity.points = 1.7976931348620926e308;
+		if (game.infinity.points === Infinity || game.infinity.points !== game.infinity.points) game.infinity.points = MAX;
 		// check for new milestones unlocked
 		for (let index = 0; index < infinity_milestones.length; index++) {
 			if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
@@ -119,7 +119,7 @@ function prestige() {
  * @returns {number} gain
  */
 function getInfGain() {
-	if (game.points.lt(1.7976931348620926e308) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
+	if (game.points.lt(MAX) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
 	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (game.points.gte(infNum())) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
 	if (gain !== gain) return 0;
@@ -132,7 +132,7 @@ function getInfGain() {
  */
 function getNextInf() {
 	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
-	if (getInfGain() === 0 && game.infinity.stage == 1) return "Next " + infinity + " at " + format(1.7976931348620926e308, true, false, false, true) + " points";
+	if (getInfGain() === 0 && game.infinity.stage == 1) return "Next " + infinity + " at " + format(MAX, true, false, false, true) + " points";
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
 	if (next.gt(infNum())) return "Max " + infinity + " gained on reset";
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
@@ -489,5 +489,5 @@ const infinity_milestones = [{
 	req: 1e175,
 }, {
 	desc: "unlocks the 13th upgrade (look at the main tab)",
-	req: 1.7976931348620926e308,
+	req: MAX,
 }];

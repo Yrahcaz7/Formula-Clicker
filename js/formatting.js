@@ -104,7 +104,7 @@ function formatIllions(number, short = false) {
  * @returns {string} formatted number
  */
 function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) {
-	if (number !== number || (typeof number == "number" && number >= 1.7976931348620926e308)) return "Infinity";
+	if (number !== number || (typeof number == "number" && number >= MAX)) return "Infinity";
 	if (game.improvements[4] >= 5) {
 		let natural = typeof number=="object"?number.toNumber():+number;
 		if ((natural !== Infinity && natural !== -Infinity) && (game.options.nn == "sho" || (("" + game.options.nn).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);

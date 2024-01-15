@@ -51,10 +51,10 @@ function click() {
 		if (gen + game.wave.points > max) gen = max - game.wave.points;
 		game.wave.points += gen;
 		if (game.wave.points > game.wave.pointBest) game.wave.pointBest = game.wave.points;
-		if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = 1.7976931348620926e308;
-		if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = 1.7976931348620926e308;
+		if (game.wave.points === Infinity || game.wave.points !== game.wave.points) game.wave.points = MAX;
+		if (game.wave.pointBest === Infinity || game.wave.pointBest !== game.wave.pointBest) game.wave.pointBest = MAX;
 		if (game.wave.points > game.infinity.best.wavePoints) game.infinity.best.wavePoints = game.wave.points;
-		if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = 1.7976931348620926e308;
+		if (game.infinity.best.wavePoints === Infinity || game.infinity.best.wavePoints !== game.infinity.best.wavePoints) game.infinity.best.wavePoints = MAX;
 	};
 };
 

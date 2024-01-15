@@ -1,3 +1,5 @@
+const MAX = 1.7976931348620926e308;
+
 /**
  * Calculates alpha.
  * @returns {number} alpha
@@ -165,7 +167,7 @@ function getWaveMax() {
 	max += wave_upgrades[0].effect();
 	max *= improvements[14].effect();
 	max *= improvements[18].effect();
-	if (max !== max) max = 1.7976931348620926e308;
+	if (max !== max) max = MAX;
 	return max;
 };
 
@@ -192,7 +194,7 @@ function getWaveGen() {
 	else if (game.infinity.milestones[19]) gen *= (1.05 ** game.infinity.points) + (game.infinity.points * 2.5);
 	else if (game.infinity.milestones[6]) gen *= (1.02 ** game.infinity.points) + (game.infinity.points * 2);
 	else if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
-	if (gen === Infinity || gen !== gen) gen = 1.7976931348620926e308;
+	if (gen === Infinity || gen !== gen) gen = MAX;
 	return gen;
 };
 
