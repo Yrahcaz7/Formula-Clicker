@@ -1,4 +1,4 @@
-const infNum = () => { return new Decimal(MAX).pow(game.infinity.stage === Infinity ? MAX : game.infinity.stage) };
+const infNum = () => { return new Decimal(MAX).pow(Math.min(game.infinity.stage, MAX)) };
 
 let prestiging = false;
 

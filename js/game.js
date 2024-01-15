@@ -287,7 +287,7 @@ function update() {
 		};
 		if (document.getElementById("tab-???")) {
 			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
-			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1) || game.infinity.stage === Infinity) document.getElementById("tab-???").className = "tab notif";
+			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1) || game.infinity.stage >= MAX) document.getElementById("tab-???").className = "tab notif";
 			else document.getElementById("tab-???").className = "tab";
 		};
 	};
@@ -769,34 +769,15 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12) text += "<br><div class='big'>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class='big'>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>" + (game.infinity.stage === Infinity ? "<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity " + formatWhole(Infinity) + " extra times.<br><br>The time it took you to achieve the TRUE ENDING is below.<br><br>If you want to beat your record, you can reset your game.<br><br>Make sure to export your record somewhere safe before resetting!" : "<div class='big'>If you really want to keep playing...</div><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.");
+		if (game.infinity.stage > 12) text += "<br><div class='big'>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class='big'>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>" + (game.infinity.stage >= MAX ? "<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity " + formatWhole(MAX) + " extra times.<br><br>The time it took you to achieve the TRUE ENDING is below.<br><br>If you want to beat your record, you can reset your game.<br><br>Make sure to export your record somewhere safe before resetting!" : "<div class='big'>If you really want to keep playing...</div><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.");
 		document.getElementById("???_display").innerHTML = text;
-		if (game.infinity.stage === Infinity) {
-			if (!document.getElementById("reset_game")) {
-				let append = document.createElement("button");
-				append.id = "reset_game";
-				append.type = "button";
-				append.className = "ending";
-				append.innerHTML = "RESET EVERYTHING<br><br>THERE IS NO GOING BACK";
-				append.onclick = () => {
-					hardReset();
-				};
-				document.getElementById("main").appendChild(append);
-				let br = document.createElement("br");
-				br.id = "reset_br";
-				document.getElementById("main").appendChild(br);
-			};
-		} else {
-			if (document.getElementById("reset_game")) document.getElementById("reset_game").remove();
-			if (document.getElementById("reset_br")) document.getElementById("reset_br").remove();
-		};
 		if (game.infinity.stage > 12) {
 			if (!document.getElementById("export_score")) {
 				let append = document.createElement("button");
 				append.id = "export_score";
 				append.type = "button";
 				append.onclick = () => {
-					if (game.infinity.stage === Infinity) {
+					if (game.infinity.stage >= MAX) {
 						if (copy("in Yrahcaz7's Formula Clicker, I achieved the TRUE ENDING in " + getTime() + "!")) alert("Export score: Successful!");
 						else alert("Export score: Failure - try a different browser");
 					} else {
@@ -833,19 +814,33 @@ function update() {
 			if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
 		};
 		if (document.getElementById("export_score")) {
-			if (game.infinity.stage === Infinity) {
+			if (game.infinity.stage >= MAX) {
 				document.getElementById("export_score").className = "ending";
 				document.getElementById("export_score").innerHTML = "Export TRUE ENDING ACHIEVED in " + getTime();
+				if (!document.getElementById("reset_game")) {
+					// line break
+					let br = document.createElement("br");
+					br.id = "reset_br";
+					document.getElementById("main").insertBefore(br, document.getElementById("export_score"));
+					// button
+					let append = document.createElement("button");
+					append.id = "reset_game";
+					append.type = "button";
+					append.className = "ending";
+					append.innerHTML = "RESET EVERYTHING<br><br>THERE IS NO GOING BACK";
+					append.onclick = hardReset;
+					document.getElementById("main").insertBefore(append, document.getElementById("export_score"));
+				};
 			} else {
 				document.getElementById("export_score").className = "";
 				document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 1) + " in " + getTime();
 			};
 		};
 		if (document.getElementById("break_infinity")) {
-			if (game.infinity.stage === Infinity) document.getElementById("break_infinity").className = "upgrade ending fade";
+			if (game.infinity.stage >= MAX) document.getElementById("break_infinity").className = "upgrade ending fade";
 			else if (game.points.gte(infNum())) document.getElementById("break_infinity").className = "upgrade";
 			else document.getElementById("break_infinity").className = "upgrade fade";
-			if (game.infinity.stage === Infinity) document.getElementById("break_infinity").innerHTML = "THERE IS AN END<br><br>you have broken the<br>VERY LAST Infinity";
+			if (game.infinity.stage >= MAX) document.getElementById("break_infinity").innerHTML = "THERE IS AN END<br><br>you have broken the<br>VERY LAST Infinity";
 			else if (game.infinity.stage == 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 			else document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 		};
@@ -878,7 +873,7 @@ function update() {
 		};
 	};
 	// stop timer on game complete
-	if (game.infinity.stage === Infinity && game.finishTime === -1) game.finishTime = new Date().getTime();
+	if (game.infinity.stage >= MAX && game.finishTime === -1) game.finishTime = new Date().getTime();
 };
 
 let prevTime = new Date().getTime();
