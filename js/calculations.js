@@ -122,11 +122,12 @@ function getEpsilonEx() {
  * @returns {decimal} multiplier
  */
 function getPointMult() {
-	let mul = new Decimal(1);
-	if (game.infinity.milestones[24]) mul = mul.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
-	else if (game.infinity.milestones[13]) mul = mul.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
-	else if (game.infinity.milestones[0]) mul = mul.mul(new Decimal(1.2).pow(game.infinity.points).add(game.infinity.points * 5));
-	return mul;
+	let mult = new Decimal(1);
+	if (game.infinity.milestones[24]) mult = mult.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
+	else if (game.infinity.milestones[13]) mult = mult.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
+	else if (game.infinity.milestones[0]) mult = mult.mul(new Decimal(1.2).pow(game.infinity.points).add(game.infinity.points * 5));
+	if (game.beyond.omega > 0) mult *= (game.beyond.omega + 1);
+	return mult;
 };
 
 /**
@@ -145,17 +146,17 @@ function pointButtonGain() {
 	let gEx = getGammaEx();
 	let dEx = getDeltaEx();
 	let eEx = getEpsilonEx();
-	let mul = getPointMult();
-	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2.22).pow(z)).mul(mul);
-	if (z > 0) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2).pow(z).add(5 * z)).mul(mul);
-	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(mul);
-	if (e > 0) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e + 1).mul(mul);
-	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(mul);
-	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(d).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
-	if (d > 0) return co.mul(a).mul(b).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mul);
-	if (g > 1) return co.mul(a).mul(b).mul(g ** gEx).mul(mul);
-	if (b > 1) return co.mul(a).mul(b).mul(mul);
-	return new Decimal(a).mul(mul);
+	let mult = getPointMult();
+	if (z > 0 && imp >= 5) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2.22).pow(z)).mul(mult);
+	if (z > 0) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(new Decimal(2).pow(z).add(5 * z)).mul(mult);
+	if (e > 0 && imp >= 4) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e ** eEx).mul(mult);
+	if (e > 0) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(e + 1).mul(mult);
+	if (d > 0 && imp >= 3) return co.mul(a).mul(b).mul(d).mul(new Decimal(1.45 * g).pow(gEx + (d ** dEx))).mul(mult);
+	if (d > 0 && imp >= 2) return co.mul(a).mul(b).mul(d).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mult);
+	if (d > 0) return co.mul(a).mul(b).mul(new Decimal(g).pow(gEx + (d ** dEx))).mul(mult);
+	if (g > 1) return co.mul(a).mul(b).mul(g ** gEx).mul(mult);
+	if (b > 1) return co.mul(a).mul(b).mul(mult);
+	return new Decimal(a).mul(mult);
 };
 
 /**
@@ -184,17 +185,33 @@ function getWaveMin() {
 };
 
 /**
+ * Calculates wave multiplier.
+ * @returns {number} multiplier
+ */
+function waveMult() {
+	let mult = 1;
+	mult *= wave_upgrades[4].effect();
+	mult *= wave_upgrades[8].effect();
+	mult *= improvements[21].effect();
+	mult *= improvements[25].effect();
+	return mult;
+};
+
+/**
  * Calculates the wave point generation.
  * @returns {number} generation
  */
 function getWaveGen() {
-	let gen = findNumber(Math.abs((sinwaves[game.wave.frame + 151] / 100) - 1), getWaveMin(), getWaveMax());
-	gen *= waveMult();
+	let gen = findNumber(Math.abs((sinwaves[game.wave.frame + 151] / 100) - 1), getWaveMin(), getWaveMax()) * waveMult();
+	// infinity
 	if (game.infinity.milestones[25]) gen *= (1.1 ** game.infinity.points) + (game.infinity.points * 5);
 	else if (game.infinity.milestones[19]) gen *= (1.05 ** game.infinity.points) + (game.infinity.points * 2.5);
 	else if (game.infinity.milestones[6]) gen *= (1.02 ** game.infinity.points) + (game.infinity.points * 2);
 	else if (game.infinity.milestones[1]) gen *= game.infinity.points + 1;
-	if (gen === Infinity || gen !== gen) gen = MAX;
+	// beyond
+	if (game.beyond.omega > 0) gen *= (game.beyond.omega + 1);
+	// return
+	if (gen >= MAX || gen !== gen) gen = MAX;
 	return gen;
 };
 
@@ -203,7 +220,9 @@ function getWaveGen() {
  * @returns {number} generation
  */
 function getWaveClickGen() {
-	return getWaveGen() * (improvements[15].effect() + improvements[26].effect());
+	let gen = getWaveGen() * (improvements[15].effect() + improvements[26].effect());
+	if (gen >= MAX || gen !== gen) gen = MAX;
+	return gen;
 };
 
 /**

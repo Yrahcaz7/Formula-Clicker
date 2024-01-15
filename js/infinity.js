@@ -8,7 +8,7 @@ let prestiging = false;
 function prestige() {
 	if (prestiging) return;
 	prestiging = true;
-	game.clicks++;
+	game.clicks += (game.beyond.omega + 1);
 	if (getInfGain() > 0) {
 		// gain infinity points
 		game.infinity.points += getInfGain();
@@ -120,8 +120,8 @@ function prestige() {
  */
 function getInfGain() {
 	if (game.points.lt(MAX) || (game.infinity.points >= 45 && game.infinity.stage == 1)) return 0;
-	let gain = game.points.log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
-	if (game.points.gte(infNum())) gain = infNum().log10().div(308.2547155599167).mul(infMul()).floor().toNumber();
+	let gain = game.points.log10().div(308.2547155599167).mul(infMult()).floor().toNumber();
+	if (game.points.gte(infNum())) gain = infNum().log10().div(308.2547155599167).mul(infMult()).floor().toNumber();
 	if (gain !== gain) return 0;
 	return gain;
 };
@@ -131,9 +131,9 @@ function getInfGain() {
  * @returns {string} text
  */
 function getNextInf() {
-	if (getInfGain() / infMul() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
+	if (getInfGain() / infMult() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
 	if (getInfGain() === 0 && game.infinity.stage == 1) return "Next " + infinity + " at " + format(MAX, true, false, false, true) + " points";
-	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMul());
+	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMult());
 	if (next.gt(infNum())) return "Max " + infinity + " gained on reset";
 	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
 };
@@ -142,12 +142,13 @@ function getNextInf() {
  * Calculates infinity multiplier.
  * @returns {number} multiplier
  */
-function infMul() {
-	let mul = 1;
-	if (game.infinity.milestones[29]) mul *= infinity_milestones[29].effect();
-	if (game.infinity.milestones[47]) mul *= infinity_milestones[47].effect();
-	if (game.infinity.milestones[57]) mul *= infinity_milestones[57].effect();
-	return mul;
+function infMult() {
+	let mult = 1;
+	if (game.infinity.milestones[29]) mult *= infinity_milestones[29].effect();
+	if (game.infinity.milestones[47]) mult *= infinity_milestones[47].effect();
+	if (game.infinity.milestones[57]) mult *= infinity_milestones[57].effect();
+	if (game.beyond.omega > 0) mult *= (game.beyond.omega + 1);
+	return mult;
 };
 
 /**
@@ -174,6 +175,7 @@ function breakInfBulk() {
 		if (game.infinity.milestones[78]) mul *= 2;
 		bulk += game.infinity.stage / 500000 * mul;
 	};
+	if (game.beyond.omega > 0) bulk *= (game.beyond.omega + 1);
 	return bulk;
 };
 

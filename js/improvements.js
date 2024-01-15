@@ -32,48 +32,51 @@ const improvements = [{
 		if (game.improvements[4] > 0) return "unlocks another option; also multiplies " + alpha + " and " + beta + " by " + format(1.1);
 		return "unlocks the options tab; also multiplies " + alpha + " and " + beta + " by " + format(1.1);
 	},
-	effect() { return 1.1 ** (game.improvements[4] >= 4 ? 4 : game.improvements[4]) },
-	cost() { return new Decimal(10).pow(game.improvements[4]).mul(1e17) },
+	effect() { return 1.1 ** Math.min(game.improvements[4], 4) },
+	cost() { return new Decimal(10).pow(game.improvements[4]).mul(1e18) },
 	max: 7,
 	unlocked() { return game.upgrades[7] > 0 && game.improvements[3] },
 }, {
 	title: "SUPER COMBO",
 	desc() { return "improves the point gain formula" + (game.improvements[5] > 0 ? " again" : "") },
-	cost() { return new Decimal(game.improvements[5] >= 2 ? 1000 : 100).pow(game.improvements[5]).mul(2e20) },
+	cost() { return new Decimal(game.improvements[5] >= 2 ? 1000 : 100).pow(game.improvements[5]).mul(2e21) },
 	max: 3,
 	unlocked() { return game.improvements[4] > 3 },
 }, {
 	title: "REDUCE REDUCTION",
 	desc() { return "increases the " + delta + " exponent by " + format(0.02) },
 	effect() { return game.improvements[6] * 0.02 },
-	cost() { return new Decimal(100).pow(game.improvements[6]).mul(1e28) },
+	cost() { return new Decimal(100).pow(game.improvements[6]).mul(1e29) },
 	max: 5,
 	unlocked() { return game.improvements[5] > 2 },
 }, {
 	title: "GREATER SCALING",
 	desc() { return "multiplies " + gamma + " by " + format(1.1) },
 	effect() { return 1.1 ** game.improvements[7] },
-	cost() { return new Decimal(1e3).pow(game.improvements[7]).mul(1e36) },
+	cost() {
+		if (game.improvements[7] >= 3) return new Decimal(1e3).pow(game.improvements[7]).mul(1e38);
+		return new Decimal(1e3).pow(game.improvements[7]).mul(1e39);
+	},
 	max: 4,
 	unlocked() { return game.upgrades[9] > 0 && game.improvements[6] > 3 },
 }, {
 	title: "LARGER EXPONENT",
 	desc() { return "multiplies " + delta + " by " + format(1.0388601182540846) },
 	effect() { return 1.0388601182540846 ** game.improvements[8] },
-	cost() { return new Decimal(1e4).pow(game.improvements[8]).mul(1e40) },
+	cost() { return new Decimal(1e4).pow(game.improvements[8]).mul(1e44) },
 	max: 10,
 	unlocked() { return game.improvements[7] > 1 },
 }, {
 	title: "MORE MULTIPLIERS",
 	desc() { return "multiplies " + epsilon + " by " + format(1.1355081270020038) },
 	effect() { return 1.1355081270020038 ** game.improvements[9] },
-	cost() { return new Decimal(1e5).pow(game.improvements[9]).mul(1e45) },
+	cost() { return new Decimal(1e5).pow(game.improvements[9]).mul(1e48) },
 	max: 3,
 	unlocked() { return game.improvements[8] > 1 },
 }, {
 	title: "GREATER HEIGHTS",
 	desc() { return "improves the point gain formula" },
-	cost() { return new Decimal(1e47) },
+	cost() { return new Decimal(1e49) },
 	max: 1,
 }, {
 	title: "FINALLY!",
@@ -82,18 +85,17 @@ const improvements = [{
 	effect() { return (game.improvements[11] ? this.baseEff() : 1) },
 	cost() { return new Decimal(1e50) },
 	max: 1,
-	unlocked() { return game.improvements[8] > 2 && game.improvements[10] },
 }, {
 	title: "REPETITION",
 	desc() { return "increases the " + epsilon + " exponent by " + format(0.25) },
 	effect() { return game.improvements[12] * 0.25 },
-	cost() { return new Decimal(1e3).pow(game.improvements[12]).mul(1e53) },
+	cost() { return new Decimal(1e3).pow(game.improvements[12]).mul(1e55) },
 	max: 10,
-	unlocked() { return game.improvements[8] > 3 && game.improvements[9] > 1 && game.improvements[11] },
+	unlocked() { return game.improvements[8] > 2 && game.improvements[9] > 1 && game.improvements[11] },
 }, {
 	title: "HERE COMES TRIGONOMETRY",
 	desc: "unlocks sinusoidal waves",
-	cost() { return new Decimal(1e90) },
+	cost() { return new Decimal(1e92) },
 	max: 1,
 	unlocked() { return game.improvements[12] > 9 },
 }, {

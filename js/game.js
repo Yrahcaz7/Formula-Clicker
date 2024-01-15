@@ -1,4 +1,4 @@
-const version = "v1.4";
+const version = "v1.5";
 
 let game = {
 	points: new Decimal(0),
@@ -24,6 +24,10 @@ let game = {
 		},
 		milestones: [],
 		stage: 1,
+	},
+	beyond: {
+		omega: 0,
+		bestTime: -1,
 	},
 	startTime: new Date().getTime(),
 	finishTime: -1,
@@ -93,10 +97,11 @@ function update() {
 	if (game.points.gt(0) && !game.unlocks.includes("pd")) game.unlocks.push("pd");
 	if (game.upgrades[0] > 0 && !game.unlocks.includes("vd")) game.unlocks.push("vd");
 	if (game.points.gte(1000) && !game.unlocks.includes("t")) game.unlocks.push("t");
-	if (game.improvements[4] > 0 && !game.unlocks.includes("o")) game.unlocks.push("o");
-	if (game.improvements[13] && !game.unlocks.includes("w")) game.unlocks.push("w");
+	if (game.improvements[4] > 0 && game.unlocks.includes("t") && !game.unlocks.includes("o")) game.unlocks.push("o");
+	if (game.improvements[13] && game.unlocks.includes("t") && !game.unlocks.includes("w")) game.unlocks.push("w");
 	if ((game.points.gte(infNum()) || (game.unlocks.includes("t") && game.infinity.points >= 1)) && !game.unlocks.includes("i")) game.unlocks.push("i");
 	if (game.infinity.points >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("?")) game.unlocks.push("?");
+	if (game.beyond.omega >= 1 && game.unlocks.includes("t") && !game.unlocks.includes("b")) game.unlocks.push("b");
 	// point display
 	if (game.unlocks.includes("pd") && !document.getElementById("pointDisplay")) {
 		let append = document.createElement("div");
@@ -164,8 +169,11 @@ function update() {
 			if (game.infinity.milestones[24]) formula += "(" + format(1.45) + superscript(infinity) + " + " + format(2.5e9) + infinity + ")";
 			else if (game.infinity.milestones[13]) formula += "(" + format(1.25) + superscript(infinity) + " + " + format(7.5) + infinity + ")";
 			else if (game.infinity.milestones[0]) formula += "(" + format(1.2) + superscript(infinity) + " + " + format(5) + infinity + ")";
-			formula = "Your point gain is " + formula + "<br><br>";
 		};
+		// add beyond formula piece
+		if (formula) formula += "(" + omega + " + " + format(1) + ")";
+		// add formula text
+		if (formula) formula = "Your point gain is " + formula + "<br><br>";
 		// display variables and formula
 		document.getElementById("varDisplay").innerHTML = formula + text;
 	};
@@ -190,6 +198,7 @@ function update() {
 			if (document.getElementById("tab-improvements")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-improvements"));
 			else if (document.getElementById("tab-waves")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-waves"));
 			else if (document.getElementById("tab-infinity")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-infinity"));
+			else if (document.getElementById("tab-beyond")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-beyond"));
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
@@ -210,6 +219,7 @@ function update() {
 			append.innerHTML = "Improvements";
 			if (document.getElementById("tab-waves")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-waves"));
 			else if (document.getElementById("tab-infinity")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-infinity"));
+			else if (document.getElementById("tab-beyond")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-beyond"));
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
@@ -244,6 +254,7 @@ function update() {
 			};
 			append.innerHTML = "Waves";
 			if (document.getElementById("tab-infinity")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-infinity"));
+			else if (document.getElementById("tab-beyond")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-beyond"));
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
@@ -263,6 +274,7 @@ function update() {
 			};
 			append.innerHTML = "Infinity";
 			if (document.getElementById("tab-???")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-???"));
+			else if (document.getElementById("tab-beyond")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-beyond"));
 			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
@@ -282,13 +294,40 @@ function update() {
 				game.tab = "???";
 			};
 			append.innerHTML = "???";
-			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			if (document.getElementById("tab-beyond")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-beyond"));
+			else if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
 			else document.getElementById("tabs").appendChild(append);
 		};
 		if (document.getElementById("tab-???")) {
-			if (game.tab == "???") document.getElementById("tab-???").className = "tab on";
-			else if ((game.infinity.points == 45 && game.infinity.stage == 1) || (game.points.gte(infNum()) && game.infinity.stage > 1) || game.infinity.stage >= MAX) document.getElementById("tab-???").className = "tab notif";
-			else document.getElementById("tab-???").className = "tab";
+			if (game.tab == "???") {
+				document.getElementById("tab-???").className = "tab on";
+			} else if (
+				(game.infinity.points == 45 && game.infinity.stage == 1) ||
+				(game.points.gte(infNum()) && game.infinity.stage > 1 && game.infinity.stage < MAX) ||
+				(game.infinity.stage >= MAX && !game.unlocks.includes("b"))
+			) {
+				document.getElementById("tab-???").className = "tab notif";
+			} else {
+				document.getElementById("tab-???").className = "tab";
+			};
+		};
+		// beyond tab
+		if (game.unlocks.includes("b") && !document.getElementById("tab-beyond")) {
+			let append = document.createElement("button");
+			append.id = "tab-beyond";
+			append.type = "button";
+			append.className = "tab";
+			append.onclick = () => {
+				game.tab = "beyond";
+			};
+			append.innerHTML = "Beyond";
+			if (document.getElementById("tab-options")) document.getElementById("tabs").insertBefore(append, document.getElementById("tab-options"));
+			else document.getElementById("tabs").appendChild(append);
+		};
+		if (document.getElementById("tab-beyond")) {
+			if (game.tab == "beyond") document.getElementById("tab-beyond").className = "tab on";
+			else if (game.infinity.stage >= MAX) document.getElementById("tab-beyond").className = "tab notif";
+			else document.getElementById("tab-beyond").className = "tab";
 		};
 	};
 	// main tab
@@ -817,20 +856,6 @@ function update() {
 			if (game.infinity.stage >= MAX) {
 				document.getElementById("export_score").className = "ending";
 				document.getElementById("export_score").innerHTML = "Export TRUE ENDING ACHIEVED in " + getTime();
-				if (!document.getElementById("reset_game")) {
-					// line break
-					let br = document.createElement("br");
-					br.id = "reset_br";
-					document.getElementById("main").insertBefore(br, document.getElementById("export_score"));
-					// button
-					let append = document.createElement("button");
-					append.id = "reset_game";
-					append.type = "button";
-					append.className = "ending";
-					append.innerHTML = "RESET EVERYTHING<br><br>THERE IS NO GOING BACK";
-					append.onclick = hardReset;
-					document.getElementById("main").insertBefore(append, document.getElementById("export_score"));
-				};
 			} else {
 				document.getElementById("export_score").className = "";
 				document.getElementById("export_score").innerHTML = "Export score of " + formatWhole(game.infinity.stage - 1) + " in " + getTime();
@@ -844,13 +869,55 @@ function update() {
 			else if (game.infinity.stage == 12) document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the LAST Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 			else document.getElementById("break_infinity").innerHTML = "THERE IS NO END<br><br>break the false Infinity<br><br>Cost: "+format(infNum(), true, false, false, true);
 		};
+		if (!document.getElementById("reach_beyond") && !game.unlocks.includes("b")) {
+			// line break
+			let br = document.createElement("br");
+			br.id = "reach_br";
+			document.getElementById("main").appendChild(br);
+			// button
+			let append = document.createElement("button");
+			append.id = "reach_beyond";
+			append.type = "button";
+			append.className = "ending";
+			append.innerHTML = "ATTEMPT TO REACH BEYOND<br><br>YOU WILL GAIN +" + formatWhole(getOmegaGain()) + " " + omega + "<br><br>THIS WILL RESET EVERYTHING";
+			append.onclick = reach_beyond;
+			document.getElementById("main").appendChild(append);
+		};
 	} else {
 		if (document.getElementById("???_display")) document.getElementById("???_display").remove();
-		if (document.getElementById("reset_game")) document.getElementById("reset_game").remove();
-		if (document.getElementById("reset_br")) document.getElementById("reset_br").remove();
+		if (document.getElementById("reach_beyond")) document.getElementById("reach_beyond").remove();
+		if (document.getElementById("reach_br")) document.getElementById("reach_br").remove();
 		if (document.getElementById("export_score")) document.getElementById("export_score").remove();
 		if (document.getElementById("score_br")) document.getElementById("score_br").remove();
 		if (document.getElementById("break_infinity")) document.getElementById("break_infinity").remove();
+	};
+	// beyond tab
+	if (game.tab == "beyond") {
+		// omega display
+		if (!document.getElementById("omega_display")) {
+			let append = document.createElement("div");
+			append.id = "omega_display";
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("omega_display")) document.getElementById("omega_display").innerHTML = "You have <b>" + formatWhole(game.beyond.omega) + "</b> " + omega + "<br><br>Your " + omega + " is multiplying clicks, point gain, the value of your wave, " + infinity + " gain, and break infinity bulk amount by (" + omega + " + " + format(1) + ") = " + format(game.beyond.omega + 1) + "x<br><br>The shortest time it has taken you to reach beyond is " + formatTime(game.beyond.bestTime, true);
+		// beyond prestige button
+		if (!document.getElementById("beyond_prestige_button")) {
+			let append = document.createElement("button");
+			append.id = "beyond_prestige_button";
+			append.className = "prestigeButton";
+			append.onclick = () => {
+				if (getOmegaGain() > 0) reach_beyond();
+			};
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("beyond_prestige_button")) {
+			if (getOmegaGain() > 0) document.getElementById("beyond_prestige_button").className = "prestigeButton";
+			else document.getElementById("beyond_prestige_button").className = "prestigeButton fade";
+			document.getElementById("beyond_prestige_button").innerHTML = "Reset EVERYTHING for +" + formatWhole(getOmegaGain()) + " " + omega + "<br>" + getNextOmega();
+		};
+	} else {
+		if (document.getElementById("omega_display")) document.getElementById("omega_display").remove();
+		if (document.getElementById("beyond_prestige_button")) document.getElementById("beyond_prestige_button").remove();
 	};
 	// break infinity autobuyer
 	if (game.infinity.milestones[45] && game.points.gte(infNum())) {
@@ -884,7 +951,7 @@ const loop = setInterval(() => {
 	let delta = Math.min((newTime - prevTime) / 1000, 1);
 	prevTime = newTime;
 	// do the stuff
-	if (!prestiging) {
+	if (!prestiging && !reaching) {
 		// wave point gen
 		if (game.unlocks.includes("w")) {
 			if (game.wave.frame > 312) game.wave.frame = 0;

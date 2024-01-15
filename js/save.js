@@ -127,7 +127,7 @@ function load() {
  */
 function importSave(save) {
 	if (!save) return;
-	Object.assign(game, normalizeSave(save));
+	game = normalizeSave(save);
 	location.reload();
 };
 

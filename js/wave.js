@@ -12,8 +12,10 @@ function waveFormula() {
 	const max = getWaveMax(), min = getWaveMin();
 	let result = "";
 	if (min > max) min = max;
+	// normal formula
 	result += "(" + format(Math.abs((max - min) / 2)) + " * sin(time)) + " + format((max + min) / 2);
 	if (waveMult() !== 1) result = format(waveMult()) + "(" + result + ")";
+	// add infinity formula piece
 	if (game.infinity.milestones[6]) {
 		let numbers = [1.02, 2];
 		if (game.infinity.milestones[19]) numbers = [1.05, 2.5];
@@ -24,20 +26,13 @@ function waveFormula() {
 		if (result.endsWith(")")) result += "(" + infinity + " + " + format(1) + ")";
 		else result = "(" + result + ")(" + infinity + " + " + format(1) + ")";
 	};
+	// add beyond formula piece
+	if (game.beyond.omega) {
+		if (result.endsWith(")")) result += "(" + omega + " + " + format(1) + ")";
+		else result = "(" + result + ")(" + omega + " + " + format(1) + ")";
+	};
+	// return
 	return result;
-};
-
-/**
- * Calculates wave multiplier.
- * @returns {number} multiplier
- */
-function waveMult() {
-	let mult = 1;
-	mult *= wave_upgrades[4].effect();
-	mult *= wave_upgrades[8].effect();
-	mult *= improvements[21].effect();
-	mult *= improvements[25].effect();
-	return mult;
 };
 
 const wave_upgrades = [{
