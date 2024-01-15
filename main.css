@@ -55,7 +55,7 @@ body {
 }
 
 .tab.finished {
-	background-color: #3e3;
+	background-color: #4e4;
 	border: 1px solid #181;
 }
 
@@ -97,7 +97,7 @@ button.upgrade.small {
 }
 
 button.upgrade.maxed, button.improvement.maxed {
-	background-color: #3e3;
+	background-color: #4e4;
 	border: 1px solid #181;
 	cursor: default;
 }

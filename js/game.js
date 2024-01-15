@@ -381,7 +381,7 @@ function update() {
 			if (game.upgrades[index] >= max) document.getElementById("upgrade_" + index).className = "upgrade maxed";
 			else if (game.points.gte(element.cost())) document.getElementById("upgrade_" + index).className = "upgrade";
 			else document.getElementById("upgrade_" + index).className = "upgrade fade";
-			if (game.upgrades[index] > 0) document.getElementById("upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(upgrades[index].cost());
+			if (game.upgrades[index] > 0) document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(upgrades[index].cost());
 			else {
 				document.getElementById("upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(upgrades[index].cost());
 				document.getElementById("upgrade_" + index).className += " small";
@@ -460,7 +460,7 @@ function update() {
 			if (game.improvements[index] >= max) document.getElementById("improvement_" + index).className = "improvement maxed";
 			else if (game.points.gte(element.cost())) document.getElementById("improvement_" + index).className = "improvement";
 			else document.getElementById("improvement_" + index).className = "improvement fade";
-			document.getElementById("improvement_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(improvements[index].cost())+" Bought: "+(max==1?!!game.improvements[index]:formatWhole(game.improvements[index])+(element.max?"/"+formatWhole(max):""));
+			document.getElementById("improvement_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(improvements[index].cost()) + " Bought: " + (max == 1 ? (game.improvements[index] ? "yes" : "no") : formatWhole(game.improvements[index]) + (element.max ? "/" + formatWhole(max) : ""));
 			let rows = document.getElementById("improvement_" + index).innerHTML.split("<br>");
 			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "            ".slice(rows[rows.length - 1].length - 20) + "Bought:");
 		};
@@ -684,7 +684,7 @@ function update() {
 			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
 			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
 			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
-			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc)+"<br><br>Cost: "+format(wave_upgrades[index].cost())+(max<100000?"<br>Bought: "+(max==1?!!game.wave.upgrades[index]:formatWhole(game.wave.upgrades[index])+"/"+formatWhole(max)):"");
+			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(wave_upgrades[index].cost()) + (max < 100000 ? "<br>Bought: " + (max == 1 ? (game.wave.upgrades[index] ? "yes" : "no") : formatWhole(game.wave.upgrades[index]) + "/" + formatWhole(max)) : "");
 			else {
 				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(wave_upgrades[index].cost());
 				document.getElementById("wave_upgrade_" + index).className += " small";
@@ -735,13 +735,14 @@ function update() {
 		if (document.getElementById("infinity_milestones")) document.getElementById("infinity_milestones").remove();
 	};
 	// infinity milestones
+	let potentialInf = game.infinity.points + getInfGain();
 	for (let index = 0; index < infinity_milestones.length; index++) {
 		if (game.infinity.milestones[index] === undefined) game.infinity.milestones[index] = false;
 		const element = infinity_milestones[index];
 		if (!game.infinity.milestones[index] && game.infinity.milestones[index - 1] !== false) {
 			if (game.infinity.points >= element.req) game.infinity.milestones[index] = true;
 		};
-		if (game.tab != "infinity" || game.infinity.milestones[index - 1] === false) {
+		if (game.tab != "infinity" || (game.infinity.milestones[index - 1] === false && potentialInf < element.req)) {
 			if (document.getElementById("infinity_milestone_" + index)) document.getElementById("infinity_milestone_" + index).remove();
 			continue;
 		} else if (element.merge) {
@@ -764,11 +765,13 @@ function update() {
 		};
 		if (document.getElementById("infinity_milestone_" + index)) {
 			if (index === 0) {
-				if (game.infinity.milestones[1]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonuses:<br>"+(typeof element.desc=="function"?element.desc():element.desc);
-				else if (game.infinity.milestones[0]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonus:<br>"+(typeof element.desc=="function"?element.desc():element.desc);
-				else document.getElementById("infinity_milestone_" + index).innerHTML = "Next bonus at "+formatWhole(element.req)+" "+infinity+"<br><br>"+(typeof element.desc=="function"?element.desc():element.desc);
+				if (game.infinity.milestones[1]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonuses:<br>" + (typeof element.desc == "function" ? element.desc() : element.desc);
+				else if (game.infinity.milestones[0]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonus:<br>" + (typeof element.desc == "function" ? element.desc() : element.desc);
+				else if (potentialInf >= element.req) document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Obtainable bonus:<br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
+				else document.getElementById("infinity_milestone_" + index).innerHTML = "Next bonus at " + formatWhole(element.req) + " " + infinity + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc);
 			} else {
-				document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index]?"":"Next bonus at "+formatWhole(element.req)+" "+infinity+"<br><br>")+(typeof element.desc=="function"?element.desc():element.desc);
+				if (potentialInf >= element.req) document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Obtainable bonus:<br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
+				else document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Next bonus at " + formatWhole(element.req) + " " + infinity + "<br><br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
 			};
 			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
 			else document.getElementById("infinity_milestone_" + index).className = "milestone";

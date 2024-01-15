@@ -145,7 +145,7 @@ const improvements = [{
 	desc() { return "multiplies the value of your wave based on your points (" + format(this.baseEff()) + "x)" },
 	baseEff() { return game.points.add(1).pow(0.0015) },
 	effect() { return (game.improvements[21] ? this.baseEff() : 1) },
-	cost() { return new Decimal(1e250) },
+	cost() { return new Decimal(1e252) },
 	max: 1,
 }, {
 	title: "FASTER, FASTER!",
