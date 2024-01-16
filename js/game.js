@@ -34,61 +34,6 @@ let game = {
 	version: version,
 };
 
-const buy = {
-	/**
-	 * Buys the specified upgrade.
-	 * @param {number} index - the index of the purchase.
-	 * @param {boolean} free - if true, does not spend any currency on purchase.
-	 * @returns {boolean} success
-	 */
-	upgrade(index, free = false) {
-		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
-		let max = game.infinity.milestones[49] ? 10000000 : 100000;
-		if (upgrades[index].max) max = upgrades[index].max;
-		if (game.points.gte(upgrades[index].cost()) && game.upgrades[index] < max) {
-			if (!free) game.points = game.points.sub(upgrades[index].cost());
-			game.upgrades[index]++;
-			return true;
-		};
-		return false;
-	},
-	/**
-	 * Buys the specified improvement.
-	 * @param {number} index - the index of the purchase.
-	 * @param {boolean} free - if true, does not spend any currency on purchase.
-	 * @returns {boolean} success
-	 */
-	improvement(index, free = false) {
-		if (!improvements[index] || !improvements[index].unlocked()) return false;
-		let max = game.infinity.milestones[49] ? 10000000 : 100000;
-		if (improvements[index].max) max = improvements[index].max;
-		if (game.points.gte(improvements[index].cost()) && game.improvements[index] < max) {
-			if (!free) game.points = game.points.sub(improvements[index].cost());
-			game.improvements[index]++;
-			return true;
-		};
-		return false;
-	},
-	/**
-	 * Buys the specified wave upgrade.
-	 * @param {number} index - the index of the purchase.
-	 * @param {boolean} free - if true, does not spend any currency on purchase.
-	 * @returns {boolean} success
-	 */
-	wave_upgrade(index, free = false) {
-		if (!wave_upgrades[index] || !wave_upgrades[index].unlocked()) return false;
-		let max = game.infinity.milestones[49] ? 10000000 : 100000;
-		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
-		else if (wave_upgrades[index].max) max = wave_upgrades[index].max;
-		if (game.wave.points >= wave_upgrades[index].cost() && game.wave.upgrades[index] < max) {
-			if (!free) game.wave.points -= wave_upgrades[index].cost();
-			game.wave.upgrades[index]++;
-			return true;
-		};
-		return false;
-	},
-};
-
 /**
  * Does a game tick (not including passive resource gen).
  */
@@ -422,6 +367,7 @@ function update() {
 	for (let index = 0; index < improvements.length; index++) {
 		if (game.improvements[index] === undefined) game.improvements[index] = 0;
 		const element = improvements[index];
+		const cost = (typeof element.cost == "function" ? element.cost() : element.cost);
 		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (element.max) max = element.max;
 		if (element.unlocked() && index == 0 && game.infinity.milestones[51]) game.improvements[0] = 1e10;
@@ -439,10 +385,10 @@ function update() {
 			} else if (game.infinity.milestones[12]) buy.improvement(index);
 		};
 		if (document.getElementById("tab-improvements") && element.unlocked()) {
-			if (game.points.gte(element.cost()) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
+			if (game.points.gte(cost) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 			if (game.improvements[index] >= max) maxed++;
 		};
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(element.cost()) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options.sm && game.options.sm !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(cost) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options.sm && game.options.sm !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -458,9 +404,9 @@ function update() {
 		};
 		if (document.getElementById("improvement_" + index)) {
 			if (game.improvements[index] >= max) document.getElementById("improvement_" + index).className = "improvement maxed";
-			else if (game.points.gte(element.cost())) document.getElementById("improvement_" + index).className = "improvement";
+			else if (game.points.gte(cost)) document.getElementById("improvement_" + index).className = "improvement";
 			else document.getElementById("improvement_" + index).className = "improvement fade";
-			document.getElementById("improvement_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(improvements[index].cost()) + " Bought: " + (max == 1 ? (game.improvements[index] ? "yes" : "no") : formatWhole(game.improvements[index]) + (element.max ? "/" + formatWhole(max) : ""));
+			document.getElementById("improvement_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(cost) + " Bought: " + (max == 1 ? (game.improvements[index] ? "yes" : "no") : formatWhole(game.improvements[index]) + (element.max ? "/" + formatWhole(max) : ""));
 			let rows = document.getElementById("improvement_" + index).innerHTML.split("<br>");
 			document.getElementById("improvement_" + index).innerHTML = document.getElementById("improvement_" + index).innerHTML.replace("Bought:", "            ".slice(rows[rows.length - 1].length - 20) + "Bought:");
 		};
@@ -651,6 +597,7 @@ function update() {
 	for (let index = 0; index < wave_upgrades.length; index++) {
 		if (game.wave.upgrades[index] === undefined) game.wave.upgrades[index] = 0;
 		const element = wave_upgrades[index];
+		const cost = (typeof element.cost == "function" ? element.cost() : element.cost);
 		let max = game.infinity.milestones[49] ? 10000000 : 100000;
 		if (typeof element.max == "function") max = element.max();
 		else if (element.max) max = element.max;
@@ -665,7 +612,7 @@ function update() {
 				else if (game.infinity.milestones[11]) buy.wave_upgrade(index);
 			};
 		};
-		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= element.cost() && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
+		if (document.getElementById("tab-waves") && element.unlocked() && game.wave.points >= cost && game.wave.upgrades[index] < max) document.getElementById("tab-waves").className += " notif";
 		if (game.tab != "waves" || !element.unlocked()) {
 			if (document.getElementById("wave_upgrade_" + index)) document.getElementById("wave_upgrade_" + index).remove();
 			continue;
@@ -682,11 +629,11 @@ function update() {
 		};
 		if (document.getElementById("wave_upgrade_" + index)) {
 			if (game.wave.upgrades[index] >= max) document.getElementById("wave_upgrade_" + index).className = "upgrade maxed";
-			else if (game.wave.points >= element.cost()) document.getElementById("wave_upgrade_" + index).className = "upgrade";
+			else if (game.wave.points >= cost) document.getElementById("wave_upgrade_" + index).className = "upgrade";
 			else document.getElementById("wave_upgrade_" + index).className = "upgrade fade";
-			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(wave_upgrades[index].cost()) + (max < 100000 ? "<br>Bought: " + (max == 1 ? (game.wave.upgrades[index] ? "yes" : "no") : formatWhole(game.wave.upgrades[index]) + "/" + formatWhole(max)) : "");
+			if (game.wave.upgrades[index] > 0 || max === 1) document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc) + "<br><br>Cost: " + format(cost) + (max < 100000 ? "<br>Bought: " + (max == 1 ? (game.wave.upgrades[index] ? "yes" : "no") : formatWhole(game.wave.upgrades[index]) + "/" + formatWhole(max)) : "");
 			else {
-				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(wave_upgrades[index].cost());
+				document.getElementById("wave_upgrade_" + index).innerHTML = element.title + "<br><br>Cost: " + format(cost);
 				document.getElementById("wave_upgrade_" + index).className += " small";
 			};
 		};
@@ -715,7 +662,7 @@ function update() {
 			append.id = "infinity_point_display";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints);
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints); // + "<br><br>You can press Shift+P to prestige from any tab"
 		// infinity prestige button
 		if (!document.getElementById("infinity_prestige_button")) {
 			let append = document.createElement("button");
@@ -828,7 +775,7 @@ function update() {
 		};
 		if (count >= 0) text += "</div>";
 		else text += "</div><br>Next discovery at " + formatWhole(game.infinity.points + 1) + " " + infinity;
-		if (game.infinity.stage > 12) text += "<br><div class='big'>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class='big'>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>" + (game.infinity.stage >= MAX ? "<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity " + formatWhole(MAX) + " extra times.<br><br>The time it took you to achieve the TRUE ENDING is below.<br><br>If you want to beat your record, you can reset your game.<br><br>Make sure to export your record somewhere safe before resetting!" : "<div class='big'>If you really want to keep playing...</div><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.");
+		if (game.infinity.stage > 12) text += "<br><div class='big'>Congrats! You beat the game!</div><br>Thanks for playing, I really hope you enjoyed it!<br><br>You can keep going, but there's not really much else to do.<br><br>The credits for this game are below, if you want to see them.<br><br>If I forgot to mention anyone, just tell me and I'll put you on.<br><br><br><br><div class='big'>Credit roll:</div><br>Yrachaz7 (myself): the standalone developer and poem-writer<br><br>My older sibling: playtester and good advice-giver<br><br>My father: also a good advice-giver on coding problems<br><br>The games Exponential Idle and Candy Box 2: inspiration<br><br>And last but not least, thank YOU for taking the time to play my game!<br><br><br><br>" + (game.infinity.stage >= MAX ? "<div class='big ending'>TRUE ENDING ACHIEVED</div><br>You have currently broken Infinity " + formatWhole(MAX) + " extra times.<br><br>The time it took you to achieve the TRUE ENDING is below." : "<div class='big'>If you really want to keep playing...</div><br>You have currently broken Infinity " + formatWhole(game.infinity.stage - 13) + " extra times.");
 		document.getElementById("???_display").innerHTML = text;
 		if (game.infinity.stage > 12) {
 			if (!document.getElementById("export_score")) {
@@ -919,7 +866,7 @@ function update() {
 			append.id = "omega_display";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("omega_display")) document.getElementById("omega_display").innerHTML = "You have <b>" + formatWhole(game.beyond.omega) + "</b> " + omega + "<br><br>Your " + omega + " is multiplying clicks, point gain, the value of your wave, " + infinity + " gain, and break infinity bulk amount by (" + omega + " + " + format(1) + ") = " + format(game.beyond.omega + 1) + "x<br><br>The shortest time it has taken you to reach beyond is " + formatTime(game.beyond.bestTime, true);
+		if (document.getElementById("omega_display")) document.getElementById("omega_display").innerHTML = "You have <b>" + formatWhole(game.beyond.omega) + "</b> " + omega + "<br><br>Your " + omega + " is multiplying clicks, point gain, the value of your wave, " + infinity + " gain, break infinity bulk amount, and TO THE BEYOND bulk amount by (" + omega + " + " + format(1) + ") = " + format(game.beyond.omega + 1) + "x<br><br>The shortest time it has taken you to reach beyond is " + formatTime(game.beyond.bestTime);
 		// beyond prestige button
 		if (!document.getElementById("beyond_prestige_button")) {
 			let append = document.createElement("button");
@@ -933,7 +880,7 @@ function update() {
 		if (document.getElementById("beyond_prestige_button")) {
 			if (getOmegaGain() > 0) document.getElementById("beyond_prestige_button").className = "prestigeButton";
 			else document.getElementById("beyond_prestige_button").className = "prestigeButton fade";
-			document.getElementById("beyond_prestige_button").innerHTML = "Reach BEYOND for +" + formatWhole(getOmegaGain()) + " " + omega + "<br>" + getNextOmega();
+			document.getElementById("beyond_prestige_button").innerHTML = "REACH BEYOND for +" + formatWhole(getOmegaGain()) + " " + omega + "<br>" + getNextOmega();
 		};
 	} else {
 		if (document.getElementById("omega_display")) document.getElementById("omega_display").remove();

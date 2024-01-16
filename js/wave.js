@@ -37,71 +37,34 @@ function waveFormula() {
 
 const wave_upgrades = [{
 	title: "LARGER NUMBERS",
-	desc() {
-		return "increases the maximum value of your wave by " + format(0.25);
-	},
-	effect() {
-		return game.wave.upgrades[0] * 0.25;
-	},
-	cost() {
-		let div = 1;
-		div *= wave_upgrades[5].effect();
-		return (1.5 ** game.wave.upgrades[0]) * 10 / div;
-	},
-	unlocked() {
-		return true;
-	},
+	desc() {return "increases the maximum value of your wave by " + format(0.25)},
+	effect() {return game.wave.upgrades[0] * 0.25},
+	cost() {return (1.5 ** game.wave.upgrades[0]) * 10 / wave_upgrades[5].effect()},
+	unlocked() {return true},
 }, {
 	title: "COOLHEADED",
-	desc() {
-		return "increases the minimum value of your wave by " + format(0.25)
-	},
-	effect() {
-		return game.wave.upgrades[1] * 0.25;
-	},
+	desc() {return "increases the minimum value of your wave by " + format(0.25)},
+	effect() {return game.wave.upgrades[1] * 0.25},
 	cost() {
-		let div = 1;
-		div *= wave_upgrades[5].effect();
+		let div = wave_upgrades[5].effect();
 		if (game.wave.upgrades[7] > 0) return (1.4 ** game.wave.upgrades[1]) * 25 / div;
 		return (1.5 ** game.wave.upgrades[1]) * 25 / div;
 	},
-	unlocked() {
-		return game.wave.upgrades[0] > 0;
-	},
+	unlocked() {return game.wave.upgrades[0] > 0},
 }, {
 	title: "LOOSEN CHAINS",
-	desc() {
-		return "multiplies your maximum wave points by " + format(2);
-	},
-	effect() {
-		return 2 ** game.wave.upgrades[2];
-	},
-	cost() {
-		if (game.wave.upgrades[7] > 0) return (2 ** game.wave.upgrades[2]) * 50;
-		return (2 ** game.wave.upgrades[2]) * 100;
-	},
-	unlocked() {
-		return game.wave.upgrades[1] > 0;
-	},
+	desc() {return "multiplies your maximum wave points by " + format(2)},
+	effect() {return 2 ** game.wave.upgrades[2]},
+	cost() {return (game.wave.upgrades[7] > 0 ? (2 ** game.wave.upgrades[2]) * 50 : (2 ** game.wave.upgrades[2]) * 100)},
+	unlocked() {return game.wave.upgrades[1] > 0},
 }, {
 	title: "CALCULATIONS",
-	desc() {
-		return "multiplies the " + constant() + " constant based on your best wave points (" + format(this.baseEff()) + "x)";
-	},
-	baseEff() {
-		if (game.wave.upgrades[6] > 0) return (game.wave.pointBest + 1) ** 0.25;
-		return (game.wave.pointBest + 1) ** 0.2;
-	},
-	effect() {
-		return new Decimal(this.baseEff()).pow(game.wave.upgrades[3]);
-	},
-	cost() {
-		return (10 ** game.wave.upgrades[3]) * 200;
-	},
+	desc() {return "multiplies the " + constant() + " constant based on your best wave points (" + format(this.baseEff()) + "x)"},
+	baseEff() {return (game.wave.upgrades[6] > 0 ? (game.wave.pointBest + 1) ** 0.25 : (game.wave.pointBest + 1) ** 0.2)},
+	effect() {return new Decimal(this.baseEff()).pow(game.wave.upgrades[3])},
+	cost() {return (10 ** game.wave.upgrades[3]) * 200},
 	max: 18,
-	unlocked() {
-		return game.wave.upgrades[2] > 0;
-	},
+	unlocked() {return game.wave.upgrades[2] > 0},
 }, {
 	title: "RECURSION",
 	desc() {
@@ -118,81 +81,47 @@ const wave_upgrades = [{
 		if (eff > 3.36 || eff !== eff) return 3.36;
 		return eff;
 	},
-	effect() {
-		return this.baseEff() ** game.wave.upgrades[4];
-	},
+	effect() {return this.baseEff() ** game.wave.upgrades[4]},
 	cost() {
 		let div = 1;
 		if (game.wave.upgrades[9]) div *= 1.75;
 		return (5 ** game.wave.upgrades[4]) * 250 / div;
 	},
-	max() {
-		if (game.infinity.milestones[20]) return 100000;
-		return 26;
-	},
-	unlocked() {
-		return game.wave.upgrades[3] > 0;
-	},
+	max() {return game.infinity.milestones[20] ? 100000 : 26},
+	unlocked() {return game.wave.upgrades[3] > 0},
 }, {
 	title: "CHEAPER",
-	desc() {
-		return "divides the cost of LARGER NUMBERS and COOLHEADED by " + format(2);
-	},
-	effect() {
-		return 2 ** game.wave.upgrades[5];
-	},
+	desc() {return "divides the cost of LARGER NUMBERS and COOLHEADED by " + format(2)},
+	effect() {return 2 ** game.wave.upgrades[5]},
 	cost() {
 		let div = 1;
 		if (game.wave.upgrades[9]) div *= 1.75;
 		return (5 ** game.wave.upgrades[5]) * 500 / div;
 	},
-	unlocked() {
-		return game.wave.upgrades[4] > 0;
-	},
+	unlocked() {return game.wave.upgrades[4] > 0},
 }, {
 	title: "MATHEMATICAL",
 	desc: "improves the effect formula of CALCULATIONS",
-	cost() {
-		return 7500;
-	},
+	cost: 7500,
 	max: 1,
-	unlocked() {
-		return game.wave.upgrades[5] > 0;
-	},
+	unlocked() {return game.wave.upgrades[5] > 0},
 }, {
 	title: "SMOOTH SCALE",
 	desc: "improves the cost formulas of COOLHEADED and LOOSEN CHAINS",
-	cost() {
-		return 25000;
-	},
+	cost: 25000,
 	max: 1,
-	unlocked() {
-		return game.wave.upgrades[6];
-	},
+	unlocked() {return game.wave.upgrades[6]},
 }, {
 	title: "UNSTOPPABLE",
 	desc: "doubles the value of your wave when you have less wave points than your best",
-	effect() {
-		if (game.wave.upgrades[8] && game.wave.points < game.wave.pointBest) return 2;
-		return 1;
-	},
-	cost() {
-		return 5e14;
-	},
+	effect() {return (game.wave.upgrades[8] && game.wave.points < game.wave.pointBest ? 2 : 1)},
+	cost: 5e14,
 	max: 1,
-	unlocked() {
-		return game.wave.upgrades[7] && game.improvements[20];
-	},
+	unlocked() {return game.wave.upgrades[7] && game.improvements[20]},
 }, {
 	title: "EVEN CHEAPER",
-	desc() {
-		return "divides the cost of RECURSION and CHEAPER by " + format(1.75);
-	},
-	cost() {
-		return 5e18;
-	},
+	desc() {return "divides the cost of RECURSION and CHEAPER by " + format(1.75)},
+	cost: 5e18,
 	max: 1,
-	unlocked() {
-		return game.wave.upgrades[8] && game.improvements[21];
-	},
+	unlocked() {return game.wave.upgrades[8] && game.improvements[21]},
 }];

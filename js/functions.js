@@ -58,6 +58,69 @@ function click() {
 	};
 };
 
+const buy = {
+	/**
+	 * Buys the specified upgrade.
+	 * @param {number} index - the index of the purchase.
+	 * @param {boolean} free - if true, does not spend any currency on purchase.
+	 * @returns {boolean} success
+	 */
+	upgrade(index, free = false) {
+		if (!upgrades[index] || !upgrades[index].unlocked()) return false;
+		const cost = (typeof upgrades[index].cost == "function" ? upgrades[index].cost() : upgrades[index].cost);
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
+		if (upgrades[index].max) max = upgrades[index].max;
+		if (game.points.gte(cost) && game.upgrades[index] < max) {
+			if (!free) game.points = game.points.sub(cost);
+			if (index === 12) {
+				game.upgrades[index] += (game.beyond.omega + 1);
+				game.upgrades[index] = Math.min(game.upgrades[index], upgrades[index].max);
+			} else {
+				game.upgrades[index]++;
+			};
+			return true;
+		};
+		return false;
+	},
+	/**
+	 * Buys the specified improvement.
+	 * @param {number} index - the index of the purchase.
+	 * @param {boolean} free - if true, does not spend any currency on purchase.
+	 * @returns {boolean} success
+	 */
+	improvement(index, free = false) {
+		if (!improvements[index] || !improvements[index].unlocked()) return false;
+		const cost = (typeof improvements[index].cost == "function" ? improvements[index].cost() : improvements[index].cost);
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
+		if (improvements[index].max) max = improvements[index].max;
+		if (game.points.gte(cost) && game.improvements[index] < max) {
+			if (!free) game.points = game.points.sub(cost);
+			game.improvements[index]++;
+			return true;
+		};
+		return false;
+	},
+	/**
+	 * Buys the specified wave upgrade.
+	 * @param {number} index - the index of the purchase.
+	 * @param {boolean} free - if true, does not spend any currency on purchase.
+	 * @returns {boolean} success
+	 */
+	wave_upgrade(index, free = false) {
+		if (!wave_upgrades[index] || !wave_upgrades[index].unlocked()) return false;
+		const cost = (typeof wave_upgrades[index].cost == "function" ? wave_upgrades[index].cost() : wave_upgrades[index].cost);
+		let max = game.infinity.milestones[49] ? 10000000 : 100000;
+		if (typeof wave_upgrades[index].max == "function") max = wave_upgrades[index].max();
+		else if (wave_upgrades[index].max) max = wave_upgrades[index].max;
+		if (game.wave.points >= cost && game.wave.upgrades[index] < max) {
+			if (!free) game.wave.points -= cost;
+			game.wave.upgrades[index]++;
+			return true;
+		};
+		return false;
+	},
+};
+
 /**
  * Copies text to clipboard.
  * @param {string} text - the text to copy.
