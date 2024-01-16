@@ -168,7 +168,7 @@ function getWaveMax() {
 	max += wave_upgrades[0].effect();
 	max *= improvements[14].effect();
 	max *= improvements[18].effect();
-	if (max !== max) max = MAX;
+	if (max >= MAX || max !== max) max = MAX;
 	return max;
 };
 
@@ -181,6 +181,7 @@ function getWaveMin() {
 	min += wave_upgrades[1].effect();
 	min *= improvements[17].effect();
 	if (game.improvements[19]) min += getWaveMax() * 0.45;
+	if (min >= MAX || min !== min) min = MAX;
 	return min;
 };
 
@@ -194,6 +195,7 @@ function waveMult() {
 	mult *= wave_upgrades[8].effect();
 	mult *= improvements[21].effect();
 	mult *= improvements[25].effect();
+	if (mult >= MAX || mult !== mult) mult = MAX;
 	return mult;
 };
 
@@ -230,5 +232,8 @@ function getWaveClickGen() {
  * @returns {number} maximum
  */
 function getWavePointMax() {
-	return 100 * wave_upgrades[2].effect();
+	let max = 100;
+	max *= wave_upgrades[2].effect();
+	if (max >= MAX || max !== max) max = MAX;
+	return max;
 };

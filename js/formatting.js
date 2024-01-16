@@ -106,7 +106,7 @@ function formatIllions(number, short = false) {
 function format(number, smallAllowed = true, expand = false, hasPercent = false, showInfValue = false, internal = false) {
 	if (number !== number || (typeof number == "number" && number >= MAX)) return "Infinity";
 	if (game.improvements[4] >= 5) {
-		let natural = typeof number=="object"?number.toNumber():+number;
+		let natural = typeof number == "object" ? number.toNumber() : +number;
 		if ((natural !== Infinity && natural !== -Infinity) && (game.options.nn == "sho" || (("" + game.options.nn).includes("mix") && !internal && natural < 1e36 && natural > -1e36)) && (natural >= 1e3 || natural <= -1e3)) return formatIllions(number, !expand);
 		if (game.options.nn == "inf" && new Decimal(number).gte(1)) return formatDecimalInfinity(number, smallAllowed, expand, hasPercent);
 		if (("" + game.options.nn).includes("let")) return formatDecimalStrange(number, smallAllowed, hasPercent, "let");

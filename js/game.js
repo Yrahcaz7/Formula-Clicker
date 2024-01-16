@@ -487,7 +487,7 @@ function update() {
 				else document.getElementById("options").appendChild(append);
 				for (let num = 0; num < element.list.length; num++) {
 					const item = element.list[num];
-					document.getElementById("option_" + index + "_type").innerHTML += "<option value='"+item+"' "+(element.intList[num]==game.options[element.id]?"selected":"")+">"+item+"</option>";
+					document.getElementById("option_" + index + "_type").innerHTML += "<option value='" + item + "' " + (element.intList[num] == game.options[element.id] ? "selected" : "") + ">" + item + "</option>";
 				};
 			};
 			if (document.getElementById("option_" + index + "_type")) game.options[element.id] = element.intList[document.getElementById("option_" + index + "_type").selectedIndex];
@@ -662,7 +662,7 @@ function update() {
 			append.id = "infinity_point_display";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints) + "<br><br>You can press Shift+P to prestige from any tab";
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points, true, false, false, true) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints) + "<br><br>You can press Shift+P to prestige from any tab";
 		// infinity prestige button
 		if (!document.getElementById("infinity_prestige_button")) {
 			let append = document.createElement("button");
@@ -791,10 +791,12 @@ function update() {
 						else alert("Export score: Failure - try a different browser");
 					};
 				};
-				document.getElementById("main").appendChild(append);
+				if (document.getElementById("break_infinity")) document.getElementById("main").insertBefore(append, document.getElementById("break_infinity"));
+				else document.getElementById("main").appendChild(append);
 				let br = document.createElement("br");
 				br.id = "score_br";
-				document.getElementById("main").appendChild(br);
+				if (document.getElementById("break_infinity")) document.getElementById("main").insertBefore(br, document.getElementById("break_infinity"));
+				else document.getElementById("main").appendChild(br);
 			};
 		} else {
 			if (document.getElementById("export_score")) document.getElementById("export_score").remove();

@@ -124,6 +124,7 @@ function getInfGain() {
 	if (game.infinity.stage == 1 && game.infinity.points + gain >= 45) return 45 - game.infinity.points;
 	if (game.points.gte(infNum())) gain = infNum().log10().div(308.2547155599167).mul(infMult()).floor().toNumber();
 	if (gain !== gain) return 0;
+	if (gain >= MAX) return MAX;
 	return gain;
 };
 
@@ -132,10 +133,10 @@ function getInfGain() {
  * @returns {string} text
  */
 function getNextInf() {
-	if (getInfGain() / infMult() >= game.infinity.stage) return "Max " + infinity + " gained on prestige";
+	if (getInfGain() / infMult() >= game.infinity.stage || getInfGain() >= MAX) return "Max " + infinity + " gained on prestige";
 	if (game.infinity.stage == 1) {
 		if (game.infinity.points + getInfGain() >= 45) return infinity + " gain restricted by ???";
-		if (getInfGain() === 0) return "Next " + infinity + " at " + format(MAX, true, false, false, true) + " points";
+		if (getInfGain() === 0) return "Next " + infinity + " at " + format(MAX) + " points";
 	};
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMult());
 	if (next.gt(infNum())) return "Max " + infinity + " gained on prestige";
