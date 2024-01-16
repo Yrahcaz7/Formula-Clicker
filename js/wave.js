@@ -9,7 +9,7 @@ for (let iteration = 0; iteration <= 615; iteration++) {
  * @returns {string} formula
  */
 function waveFormula() {
-	const max = getWaveMax(), min = getWaveMin();
+	let max = getWaveMax(), min = getWaveMin();
 	let result = "";
 	if (min > max) min = max;
 	// normal formula

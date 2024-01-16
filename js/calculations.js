@@ -126,7 +126,7 @@ function getPointMult() {
 	if (game.infinity.milestones[24]) mult = mult.mul(new Decimal(1.45).pow(game.infinity.points).add(game.infinity.points * 2.5e9));
 	else if (game.infinity.milestones[13]) mult = mult.mul(new Decimal(1.25).pow(game.infinity.points).add(game.infinity.points * 7.5));
 	else if (game.infinity.milestones[0]) mult = mult.mul(new Decimal(1.2).pow(game.infinity.points).add(game.infinity.points * 5));
-	if (game.beyond.omega > 0) mult *= (game.beyond.omega + 1);
+	if (game.beyond.omega > 0) mult = mult.mul(game.beyond.omega + 1);
 	return mult;
 };
 

@@ -487,7 +487,7 @@ const infinity_milestones = [{
 	req: 1e55,
 	merge: [77],
 }, {
-	desc: "makes break infinity bulk scaling eight times as muchn",
+	desc: "makes break infinity bulk scaling eight times as much",
 	req: 1e100,
 	merge: [78],
 }, {

@@ -732,10 +732,10 @@ function update() {
 				document.getElementById("infinity_prestige_button").innerHTML = "Max " + infinity + " reached<br>Go to the ??? tab";
 			} else if (getInfGain() > 0) {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
+				document.getElementById("infinity_prestige_button").innerHTML = "Prestige for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
 			} else {
 				document.getElementById("infinity_prestige_button").className = "prestigeButton fade";
-				document.getElementById("infinity_prestige_button").innerHTML = "Reset everything for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
+				document.getElementById("infinity_prestige_button").innerHTML = "Prestige for +" + formatWhole(getInfGain()) + " " + infinity + "<br>" + getNextInf();
 			};
 		};
 		// infinity milestones frame
@@ -933,7 +933,7 @@ function update() {
 		if (document.getElementById("beyond_prestige_button")) {
 			if (getOmegaGain() > 0) document.getElementById("beyond_prestige_button").className = "prestigeButton";
 			else document.getElementById("beyond_prestige_button").className = "prestigeButton fade";
-			document.getElementById("beyond_prestige_button").innerHTML = "Reset EVERYTHING for +" + formatWhole(getOmegaGain()) + " " + omega + "<br>" + getNextOmega();
+			document.getElementById("beyond_prestige_button").innerHTML = "Reach BEYOND for +" + formatWhole(getOmegaGain()) + " " + omega + "<br>" + getNextOmega();
 		};
 	} else {
 		if (document.getElementById("omega_display")) document.getElementById("omega_display").remove();
