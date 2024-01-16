@@ -139,7 +139,7 @@ function getNextInf() {
 	};
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMult());
 	if (next.gt(infNum())) return "Max " + infinity + " gained on reset";
-	return "Next " + infinity + " at " + format(next, true, false, false, true) + " points";
+	return "Next " + infinity + " at " + format(next.max(MAX), true, false, false, true) + " points";
 };
 
 /**

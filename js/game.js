@@ -693,6 +693,22 @@ function update() {
 	};
 	// infinity tab
 	if (game.tab == "infinity") {
+		// break infinity autobuyer toggle
+		if (!document.getElementById("break_auto_display")) {
+			let append = document.createElement("div");
+			append.id = "break_auto_display";
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("break_auto_display")) {
+			if (game.infinity.milestones[53] || !game.infinity.milestones[45]) {
+				document.getElementById("break_auto_display").innerHTML = "";
+				delete game.options.bo;
+			} else {
+				if (game.options.bo === undefined) game.options.bo = true;
+				if (!document.getElementById("break_auto_display").innerHTML) document.getElementById("break_auto_display").innerHTML = "Toggle break infinity autobuyer: <input id='option_autobuyer' type='checkbox' " + (game.options.bo ? "checked" : "") + "></input><br><br>";
+				game.options.bo = document.getElementById("option_autobuyer").checked;
+			};
+		};
 		// infinity point display
 		if (!document.getElementById("infinity_point_display")) {
 			let append = document.createElement("div");
@@ -730,6 +746,7 @@ function update() {
 			document.getElementById("main").appendChild(append);
 		};
 	} else {
+		if (document.getElementById("break_auto_display")) document.getElementById("break_auto_display").remove();
 		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").remove();
 		if (document.getElementById("infinity_prestige_button")) document.getElementById("infinity_prestige_button").remove();
 		if (document.getElementById("infinity_milestones")) document.getElementById("infinity_milestones").remove();
@@ -767,10 +784,10 @@ function update() {
 			if (index === 0) {
 				if (game.infinity.milestones[1]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonuses:<br>" + (typeof element.desc == "function" ? element.desc() : element.desc);
 				else if (game.infinity.milestones[0]) document.getElementById("infinity_milestone_" + index).innerHTML = "Bonus:<br>" + (typeof element.desc == "function" ? element.desc() : element.desc);
-				else if (potentialInf >= element.req) document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Obtainable bonus:<br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
+				else if (potentialInf >= element.req) document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Obtainable bonus:<br><br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
 				else document.getElementById("infinity_milestone_" + index).innerHTML = "Next bonus at " + formatWhole(element.req) + " " + infinity + "<br><br>" + (typeof element.desc == "function" ? element.desc() : element.desc);
 			} else {
-				if (potentialInf >= element.req) document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Obtainable bonus:<br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
+				if (potentialInf >= element.req) document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Obtainable bonus:<br><br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
 				else document.getElementById("infinity_milestone_" + index).innerHTML = (game.infinity.milestones[index] ? "" : "Next bonus at " + formatWhole(element.req) + " " + infinity + "<br><br>") + (typeof element.desc == "function" ? element.desc() : element.desc);
 			};
 			if (game.infinity.milestones[index]) document.getElementById("infinity_milestone_" + index).className = "milestone done";
@@ -923,7 +940,7 @@ function update() {
 		if (document.getElementById("beyond_prestige_button")) document.getElementById("beyond_prestige_button").remove();
 	};
 	// break infinity autobuyer
-	if (game.infinity.milestones[45] && game.points.gte(infNum())) {
+	if (game.infinity.milestones[45] && game.points.gte(infNum()) && (game.infinity.milestones[53] || game.options.bo === undefined || game.options.bo)) {
 		let work = 1;
 		if (game.infinity.milestones[54]) work *= 5;
 		if (game.infinity.milestones[55]) work *= 5;
