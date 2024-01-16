@@ -219,7 +219,7 @@ const infinity_milestones = [{
 	req: 9,
 	merge: [11, 15],
 }, {
-	desc: "unlocks the LOOSEN CHAINS autobuyer, which doesn't spend any wave points",
+	desc: "unlocks the WEAKEN CHAINS autobuyer, which doesn't spend any wave points",
 	req: 10,
 	merge: [11, 15],
 }, {

@@ -891,8 +891,10 @@ function update() {
 			append.id = "aleph_display";
 			document.getElementById("main").appendChild(append);
 		};
-		let next = nextAlephEffectAt();
-		if (document.getElementById("aleph_display")) document.getElementById("aleph_display").innerHTML = "You have <b>" + formatWhole(game.beyond.aleph) + "</b> " + aleph + "<br><br>Your " + aleph + " is retaining &#8970(" + aleph + " / " + format(game.beyond.bestTime / 10000) + ")<sup>" + format(0.25) + "</sup>&#8971 = " + formatWhole(getAlephEffect()) + " " + infinity + " upon reaching beyond<br>You need " + format(next) + " " + aleph + " to keep one more " + infinity + ", and you are " + format(game.beyond.aleph / next * 100, true, false, true) + "% of the way there";
+		if (document.getElementById("aleph_display")) {
+			const next = nextAlephEffectAt();
+			document.getElementById("aleph_display").innerHTML = "You have <b>" + formatWhole(game.beyond.aleph) + "</b> " + aleph + "<br><br>Your " + aleph + " is retaining &#8970(" + aleph + " / " + format(game.beyond.bestTime / 10000) + ")<sup>" + format(0.25) + "</sup>&#8971 = " + formatWhole(getAlephEffect()) + " " + infinity + " upon reaching beyond<br>You need " + format(next) + " " + aleph + " to keep one more " + infinity + ", and you are " + format(game.beyond.aleph / next * 100, true, false, true) + "% of the way there";
+		};
 		// aleph button
 		if (!document.getElementById("aleph_button")) {
 			let append = document.createElement("button");
@@ -911,7 +913,7 @@ function update() {
 		if (document.getElementById("aleph_button")) document.getElementById("aleph_button").remove();
 	};
 	// break infinity autobuyer
-	if (game.infinity.milestones[45] && game.points.gte(infNum()) && (game.infinity.milestones[53] || game.options.bo === undefined || game.options.bo)) {
+	if (game.infinity.milestones[45] && game.points.gte(infNum()) && (game.infinity.milestones[53] || game.options.bo)) {
 		let work = 1;
 		if (game.infinity.milestones[54]) work *= 5;
 		if (game.infinity.milestones[55]) work *= 5;
