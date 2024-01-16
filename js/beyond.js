@@ -1,12 +1,10 @@
-let reaching = false;
-
 /**
  * Reaches beyond for omega.
  */
 function reach_beyond() {
-	if (reaching) return;
+	if (prestiging) return;
 	if (!confirm("Are you really sure you want reach beyond? This will reset EVERYTHING (even game time) except what is beyond.")) return;
-	reaching = true;
+	prestiging = true;
 	// gain
 	if (getOmegaGain() > 0) {
 		game.beyond.omega += getOmegaGain();
@@ -48,7 +46,7 @@ function reach_beyond() {
 	game.finishTime = -1;
 	// reset page
 	setPage();
-	reaching = false;
+	prestiging = false;
 };
 
 /**
@@ -71,6 +69,16 @@ function getNextOmega() {
 };
 
 /**
+ * Calculates best run time.
+ * @returns {number} time
+ */
+function getBestRunTime() {
+	if (game.finishTime - game.startTime < game.beyond.bestTime && game.finishTime != -1) return game.finishTime - game.startTime;
+	if (game.beyond.bestTime != -1) return game.beyond.bestTime;
+	return Infinity;
+};
+
+/**
  * Calculates aleph gain.
  * @returns {number} gain
  */
@@ -82,16 +90,16 @@ function getAlephGain() {
 
 /**
  * Calculates aleph effect.
- * @returns {number} gain
+ * @returns {number} effect
  */
 function getAlephEffect() {
-	return Math.floor((game.beyond.aleph / (game.beyond.bestTime / 10000)) ** 0.25);
+	return Math.floor((game.beyond.aleph / (getBestRunTime() / 10000)) ** 0.25);
 };
 
 /**
  * Calculates the amount of aleph you need to increase its effect by 1.
- * @returns {number} gain
+ * @returns {number} amount
  */
 function nextAlephEffectAt() {
-	return Math.ceil((game.beyond.bestTime / 10000) * ((getAlephEffect() + 1) ** 4));
+	return Math.ceil((getBestRunTime() / 10000) * ((getAlephEffect() + 1) ** 4));
 };

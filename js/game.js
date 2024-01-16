@@ -663,7 +663,7 @@ function update() {
 			append.id = "infinity_point_display";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points, true, false, false, true) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints) + "<br><br>You can press Shift+P to prestige from any tab";
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints) + "<br><br>You can press Shift+P to prestige from any tab";
 		// infinity prestige button
 		if (!document.getElementById("infinity_prestige_button")) {
 			let append = document.createElement("button");
@@ -869,7 +869,7 @@ function update() {
 			append.id = "omega_display";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("omega_display")) document.getElementById("omega_display").innerHTML = "You have <b>" + formatWhole(game.beyond.omega) + "</b> " + omega + "<br><br>Your " + omega + " is multiplying clicks, point gain, the value of your wave, " + infinity + " gain, break infinity bulk amount, and TO THE BEYOND bulk amount by (" + omega + " + " + format(1) + ") = " + format(game.beyond.omega + 1) + "x<br><br>The shortest time it has taken you to reach beyond is " + formatTime(game.beyond.bestTime);
+		if (document.getElementById("omega_display")) document.getElementById("omega_display").innerHTML = "You have <b>" + formatWhole(game.beyond.omega) + "</b> " + omega + "<br><br>Your " + omega + " is multiplying clicks, point gain, the value of your wave, " + infinity + " gain, break infinity bulk amount, and TO THE BEYOND bulk amount by (" + omega + " + " + format(1) + ") = " + format(game.beyond.omega + 1) + "x<br><br>The shortest time it has taken you to reach beyond is " + formatTime(getBestRunTime());
 		// beyond prestige button
 		if (!document.getElementById("beyond_prestige_button")) {
 			let append = document.createElement("button");
@@ -893,7 +893,7 @@ function update() {
 		};
 		if (document.getElementById("aleph_display")) {
 			const next = nextAlephEffectAt();
-			document.getElementById("aleph_display").innerHTML = "You have <b>" + formatWhole(game.beyond.aleph) + "</b> " + aleph + "<br><br>Your " + aleph + " is retaining &#8970(" + aleph + " / " + format(game.beyond.bestTime / 10000) + ")<sup>" + format(0.25) + "</sup>&#8971 = " + formatWhole(getAlephEffect()) + " " + infinity + " upon reaching beyond<br>You need " + format(next) + " " + aleph + " to keep one more " + infinity + ", and you are " + format(game.beyond.aleph / next * 100, true, false, true) + "% of the way there";
+			document.getElementById("aleph_display").innerHTML = "You have <b>" + formatWhole(game.beyond.aleph) + "</b> " + aleph + "<br><br>Your " + aleph + " is retaining &#8970(" + aleph + " / " + format(getBestRunTime() / 10000) + ")<sup>" + format(0.25) + "</sup>&#8971 = " + formatWhole(getAlephEffect()) + " " + infinity + " upon reaching beyond<br>You need " + format(next) + " " + aleph + " to keep one more " + infinity + ", and you are " + format(game.beyond.aleph / next * 100, true, false, true) + "% of the way there";
 		};
 		// aleph button
 		if (!document.getElementById("aleph_button")) {
@@ -944,7 +944,7 @@ const loop = setInterval(() => {
 	let delta = Math.min((newTime - prevTime) / 1000, 1);
 	prevTime = newTime;
 	// do the stuff
-	if (!prestiging && !reaching) {
+	if (!prestiging) {
 		// wave point gen
 		if (game.unlocks.includes("w")) {
 			if (game.wave.frame > 312) game.wave.frame = 0;
