@@ -388,7 +388,7 @@ function update() {
 			if (game.points.gte(cost) && game.improvements[index] < max) document.getElementById("tab-improvements").className += " notif";
 			if (game.improvements[index] >= max) maxed++;
 		};
-		if (game.tab != "improvements" || !element.unlocked() || (game.pointBest.mul(1e10).lt(cost) && !game.improvements[index] && index < 22 && index > 0) || (game.improvements[index] >= max && !game.options.sm && game.options.sm !== undefined)) {
+		if (game.tab != "improvements" || !element.unlocked() || (game.improvements[index] >= max && !game.options.sm && game.options.sm !== undefined)) {
 			if (document.getElementById("improvement_" + index)) document.getElementById("improvement_" + index).remove();
 			continue;
 		};
@@ -662,14 +662,14 @@ function update() {
 			append.id = "infinity_point_display";
 			document.getElementById("main").appendChild(append);
 		};
-		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints); // + "<br><br>You can press Shift+P to prestige from any tab"
+		if (document.getElementById("infinity_point_display")) document.getElementById("infinity_point_display").innerHTML = "You have <b>" + formatWhole(game.infinity.points) + "</b> " + infinity + "<br><br>Your best points ever is " + format(game.infinity.best.points) + "<br>Your best wave points ever is " + format(game.infinity.best.wavePoints) + "<br><br>You can press Shift+P to prestige from any tab";
 		// infinity prestige button
 		if (!document.getElementById("infinity_prestige_button")) {
 			let append = document.createElement("button");
 			append.id = "infinity_prestige_button";
 			append.className = "prestigeButton";
 			append.onclick = () => {
-				if (getInfGain() > 0 && (game.infinity.points < 45 || game.infinity.stage > 1)) prestige();
+				if (getInfGain() > 0) prestige();
 			};
 			document.getElementById("main").appendChild(append);
 		};

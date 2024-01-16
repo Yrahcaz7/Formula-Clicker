@@ -16,18 +16,11 @@ const poem = [ // the poem (in code form)
 	["v6", "infinite nothingness", "has no beginning", "no beginning means no end"],
 ];
 
-var clicking = false;
-
 document.addEventListener("keydown", (event) => {
-	if ((event.keyCode == 16 || event.keyCode == 32 || event.key == "Shift" || event.key == " ") && !clicking) {
-		clicking = true;
+	if (event.shiftKey && event.key == "P" && !event.repeat) {
+		if (getInfGain() > 0) prestige();
+	} else if (event.key == " " && !event.repeat) {
 		click();
-	};
-});
-
-document.addEventListener("keyup", (event) => {
-	if (event.keyCode == 16 || event.keyCode == 32 || event.key == "Shift" || event.key == " ") {
-		clicking = false;
 	};
 });
 

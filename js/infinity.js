@@ -132,13 +132,13 @@ function getInfGain() {
  * @returns {string} text
  */
 function getNextInf() {
-	if (getInfGain() / infMult() >= game.infinity.stage) return "Max " + infinity + " gained on reset";
+	if (getInfGain() / infMult() >= game.infinity.stage) return "Max " + infinity + " gained on prestige";
 	if (game.infinity.stage == 1) {
 		if (game.infinity.points + getInfGain() >= 45) return infinity + " gain restricted by ???";
 		if (getInfGain() === 0) return "Next " + infinity + " at " + format(MAX, true, false, false, true) + " points";
 	};
 	let next = new Decimal(10).pow((getInfGain() + 1) * 308.2547155599167 / infMult());
-	if (next.gt(infNum())) return "Max " + infinity + " gained on reset";
+	if (next.gt(infNum())) return "Max " + infinity + " gained on prestige";
 	return "Next " + infinity + " at " + format(next.max(MAX), true, false, false, true) + " points";
 };
 
@@ -190,19 +190,19 @@ const infinity_milestones = [{
 	desc: "adds the " + infinity + " element to the sinusoidal wave formula",
 	req: 2,
 }, {
-	desc() {return "keeps " + format(50, true, false, true) + "% of your clicks on reset"},
+	desc() {return "keeps " + format(50, true, false, true) + "% of your clicks on prestige"},
 	req: 3,
 	merge: [16],
 }, {
-	desc: "keeps the improvement AUTOMATION on reset",
+	desc: "keeps the improvement AUTOMATION on prestige",
 	req: 4,
 	merge: [17],
 }, {
-	desc: "keeps the improvement FINALLY! on reset",
+	desc: "keeps the improvement FINALLY! on prestige",
 	req: 5,
 	merge: [22],
 }, {
-	desc: "keeps the improvement SUPER AUTO on reset",
+	desc: "keeps the improvement SUPER AUTO on prestige",
 	req: 6,
 	merge: [23],
 }, {
@@ -242,15 +242,15 @@ const infinity_milestones = [{
 	desc: "improves the wave upgrade autobuyer to not spend any wave points",
 	req: 25,
 }, {
-	desc: "keeps all of your clicks on reset",
+	desc: "keeps all of your clicks on prestige",
 	req: 30,
 	merge: [43],
 }, {
-	desc: "keeps the first four improvements on reset",
+	desc: "keeps the first four improvements on prestige",
 	req: 35,
 	merge: [18],
 }, {
-	desc: "keeps the first five improvements on reset",
+	desc: "keeps the first five improvements on prestige",
 	req: 40,
 	merge: [21],
 }, {
@@ -261,15 +261,15 @@ const infinity_milestones = [{
 	desc: "removes the maximum bought on RECURSION, a wave upgrade",
 	req: 50,
 }, {
-	desc: "keeps the first ten improvements on reset",
+	desc: "keeps the first ten improvements on prestige",
 	req: 55,
 	merge: [22],
 }, {
-	desc: "keeps the first fourteen improvements on reset",
+	desc: "keeps the first fourteen improvements on prestige",
 	req: 60,
 	merge: [23],
 }, {
-	desc: "keeps the first twenty two improvements on reset",
+	desc: "keeps the first twenty two improvements on prestige",
 	req: 66,
 	merge: [28],
 }, {
@@ -287,7 +287,7 @@ const infinity_milestones = [{
 	req: 115,
 	merge: [30],
 }, {
-	desc: "keeps the first twenty five improvements on reset",
+	desc: "keeps the first twenty five improvements on prestige",
 	req: 132,
 	merge: [43],
 }, {
@@ -316,31 +316,31 @@ const infinity_milestones = [{
 	desc: "improves the wave upgrade autobuyer to work four times as fast",
 	req: 275,
 }, {
-	desc: "keeps the first wave upgrade on reset",
+	desc: "keeps the first wave upgrade on prestige",
 	req: 333,
 	merge: [35],
 }, {
-	desc: "keeps the first two wave upgrades on reset",
+	desc: "keeps the first two wave upgrades on prestige",
 	req: 400,
 	merge: [36],
 }, {
-	desc: "keeps the first three wave upgrades on reset",
+	desc: "keeps the first three wave upgrades on prestige",
 	req: 480,
 	merge: [37],
 }, {
-	desc: "keeps the first four wave upgrades on reset",
+	desc: "keeps the first four wave upgrades on prestige",
 	req: 575,
 	merge: [38],
 }, {
-	desc: "keeps the first five wave upgrades on reset",
+	desc: "keeps the first five wave upgrades on prestige",
 	req: 690,
 	merge: [39],
 }, {
-	desc: "keeps the first six wave upgrades on reset",
+	desc: "keeps the first six wave upgrades on prestige",
 	req: 825,
 	merge: [40],
 }, {
-	desc: "keeps all wave upgrades on reset",
+	desc: "keeps all wave upgrades on prestige",
 	req: 1000,
 	merge: [43],
 }, {
@@ -352,7 +352,7 @@ const infinity_milestones = [{
 	req: 1500,
 	merge: [50],
 }, {
-	desc: "keeps everything on reset",
+	desc: "keeps everything on prestige",
 	req: 2000,
 }, {
 	desc: "improves the EFFECIENCY autobuyer to work twice as fast",
