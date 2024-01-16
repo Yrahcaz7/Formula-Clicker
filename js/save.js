@@ -94,7 +94,22 @@ function load() {
 	setPage();
 	// load the save
 	let save = localStorage.getItem(ID);
-	if (save) Object.assign(game, normalizeSave(save));
+	if (save) {
+		let obj = normalizeSave(save);
+		if (obj.wave) {
+			Object.assign(game.wave, obj.wave);
+			delete obj.wave;
+		};
+		if (obj.infinity) {
+			Object.assign(game.infinity, obj.infinity);
+			delete obj.infinity;
+		};
+		if (obj.beyond) {
+			Object.assign(game.beyond, obj.beyond);
+			delete obj.beyond;
+		};
+		Object.assign(game, obj);
+	};
 	// garbage collection (for old versions)
 	delete game.wave.pointTotal;
 	delete game.wave.pointMax;

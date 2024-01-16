@@ -129,7 +129,7 @@ function getInfGain() {
 };
 
 /**
- * Calculates "next infinity at" text.
+ * Calculates "next infinity point at" text.
  * @returns {string} text
  */
 function getNextInf() {
@@ -144,7 +144,7 @@ function getNextInf() {
 };
 
 /**
- * Calculates infinity multiplier.
+ * Calculates infinity point multiplier.
  * @returns {number} multiplier
  */
 function infMult() {

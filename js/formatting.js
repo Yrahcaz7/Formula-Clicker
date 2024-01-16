@@ -316,7 +316,7 @@ function formatTime(ms, short = false) {
 
 // shorthands for symbols
 
-const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>", omega = "<b>&#120512</b>";
+const alpha = "<b>&#945</b>", beta = "<b>&#946</b>", gamma = "<b>&#947</b>", delta = "<b>&#948</b>", epsilon = "<b>&#949</b>", zeta = "<b>&#950</b>", infinity = "<b>&#8734</b>", omega = "<b>&#120512</b>", aleph = "&#8501<sub>0</sub>";
 
 const constant = () => {
 	if (game.improvements[5] > 1) return alpha + beta + delta;

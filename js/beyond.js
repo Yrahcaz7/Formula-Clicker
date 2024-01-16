@@ -35,8 +35,7 @@ function reach_beyond() {
 	game.wave.pointBest = 0;
 	game.wave.frame = 0;
 	// reset infinity points
-	game.infinity.points = 0;
-	game.infinity.pointBest = 0;
+	game.infinity.points = getAlephEffect();
 	// reset infinity bests
 	game.infinity.best.points = new Decimal(0);
 	game.infinity.best.wavePoints = 0;
@@ -52,13 +51,47 @@ function reach_beyond() {
 	reaching = false;
 };
 
+/**
+ * Calculates omega gain.
+ * @returns {number} gain
+ */
 function getOmegaGain() {
 	if (game.infinity.stage >= MAX) return 1;
 	else return 0;
 };
 
+/**
+ * Calculates "next omega at" text.
+ * @returns {string} text
+ */
 function getNextOmega() {
 	let gain = getOmegaGain();
 	if (gain == 1) return "Max " + omega + " gained on reset";
 	return "Next " + omega + " at " + format(MAX) + " broken infinities";
+};
+
+/**
+ * Calculates aleph gain.
+ * @returns {number} gain
+ */
+function getAlephGain() {
+	let gain = game.beyond.omega;
+	if (game.infinity.stage >= MAX) gain++;
+	return gain;
+};
+
+/**
+ * Calculates aleph effect.
+ * @returns {number} gain
+ */
+function getAlephEffect() {
+	return Math.floor((game.beyond.aleph / (game.beyond.bestTime / 10000)) ** 0.25);
+};
+
+/**
+ * Calculates the amount of aleph you need to increase its effect by 1.
+ * @returns {number} gain
+ */
+function nextAlephEffectAt() {
+	return Math.ceil((game.beyond.bestTime / 10000) * ((getAlephEffect() + 1) ** 4));
 };

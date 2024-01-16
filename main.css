@@ -63,7 +63,7 @@ body {
 	font-size: calc(var(--text-size) * 2);
 }
 
-button, .margin, #options, #infinity_milestones {
+button, .margin, #options, #infinity_milestones, #aleph_display {
 	margin: calc(var(--text-size) * 10 / 9) auto 0px auto;
 }
 

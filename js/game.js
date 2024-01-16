@@ -27,6 +27,7 @@ let game = {
 	},
 	beyond: {
 		omega: 0,
+		aleph: 0,
 		bestTime: -1,
 	},
 	startTime: new Date().getTime(),
@@ -884,9 +885,30 @@ function update() {
 			else document.getElementById("beyond_prestige_button").className = "prestigeButton fade";
 			document.getElementById("beyond_prestige_button").innerHTML = "REACH BEYOND for +" + formatWhole(getOmegaGain()) + " " + omega + "<br>" + getNextOmega();
 		};
+		// aleph display
+		if (!document.getElementById("aleph_display")) {
+			let append = document.createElement("div");
+			append.id = "aleph_display";
+			document.getElementById("main").appendChild(append);
+		};
+		let next = nextAlephEffectAt();
+		if (document.getElementById("aleph_display")) document.getElementById("aleph_display").innerHTML = "You have <b>" + formatWhole(game.beyond.aleph) + "</b> " + aleph + "<br><br>Your " + aleph + " is retaining &#8970(" + aleph + " / " + format(game.beyond.bestTime / 10000) + ")<sup>" + format(0.25) + "</sup>&#8971 = " + formatWhole(getAlephEffect()) + " " + infinity + " upon reaching beyond<br>You need " + format(next) + " " + aleph + " to keep one more " + infinity + ", and you are " + format(game.beyond.aleph / next * 100, true, false, true) + "% of the way there";
+		// aleph button
+		if (!document.getElementById("aleph_button")) {
+			let append = document.createElement("button");
+			append.id = "aleph_button";
+			append.onclick = () => {
+				game.clicks += (game.beyond.omega + 1);
+				game.beyond.aleph += getAlephGain();
+			};
+			document.getElementById("main").appendChild(append);
+		};
+		if (document.getElementById("aleph_button")) document.getElementById("aleph_button").innerHTML = "Compute all of your number sets for +" + formatWhole(getAlephGain()) + " " + aleph;
 	} else {
 		if (document.getElementById("omega_display")) document.getElementById("omega_display").remove();
 		if (document.getElementById("beyond_prestige_button")) document.getElementById("beyond_prestige_button").remove();
+		if (document.getElementById("aleph_display")) document.getElementById("aleph_display").remove();
+		if (document.getElementById("aleph_button")) document.getElementById("aleph_button").remove();
 	};
 	// break infinity autobuyer
 	if (game.infinity.milestones[45] && game.points.gte(infNum()) && (game.infinity.milestones[53] || game.options.bo === undefined || game.options.bo)) {
