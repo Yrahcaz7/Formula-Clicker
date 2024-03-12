@@ -2,7 +2,7 @@
 
 A simplistic clicker game inspired by **Exponential Idle** and **Candy Box 2**.
 
-The main control is to click the point button (you can also press space or shift) to earn points.
+The main control is to click the point button (you can also press the space bar) to earn points.
 
 You then buy upgrades and such to enhance your point gain, and get further in the game.
 
