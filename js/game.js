@@ -117,7 +117,7 @@ function update() {
 			else if (game.infinity.milestones[0]) formula += "(" + format(1.2) + superscript(infinity) + " + " + format(5) + infinity + ")";
 		};
 		// add beyond formula piece
-		if (formula) formula += "(" + omega + " + " + format(1) + ")";
+		if (formula && game.beyond.omega > 0) formula += "(" + omega + " + " + format(1) + ")";
 		// add formula text
 		if (formula) formula = "Your point gain is " + formula + "<br><br>";
 		// display variables and formula

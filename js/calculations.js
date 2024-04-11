@@ -4,7 +4,7 @@ const MAX = 1.7976931348620926e308;
  * Calculates alpha.
  * @returns {number} alpha
  */
- function getAlpha() {
+function getAlpha() {
 	let a = 1;
 	a += upgrades[0].effect();
 	a += upgrades[1].effect();
@@ -74,7 +74,7 @@ function getZeta() {
 
 /**
  * Calculates the constant.
- * @returns {decimal} constant
+ * @returns {Decimal} constant
  */
 function getConstant() {
 	let co = new Decimal(2.5);
@@ -119,7 +119,7 @@ function getEpsilonEx() {
 
 /**
  * Calculates point gain multiplier.
- * @returns {decimal} multiplier
+ * @returns {Decimal} multiplier
  */
 function getPointMult() {
 	let mult = new Decimal(1);
@@ -132,7 +132,7 @@ function getPointMult() {
 
 /**
  * Calculates point button gain.
- * @returns {decimal} gain
+ * @returns {Decimal} gain
  */
 function pointButtonGain() {
 	let imp = game.improvements[5] + game.improvements[10] + game.improvements[24];

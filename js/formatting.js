@@ -95,7 +95,7 @@ function formatIllions(number, short = false) {
 
 /**
  * Formats a number: redirects to all other number formats.
- * @param {number | decimal} number - the number to format.
+ * @param {number | Decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.
  * @param {boolean} hasPercent - if true, number is a percentage value.
@@ -117,7 +117,7 @@ function format(number, smallAllowed = true, expand = false, hasPercent = false,
 
 /**
  * Formats an integer: redirects to all other number formats.
- * @param {number | decimal} integer - the integer to format.
+ * @param {number | Decimal} integer - the integer to format.
  * @returns {string} formatted number
  */
 function formatWhole(integer) {
@@ -129,7 +129,7 @@ function formatWhole(integer) {
 
 /**
  * Formats part of a large number: an internal function.
- * @param {number | decimal} number - the number to format.
+ * @param {number | Decimal} number - the number to format.
  * @param {number} precision - the number of precision digits.
  * @param {boolean} mantissa - if true, shows the mantissa.
  * @returns {string} formatted number
@@ -168,7 +168,7 @@ function formatDecimalInternal(number, precision = 2, mantissa = true) {
 
 /**
  * Formats a large number (decimal type).
- * @param {number | decimal} number - the number to format.
+ * @param {number | Decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.
  * @param {boolean} hasPercent - if true, number is a percentage value.
@@ -218,7 +218,7 @@ function formatDecimal(number, smallAllowed = true, expand = false, hasPercent =
 
 /**
  * Formats a number with a strange format.
- * @param {number | decimal} number - the number to format.
+ * @param {number | Decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} hasPercent - if true, number is a percentage value.
  * @param {string} type - the type of strange number format: let or sym.
@@ -232,7 +232,7 @@ function formatDecimalStrange(number, smallAllowed = true, hasPercent = false, t
 
 /**
  * Formats a number with the percentage of infinity format.
- * @param {number | decimal} number - the number to format.
+ * @param {number | Decimal} number - the number to format.
  * @param {boolean} smallAllowed - if true, allows small number formatting.
  * @param {boolean} expand - if true, expands the format if possible.
  * @param {boolean} hasPercent - if true, number is a percentage value.
